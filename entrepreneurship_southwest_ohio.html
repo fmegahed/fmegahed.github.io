@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2019-06-24" />
+<meta name="date" content="2019-06-25" />
 
 <title>Understanding and Quantifying Impactful Research Published in JQT</title>
 
@@ -314,7 +314,7 @@ div.tocify {
 <address class="author_afil">
 Farmer School of Business, Miami University<br><h4 class="author"><em>Fadel M. Megahed<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></em></h4>
 <address class="author_afil">
-Farmer School of Business, Miami University<br><h4 class="date"><em>June 24, 2019</em></h4>
+Farmer School of Business, Miami University<br><h4 class="date"><em>June 25, 2019</em></h4>
 
 </div>
 
@@ -485,7 +485,7 @@ records_file.close()</code></pre>
 <p>Based on Section (1), we know have the domain names for approximately 131,723 websites that are registered under one of the zip codes corresponding to the counties we explored. In this section, we will explore how each of these domains have changed over time using information from the <a href="https://web.archive.org/">Wayback Machine API</a>. Specifically, we can obtain the number of unique archives for a given webpage using the <a href="https://github.com/jsvine/waybackpack">waybackpack</a> python-based package for the Wayback Machine API.</p>
 <div id="number-of-changes-and-archived-urls" class="section level2">
 <h2><span class="header-section-number">2.1</span> Number of Changes and Archived URLs</h2>
-<p>As a first step to understanding the domain histories, we capitalized on the <a href="https://github.com/jsvine/waybackpack">waybackpack</a> to obtain the number of changes for given hostname and the archieved URLs corresponding to unique pages. <em>For now, we are hypothesizing that the number of changes correspond to growth/economic activity.</em> <strong>Obviously, we can parse the changes to obtain changes per year or month (we will do this in a future time).</strong> The results from this analysis step are stored in: <a href></a></p>
+<p>As a first step to understanding the domain histories, we capitalized on the <a href="https://github.com/jsvine/waybackpack">waybackpack</a> to obtain the number of changes for given hostname and the archieved URLs corresponding to unique pages. <em>For now, we are hypothesizing that the number of changes correspond to growth/economic activity.</em> <strong>Obviously, we can parse the changes to obtain changes per year or month (we will do this in a future time).</strong> The results from this analysis step are stored in: <a href="https://github.com/fmegahed/entrepreneurship-in-southwest-ohio/blob/master/Data/wayback_changes.csv">wayback_changes.csv</a>.</p>
 <pre class="python"><code># In this next block of code, we do the following:
 # (A) Open the records.csv file from the previous chunk
 # (B) Remove links for companies that has more than one link to reduce computational time (with exception of None, NA since it is used for multiple companies)
@@ -570,6 +570,7 @@ eda_numchanges[,c(2,7)] %&gt;%
 <li>Provided more accurate results when compared to the <a href="https://website-categorization-api.whoisxmlapi.com/api/">Website Categorization API from WhoisEXMLAPI</a> in our initial experiments.</li>
 <li>The API is relatively cheap; $20 allows for 30,000 URL/domain name queries</li>
 </ol>
+<p>From the Web Shrinker API, we were able to categorize over 1,100 domains (see <a href="https://github.com/fmegahed/entrepreneurship-in-southwest-ohio/blob/master/Data/webshrinker.csv">webshrinker.csv</a> for details). The remaining URLs, which were not categorized, were primarily due to the URL expiring, which means that the page cannot be opened and downloaded for further analysis. Note that we have tried using the web archive link for categorization in the Web Shrinker API (i.e. by using the url from the <a href="https://github.com/fmegahed/entrepreneurship-in-southwest-ohio/blob/master/Data/wayback_changes.csv">wayback_changes.csv</a>) as input to the Python code below, however the results were not satisfactory. We believe that this is due to the structure of the Wayback Machine HTML pages. To examine the errors obtained from the Web Shrinker API, please see <a href="https://github.com/fmegahed/entrepreneurship-in-southwest-ohio/blob/master/Data/webshrinker_error.csv">webshrinker_error.csv</a>.</p>
 <pre class="python"><code>import requests 
 from bs4 import BeautifulSoup 
 import unirest
