@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>ISA 616: Communicating with Data</title>
+    <meta charset="utf-8" />
+    <meta name="author" content=" Allison Jones-Farmer, PhD     allisonjones   farmerl2@miamioh.edu   Fadel M. Megahed, PhD     fmegahed    fmegahed@miamioh.edu  " />
+    <meta name="date" content="2021-09-20" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="shortcut icon" href="figures/logo.jpg" />
+    <link rel="stylesheet" href="css/my-theme.css" type="text/css" />
+    <link rel="stylesheet" href="css/my-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# ISA 616: Communicating with Data
+## 10: GitHub - A Very Short Introduction
+### <br>Allison Jones-Farmer, PhD <br> <a href="https://github.com/allisonjones"><i class="fa fa-github fa-fw"></i>  allisonjones</a><br><a href="mailto:farmerl2@miamioh.edu"><i class="fa fa-paper-plane fa-fw"></i>  farmerl2@miamioh.edu</a><br><br><br>Fadel M. Megahed, PhD <br> <a href="https://github.com/fmegahed"><i class="fa fa-github fa-fw"></i>  fmegahed</a><br> <a href="mailto:fmegahed@miamioh.edu"><i class="fa fa-paper-plane fa-fw"></i>  fmegahed@miamioh.edu</a><br><br>
+### <br>September 20, 2021
+
+---
+
+
+
+
+
+
+
+
+# Learning Objectives for Today's Class
+
+- Explaining what is **version control** and why should you use it?  
+
+- Understanding the **setup process for version control** using Git:    
+  * Register for a [GitHub](https://github.com) account. 
+  * Installing [Git](https://happygitwithr.com/install-git.html) on your computer. 
+  * Installing a Git Client
+
+- Explaining what common **Git** commands mean.  
+
+- Creating a **repo**, **tracking changes** and exploring a **file's history**.  
+
+- Sharing information on the web (i.e., **remotes** -- we will use GitHub)
+
+- **Collaborating** with other people.
+
+- Connecting **RStudio to Git and GitHub**
+
+- Running an example. 
+
+
+---
+class: inverse, center, middle
+
+# Automated Version Control
+
+---
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/phd101212s.png" alt="Source: www.phdcomics.com | title: 'notFinal.doc' | originally published: 10/12/2012" width="40%" height="40%" /&gt;
+&lt;p class="caption"&gt;Source: www.phdcomics.com | title: 'notFinal.doc' | originally published: 10/12/2012&lt;/p&gt;
+&lt;/div&gt;
+
+**Note while this looks like a comic, many of the people in my generation did and experienced this.** 😦
+
+---
+
+# Manual Version Control: A Personal Example
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/priorToGit.PNG" alt="Working on my first research grant. This is an example of both version control and commiting to a remote server." width="100%" height="100%" /&gt;
+&lt;p class="caption"&gt;Working on my first research grant. This is an example of both version control and commiting to a remote server.&lt;/p&gt;
+&lt;/div&gt;
+
+**I am the first to admit that this was a RIDICULOUS system.**
+
+---
+
+# Embedded Version Control [1]
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/embeddedVersionControl1.PNG" alt="A recent research project in Word." width="50%" height="50%" /&gt;
+&lt;p class="caption"&gt;A recent research project in Word.&lt;/p&gt;
+&lt;/div&gt;
+
+**What are two limitations of track changes in a word document?**
+
+---
+
+# Embedded Version Control [2]
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/embeddedVersionControl2.PNG" alt="A recent research project in Google Docs." width="90%" height="90%" /&gt;
+&lt;p class="caption"&gt;A recent research project in Google Docs.&lt;/p&gt;
+&lt;/div&gt;
+
+**A better approach for handling version control for word-processor type documents.**
+
+---
+
+# Version Control Systems
+
+For flat (i.e., code, CSV, .txt) files, version control systems capture a **base version of the file** and record your progress as you progress. Unlike a Google Doc, the recording of progress/milestones have to be initiated by **YOU** through **commits**. 
+
+## Some Characteristics
+
+The following characteristics are based on the excellent introduction by &lt;a name=cite-huang2016automated&gt;&lt;/a&gt;[Huang and Gonzalez (2016)](https://swcarpentry.github.io/git-novice/01-basics/index.html).
+
+- You can think of the **track changes** as the process of recording different versions of our files.  
+
+--
+
+- You decide which changes will be made to the next version (each record of these changes is called a **commit**), and keeps useful metadata about them.  
+
+--
+
+- In practice, a **commit** captures multiple files. It is the equivalent of versioning by adding your initials and/or date as seen in the PhD comic in Slide 4.  
+
+--
+
+- The complete history of commits for a particular project and their metadata make up a **repository**.   
+
+--
+
+- Repositories facilitate collaboration among people working in different locations and time-zones.
+
+
+---
+
+# A Picture is Worth a Thousand Words [1]
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/git1.PNG" alt="How is Git tracking changes to this presentation?" width="60%" height="60%" /&gt;
+&lt;p class="caption"&gt;How is Git tracking changes to this presentation?&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# A Picture is Worth a Thousand Words [2]
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/git2.PNG" alt="How is Git tracking changes to a changed figure (non-flat) file?" width="60%" height="60%" /&gt;
+&lt;p class="caption"&gt;How is Git tracking changes to a changed figure (non-flat) file?&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+class: inverse, center, middle
+
+# The Setup Process for Version Control (w/ Git, GitHub, GitHub Desktop and RStudio)
+
+---
+
+# What is Git?
+
+Git is a modern version control tool that is widely used in industry. Based on a survey of the popularity of version control systems by [Synopsys's Open Hub](https://www.openhub.net/repositories/compare), it is estimated that **72% of open source projects are currently built with Git.** 
+
+&lt;img src="github_overview_files/figure-html/gitDominance-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# What is GitHub?
+
+**GitHub** is a **Git** repository hosting service that adds several of its own features including a web-based GUI, a desktop app, and other collaboration features.
+
+**GitHub** was launched in 2008 and was acquired by Microsoft for $7.5B in stock in 2018.
+
+---
+
+# Setting up an Online GitHub Account
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/gitHub.PNG" alt="Setting up a GitHub account at www.github.com" width="60%" height="60%" /&gt;
+&lt;p class="caption"&gt;Setting up a GitHub account at www.github.com&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+
+# Setting up Git [1]
+
+## Checking to see if Git is installed
+
+
+```bash
+where git # windows
+## C:\Program Files\Git\cmd\git.exe
+```
+
+```bash
+which git # mac
+```
+
+If git **is installed**, you will get a **path**. Otherwise, you will get something like `git: command not found`. 
+
+## Installing Git
+  - **Windows/Mac:** Use the appropriate distribution from [git-scm.com site](https://git-scm.com/downloads).  
+  - **Windows:** Install the [installr](https://cran.r-project.org/web/packages/installr/installr.pdf) package and then, use `installr::install.git()` to install Git.
+
+
+---
+
+# Setting up Git: Introducing yourself to Git [2]
+
+We will capitalize on the [usethis](https://usethis.r-lib.org/) R package to set up your Git user name and email from R/RStudio. 
+
+
+```r
+if(require(usethis) == FALSE) install.packages("usethis")
+
+usethis::use_git_config(scope = "user", # or "project" to for a given repo
+                        user.name = "Jane", # replace with your GitHub User Name
+                        user.email = "jane@example.org") # replace with your GitHub email
+```
+
+&lt;br&gt;&lt;br&gt;
+
+Alternatively, you can do this from the **terminal/CMD** as follows:
+
+
+```bash
+git config --global user.name 'Jane'
+git config --global user.email 'jane@example.com'
+git config --global --list
+```
+
+---
+
+# Installing and Setting up the GitHub CLI
+
+- Go to &lt;https://cli.github.com/&gt; and **download** the client for your machine.  
+
+- **Run** the downloaded file; on windows the file is currently named `gh_2.0.0_windows_amd64.msi` and is likely to be downloaded to your Downloads folder.  
+
+- In the **CMD/terminal**, type the following command:  
+
+
+```bash
+gh auth login
+```
+
+- Follow the dialogue in your CMD; once successful, it should show something similar to the image below:
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/gitHubCLI2.PNG" alt="Setting up the GitHub CLI" width="55%" height="55%" /&gt;
+&lt;p class="caption"&gt;Setting up the GitHub CLI&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+
+# Installing and Setting up GitHub Desktop
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;iframe src="https://desktop.github.com/" width="80%" height="450px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;p class="caption"&gt;Installing GitHub Desktop from https://desktop.github.com/&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+
+---
+class: inverse, center, middle
+
+# The GitHub Verse
+
+---
+
+# A Git "Dictionary"
+
+
+.pull-left[
+- `git init` is used to create a **new repo** at your current path.
+
+- `git clone` is used to obtain a **local** copy for a repository that has been set up on a **remote server (e.g., GitHub)**.
+
+- `git pull` gets the changes from a repo's **remote server copy** into your current repo/branch.  
+
+- `git commit` records changes you have made to the repository [i.e., similar to the versioning example in the word document].   
+
+- `git push` updates the remote repository based on your last committed version.
+
+- For more details, please visit &lt;https://git-scm.com/docs/&gt;.
+]
+
+
+.pull-right[
+&lt;iframe src="https://giphy.com/embed/cnhpl4IeYgU7MCBdV2" width="244.8" height="432" frameBorder="0" class="giphy-embed" allowFullScreen&gt;&lt;/iframe&gt;&lt;br&gt;&lt;a href="https://giphy.com/gifs/david-cava-production-github-staging-cnhpl4IeYgU7MCBdV2"&gt;Source: Giphy @david_cava&lt;/a&gt;
+]
+
+---
+
+# A Git Cheatsheet [1]
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/cheatsheet1.png" alt="Git Cheatsheet P.1 from https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet" width="65%" height="65%" /&gt;
+&lt;p class="caption"&gt;Git Cheatsheet P.1 from https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+# A Git Cheatsheet [2]
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/cheatsheet2.png" alt="Git Cheatsheet P.2 from https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet" width="65%" height="65%" /&gt;
+&lt;p class="caption"&gt;Git Cheatsheet P.2 from https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+
+class: inverse, center, middle
+
+# Creating a Repo, Tracking Changes and Examining the Repo's/Files' History
+
+
+---
+
+# A Live Example: Using Git Locally
+
+In this live example, we will create a **repo**, **track changes** to that repo and **explore the repo's/file history**. We will show how this works both from the **cmd** and using **GitHub Desktop**. The process of a repo is as follows:  
+
+- Open the **CMD/terminal** and go to the **working directory of interest**. In the example below, I change my working directory to the `J:` Drive and Go to the location `J:\My Drive\Miami\Teaching\Guest Lectures`.    
+
+
+```bash
+j:
+cd my drive/miami/teaching/guest lectures/
+```
+
+- Then, in the terminal, we will:   
+  * **Create a folder** titled `lecture10` with the command `git init`.  
+  * Change the path to include the created directory.  
+  * Add a *CSV* (or any *flat file*, e.g., a R file or a .txt file) containing some data into that folder.   
+  * Ask Git to **add** the changes from all tracked and untracked files `git add -A`. 
+  * **Commit** the changes and use the **text editor to edit the message**. 
+  * **Update** the file.
+  * **Track** changes with both `git blame` and `git diff`.  
+  * **Commit** the update.
+  * **Track** changes with `git blame`, `git diff` and `git log`.  
+  
+**Note that in this example, we did NOT push our code/data to a remote repository.**
+
+
+---
+
+class: inverse, center, middle
+
+# Sharing the Information on the Web
+
+---
+
+# Live Example: From Local Repo to Remotes [GitHub]
+
+
+```bash
+gh repo create temp
+```
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="figures/remotes.PNG" alt="Creating a repo on GitHub based on our local repo" width="65%" height="65%" /&gt;
+&lt;p class="caption"&gt;Creating a repo on GitHub based on our local repo&lt;/p&gt;
+&lt;/div&gt;
+
+
+
+```bash
+git push #you will get an informative error message
+```
+
+You can see the file at &lt;https://github.com/fmegahed/temp/blob/main/temp.txt&gt; and the **history** at: &lt;https://github.com/fmegahed/temp/commits/main&gt;.
+
+---
+
+class: inverse, center, middle
+
+# Collaborating with Others
+
+---
+
+# The Workflow
+
+&lt;iframe src="https://guides.github.com/introduction/flow/" width="100%" height="500px" data-external="1"&gt;&lt;/iframe&gt;
+
+---
+
+class: inverse, center, middle
+
+# Other Examples
+
+---
+
+# Git from GitHub Desktop
+
+In this live coding example, we will recreate the process from the command line/terminal, but using the [GitHub Desktop](https://desktop.github.com/) tool.
+
+---
+
+# Git with R Studio
+
+&lt;div class="figure"&gt;
+&lt;iframe src="https://happygitwithr.com/rstudio-git-github.html" width="100%" height="450px" data-external="1"&gt;&lt;/iframe&gt;
+&lt;p class="caption"&gt;Connecting RStudio to Git and GitHub. An awesome resource by Jenny Bryan and Jim Hester.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+
+class: inverse, center, middle
+
+# Recap
+
+---
+
+# Summary of Main Points
+
+By the end of class, you should be able to do the following:  
+
+- Explaining what is **version control** and why should you use it?  
+
+- Understanding the **setup process for version control** using Git:    
+  * Register for a [GitHub](https://github.com) account. 
+  * Installing [Git](https://happygitwithr.com/install-git.html) on your computer. 
+  * Installing a Git Client
+
+- Explaining what common **Git** commands mean.  
+
+- Creating a **repo**, **tracking changes** and exploring a **file's history**.  
+
+- Sharing information on the web (i.e., **remotes** -- we will use GitHub).
+
+- **Collaborating** with other people.
+
+- Connecting **RStudio to Git and GitHub**.
+
+- Using **GitHub** to version control your code.
+
+---
+
+# References
+
+&lt;a name=bib-huang2016automated&gt;&lt;/a&gt;[Huang, D. and I.
+Gonzalez](#cite-huang2016automated) (2016). _Automated Version
+Control_. URL:
+[https://swcarpentry.github.io/git-novice/01-basics/index.html](https://swcarpentry.github.io/git-novice/01-basics/index.html).
+
+
+---
+
+# Thanks
+
+.pull-left[
+- Please do not hesitate to contact Dr. Jones-Farmer or myself if you have questions pertaining to GitHub.  For my contact information, see:  
+  * &lt;a href="mailto:fmegahed@miamioh.edu"&gt;&lt;i class="fa fa-paper-plane fa-fw"&gt;&lt;/i&gt;&amp;nbsp; fmegahed@miamioh.edu&lt;/a&gt;  
+  * &lt;a href="https://calendly.com/fmegahed/"&gt;&lt;i class="fa fa-question"&gt;&lt;/i&gt;&amp;nbsp; Schedule a Virtual Meeting&lt;/a&gt;
+
+- I would recommend the following resources for more information on Git/GitHub:  
+  * [The Official Git Help Doc](https://git-scm.com/docs/)
+  * [GitHub Docs: Using Git](https://docs.github.com/en/get-started/using-git) 
+  * [Version Control with Git](https://swcarpentry.github.io/git-novice/)  
+  * [GitHub Docs: GitHub CLI](https://docs.github.com/en/github-cli)  
+  * [Happy Git and GitHub for the useR](https://happygitwithr.com/index.html)  
+  
+- Slides were created via the R package **xaringan**.
+]
+
+
+.pull-right[
+&lt;img src="https://www.verouden.net/slides/presentation-xaringan/img/questions.gif" width="300" height="300" /&gt;
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
