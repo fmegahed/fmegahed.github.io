@@ -629,7 +629,7 @@ class: inverse, center, middle
 - **Collaborations with:** Aflac, GE Research, IBM Research, JB Hunt, & Tennibot
 
 ```{r my_map, echo=FALSE, out.width='100%', fig.alt="My journey with data driven decisions.", fig.align='center', fig.cap='My journey with data-driven decision making.'}
-knitr::include_graphics("figures/map.jpg") 
+knitr::include_graphics("figures/map.JPG") 
 ```
 
 ---
@@ -665,7 +665,7 @@ CS$graph_terms
 # An Overview of My Research Portfolio [3]
 
 ```{r app_megahed, echo=FALSE}
-knitr::include_app('http://dataviz.miamioh.edu/Heart-Transplant/monotonic/')
+knitr::include_url('http://dataviz.miamioh.edu/Heart-Transplant/monotonic/')
 ```
 
 
@@ -891,7 +891,7 @@ class: inverse, center, middle
 By analyzing ... data, situations, and performances, decision makers get valuable insights that enable them to **make more informed and better decisions** ... BI is based on the **transformation of data to information, then to decisions, and finally to actions.**" 
 
 ```{r bin_paper, echo=FALSE, fig.alt="A schematic of an interactive BI tool for stock market prediction", out.width="55%"}
-knitr::include_graphics("figures/stock_market.jpg")
+knitr::include_graphics("figures/stock_market.JPG")
 ```
 
 .footnote[
