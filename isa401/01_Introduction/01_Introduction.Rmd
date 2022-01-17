@@ -1,11 +1,11 @@
 ---
 title: "ISA 401: Business Intelligence & Data Visualization"
 subtitle: "01: Introduction to BI and Data Viz"
-author: '<br>Fadel M. Megahed, PhD <br><br> Associate Professor <br> Department of Information Systems and Analytics <br> Farmer School of Business<br> Miami University<br><br> <a href="https://github.com/fmegahed"><i class="fa fa-twitter fa-fw"></i>&nbsp; FadelMegahed</a><br> <a href="https://github.com/fmegahed"><i class="fa fa-github fa-fw"></i>&nbsp; fmegahed</a><br> <a href="mailto:fmegahed@miamioh.edu"><i class="fa fa-paper-plane fa-fw"></i>&nbsp; fmegahed@miamioh.edu</a><br> <a href="https://calendly.com/fmegahed"><i class="fa fa-question"></i>&nbsp; Automated Scheduler for Virtual Office Hours</a><br><br>'
+author: "<br>Fadel M. Megahed, PhD <br><br> Associate Professor <br> Department of Information Systems and Analytics <br> Farmer School of Business<br> Miami University<br><br>Twitter: [FadelMegahed](www.twitter.com/FadelMegahed/)<br> GitHub: [fmegahed](https://github.com/fmegahed)<br> Email: [fmegahed@miamioh.edu](mailto:fmegahed@miamioh.edu)<br> Office Hours: [Automated Scheduler for Virtual Office Hours](https://calendly.com/fmegahed)<br><br>"
 date: "Spring 2022"
 output:
   xaringan::moon_reader:  
-    css: ["default", "css/my-theme.css", "css/my-fonts.css"]
+    css: ["default", "css/my-theme.css"]
     lib_dir: libs
     nature:
       highlightStyle: github
@@ -50,7 +50,6 @@ BibOptions(check.entries = FALSE, bib.style = "authoryear",
            style = "markdown", dashed = TRUE)
 
 bib = ReadBib("refs.bib") 
-
 ```
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
@@ -166,8 +165,6 @@ dim(crashes)
 ---
 
 
---- 
-
 # The Analytics Journey: Descriptive [1]
 
 - **Descriptive Analytics:** where one attempts to **understand** the data through **descriptive statistics** and **visualizations**.
@@ -257,25 +254,25 @@ daily_crashes_2021 = unique_crashes_2021 %>%
   group_by(date) %>% 
   count()
   
-cal = calendR(title = 'A Temporal Visualization of Crashes in Cincy in 2021',
+cal = calendR(title = NULL,
               year = 2021,
               special.days = daily_crashes_2021$n,
               orientation = "landscape",
-              day.size = 6,
-              months.size = 24,
-              weeknames.size = 10,
+              day.size = 4,
+              months.size = 20,
+              weeknames.size = 6,
               margin = 0,
-              text.size = 24,
-              title.size = 48,
+              text.size = 14,
+              title.size = 28,
               gradient = TRUE,
               low.col = "#FFFFED",
               special.col = miamired,
               legend.pos = 'right',
               legend.title = '# Crashes') + 
   theme(plot.title = element_text(face = 'bold', color =  miamired),
-        legend.title = element_text(face = 'bold', size = 28), 
-        legend.text = element_text(size = 24),
-        plot.caption = element_text(size = 18)) +
+        legend.title = element_text(face = 'bold', size = 14), 
+        legend.text = element_text(size = 14),
+        plot.caption = element_text(size = 14)) +
   labs(caption = 'Created by: Fadel Megahed | Data source: City of Cincy Open Data Portal (rvmt-pkmq)')
 
 cal
@@ -289,7 +286,6 @@ cal
 
 - **Descriptive Analytics:** where one attempts to **understand** the data through **descriptive statistics** and **visualizations**.
 
-### A Spatiotemporal Visualization of Crashes in Cincy
 
 ```{r viz2b, echo=FALSE, results=FALSE, cache=TRUE}
 cty_sf = get_urbn_map(map = "counties", sf = TRUE) %>% 
@@ -317,7 +313,7 @@ bbox_new[2] = bbox_new[2] - (0.05 * yrange) # ymin - bottom
 
 
 tm_base = tm_shape(crashes_sf_2021) + 
-  tm_bubbles(size = 1, col = 'weather') +
+  tm_bubbles(size = 0.5, col = 'weather') +
   tm_facets(along='date', free.coords = F) +
   tm_shape(cty_sf, bbox = bbox_new) +
   tm_borders(col = "gray80", lwd = 0.15) +
@@ -326,11 +322,15 @@ tm_base = tm_shape(crashes_sf_2021) +
   tm_credits("Created by: Fadel Megahed | Data source: City of Cincy Open Data Portal (rvmt-pkmq) \t")
   
 
-tmap_animation(tm_base, filename = 'figures/crash_anim.gif', fps = 3,
-               width = 1000, height = 350, outer.margins = 0)
+tmap_animation(tm_base, filename = 'figures/crash_anim.gif', fps = 4,
+               outer.margins = 0,
+               width = 800, height = 400)
 ```
 
+
 ![](figures/crash_anim.gif)
+
+
 
 ---
 
@@ -365,11 +365,13 @@ tmap_animation(tm_base, filename = 'figures/crash_anim.gif', fps = 3,
 
 ]
 
-
 ]
 
 
+
 ---
+
+
 
 
 --- 
@@ -517,7 +519,7 @@ Even though software will be extensively used, this is not a software class. **I
 
 ---
 
-# Why Should you Care? Evidence from Indeed [1]
+# Should you Care? Indeed [1]
 
 ```{r indeed1, echo=FALSE, out.width='50%', fig.cap= 'Entry-Level Data Wrangling Jobs on Indeed.com'}
 knitr::include_graphics("figures/dataClean.jpg")
@@ -525,7 +527,7 @@ knitr::include_graphics("figures/dataClean.jpg")
 
 ---
 
-# Why Should you Care? Evidence from Indeed [2]
+# Should you Care? Indeed [2]
 
 ```{r indeed2, echo=FALSE, out.width='50%', fig.cap= 'Entry-Level Data Visualization Jobs on Indeed.com'}
 knitr::include_graphics("figures/dataViz.jpg")
@@ -534,7 +536,7 @@ knitr::include_graphics("figures/dataViz.jpg")
 
 ---
 
-# Why Should you Care? Read this Job Ad
+# Should you Care? Read this Job Ad
 
 When I have designed this course, I have incorporated a lot of feedback from **industry collaborators, peer/leading academic programs, and state-of-the-art-research advancements.** Thus, this is meant to be a hands-on, practically-relevant course.  
 
@@ -568,7 +570,7 @@ To demonstrate the practicality of this course, let us consider [this job ad](ht
 
 ---
 
-# Why Should you Care? Recent Alumni Testimonials
+# Should you Care? Recent Alumni Testimonials
 
 ```{r testimonials, echo=FALSE, out.width='100%', fig.fullwidth=TRUE, results='asis'}
 knitr::include_graphics('figures/email1.jpg')
@@ -634,7 +636,7 @@ knitr::include_graphics("figures/map.JPG")
 
 ---
 
-# An Overview of My Research Portfolio [1]
+# An Overview of My Research Portfolio
 
 ```{r research_megahed1, echo=FALSE, cache=TRUE, include=FALSE}
 M = convert2df(file = "megahedWoS-1-16-2022.txt")
@@ -644,28 +646,12 @@ results = biblioAnalysis(M, sep = ";")
 CS = conceptualStructure(M,
                          field="DE_TM",
                          method="MCA", minDegree=2, 
-                         clust=4, labelsize=15, documents=45)
-```
-
-```{r research_megahed2, echo=FALSE, out.width='100%', fig.alt="My work can be grouped into four different clusters", fig.align='center', fig.cap='My work can be grouped into four different clusters.'}
-CS$graph_dendogram
-```
-
----
-
-# An Overview of My Research Portfolio [2]
-
-```{r research_megahed3, echo=FALSE, out.width='100%', fig.alt="My work can be grouped into four different clusters", fig.align='center', fig.cap='My work can be grouped into four different clusters.'}
-CS$graph_terms
+                         clust=4, labelsize=8, documents=45)
 ```
 
 
----
-
-# An Overview of My Research Portfolio [3]
-
-```{r app_megahed, echo=FALSE}
-knitr::include_url('http://dataviz.miamioh.edu/Heart-Transplant/monotonic/')
+```{r research_megahed3, echo=FALSE, out.width='100%', fig.alt="My work can be grouped into four different clusters", fig.align='center', fig.cap='My work can be grouped into four different clusters.', dpi=600}
+CS$graph_terms 
 ```
 
 
@@ -788,7 +774,7 @@ unique_crashes_2021 %>%
   geom_line(color = miamired, size = 1.25) +
   geom_point(color = miamired, size = 2.5) +
   facet_wrap(~ cpd_neighborhood, nrow = 1, ncol = 2) +
-  theme_bw(base_size = 24) +
+  theme_bw(base_size = 12) +
   scale_y_continuous(breaks = pretty_breaks(n = 10), limits = c(0, 200)) +
   labs(x = 'Month', y = 'Crashes per Month', 
        title = 'Crashes Recorded in Two Cincinnati Neighborhoods in 2021',
@@ -932,57 +918,5 @@ class: inverse, center, middle
 
 # Summary of Main Points
 
-By the end of class, you should be able to do the following:  
+By now, you should be able to do the following:  
 
-- Explaining what is **version control** and why should you use it?  
-
-- Understanding the **setup process for version control** using Git:    
-  * Register for a [GitHub](https://github.com) account. 
-  * Installing [Git](https://happygitwithr.com/install-git.html) on your computer. 
-  * Installing a Git Client
-
-- Explaining what common **Git** commands mean.  
-
-- Creating a **repo**, **tracking changes** and exploring a **file's history**.  
-
-- Sharing information on the web (i.e., **remotes** -- we will use GitHub).
-
-- **Collaborating** with other people.
-
-- Connecting **RStudio to Git and GitHub**.
-
-- Using **GitHub** to version control your code.
-
----
-
-# References
-
-```{r refs, results='asis', echo=FALSE}
-PrintBibliography(bib)
-```
-
-
----
-
-# Thanks
-
-.pull-left[
-- Please do not hesitate to contact me if you have questions pertaining to GitHub.  Please email me at <a href="mailto:fmegahed@miamioh.edu"><i class="fa fa-paper-plane fa-fw"></i>&nbsp; fmegahed@miamioh.edu</a> or use the following automated scheduler to <a href="https://calendly.com/fmegahed/"><i class="fa fa-question"></i>&nbsp; schedule a virtual Meeting</a>.
-
-- I would recommend the following resources for more information on Git/GitHub:  
-  * [The Official Git Help Doc](https://git-scm.com/docs/)
-  * [GitHub Docs: Using Git](https://docs.github.com/en/get-started/using-git) 
-  * [Version Control with Git](https://swcarpentry.github.io/git-novice/)  
-  * [GitHub Docs: GitHub CLI](https://docs.github.com/en/github-cli)  
-  * [Happy Git and GitHub for the useR](https://happygitwithr.com/index.html)  
-  
-- Slides were created via the R package **xaringan**, with styling based on:  
-  * [xariganthemer](https://cran.r-project.org/web/packages/xaringanthemer/vignettes/xaringanthemer.html) package, and  
-  * Alison Hill's [@apreshill](https://github.com/apreshill/) CSS resources for customizing themes and fonts  
-
-- You can find the raw .Rmd file, accompanying figures, and CSS files used to create these slides at [fmegahed/github_intro](https://github.com/fmegahed/github_intro)
-]
-
-.pull-right[
-<img src="https://www.verouden.net/slides/presentation-xaringan/img/questions.gif" width="400" height="400" />
-]
