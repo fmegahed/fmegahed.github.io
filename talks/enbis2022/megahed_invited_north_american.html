@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Preparation and Model Evaluation</title>
+    <meta charset="utf-8" />
+    <meta name="author" content=" Fadel M. Megahed, PhD    Scholar   |     @FadelMegahed   |     @fmegahed   |     fmegahed@miamioh.edu   Joint work with:  Allison Jones-Farmer, PhD     Miami University  Ying-Ju (Tessa) Chen, PhD     University of Dayton  Steve Rigdon, PhD     Saint Louis University University     " />
+    <meta name="date" content="2022-06-28" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <script src="libs/xaringanExtra_fit-screen/fit-screen.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <script src="libs/js-cookie/js.cookie.js"></script>
+    <script src="libs/peerjs/peerjs.min.js"></script>
+    <script src="libs/tiny.toast/toast.min.js"></script>
+    <link href="libs/xaringanExtra-broadcast/broadcast.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-broadcast/broadcast.js"></script>
+    <script src="libs/mark.js/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":false,"autoSearch":true}) })</script>
+    <link rel="stylesheet" href="css/my-theme.css" type="text/css" />
+    <link rel="stylesheet" href="css/fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Data Preparation and Model Evaluation
+]
+.subtitle[
+## The Interface of Machine Learning and Statistics
+]
+.author[
+### <br>Fadel M. Megahed, PhD <br><a href="https://scholar.google.com/citations?user=6CTlKGMAAAAJ&amp;hl=en&amp;oi=ao"><svg viewBox="0 0 488 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:white;" xmlns="http://www.w3.org/2000/svg"> <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg> Scholar</a>   |   <a href="https://twitter.com/FadelMegahed"><svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:white;" xmlns="http://www.w3.org/2000/svg"> <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg> <span class="citation">@FadelMegahed</span></a>   |   <a href="https://github.com/fmegahed"><svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:white;" xmlns="http://www.w3.org/2000/svg"> <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg> <span class="citation">@fmegahed</span></a>   |   <a href="mailto:fmegahed@miamioh.edu"><svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:white;" xmlns="http://www.w3.org/2000/svg"> <path d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"></path></svg> fmegahed@miamioh.edu</a></br> <br> <u><b><font color="white">Joint work with:</b></u><br> Allison Jones-Farmer, PhD   <a href="https://miamioh.edu/fsb/directory/?up=/directory/farmerl2"><svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:white;" xmlns="http://www.w3.org/2000/svg"> <path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg> Miami University</a><br/> Ying-Ju (Tessa) Chen, PhD   <a href="https://miamioh.edu/fsb/directory/?up=/directory/farmerl2"><svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:white;" xmlns="http://www.w3.org/2000/svg"> <path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg> University of Dayton</a><br/> Steve Rigdon, PhD   <a href="https://www.slu.edu/public-health-social-justice/faculty/rigdon-steven.php"><svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:white;" xmlns="http://www.w3.org/2000/svg"> <path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg> Saint Louis University University</a> <br> <br><br>
+]
+.date[
+### 28 June 2022
+]
+
+---
+
+
+
+
+
+
+
+# Varian's Famous Prediction for Statistics Jobs
+
+.pull-left[
+&gt; **...** the sexy job in the next ten years will be **statisticians** **...**
+
+&gt; The ability to **take data** – to be able to **understand** it, to **process** it, to **extract value** from it, to **visualize** it, to **communicate** it’s going to be a hugely important skill in the next decades **...** 
+
+&gt; I think **statisticians are part of it, but it’s just a part ...** -- Hal Varian, 2009
+]
+
+
+.pull-right[
+&lt;img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Hal_Varian.jpg/1280px-Hal_Varian.jpg" title="A photo of Hal Varian" alt="A photo of Hal Varian" style="display: block; margin: auto;" /&gt;
+.center[**A quote from Hal Varian, Chief Economist at Google, in a January 2009 Interview with McKinsey Quarterly**]
+]
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+.bold[.blue[With hindsight being 20/20 (6/6 in Europe), how well did this prediction fare? ]]
+]
+
+
+---
+
+# The Sexiest Job of the 21st Century? 
+
+&lt;img src="imgs/hbr_2012_data_science.PNG" title="The coverpage of the Harvard Business Review article titled &amp;quot;Data Scientist: The Sexiest Job of the 21st Century&amp;quot; by Thomas Davenport and DJ Patil" alt="The coverpage of the Harvard Business Review article titled &amp;quot;Data Scientist: The Sexiest Job of the 21st Century&amp;quot; by Thomas Davenport and DJ Patil" width="75%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt; 
+&lt;/html&gt;
+
+**Source:** Davenport, T. H., &amp; Patil, DJ. (2012). Data Scientist: The Sexiest Job of the 21st Century. Harvard Business Review, October Issue [[Article Link](https://hbr.org/2012/10/data-scientist-the-sexiest-job-of-the-21st-century)].
+
+]
+
+
+---
+
+# Glassdoor's U.S. Labor Market Surveys
+
+
+
+&lt;img src="imgs/webshot_animation.gif" title="An animated gif highlighting the prominence of data science as one of the top jobs in the U.S. between 2015 and 2022&amp;quot; title=&amp;quot;Data scientist is a top 3 job in the U.S." alt="An animated gif highlighting the prominence of data science as one of the top jobs in the U.S. between 2015 and 2022&amp;quot; title=&amp;quot;Data scientist is a top 3 job in the U.S." width="42%" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+
+# Statistics vs Machine Learning/ Data Science
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="imgs/stats_vs_ml.png" alt="A controversial definition of both statistics and machine learning" width="60%" /&gt;
+&lt;p class="caption"&gt;A controversial definition of both statistics and machine learning&lt;/p&gt;
+&lt;/div&gt;
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt; 
+&lt;/html&gt;
+
+**Source:** Bzdok, D., Altman, N., &amp; Krzywinski, M. (2018). Statistics versus machine learning. Nature Methods, 15(4), 233-234 [[Paper Link](https://www.nature.com/articles/nmeth.4642.pdf)].
+
+]
+
+---
+count: false
+
+# Statistics vs Machine Learning/ Data Science
+
+&lt;img src="https://images.squarespace-cdn.com/content/v1/5150aec6e4b0e340ec52710a/1364352051365-HZAS3CLBF7ABLE3F5OBY/Data_Science_VD.png?format=750w" title="The Data Science Venn Diagram Consisting of Three Main Skills: Hacking, Math/Statistics and Domain Expertise" alt="The Data Science Venn Diagram Consisting of Three Main Skills: Hacking, Math/Statistics and Domain Expertise" width="48%" style="display: block; margin: auto;" /&gt;
+
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** Conway, D. (2010). The Data Science Venn Diagram. [[Webpage Link](http://drewconway.com/zia/2013/3/26/the-data-science-venn-diagram)].
+]
+
+---
+class: inverse, center, middle
+
+
+# The "Science of Data Science [ML]": A Statistical Lense
+
+.footnote[
+.left[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;html&gt;
+
+**.white[Source:]** A significant portion of the content in this section is motivated and/or based on the insights shared in  Donoho, D. (2017). 50 years of data science. Journal of Computational and Graphical Statistics, 26(4), 745-766. [Paper Link](https://www.tandfonline.com/doi/full/10.1080/10618600.2017.1384734)]
+]
+
+
+---
+
+# Overarching Goal for Today's Talk
+
+.content-box-red[
+.bold[.black[How can applied statisticians inform the practice of machine learning and data science?]]
+]
+
+### Some Guiding Questions
+
+1. We cannot be the first to suggest this. So generally speaking, **what have the giants of our field have done/suggested?**   
+
+2. **Where should we start?** It is unreasonable to start by examining the state-of-the-art large language models (LLM) used in many of the sub fields of natural language processing.  
+  + The *InstructGPT* model has 175,000,000,000 (175 billion) parameters; and   
+  + The *PaLM* model has 540,000,000,000 (540 billion) parameters.
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** The information pertaining to those LLMs is based on Kojima, T., Gu, S. S., Reid, M., Matsuo, Y., &amp; Iwasawa, Y. (2022). Large Language Models are Zero-Shot Reasoners. [arXiv preprint arXiv:2205.11916v2](https://arxiv.org/abs/2205.11916) (published on 9 June 2022).
+]
+
+
+---
+
+# The Science of Data ~~Analysis~~ Science (1962)
+
+.font90[
+&gt; _For a long time I have thought I was a **statistician**, interested in inferences from the particular to the general. ... All in all I have come to feel that my central interest is in **data analysis**, which I take to include, among other things: &lt;u&gt;procedures for analyzing data&lt;/u&gt;, &lt;u&gt;techniques for interpreting the results of such procedures&lt;/u&gt;, &lt;u&gt;ways of planning the gathering of data to make its analysis easier, more precise or more accurate&lt;/u&gt;, and &lt;u&gt;all the machinery and results of (mathematical) statistics which apply to analyzing data&lt;/u&gt; ..._ 
+
+&gt; _**Data analysis and the parts of statistics** which adhere to it, must then take on the **characteristics of a science** ..._  
+
+&gt; _... **data analysis is a very difficult field. It must adapt itself to what people can and need to do with data.** ... It is too much to ask for close and effective guidance for data analysis from any highly formalized structure, either now or in the near future ..._
+
+&gt; _Data analysis can gain much from formal statistics, but only if the **connection is kept adequately loose**._
+]
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** The above four quotes are from Tukey, J. W. (1962). The future of data analysis. The Annals of Mathematical Statistics, 33(1), 1-67. [Paper Link](https://www.jstor.org/stable/2237638) 
+]
+
+
+---
+
+# Greater or Lesser Statistics, A Choice for Future Research (1993)
+
+&gt; The **statistics profession** faces a choice in its future research between continuing concentration on traditional topics—based largely on data analysis supported by mathematical statistics—and a broader viewpoint—based on an **inclusive concept of learning from data**. The **latter course presents severe challenges as well as exciting opportunities**. The former risks seeing statistics become increasingly marginal … -- John Chambers, co-developer of S Language
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** Chambers, J. M. (1993). Greater or lesser statistics: a choice for future research. Statistics and Computing, 3(4), 182-184. [Paper Link](https://link.springer.com/article/10.1007/BF00141776) 
+]
+
+
+---
+
+# Predicting Data Science in 2065? (@ `\(t = 2017\)`)
+
+&gt; In the future, **scientific methodology will be validated empirically**. **Code sharing and data sharing** will allow large numbers of datasets and analysis workflows to be **derived from studies science-wide**. These will be curated into corpora of data and of workflows. Performance of statistical and machine learning methods will thus ultimately rely on the cross-study and crossworkflow approaches ... 
+
+&lt;br&gt;
+
+&gt; Many new common task frameworks will appear; however, the new ones would not always have prediction accuracy for their performance metric. Performance might also involve **validity of the conclusions reached**, or empirical Type I and II error. Research will move to a meta level, where the question becomes: **“if we use such-and-such a method across all of science, how much will the global science-wide result improve?”** measured using an accepted corpus representing science itself.
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;html&gt;
+
+**Source:** Donoho, D. (2017). 50 years of data science. Journal of Computational and Graphical Statistics, 26(4), 745-766. [Paper Link](https://www.tandfonline.com/doi/full/10.1080/10618600.2017.1384734)
+]
+
+
+---
+class: inverse, center, middle
+
+# An Area where Statistics Can Influence Machine Learning Research
+
+
+---
+
+# Interpretable and Explainable Models
+
+.pull-left[
+.center[
+![Book Cover image for Weapons of Math Destruction by Cathy O'Neil](https://images-na.ssl-images-amazon.com/images/I/51eUw-v0X+L._SX329_BO1,204,203,200_.jpg)
+]
+]
+
+.pull-right[
+.center[
+![Book Cover Image of Algorithms of Opression by Safuya Umoja Noble](https://images-na.ssl-images-amazon.com/images/I/51obBtKNC5L._SX331_BO1,204,203,200_.jpg)
+]
+]
+
+
+---
+
+# Taxonomy of Research in this Space
+
+&lt;html&gt;
+&lt;center&gt;
+&lt;img src="https://ars.els-cdn.com/content/image/1-s2.0-S1566253519308103-gr11_lrg.jpg" width="74%" height="74%" alt="Two alternate taxonomies for categorizing the relevant literature in explainable AI "/&gt;
+&lt;/center&gt;
+&lt;/html&gt;
+.center[Two alternate taxonomies for categorizing the relevant literature in explainable AI]
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** Arrieta, A. B., Díaz-Rodríguez, N., Del Ser, J., Bennetot, A., Tabik, S., Barbado, A., ... &amp; Herrera, F. (2020). Explainable Artificial Intelligence (XAI): Concepts, taxonomies, opportunities and challenges toward responsible AI. Information Fusion, 58, 82-115. [Paper Link](https://www.sciencedirect.com/science/article/pii/S1566253519308103)
+]
+
+---
+
+# Explainable Techniques in Action: LIME
+
+&lt;html&gt;
+&lt;center&gt;
+&lt;img src="https://ars.els-cdn.com/content/image/1-s2.0-S1566253519308103-gr9_lrg.jpg" alt="Examples of explanation when using LIME on images"/&gt;
+&lt;/center&gt;
+&lt;/html&gt;
+.center[Examples of explanation when using LIME on images]
+
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** Ribeiro, M. T., Singh, S., &amp; Guestrin, C. (2016, August). " Why should i trust you?" Explaining the predictions of any classifier. In Proceedings of the 22nd ACM SIGKDD international conference on knowledge discovery and data mining (pp. 1135-1144). [Arxiv Paper Link](https://arxiv.org/abs/1602.04938)
+]
+
+
+---
+class: inverse, center, middle
+
+# Our Work in the Interface between Statistics and ML
+
+## Insights from Experimental Design
+
+
+---
+
+# Target Audience: Citizen Data Scientists
+
+
+&lt;html&gt;
+&lt;center&gt;
+&lt;img src="https://ars.els-cdn.com/content/image/1-s2.0-S1566253519308103-gr2_lrg.jpg" width="91%" height="91%" alt="Diagram showing the different purposes of explainability in ML models sought by different audience profiles. Two goals occur to prevail across them: need for model understanding, and regulatory compliance."/&gt;
+&lt;/center&gt;
+&lt;/html&gt;
+.center[Diagram showing the different purposes of explainability in ML models sought by different audience profiles.]
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** The term 'citizen data scientists' was coined by Gartner to capture "a person who creates or generates models that leverage predictive or prescriptive analytics, but whose primary job function is outside of the field of statistics and analytics." [Article Link](https://www.gartner.com/smarterwithgartner/how-to-use-citizen-data-scientists-to-maximize-your-da-strategy).
+
+**Image Source:** Arrieta, A. B., Díaz-Rodríguez, N., Del Ser, J., Bennetot, A., Tabik, S., Barbado, A., ... &amp; Herrera, F. (2020). Explainable Artificial Intelligence (XAI): Concepts, taxonomies, opportunities and challenges toward responsible AI. Information fusion, 58, 82-115. [Paper Link](https://www.sciencedirect.com/science/article/pii/S1566253519308103)
+]
+
+
+---
+
+# Frameworks Used in ML Projects
+
+.center[
+[![CRISP-DM is the Most Popular Data Mining Framework](https://www.datascience-pm.com/wp-content/uploads/2020/10/process-google-search-volume-2019-2020.png)](https://www.datascience-pm.com/crisp-dm-still-most-popular/)
+]
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+
+**Image Source:** Saltz, J. (2022). CRISP-DM is Still the Most Popular Framework for Executing Data Science Projects. Data Science Process Alliance Blog. ([Webpage Link](https://www.datascience-pm.com/crisp-dm-still-most-popular/), last updated on May 2, 2022)
+]
+
+---
+
+# The CRISP-DM Framework
+
+&lt;img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/CRISP-DM_Process_Diagram.png" title="The CRISP DM Framework" alt="The CRISP DM Framework" width="45%" style="display: block; margin: auto;" /&gt;
+
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+
+**Image Source:** From the Wikipedia article titled "Cross-industry standard process for data mining" [Link](https://en.wikipedia.org/wiki/Cross-industry_standard_process_for_data_mining)
+]
+
+---
+
+# Issues with Frameworks Such as CRISP-DM
+
+.font90[
+
+```python
+exp = setup(df, target = 'died', train_size = 0.8,
+            ordinal_features = {'zipinc_qrtl' : ['FirstQ', 'SecondQ', 'ThirdQ', 'FourthQ']},
+            ignore_features = ['id'], 
+            # decisions made when analyzing real and complex data
+*           preprocess = True,
+            # handling multicollinearity
+*           remove_multicollinearity= True,
+            # feature selection and approach to feature selection
+*           feature_selection = True, feature_selection_method = 'classic',
+            # which normalization method to be applied on numeric variables
+*           normalize = True, normalize_method = 'minmax',
+            # how to handle missing and unknown data
+*           imputation_type = 'iterative',
+*           numeric_imputation = 'mean', categorical_imputation = 'constant',
+*           handle_unknown_categorical = True,
+            # how to handle imbalanced data for classification purposes
+*           fix_imbalance = True,
+*           fix_imbalance_method = up_sample,
+            # type of cross validation strategy to be used
+*           fold_strategy = 'stratifiedkfold',
+            fold = 10, n_jobs = -1,
+            session_id=2022, experiment_name='tavr_up', log_experiment=True)
+```
+]
+
+
+
+
+---
+
+# Practical Gaps
+
+.content-box-red[
+Frameworks, such as CRISP-DM, highlight the **iterative nature** of **KDDM projects** in terms of the need to iterate through steps in the model-fitting process. However, they do **not** explain **how** to iterate or **when** the user should stop iterating.  
+
+.bold[.black[Most practical implementations resort to trial-and-error experimentation at each decision point in the modeling process.]]  
+  + Focus is on .bold[.black[main effects of changing one aspect of the model fitting process]].  
+  + This is like experimentation by changing .bold[.black[one factor at a time (OFAT)]] and translates to researchers and/or practitioners making decisions about the model they are fitting based on preliminary analyses that involve a limited number of experimental trials.  
+  + Results obtained from a .bold[.black[sequence of OFAT decisions used throughout the KDDM process may be a substandard model]].
+]
+
+
+---
+
+# Bibliometric-Driven Taxonomy of DoE in KDDM
+
+
+&lt;img src="imgs/histplot.png" title="The relevant literature on the use of experimental design for knowledge discovery and data mining (KDDM), showing two streams: (a) feature selection, and (b) model tuning" alt="The relevant literature on the use of experimental design for knowledge discovery and data mining (KDDM), showing two streams: (a) feature selection, and (b) model tuning" width="70%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Image Source:** A review of the literature using experimental design for knowledge discovery and data mining, which we showed in Ahady Dolatsara, H., Chen, Y. J., Leonard, R. D., .bold[Megahed, F. M.], &amp; Jones-Farmer, L. A. (2021). Explaining Predictive Model Performance: An Experimental Study of Data Preparation and Model Choice. Big Data. [Paper Link](https://www.researchgate.net/publication/355112734_Explaining_Predictive_Model_Performance_An_Experimental_Study_of_Data_Preparation_and_Model_Choice)
+]
+
+---
+
+# Our Framework for How DoE can Inform KDDM
+
+
+
+.center[
+&lt;img src="imgs/big_data_paper_framework.png" width="80%" alt="An overview of how experimental design can be used to inform the decisions made within the KDDM process"&gt;
+]
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** Ahady Dolatsara, H., Chen, Y. J., Leonard, R. D., .bold[Megahed, F. M.], &amp; Jones-Farmer, L. A. (2021). Explaining Predictive Model Performance: An Experimental Study of Data Preparation and Model Choice. Big Data. [Paper Link](https://www.researchgate.net/publication/355112734_Explaining_Predictive_Model_Performance_An_Experimental_Study_of_Data_Preparation_and_Model_Choice)
+]
+
+
+---
+
+# Experiment Using a Heart Transplant Dataset
+
+### United Network for Organ Sharing (UNOS)
+
+- The [United Network for Organ Sharing (UNOS)](https://unos.org/) is a nonprofit association that manages the U.S. organ transplantation system and database.  
+
+- Our UNOS dataset contained 129 predictors (43 numeric and 86 categorical) and 45,005 observations.    
+   + The imbalance ratio in the response variable is ~ 6.29 (where 1-year graft survival = 38,829 &amp; failure = 6,176 cases)  
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** Ahady Dolatsara, H., Chen, Y. J., Leonard, R. D., .bold[Megahed, F. M.], &amp; Jones-Farmer, L. A. (2021). Explaining Predictive Model Performance: An Experimental Study of Data Preparation and Model Choice. Big Data. [Paper Link](https://www.researchgate.net/publication/355112734_Explaining_Predictive_Model_Performance_An_Experimental_Study_of_Data_Preparation_and_Model_Choice)
+]
+
+---
+
+# Experiment Using a Heart Transplant Dataset
+
+### Experimental Factors
+
+  1. **Categorical imputation (4 levels):** (a) no imputation (drop), (b) mode, (c) missing (i.e., `NA`), and (d) unknown.  
+  2. **Numerical Imputation (2 levels):** (a) no imputation (drop), and (b) median.   
+  3. **Encoding (2 levels):** (a) label, and (b) one-hot.   
+  4. **Subsampling (5 levels):** (a) none, (b) down sampling, (c) up sampling, (d) SMOTE, and (e) ROSE.   
+  5. **Feature Selection (3 levels):** (a) fast feature selection, (b) LASSO, and (c) random forest.  
+  6. **Algorithm: (9 levels)** (a) ANN, (b) DT, (c) ElasticNet, (d) Kernel Partial Least Square Regression, (d) LDA, (e) LR, (f) NB, (g) RF, and (h) XGB
+
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** Ahady Dolatsara, H., Chen, Y. J., Leonard, R. D., .bold[Megahed, F. M.], &amp; Jones-Farmer, L. A. (2021). Explaining Predictive Model Performance: An Experimental Study of Data Preparation and Model Choice. Big Data. [Paper Link](https://www.researchgate.net/publication/355112734_Explaining_Predictive_Model_Performance_An_Experimental_Study_of_Data_Preparation_and_Model_Choice)
+]
+
+
+---
+
+# Experiment Using a Heart Transplant Dataset
+
+### Total Number of Experimental Runs
+
+`\(4 \times 2 \times 2 \times 5 \times 3 \times 9 = 2160 \times 5\)` (holdout samples) `\(= 10,800\)`
+
+### Experimental Setup
+
+The 10,800 ML models were fitted to the UNOS data set using an Intel Xeon processor-based
+supercomputer containing 23,392 CPU cores, with a typical 28 cores/node setup and memory per node of 128 GB.
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** Ahady Dolatsara, H., Chen, Y. J., Leonard, R. D., .bold[Megahed, F. M.], &amp; Jones-Farmer, L. A. (2021). Explaining Predictive Model Performance: An Experimental Study of Data Preparation and Model Choice. Big Data. [Paper Link](https://www.researchgate.net/publication/355112734_Explaining_Predictive_Model_Performance_An_Experimental_Study_of_Data_Preparation_and_Model_Choice)
+]
+
+
+---
+
+# Analyzing AUC w/ Hierarchical Regression
+
+.content-box-red[
+To best reflect the sequential nature in which an analyst fits a predictive model,
+.bold[.black[the factors will be entered into the study in four steps]] so that the additional variability accounted for by the factors entered can be evaluated.] 
+
+- **Analysis 1:** *categorical imputation*, *numerical imputation*, *categorical encoding*, and the two-factor (pairwise) interactions among these three factors;  
+
+- **Analysis 2:** *subsampling* method and the two factor interactions among subsampling method
+and factors in Analysis 1;  
+
+- **Analysis 3:** *feature selection* approach, *algorithm*, and the two-factor interactions among these two factors and the factors in Analyses 1 and 2;
+
+- **Analysis 4:** *reduced model* — the full model from Analysis 3 will be reduced using the practical significance of the effects (&lt;html&gt; &amp;eta;&lt;sup&gt;2&lt;/sup&gt; &lt;/html&gt;).
+
+
+---
+
+# Experimental Results
+
+.panelset.sideways[
+
+.panel[.panel-name[**Summary of the Four Analysis**]
+
+.font75[
+&lt;html&gt;
+&lt;table text-align='right'&gt;&lt;thead&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Analysis&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;R&lt;sup&gt;2&lt;/sup&gt;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;&amp;Delta; R&lt;sup&gt;2&lt;/sup&gt;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;&amp;Delta; F&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;df&lt;sub&gt;1&lt;/sub&gt;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;df&lt;sub&gt;2&lt;/sub&gt;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;Sig &amp;Delta; F&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;0.010&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;0.254&lt;/td&gt;&lt;td&gt;0.244&lt;/td&gt;&lt;td&gt;146.25&lt;/td&gt;&lt;td&gt;24&lt;/td&gt;&lt;td&gt;10770&lt;/td&gt;&lt;td&gt;0.000&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;0.894&lt;/td&gt;&lt;td&gt;0.640&lt;/td&gt;&lt;td&gt;554.32&lt;/td&gt;&lt;td&gt;116&lt;/td&gt;&lt;td&gt;10746&lt;/td&gt;&lt;td&gt;0.000&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;0.890&lt;/td&gt;&lt;td&gt;-0.004&lt;/td&gt;&lt;td&gt;5.33&lt;/td&gt;&lt;td&gt;79&lt;/td&gt;&lt;td&gt;10703&lt;/td&gt;&lt;td&gt;0.000&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;/html&gt;
+]
+
+]
+
+.panel[.panel-name[**Analysis 4: ANOVA Table**]
+
+.font75[
+&lt;html&gt;
+&lt;table text-align='right'&gt;&lt;thead&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Analysis 4&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;Type II Sum of Squares&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;df&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;F value&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&lt;b&gt;Pr(&amp;gt;F)&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;numerical imputation&lt;/td&gt;&lt;td&gt;0.065&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;158.661&lt;/td&gt;&lt;td&gt;0.000&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;categorical imputation&lt;/td&gt;&lt;td&gt;0.172&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;140.381&lt;/td&gt;&lt;td&gt;0.000&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;subsampling&lt;/td&gt;&lt;td&gt;9.667&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;5927.912&lt;/td&gt;&lt;td&gt;0.000&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;feature selection&lt;/td&gt;&lt;td&gt;0.713&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;874.381&lt;/td&gt;&lt;td&gt;0.000&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;algorithm&lt;/td&gt;&lt;td&gt;5.658&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;td&gt;1734.822&lt;/td&gt;&lt;td&gt;0.000&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;numerical imputation &amp;times; categorical imputation&lt;/td&gt;&lt;td&gt;0.152&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;124.332&lt;/td&gt;&lt;td&gt;0.000&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;numerical imputation &amp;times; feature selection&lt;/td&gt;&lt;td&gt;0.097&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;118.763&lt;/td&gt;&lt;td&gt;0.000&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;subsampling &amp;times; feature selection&lt;/td&gt;&lt;td&gt;0.103&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;td&gt;31.493&lt;/td&gt;&lt;td&gt;0.000&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;subsampling &amp;times; algorithm&lt;/td&gt;&lt;td&gt;17.736&lt;/td&gt;&lt;td&gt;32&lt;/td&gt;&lt;td&gt;1359.500&lt;/td&gt;&lt;td&gt;0.000&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;feature selection &amp;times; algorithm&lt;/td&gt;&lt;td&gt;1.031&lt;/td&gt;&lt;td&gt;16&lt;/td&gt;&lt;td&gt;158.080&lt;/td&gt;&lt;td&gt;0.000&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;residuals&lt;/td&gt;&lt;td&gt;4.363&lt;/td&gt;&lt;td&gt;10703&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;/html&gt;
+]
+]
+
+.panel[.panel-name[**Analysis 4: Pairwise Interactions**]
+
+
+
+&lt;img src="imgs/interactions.gif" title="An animated gif depicting the significant pairwise interactions" alt="An animated gif depicting the significant pairwise interactions" width="75%" style="display: block; margin: auto;" /&gt;
+
+]
+
+]
+
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** Ahady Dolatsara, H., Chen, Y. J., Leonard, R. D., .bold[Megahed, F. M.], &amp; Jones-Farmer, L. A. (2021). Explaining Predictive Model Performance: An Experimental Study of Data Preparation and Model Choice. Big Data. [Paper Link](https://www.researchgate.net/publication/355112734_Explaining_Predictive_Model_Performance_An_Experimental_Study_of_Data_Preparation_and_Model_Choice)
+]
+
+
+---
+
+# Key Takeaways
+
+
+.content-box-red[
+
+- .bold[.black[Experimental design can inform the selection of an appropriate design strategy based on the available computer resources.]]
+
+- .bold[.black[The use of ANOVA/regression can explain how the predictive performance varies with the decisions made during the KDDM process.]]
+
+- .bold[.black[The approach can be scaled up/down.]]   
+   + .bold[.black[In our followup study, using 58 different datasets from the [KEEL repository](https://sci2s.ugr.es/keel/imbalanced.php?order=ins#subA), we examined the impact of class imbalance on the performance of four subsampling strategies and two algorithms (see [Code](https://ying-ju.github.io/subsampling.github.io/#45_Hierarchical_Regression) and [Paper Link](https://doi.org/10.1038/s41592-021-01302-4) for more details). ]]
+]
+
+
+---
+
+class: inverse, center, middle
+
+# Our Work in the Interface between Statistics and ML
+
+## Tuning Survival/Death Probabilities for Multi-Period Predictions
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;html&gt;
+
+.white[.bold[Source:]] Dolatsara, H. A., Chen, Y. J., Evans, C., Gupta, A., &amp; Megahed, F. M. (2020). A two-stage machine learning framework to predict heart transplantation survival probabilities over time with a monotonic probability constraint. Decision Support Systems, 137, 113363. ([Paper Link](https://www.researchgate.net/publication/343338979_A_two-stage_machine_learning_framework_to_predict_heart_transplantation_survival_probabilities_over_time_with_a_monotonic_probability_constraint))
+]
+
+---
+
+# Research Gaps
+
+.pull-left[
+- Develop **independent ML models** for each time-period  (e.g., see [Yoon 2018](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0194985) )
+  
+- Utilize a **sequential prediction** approach where the
+“survival” probability from time periods `\(1, \dots, t\)` are inputs to predict the survival at time `\(t+1\)`  (e.g., see [Ohno-Machdo  1997](https://www.sciencedirect.com/science/article/pii/S0010482597000085))
+  
+- Predict the outcome probability for one time-period and use the
+**population’s survival outcomes to calibrate** other periods’ probabilities (e.g., see [Medved 2018](https://www.nature.com/articles/s41598-018-21417-7))
+]
+
+.pull-right[
+
+.center[**What we really want**]
+
+&lt;img src="imgs/isotonic.gif" title="Proposed use of isotonic regression to tune survival probabilities" alt="Proposed use of isotonic regression to tune survival probabilities" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+# Our Two-Stage Approach
+
+&lt;img src="https://ars.els-cdn.com/content/image/1-s2.0-S0167923620301184-gr3_lrg.jpg" title="Adopting the proposed two-stage framework to obtain monotonically decreasing heart transplantation survival probabilities over time." alt="Adopting the proposed two-stage framework to obtain monotonically decreasing heart transplantation survival probabilities over time." width="80%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Our Results 
+
+.panelset[
+
+.panel[.panel-name[**Sample Patient Predictions**]
+
+&lt;img src="https://ars.els-cdn.com/content/image/1-s2.0-S0167923620301184-gr6_lrg.jpg" title="Plots of the forecast probabilities for four sample patients at years 1 − 10 post transplant. The light and dark blue lines show the probabilities before and after the application of isotonic regression, respectively. Note when the dark blue line is not shown, this equates to a perfect overlap with the light blue line." alt="Plots of the forecast probabilities for four sample patients at years 1 − 10 post transplant. The light and dark blue lines show the probabilities before and after the application of isotonic regression, respectively. Note when the dark blue line is not shown, this equates to a perfect overlap with the light blue line." width="35%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.panel[.panel-name[**Unexpected Improvements in Predictive Metrics**]
+
+.center[**Differences (after isotonic regression – before isotonic regression) in the holdout performance**]
+
+.font75[
+&lt;html&gt;
+&lt;table&gt;
+&lt;thead&gt;
+  &lt;tr&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;span style="font-weight:700"&gt;Month 1&lt;/span&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;span style="font-weight:700"&gt;Year 1&lt;/span&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;span style="font-weight:700"&gt;Year 2&lt;/span&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;span style="font-weight:700"&gt;Year 3&lt;/span&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;span style="font-weight:700"&gt;Year 4&lt;/span&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;span style="font-weight:700"&gt;Year 5&lt;/span&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;span style="font-weight:700"&gt;Year 6&lt;/span&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;span style="font-weight:700"&gt;Year 7&lt;/span&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;span style="font-weight:700"&gt;Year 8&lt;/span&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;span style="font-weight:700"&gt;Year 9&lt;/span&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;span style="font-weight:700"&gt;Year 10&lt;/span&gt;&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;&amp;Delta; AUC&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.008&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.017&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.029&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.021&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.011&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.007&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.001&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.001&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.000&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.002&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.001&lt;/span&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;&amp;Delta; Accuracy&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.125&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.083&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.061&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.042&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.017&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.007&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;−0.005&lt;/td&gt;
+    &lt;td&gt;−0.008&lt;/td&gt;
+    &lt;td&gt;−0.006&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.001&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.008&lt;/span&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;&amp;Delta; Sensitivity&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.150&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.136&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.110&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.083&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.032&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.007&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;−0.037&lt;/td&gt;
+    &lt;td&gt;−0.061&lt;/td&gt;
+    &lt;td&gt;−0.102&lt;/td&gt;
+    &lt;td&gt;−0.130&lt;/td&gt;
+    &lt;td&gt;−0.161&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;&amp;Delta; Specificity&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;−0.114&lt;/td&gt;
+    &lt;td&gt;−0.105&lt;/td&gt;
+    &lt;td&gt;−0.064&lt;/td&gt;
+    &lt;td&gt;−0.047&lt;/td&gt;
+    &lt;td&gt;−0.009&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.008&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.034&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.050&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.087&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.112&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.134&lt;/span&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;&amp;Delta; G-Mean&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.009&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.010&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.019&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.016&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.010&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.007&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;span style="font-weight:bolder"&gt;0.000&lt;/span&gt;&lt;/td&gt;
+    &lt;td&gt;−0.003&lt;/td&gt;
+    &lt;td&gt;−0.003&lt;/td&gt;
+    &lt;td&gt;−0.001&lt;/td&gt;
+    &lt;td&gt;−0.005&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/html&gt;
+]
+]
+]
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** Dolatsara, H. A., Chen, Y. J., Evans, C., Gupta, A., &amp; Megahed, F. M. (2020). A two-stage machine learning framework to predict heart transplantation survival probabilities over time with a monotonic probability constraint. Decision Support Systems, 137, 113363. ([Paper Link](https://www.researchgate.net/publication/343338979_A_two-stage_machine_learning_framework_to_predict_heart_transplantation_survival_probabilities_over_time_with_a_monotonic_probability_constraint))
+]
+
+
+---
+
+class: inverse, center, middle
+
+# Our Work in the Interface between Statistics and ML
+
+## The Variability in Commonly Used Classification Metrics with Class Imbalance
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;html&gt;
+
+.white[.bold[Source:]] Work in Progress (see [Code](https://fmegahed.github.io/research/classification/metrics_variability.html) and [App](http://rstudio.fsb.miamioh.edu:3838/megahefm/metric_interpretation/) for more details)
+]
+
+---
+
+# Research Question
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://raw.githubusercontent.com/fmegahed/covid19-deaths/master/Figures/clusterMap.png" alt="Four clusters of 3,108 U.S. counties according to time-series profile of COVID-19 deaths" width="50%" /&gt;
+&lt;p class="caption"&gt;What is the baseline sensitivity for a multinomial regression model predicting cluster membership?&lt;/p&gt;
+&lt;/div&gt;
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Notes:** Counties in each cluster are: C1 (n = 1261) C2 (n = 226) C3 (n = 827) C4 (n = 794).  
+
+**Source:** Megahed, F. M., Jones-Farmer, L. A., Ma, Y., &amp; Rigdon, S. (2022). A Two-Stage Time Series Clustering Framework for Explaining the Varying Patterns of COVID-19 Deaths across the US. JMIR Public Health and Surveillance. ([Paper Link](https://preprints.jmir.org/preprint/32164/accepted) and [Code](https://fmegahed.github.io/covid_deaths.html))
+]
+
+
+---
+
+# Our Simplified Simulation Approach
+
+
+.font60[
+
+```r
+sim_function = function(data = NULL, base_class_name = 'class_'){
+  
+  # extracting the relevant features from the data 
+  number_classes = data$num_classes
+  number_observations = data$num_observations
+  first_class_percentage = data$first_class_perc
+  prediction_approach = data$pred_approach
+
+  # generating the reference data
+  ref = sample(x = c(paste0(base_class_name, 1:number_classes)),
+               size = number_observations,
+               replace = T,
+               prob = c(first_class_percentage, 
+                        rep( (1-first_class_percentage)/(number_classes - 1),
+                             (number_classes -1 ) )
+               )
+  ) %&gt;% factor(levels = paste0(base_class_name, 1:number_classes) )
+  
+  # generating the predictions
+  if(prediction_approach == 'proportional'){
+    predictions = sample(
+      x = c(paste0(base_class_name, 1:number_classes)),
+      size = number_observations,
+      replace = T,
+      prob = c(first_class_percentage, 
+               rep( (1-first_class_percentage)/(number_classes - 1),
+                    (number_classes -1 ) )
+      )
+    ) %&gt;% factor(levels = paste0(base_class_name, 1:number_classes) )
+  } else{
+    predictions = sample(
+      x = c(paste0(base_class_name, 1:number_classes)),
+      size = number_observations,
+      replace = T,
+      prob = rep(1/number_classes, number_classes) 
+    ) %&gt;% factor(levels = paste0(base_class_name, 1:number_classes) )
+  }
+  
+  
+  # computing the classification performance metrics of interest
+  acc_metrics = tibble(
+    accuracy = yardstick::accuracy_vec(truth = ref, estimate = predictions),
+    sensitivity = yardstick::sens_vec(truth = ref, estimate = predictions, 
+                                      event_level = 'first'),
+    specificity = yardstick::spec_vec(truth = ref, estimate = predictions, 
+                                      event_level = 'first'),
+    f_measure = yardstick::f_meas_vec(truth = ref, estimate = predictions, 
+                                      event_level = 'first'),
+    g_mean = g_mean(x = sensitivity, y = specificity)
+  )
+  
+  return(acc_metrics)
+}
+```
+]
+
+
+---
+
+# Sample Results
+
+&lt;img src="imgs/sens_plot.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+
+# Concluding Remarks
+
+---
+
+# Open Questions
+
+1. How should researchers and practitioners balance predictive accuracy with interpretation? After all, the "best" models may not always have the highest predictive accuracy.  
+
+2. What does explainable predictive modeling mean in the context of "online learning" ML models? Should this be an online or a batch process?  
+
+3. What should be the standard for novel statistical theories and contributions to ensure that their impact is transdiscplinary? 
+
+--
+
+&gt; Aspects of scientific method are discussed: In particular, its representation  as a motivated iteration in which, in succession, practice confronts theory, and theory, practice. Rapid progress requires sufficient flexibility to profit from such confrontations, and the ability to devise parsimonious but effective models, to worry selectively about model inadequacies and to employ mathematics skillfully but appropriately. . -- George Box, 1976
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** Box, G. E. (1976). Science and statistics. Journal of the American Statistical Association, 71(356), 791-799. [Article Link](https://www.tandfonline.com/doi/abs/10.1080/01621459.1976.10480949)
+]
+
+---
+
+# A Plug for the JQT Case Study Section
+
+&lt;img src="imgs/jqt_instructions.PNG" title="Instructions for the JQT Case Study Section" alt="Instructions for the JQT Case Study Section" width="80%" style="display: block; margin: auto;" /&gt;
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "magula",
+"highlightLines": true,
+"highlightLanguage": "r",
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
