@@ -925,7 +925,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="the-matrix-of-state-unknowns-mathbfy" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="the-matrix-of-state-unknowns-mathbfy">
 <span class="header-section-number">4.1</span> The Matrix of State Unknowns: <span class="math inline">\(\mathbf{Y}^*\)</span>
 </h2>
-<div class="cell" data-hash="step0_transform_cache/html/y_star_final_53c0680d94b55a723f56416b82e6935e">
+<div class="cell" data-hash="step0_transform_cache/html/y_star_final_2e4e547420d379d193c947c0f19110b4">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># we now have a complete y_star matrix</span></span>
 <span><span class="va">y_star_final</span> <span class="op">=</span> </span>
 <span>  <span class="fu">bind_rows</span><span class="op">(</span><span class="va">y_star</span>, <span class="va">tx_unknowns</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
@@ -941,28 +941,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span>    series_complete_yes <span class="op">=</span> <span class="fu">map</span><span class="op">(</span>.x <span class="op">=</span> <span class="va">data</span>, .f <span class="op">=</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va"><a href="https://magrittr.tidyverse.org/reference/aliases.html">extract2</a></span>, <span class="st">'series_complete_yes'</span><span class="op">)</span>,</span>
 <span>    series_complete_yes_ts <span class="op">=</span> <span class="fu">map</span><span class="op">(</span>.x <span class="op">=</span> <span class="va">series_complete_yes</span>, .f <span class="op">=</span> <span class="va">ts</span>, </span>
 <span>                        start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">1</span><span class="op">)</span>, frequency <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
-<span>    <span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span></span>
 <span><span class="fu">write_rds</span><span class="op">(</span>x<span class="op">=</span> <span class="va">y_star_final</span>, file <span class="op">=</span> <span class="st">'data/y_star_final.rds'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">y_star_final</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 50 × 4
+<pre><code># A tibble: 50 × 5
 # Groups:   recip_state [50]
-   recip_state date        series_complete_yes series_complete_yes_ts
-   &lt;chr&gt;       &lt;list&gt;      &lt;list&gt;              &lt;list&gt;                
- 1 AL          &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;             
- 2 AR          &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;             
- 3 AZ          &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;             
- 4 CA          &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;             
- 5 CO          &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;             
- 6 CT          &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;             
- 7 DC          &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;             
- 8 DE          &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;             
- 9 FL          &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;             
-10 GA          &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;             
-# … with 40 more rows
+   recip_state data              date        series_complete_yes series_comple…¹
+   &lt;chr&gt;       &lt;list&gt;            &lt;list&gt;      &lt;list&gt;              &lt;list&gt;         
+ 1 AL          &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;      
+ 2 AR          &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;      
+ 3 AZ          &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;      
+ 4 CA          &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;      
+ 5 CO          &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;      
+ 6 CT          &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;      
+ 7 DC          &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;      
+ 8 DE          &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;      
+ 9 FL          &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;      
+10 GA          &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;          &lt;ts [18]&gt;      
+# … with 40 more rows, and abbreviated variable name ¹​series_complete_yes_ts
 # ℹ Use `print(n = ...)` to see more rows</code></pre>
 </div>
 </div>
@@ -1109,7 +1108,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section></section><section id="generating-the-mathbfp-matrix" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="generating-the-mathbfp-matrix">
 <span class="header-section-number">4.3</span> Generating the <span class="math inline">\(\mathbf{P}\)</span> Matrix</h2>
-<div class="cell" data-hash="step0_transform_cache/html/p_matrix_33235b23578f221cb8110de7ba0b2ecd">
+<div class="cell" data-hash="step0_transform_cache/html/p_matrix_d5d57d1101cb6a523cd32973695b9e0c">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p_matrix</span> <span class="op">=</span> <span class="va">vaccines</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">recip_state</span>, <span class="va">fips</span>, <span class="va">date</span>, <span class="va">series_complete_pop_pct</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">fips</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">fips_incomplete</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
@@ -1118,34 +1117,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
 <span>    date <span class="op">=</span> <span class="fu">map</span><span class="op">(</span>.x <span class="op">=</span> <span class="va">data</span>, .f <span class="op">=</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va"><a href="https://magrittr.tidyverse.org/reference/aliases.html">extract2</a></span>, <span class="st">'date'</span><span class="op">)</span>,</span>
 <span>    series_complete_pop_pct <span class="op">=</span> <span class="fu">map</span><span class="op">(</span>.x <span class="op">=</span> <span class="va">data</span>, .f <span class="op">=</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va"><a href="https://magrittr.tidyverse.org/reference/aliases.html">extract2</a></span>, <span class="st">'series_complete_pop_pct'</span><span class="op">)</span></span>
-<span>    <span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span></span>
 <span><span class="fu">write_rds</span><span class="op">(</span>x <span class="op">=</span> <span class="va">p_matrix</span>, file <span class="op">=</span> <span class="st">'data/p_matrix_final.rds'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p_matrix</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2,397 × 4
+<pre><code># A tibble: 2,397 × 5
 # Groups:   recip_state, fips [2,397]
-   recip_state fips  date        series_complete_pop_pct
-   &lt;fct&gt;       &lt;chr&gt; &lt;list&gt;      &lt;list&gt;                 
- 1 AL          01001 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 2 AL          01003 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 3 AL          01005 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 4 AL          01007 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 5 AL          01009 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 6 AL          01011 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 7 AL          01013 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 8 AL          01015 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 9 AL          01017 &lt;date [18]&gt; &lt;dbl [18]&gt;             
-10 AL          01019 &lt;date [18]&gt; &lt;dbl [18]&gt;             
+   recip_state fips  data              date        series_complete_pop_pct
+   &lt;fct&gt;       &lt;chr&gt; &lt;list&gt;            &lt;list&gt;      &lt;list&gt;                 
+ 1 AL          01001 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 2 AL          01003 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 3 AL          01005 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 4 AL          01007 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 5 AL          01009 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 6 AL          01011 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 7 AL          01013 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 8 AL          01015 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 9 AL          01017 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+10 AL          01019 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
 # … with 2,387 more rows
 # ℹ Use `print(n = ...)` to see more rows</code></pre>
 </div>
 </div>
 </section><section id="the-complement-of-the-mathbfp-matrix" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="the-complement-of-the-mathbfp-matrix">
 <span class="header-section-number">4.4</span> The Complement of the <span class="math inline">\(\mathbf{P}\)</span> Matrix</h2>
-<div class="cell" data-hash="step0_transform_cache/html/comp_p_matrix_65450050dbd81db3740a6869e1eb011b">
+<div class="cell" data-hash="step0_transform_cache/html/comp_p_matrix_205d4f3982161944bfab06ba987ab4c2">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">comp_p_matrix</span> <span class="op">=</span> <span class="va">vaccines</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">recip_state</span>, <span class="va">fips</span>, <span class="va">date</span>, <span class="va">series_complete_pop_pct</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">fips</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">fips_incomplete</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
@@ -1154,27 +1152,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
 <span>    date <span class="op">=</span> <span class="fu">map</span><span class="op">(</span>.x <span class="op">=</span> <span class="va">data</span>, .f <span class="op">=</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va"><a href="https://magrittr.tidyverse.org/reference/aliases.html">extract2</a></span>, <span class="st">'date'</span><span class="op">)</span>,</span>
 <span>    series_complete_pop_pct <span class="op">=</span> <span class="fu">map</span><span class="op">(</span>.x <span class="op">=</span> <span class="va">data</span>, .f <span class="op">=</span> <span class="fu">magrittr</span><span class="fu">::</span><span class="va"><a href="https://magrittr.tidyverse.org/reference/aliases.html">extract2</a></span>, <span class="st">'series_complete_pop_pct'</span><span class="op">)</span></span>
-<span>    <span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span></span>
 <span><span class="fu">write_rds</span><span class="op">(</span>x <span class="op">=</span> <span class="va">comp_p_matrix</span>, file <span class="op">=</span> <span class="st">'data/comp_p_matrix_final.rds'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">comp_p_matrix</span> <span class="co"># where the observed months will contain MULTIPLE 0s</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 711 × 4
+<pre><code># A tibble: 711 × 5
 # Groups:   recip_state, fips [711]
-   recip_state fips  date        series_complete_pop_pct
-   &lt;fct&gt;       &lt;chr&gt; &lt;list&gt;      &lt;list&gt;                 
- 1 AL          01027 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 2 AL          01063 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 3 AL          01131 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 4 AR          05013 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 5 AR          05049 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 6 AR          05073 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 7 AR          05095 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 8 CA          06011 &lt;date [18]&gt; &lt;dbl [18]&gt;             
- 9 CO          08003 &lt;date [18]&gt; &lt;dbl [18]&gt;             
-10 CO          08007 &lt;date [18]&gt; &lt;dbl [18]&gt;             
+   recip_state fips  data              date        series_complete_pop_pct
+   &lt;fct&gt;       &lt;chr&gt; &lt;list&gt;            &lt;list&gt;      &lt;list&gt;                 
+ 1 AL          01027 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 2 AL          01063 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 3 AL          01131 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 4 AR          05013 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 5 AR          05049 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 6 AR          05073 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 7 AR          05095 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 8 CA          06011 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+ 9 CO          08003 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
+10 CO          08007 &lt;tibble [18 × 2]&gt; &lt;date [18]&gt; &lt;dbl [18]&gt;             
 # … with 701 more rows
 # ℹ Use `print(n = ...)` to see more rows</code></pre>
 </div>
@@ -1711,200 +1708,197 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb20-366"><a href="#cb20-366" aria-hidden="true" tabindex="-1"></a>    <span class="at">series_complete_yes =</span> <span class="fu">map</span>(<span class="at">.x =</span> data, <span class="at">.f =</span> magrittr<span class="sc">::</span>extract2, <span class="st">'series_complete_yes'</span>),</span>
 <span id="cb20-367"><a href="#cb20-367" aria-hidden="true" tabindex="-1"></a>    <span class="at">series_complete_yes_ts =</span> <span class="fu">map</span>(<span class="at">.x =</span> series_complete_yes, <span class="at">.f =</span> ts, </span>
 <span id="cb20-368"><a href="#cb20-368" aria-hidden="true" tabindex="-1"></a>                        <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2021</span>, <span class="dv">1</span>), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
-<span id="cb20-369"><a href="#cb20-369" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-370"><a href="#cb20-370" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>data)</span>
-<span id="cb20-371"><a href="#cb20-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-372"><a href="#cb20-372" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(<span class="at">x=</span> y_star_final, <span class="at">file =</span> <span class="st">'data/y_star_final.rds'</span>)</span>
-<span id="cb20-373"><a href="#cb20-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-374"><a href="#cb20-374" aria-hidden="true" tabindex="-1"></a>y_star_final</span>
-<span id="cb20-375"><a href="#cb20-375" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-376"><a href="#cb20-376" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-377"><a href="#cb20-377" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Matrix of Known Cumulative Percent Vaccinated: $\mathbf{P}$</span></span>
-<span id="cb20-378"><a href="#cb20-378" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-379"><a href="#cb20-379" aria-hidden="true" tabindex="-1"></a><span class="fu">### Counting the Number of Missing by FIPS and State</span></span>
-<span id="cb20-380"><a href="#cb20-380" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-381"><a href="#cb20-381" aria-hidden="true" tabindex="-1"></a>In the code chunk below, we compute the number of observations (<span class="in">`n`</span>) where the <span class="in">`series_complete_pop_pct`</span> was non-zero. It would not be unusual to see a zero on <span class="in">`2021-01-01`</span> since the <span class="co">[</span><span class="ot">first COVID-19 administered in the U.S.</span><span class="co">](https://www.wsj.com/articles/covid-19-vaccinations-in-the-u-s-slated-to-begin-monday-11607941806)</span> was on <span class="in">`2020-12-14`</span>. However, we hypothesize that most counties should have vaccinated at least one individual by <span class="in">`2021-02-01`</span>.</span>
-<span id="cb20-382"><a href="#cb20-382" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-383"><a href="#cb20-383" aria-hidden="true" tabindex="-1"></a><span class="in">```{r p_matrix_index}</span></span>
-<span id="cb20-384"><a href="#cb20-384" aria-hidden="true" tabindex="-1"></a>vaccines <span class="ot">=</span> <span class="fu">read_rds</span>(<span class="st">'data/vaccines.rds'</span>)</span>
-<span id="cb20-385"><a href="#cb20-385" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-386"><a href="#cb20-386" aria-hidden="true" tabindex="-1"></a><span class="co"># Computing the expected number of observations (i.e., months of data) per county</span></span>
-<span id="cb20-387"><a href="#cb20-387" aria-hidden="true" tabindex="-1"></a>expected_number_of_obs_per_county <span class="ot">=</span> </span>
-<span id="cb20-388"><a href="#cb20-388" aria-hidden="true" tabindex="-1"></a>  <span class="fu">seq.Date</span>(<span class="at">from =</span> <span class="fu">min</span>(vaccines<span class="sc">$</span>date), <span class="at">to =</span> <span class="fu">max</span>(vaccines<span class="sc">$</span>date), <span class="at">by =</span> <span class="st">'month'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-389"><a href="#cb20-389" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>()</span>
-<span id="cb20-390"><a href="#cb20-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-391"><a href="#cb20-391" aria-hidden="true" tabindex="-1"></a><span class="co"># Constructing an index which counts both the number of observations and number</span></span>
-<span id="cb20-392"><a href="#cb20-392" aria-hidden="true" tabindex="-1"></a><span class="co"># missing per fips and state (state is redundant but we added it for</span></span>
-<span id="cb20-393"><a href="#cb20-393" aria-hidden="true" tabindex="-1"></a><span class="co"># easily consuming the data)</span></span>
-<span id="cb20-394"><a href="#cb20-394" aria-hidden="true" tabindex="-1"></a>index_p_matrix <span class="ot">=</span> </span>
-<span id="cb20-395"><a href="#cb20-395" aria-hidden="true" tabindex="-1"></a>  vaccines <span class="sc">%&gt;%</span> </span>
-<span id="cb20-396"><a href="#cb20-396" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, fips, recip_county, recip_state, series_complete_pop_pct) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-397"><a href="#cb20-397" aria-hidden="true" tabindex="-1"></a>  <span class="co"># group by fips so we can count the number of observations per county</span></span>
-<span id="cb20-398"><a href="#cb20-398" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we added the recip_state to facilitate the counting by state if we wanted to</span></span>
-<span id="cb20-399"><a href="#cb20-399" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fips, recip_state) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-400"><a href="#cb20-400" aria-hidden="true" tabindex="-1"></a>  <span class="co"># converting zeros to NAs (using &lt; 0.00001 for numeric precision purposes)</span></span>
-<span id="cb20-401"><a href="#cb20-401" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">series_complete_pop_pct =</span> </span>
-<span id="cb20-402"><a href="#cb20-402" aria-hidden="true" tabindex="-1"></a>           <span class="fu">ifelse</span>(series_complete_pop_pct <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^-</span><span class="dv">6</span>, <span class="cn">NA</span>, series_complete_pop_pct)) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-403"><a href="#cb20-403" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb20-404"><a href="#cb20-404" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(fips) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-405"><a href="#cb20-405" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">num_missing =</span> expected_number_of_obs_per_county <span class="sc">-</span> n)</span>
-<span id="cb20-406"><a href="#cb20-406" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-407"><a href="#cb20-407" aria-hidden="true" tabindex="-1"></a>index_incomplete <span class="ot">=</span> <span class="fu">which</span>(index_p_matrix<span class="sc">$</span>num_missing <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
-<span id="cb20-408"><a href="#cb20-408" aria-hidden="true" tabindex="-1"></a>fips_incomplete <span class="ot">=</span> index_p_matrix<span class="sc">$</span>fips[index_incomplete]</span>
-<span id="cb20-409"><a href="#cb20-409" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-410"><a href="#cb20-410" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-411"><a href="#cb20-411" aria-hidden="true" tabindex="-1"></a><span class="fu">### A Summary of Number of Missing Observations</span></span>
-<span id="cb20-412"><a href="#cb20-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-413"><a href="#cb20-413" aria-hidden="true" tabindex="-1"></a>From the computations above, the distribution of missing observations per county (i.e., ones where there are zero observations per county) is shown below. Note that the top row corresponds to the observed number of missing observations per county, and the bottom row corresponds to its frequency.</span>
-<span id="cb20-414"><a href="#cb20-414" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-415"><a href="#cb20-415" aria-hidden="true" tabindex="-1"></a><span class="in">```{r missing_overview_table}</span></span>
-<span id="cb20-416"><a href="#cb20-416" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(index_p_matrix<span class="sc">$</span>num_missing) <span class="sc">%&gt;%</span> <span class="fu">pander</span>()</span>
-<span id="cb20-417"><a href="#cb20-417" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-418"><a href="#cb20-418" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-419"><a href="#cb20-419" aria-hidden="true" tabindex="-1"></a><span class="in">```{r missing_overview_bar, include=FALSE}</span></span>
-<span id="cb20-420"><a href="#cb20-420" aria-hidden="true" tabindex="-1"></a><span class="co"># not included here since it is redudant with table above</span></span>
-<span id="cb20-421"><a href="#cb20-421" aria-hidden="true" tabindex="-1"></a><span class="co"># chart is created primarily to add to the paper's supplementary materials</span></span>
-<span id="cb20-422"><a href="#cb20-422" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-423"><a href="#cb20-423" aria-hidden="true" tabindex="-1"></a>index_p_matrix <span class="sc">%&gt;%</span> </span>
-<span id="cb20-424"><a href="#cb20-424" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> num_missing)) <span class="sc">+</span></span>
-<span id="cb20-425"><a href="#cb20-425" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..count..)) <span class="sc">+</span></span>
-<span id="cb20-426"><a href="#cb20-426" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..count.., <span class="at">label =</span> <span class="fu">comma</span>(..count..)), </span>
-<span id="cb20-427"><a href="#cb20-427" aria-hidden="true" tabindex="-1"></a>            <span class="at">stat =</span> <span class="st">"count"</span>, <span class="at">vjust =</span> <span class="dv">0</span>, <span class="at">nudge_y =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
-<span id="cb20-428"><a href="#cb20-428" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">pretty_breaks</span>(<span class="at">n=</span><span class="dv">20</span>), </span>
-<span id="cb20-429"><a href="#cb20-429" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,  expected_number_of_obs_per_county)) <span class="sc">+</span></span>
-<span id="cb20-430"><a href="#cb20-430" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">pretty_breaks</span>(<span class="at">n=</span><span class="dv">10</span>), <span class="at">labels =</span> comma, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3000</span>)) <span class="sc">+</span></span>
-<span id="cb20-431"><a href="#cb20-431" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb20-432"><a href="#cb20-432" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">paste</span>(<span class="st">'Number of Missing Observations Per County out of'</span>,</span>
-<span id="cb20-433"><a href="#cb20-433" aria-hidden="true" tabindex="-1"></a>                 expected_number_of_obs_per_county, <span class="st">'expected'</span>), </span>
-<span id="cb20-434"><a href="#cb20-434" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Frequency'</span>,</span>
-<span id="cb20-435"><a href="#cb20-435" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">'The number of missing observations per county in the continental US'</span>)</span>
-<span id="cb20-436"><a href="#cb20-436" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-437"><a href="#cb20-437" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-438"><a href="#cb20-438" aria-hidden="true" tabindex="-1"></a><span class="fu">### Missingness by State</span></span>
-<span id="cb20-439"><a href="#cb20-439" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-440"><a href="#cb20-440" aria-hidden="true" tabindex="-1"></a>In the code chunk below, we compute the median number of missing observations across all counties in a given state. The printout shows the results arranged in a descending order. The table is searchable so that the reader can explore any state they are interested in.</span>
-<span id="cb20-441"><a href="#cb20-441" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-442"><a href="#cb20-442" aria-hidden="true" tabindex="-1"></a><span class="in">```{r missingness_by_state}</span></span>
-<span id="cb20-443"><a href="#cb20-443" aria-hidden="true" tabindex="-1"></a>index_p_matrix <span class="sc">%&gt;%</span> </span>
-<span id="cb20-444"><a href="#cb20-444" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb20-445"><a href="#cb20-445" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(recip_state) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-446"><a href="#cb20-446" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>( <span class="at">median_num_missing =</span> <span class="fu">median</span>(num_missing, <span class="at">na.rm =</span> T) ) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-447"><a href="#cb20-447" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(median_num_missing)) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-448"><a href="#cb20-448" aria-hidden="true" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">datatable</span>(<span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">10</span>, <span class="at">autoWidth =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb20-449"><a href="#cb20-449" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-450"><a href="#cb20-450" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-451"><a href="#cb20-451" aria-hidden="true" tabindex="-1"></a><span class="fu">### Missingness by County</span></span>
-<span id="cb20-452"><a href="#cb20-452" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-453"><a href="#cb20-453" aria-hidden="true" tabindex="-1"></a>Below, we provide an interactive map of the number of missing observations per county. In addition, a static map is generated but not shown in the Markdown output.</span>
-<span id="cb20-454"><a href="#cb20-454" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-455"><a href="#cb20-455" aria-hidden="true" tabindex="-1"></a><span class="in">```{r missingness_by_county_int}</span></span>
-<span id="cb20-456"><a href="#cb20-456" aria-hidden="true" tabindex="-1"></a><span class="do">#### Creating a longlat projection (required by leaflet)</span></span>
-<span id="cb20-457"><a href="#cb20-457" aria-hidden="true" tabindex="-1"></a>leaflet_sf <span class="ot">=</span> <span class="fu">counties_sf</span>(<span class="at">proj =</span> <span class="st">'longlat'</span>) <span class="sc">%&gt;%</span> <span class="co"># from albersua</span></span>
-<span id="cb20-458"><a href="#cb20-458" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Alaska'</span>, <span class="st">'Hawaii'</span>)) </span>
-<span id="cb20-459"><a href="#cb20-459" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-460"><a href="#cb20-460" aria-hidden="true" tabindex="-1"></a>leaflet_sf <span class="ot">=</span> </span>
-<span id="cb20-461"><a href="#cb20-461" aria-hidden="true" tabindex="-1"></a>  leaflet_sf <span class="sc">%&gt;%</span> </span>
-<span id="cb20-462"><a href="#cb20-462" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geo_join</span>(index_p_matrix <span class="sc">%&gt;%</span> </span>
-<span id="cb20-463"><a href="#cb20-463" aria-hidden="true" tabindex="-1"></a>             <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb20-464"><a href="#cb20-464" aria-hidden="true" tabindex="-1"></a>             <span class="fu">select</span>(fips, num_missing) <span class="sc">%&gt;%</span></span>
-<span id="cb20-465"><a href="#cb20-465" aria-hidden="true" tabindex="-1"></a>             <span class="fu">unique</span>(),</span>
-<span id="cb20-466"><a href="#cb20-466" aria-hidden="true" tabindex="-1"></a>           <span class="at">by_sp=</span> <span class="st">'fips'</span>, <span class="at">by_df=</span> <span class="st">'fips'</span>)</span>
-<span id="cb20-467"><a href="#cb20-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-468"><a href="#cb20-468" aria-hidden="true" tabindex="-1"></a><span class="do">#### Setting the Color Scheme</span></span>
-<span id="cb20-469"><a href="#cb20-469" aria-hidden="true" tabindex="-1"></a>leaflet_pal <span class="ot">=</span>  <span class="fu">colorNumeric</span>(<span class="st">'Oranges'</span>, </span>
-<span id="cb20-470"><a href="#cb20-470" aria-hidden="true" tabindex="-1"></a>                            <span class="at">domain =</span> leaflet_sf<span class="sc">$</span>num_missing, </span>
-<span id="cb20-471"><a href="#cb20-471" aria-hidden="true" tabindex="-1"></a>                            <span class="at">na.color =</span> <span class="st">"white"</span>, <span class="at">reverse =</span> T)</span>
-<span id="cb20-472"><a href="#cb20-472" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-473"><a href="#cb20-473" aria-hidden="true" tabindex="-1"></a><span class="do">#### The interactive visual</span></span>
-<span id="cb20-474"><a href="#cb20-474" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> <span class="co"># initializing the leaflet map</span></span>
-<span id="cb20-475"><a href="#cb20-475" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setView</span>(<span class="at">lng =</span> <span class="sc">-</span><span class="dv">96</span>, <span class="at">lat =</span> <span class="fl">37.8</span>, <span class="at">zoom =</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span> <span class="co"># setting the view on Continental US</span></span>
-<span id="cb20-476"><a href="#cb20-476" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span> <span class="co"># adding the default tiles</span></span>
-<span id="cb20-477"><a href="#cb20-477" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(</span>
-<span id="cb20-478"><a href="#cb20-478" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> leaflet_sf, <span class="at">stroke =</span> <span class="cn">FALSE</span>, <span class="at">fillColor =</span> <span class="sc">~</span><span class="fu">leaflet_pal</span>(leaflet_sf<span class="sc">$</span>num_missing), <span class="co"># adding the data</span></span>
-<span id="cb20-479"><a href="#cb20-479" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight =</span> <span class="dv">2</span>, <span class="at">opacity =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">dashArray =</span> <span class="st">"3"</span>, <span class="at">fillOpacity =</span> <span class="fl">0.7</span>, <span class="co"># adding color specs</span></span>
-<span id="cb20-480"><a href="#cb20-480" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="fu">paste</span>(</span>
-<span id="cb20-481"><a href="#cb20-481" aria-hidden="true" tabindex="-1"></a>      <span class="st">"County:"</span>, leaflet_sf<span class="sc">$</span>name, <span class="st">'&lt;br&gt;'</span>, </span>
-<span id="cb20-482"><a href="#cb20-482" aria-hidden="true" tabindex="-1"></a>      <span class="st">'Num Missing:'</span>, leaflet_sf<span class="sc">$</span>num_missing)</span>
-<span id="cb20-483"><a href="#cb20-483" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="co">#pop-up Menu</span></span>
-<span id="cb20-484"><a href="#cb20-484" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(<span class="at">position =</span> <span class="st">"bottomright"</span>, <span class="at">pal =</span> leaflet_pal, <span class="at">values =</span>  leaflet_sf<span class="sc">$</span>num_missing, </span>
-<span id="cb20-485"><a href="#cb20-485" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">"#Obs Missing"</span>, <span class="at">opacity =</span> <span class="dv">1</span>) <span class="co"># legend formatting</span></span>
-<span id="cb20-486"><a href="#cb20-486" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-487"><a href="#cb20-487" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-488"><a href="#cb20-488" aria-hidden="true" tabindex="-1"></a><span class="in">```{r static_map_missing, include=FALSE}</span></span>
-<span id="cb20-489"><a href="#cb20-489" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting the counties map from the urbnmapr package and excluding non-continental US</span></span>
-<span id="cb20-490"><a href="#cb20-490" aria-hidden="true" tabindex="-1"></a>counties_sf <span class="ot">=</span> <span class="fu">get_urbn_map</span>(<span class="at">map =</span> <span class="st">"counties"</span>, <span class="at">sf =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-491"><a href="#cb20-491" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>state_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Alaska'</span>, <span class="st">'Hawaii'</span>) )</span>
-<span id="cb20-492"><a href="#cb20-492" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-493"><a href="#cb20-493" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting the states map from the urbnmapr package and excluding non-continental US</span></span>
-<span id="cb20-494"><a href="#cb20-494" aria-hidden="true" tabindex="-1"></a>states_sf <span class="ot">=</span> <span class="fu">get_urbn_map</span>(<span class="at">map =</span> <span class="st">"states"</span>, <span class="at">sf =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-495"><a href="#cb20-495" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>state_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Alaska'</span>, <span class="st">'Hawaii'</span>) )</span>
-<span id="cb20-496"><a href="#cb20-496" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-497"><a href="#cb20-497" aria-hidden="true" tabindex="-1"></a><span class="co"># joining the data</span></span>
-<span id="cb20-498"><a href="#cb20-498" aria-hidden="true" tabindex="-1"></a>cty_sf_missing <span class="ot">=</span> <span class="fu">left_join</span>(</span>
-<span id="cb20-499"><a href="#cb20-499" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> counties_sf,</span>
-<span id="cb20-500"><a href="#cb20-500" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> index_p_matrix <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">select</span>(fips, num_missing),</span>
-<span id="cb20-501"><a href="#cb20-501" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"county_fips"</span> <span class="ot">=</span> <span class="st">"fips"</span>)</span>
-<span id="cb20-502"><a href="#cb20-502" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-503"><a href="#cb20-503" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-504"><a href="#cb20-504" aria-hidden="true" tabindex="-1"></a><span class="co"># creating static visuals to be potentially used in our paper</span></span>
-<span id="cb20-505"><a href="#cb20-505" aria-hidden="true" tabindex="-1"></a><span class="co"># not included in the output for the Markdown/Quarto since we are including</span></span>
-<span id="cb20-506"><a href="#cb20-506" aria-hidden="true" tabindex="-1"></a><span class="co"># the interactive plot</span></span>
-<span id="cb20-507"><a href="#cb20-507" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">'figs/county_missing_obs.png'</span>, <span class="at">width =</span> <span class="dv">1366</span>, <span class="at">height =</span> <span class="dv">768</span>, <span class="at">pointsize =</span> <span class="dv">16</span>)</span>
-<span id="cb20-508"><a href="#cb20-508" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(cty_sf_missing) <span class="sc">+</span> </span>
-<span id="cb20-509"><a href="#cb20-509" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="st">'num_missing'</span>, <span class="at">title =</span> <span class="st">'#Obs Missing'</span>, <span class="at">palette =</span> <span class="st">"seq"</span>) <span class="sc">+</span></span>
-<span id="cb20-510"><a href="#cb20-510" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(states_sf) <span class="sc">+</span> </span>
-<span id="cb20-511"><a href="#cb20-511" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb20-512"><a href="#cb20-512" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">aes.palette =</span> <span class="fu">list</span>(<span class="at">seq =</span> <span class="st">"-Oranges"</span>))</span>
-<span id="cb20-513"><a href="#cb20-513" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>( <span class="fu">dev.off</span>() ) <span class="co"># to suppress the unwanted output from dev.off</span></span>
-<span id="cb20-514"><a href="#cb20-514" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-515"><a href="#cb20-515" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-516"><a href="#cb20-516" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generating the $\mathbf{P}$ Matrix</span></span>
-<span id="cb20-517"><a href="#cb20-517" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-518"><a href="#cb20-518" aria-hidden="true" tabindex="-1"></a><span class="in">```{r p_matrix}</span></span>
-<span id="cb20-519"><a href="#cb20-519" aria-hidden="true" tabindex="-1"></a>p_matrix <span class="ot">=</span> vaccines <span class="sc">%&gt;%</span> </span>
-<span id="cb20-520"><a href="#cb20-520" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(recip_state, fips, date, series_complete_pop_pct) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-521"><a href="#cb20-521" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>fips <span class="sc">%in%</span> fips_incomplete) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-522"><a href="#cb20-522" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(recip_state, fips) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-523"><a href="#cb20-523" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb20-524"><a href="#cb20-524" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb20-525"><a href="#cb20-525" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">map</span>(<span class="at">.x =</span> data, <span class="at">.f =</span> magrittr<span class="sc">::</span>extract2, <span class="st">'date'</span>),</span>
-<span id="cb20-526"><a href="#cb20-526" aria-hidden="true" tabindex="-1"></a>    <span class="at">series_complete_pop_pct =</span> <span class="fu">map</span>(<span class="at">.x =</span> data, <span class="at">.f =</span> magrittr<span class="sc">::</span>extract2, <span class="st">'series_complete_pop_pct'</span>)</span>
-<span id="cb20-527"><a href="#cb20-527" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-528"><a href="#cb20-528" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>data)</span>
+<span id="cb20-369"><a href="#cb20-369" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-370"><a href="#cb20-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-371"><a href="#cb20-371" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(<span class="at">x=</span> y_star_final, <span class="at">file =</span> <span class="st">'data/y_star_final.rds'</span>)</span>
+<span id="cb20-372"><a href="#cb20-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-373"><a href="#cb20-373" aria-hidden="true" tabindex="-1"></a>y_star_final</span>
+<span id="cb20-374"><a href="#cb20-374" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-375"><a href="#cb20-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-376"><a href="#cb20-376" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Matrix of Known Cumulative Percent Vaccinated: $\mathbf{P}$</span></span>
+<span id="cb20-377"><a href="#cb20-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-378"><a href="#cb20-378" aria-hidden="true" tabindex="-1"></a><span class="fu">### Counting the Number of Missing by FIPS and State</span></span>
+<span id="cb20-379"><a href="#cb20-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-380"><a href="#cb20-380" aria-hidden="true" tabindex="-1"></a>In the code chunk below, we compute the number of observations (<span class="in">`n`</span>) where the <span class="in">`series_complete_pop_pct`</span> was non-zero. It would not be unusual to see a zero on <span class="in">`2021-01-01`</span> since the <span class="co">[</span><span class="ot">first COVID-19 administered in the U.S.</span><span class="co">](https://www.wsj.com/articles/covid-19-vaccinations-in-the-u-s-slated-to-begin-monday-11607941806)</span> was on <span class="in">`2020-12-14`</span>. However, we hypothesize that most counties should have vaccinated at least one individual by <span class="in">`2021-02-01`</span>.</span>
+<span id="cb20-381"><a href="#cb20-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-382"><a href="#cb20-382" aria-hidden="true" tabindex="-1"></a><span class="in">```{r p_matrix_index}</span></span>
+<span id="cb20-383"><a href="#cb20-383" aria-hidden="true" tabindex="-1"></a>vaccines <span class="ot">=</span> <span class="fu">read_rds</span>(<span class="st">'data/vaccines.rds'</span>)</span>
+<span id="cb20-384"><a href="#cb20-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-385"><a href="#cb20-385" aria-hidden="true" tabindex="-1"></a><span class="co"># Computing the expected number of observations (i.e., months of data) per county</span></span>
+<span id="cb20-386"><a href="#cb20-386" aria-hidden="true" tabindex="-1"></a>expected_number_of_obs_per_county <span class="ot">=</span> </span>
+<span id="cb20-387"><a href="#cb20-387" aria-hidden="true" tabindex="-1"></a>  <span class="fu">seq.Date</span>(<span class="at">from =</span> <span class="fu">min</span>(vaccines<span class="sc">$</span>date), <span class="at">to =</span> <span class="fu">max</span>(vaccines<span class="sc">$</span>date), <span class="at">by =</span> <span class="st">'month'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-388"><a href="#cb20-388" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>()</span>
+<span id="cb20-389"><a href="#cb20-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-390"><a href="#cb20-390" aria-hidden="true" tabindex="-1"></a><span class="co"># Constructing an index which counts both the number of observations and number</span></span>
+<span id="cb20-391"><a href="#cb20-391" aria-hidden="true" tabindex="-1"></a><span class="co"># missing per fips and state (state is redundant but we added it for</span></span>
+<span id="cb20-392"><a href="#cb20-392" aria-hidden="true" tabindex="-1"></a><span class="co"># easily consuming the data)</span></span>
+<span id="cb20-393"><a href="#cb20-393" aria-hidden="true" tabindex="-1"></a>index_p_matrix <span class="ot">=</span> </span>
+<span id="cb20-394"><a href="#cb20-394" aria-hidden="true" tabindex="-1"></a>  vaccines <span class="sc">%&gt;%</span> </span>
+<span id="cb20-395"><a href="#cb20-395" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, fips, recip_county, recip_state, series_complete_pop_pct) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-396"><a href="#cb20-396" aria-hidden="true" tabindex="-1"></a>  <span class="co"># group by fips so we can count the number of observations per county</span></span>
+<span id="cb20-397"><a href="#cb20-397" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we added the recip_state to facilitate the counting by state if we wanted to</span></span>
+<span id="cb20-398"><a href="#cb20-398" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fips, recip_state) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-399"><a href="#cb20-399" aria-hidden="true" tabindex="-1"></a>  <span class="co"># converting zeros to NAs (using &lt; 0.00001 for numeric precision purposes)</span></span>
+<span id="cb20-400"><a href="#cb20-400" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">series_complete_pop_pct =</span> </span>
+<span id="cb20-401"><a href="#cb20-401" aria-hidden="true" tabindex="-1"></a>           <span class="fu">ifelse</span>(series_complete_pop_pct <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^-</span><span class="dv">6</span>, <span class="cn">NA</span>, series_complete_pop_pct)) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-402"><a href="#cb20-402" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb20-403"><a href="#cb20-403" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(fips) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-404"><a href="#cb20-404" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">num_missing =</span> expected_number_of_obs_per_county <span class="sc">-</span> n)</span>
+<span id="cb20-405"><a href="#cb20-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-406"><a href="#cb20-406" aria-hidden="true" tabindex="-1"></a>index_incomplete <span class="ot">=</span> <span class="fu">which</span>(index_p_matrix<span class="sc">$</span>num_missing <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb20-407"><a href="#cb20-407" aria-hidden="true" tabindex="-1"></a>fips_incomplete <span class="ot">=</span> index_p_matrix<span class="sc">$</span>fips[index_incomplete]</span>
+<span id="cb20-408"><a href="#cb20-408" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-409"><a href="#cb20-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-410"><a href="#cb20-410" aria-hidden="true" tabindex="-1"></a><span class="fu">### A Summary of Number of Missing Observations</span></span>
+<span id="cb20-411"><a href="#cb20-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-412"><a href="#cb20-412" aria-hidden="true" tabindex="-1"></a>From the computations above, the distribution of missing observations per county (i.e., ones where there are zero observations per county) is shown below. Note that the top row corresponds to the observed number of missing observations per county, and the bottom row corresponds to its frequency.</span>
+<span id="cb20-413"><a href="#cb20-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-414"><a href="#cb20-414" aria-hidden="true" tabindex="-1"></a><span class="in">```{r missing_overview_table}</span></span>
+<span id="cb20-415"><a href="#cb20-415" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(index_p_matrix<span class="sc">$</span>num_missing) <span class="sc">%&gt;%</span> <span class="fu">pander</span>()</span>
+<span id="cb20-416"><a href="#cb20-416" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-417"><a href="#cb20-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-418"><a href="#cb20-418" aria-hidden="true" tabindex="-1"></a><span class="in">```{r missing_overview_bar, include=FALSE}</span></span>
+<span id="cb20-419"><a href="#cb20-419" aria-hidden="true" tabindex="-1"></a><span class="co"># not included here since it is redudant with table above</span></span>
+<span id="cb20-420"><a href="#cb20-420" aria-hidden="true" tabindex="-1"></a><span class="co"># chart is created primarily to add to the paper's supplementary materials</span></span>
+<span id="cb20-421"><a href="#cb20-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-422"><a href="#cb20-422" aria-hidden="true" tabindex="-1"></a>index_p_matrix <span class="sc">%&gt;%</span> </span>
+<span id="cb20-423"><a href="#cb20-423" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> num_missing)) <span class="sc">+</span></span>
+<span id="cb20-424"><a href="#cb20-424" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..count..)) <span class="sc">+</span></span>
+<span id="cb20-425"><a href="#cb20-425" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..count.., <span class="at">label =</span> <span class="fu">comma</span>(..count..)), </span>
+<span id="cb20-426"><a href="#cb20-426" aria-hidden="true" tabindex="-1"></a>            <span class="at">stat =</span> <span class="st">"count"</span>, <span class="at">vjust =</span> <span class="dv">0</span>, <span class="at">nudge_y =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
+<span id="cb20-427"><a href="#cb20-427" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">pretty_breaks</span>(<span class="at">n=</span><span class="dv">20</span>), </span>
+<span id="cb20-428"><a href="#cb20-428" aria-hidden="true" tabindex="-1"></a>                     <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,  expected_number_of_obs_per_county)) <span class="sc">+</span></span>
+<span id="cb20-429"><a href="#cb20-429" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">pretty_breaks</span>(<span class="at">n=</span><span class="dv">10</span>), <span class="at">labels =</span> comma, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3000</span>)) <span class="sc">+</span></span>
+<span id="cb20-430"><a href="#cb20-430" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb20-431"><a href="#cb20-431" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">paste</span>(<span class="st">'Number of Missing Observations Per County out of'</span>,</span>
+<span id="cb20-432"><a href="#cb20-432" aria-hidden="true" tabindex="-1"></a>                 expected_number_of_obs_per_county, <span class="st">'expected'</span>), </span>
+<span id="cb20-433"><a href="#cb20-433" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">'Frequency'</span>,</span>
+<span id="cb20-434"><a href="#cb20-434" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">'The number of missing observations per county in the continental US'</span>)</span>
+<span id="cb20-435"><a href="#cb20-435" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-436"><a href="#cb20-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-437"><a href="#cb20-437" aria-hidden="true" tabindex="-1"></a><span class="fu">### Missingness by State</span></span>
+<span id="cb20-438"><a href="#cb20-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-439"><a href="#cb20-439" aria-hidden="true" tabindex="-1"></a>In the code chunk below, we compute the median number of missing observations across all counties in a given state. The printout shows the results arranged in a descending order. The table is searchable so that the reader can explore any state they are interested in.</span>
+<span id="cb20-440"><a href="#cb20-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-441"><a href="#cb20-441" aria-hidden="true" tabindex="-1"></a><span class="in">```{r missingness_by_state}</span></span>
+<span id="cb20-442"><a href="#cb20-442" aria-hidden="true" tabindex="-1"></a>index_p_matrix <span class="sc">%&gt;%</span> </span>
+<span id="cb20-443"><a href="#cb20-443" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb20-444"><a href="#cb20-444" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(recip_state) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-445"><a href="#cb20-445" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>( <span class="at">median_num_missing =</span> <span class="fu">median</span>(num_missing, <span class="at">na.rm =</span> T) ) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-446"><a href="#cb20-446" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(median_num_missing)) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-447"><a href="#cb20-447" aria-hidden="true" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">datatable</span>(<span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">10</span>, <span class="at">autoWidth =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb20-448"><a href="#cb20-448" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-449"><a href="#cb20-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-450"><a href="#cb20-450" aria-hidden="true" tabindex="-1"></a><span class="fu">### Missingness by County</span></span>
+<span id="cb20-451"><a href="#cb20-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-452"><a href="#cb20-452" aria-hidden="true" tabindex="-1"></a>Below, we provide an interactive map of the number of missing observations per county. In addition, a static map is generated but not shown in the Markdown output.</span>
+<span id="cb20-453"><a href="#cb20-453" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-454"><a href="#cb20-454" aria-hidden="true" tabindex="-1"></a><span class="in">```{r missingness_by_county_int}</span></span>
+<span id="cb20-455"><a href="#cb20-455" aria-hidden="true" tabindex="-1"></a><span class="do">#### Creating a longlat projection (required by leaflet)</span></span>
+<span id="cb20-456"><a href="#cb20-456" aria-hidden="true" tabindex="-1"></a>leaflet_sf <span class="ot">=</span> <span class="fu">counties_sf</span>(<span class="at">proj =</span> <span class="st">'longlat'</span>) <span class="sc">%&gt;%</span> <span class="co"># from albersua</span></span>
+<span id="cb20-457"><a href="#cb20-457" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Alaska'</span>, <span class="st">'Hawaii'</span>)) </span>
+<span id="cb20-458"><a href="#cb20-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-459"><a href="#cb20-459" aria-hidden="true" tabindex="-1"></a>leaflet_sf <span class="ot">=</span> </span>
+<span id="cb20-460"><a href="#cb20-460" aria-hidden="true" tabindex="-1"></a>  leaflet_sf <span class="sc">%&gt;%</span> </span>
+<span id="cb20-461"><a href="#cb20-461" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geo_join</span>(index_p_matrix <span class="sc">%&gt;%</span> </span>
+<span id="cb20-462"><a href="#cb20-462" aria-hidden="true" tabindex="-1"></a>             <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb20-463"><a href="#cb20-463" aria-hidden="true" tabindex="-1"></a>             <span class="fu">select</span>(fips, num_missing) <span class="sc">%&gt;%</span></span>
+<span id="cb20-464"><a href="#cb20-464" aria-hidden="true" tabindex="-1"></a>             <span class="fu">unique</span>(),</span>
+<span id="cb20-465"><a href="#cb20-465" aria-hidden="true" tabindex="-1"></a>           <span class="at">by_sp=</span> <span class="st">'fips'</span>, <span class="at">by_df=</span> <span class="st">'fips'</span>)</span>
+<span id="cb20-466"><a href="#cb20-466" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-467"><a href="#cb20-467" aria-hidden="true" tabindex="-1"></a><span class="do">#### Setting the Color Scheme</span></span>
+<span id="cb20-468"><a href="#cb20-468" aria-hidden="true" tabindex="-1"></a>leaflet_pal <span class="ot">=</span>  <span class="fu">colorNumeric</span>(<span class="st">'Oranges'</span>, </span>
+<span id="cb20-469"><a href="#cb20-469" aria-hidden="true" tabindex="-1"></a>                            <span class="at">domain =</span> leaflet_sf<span class="sc">$</span>num_missing, </span>
+<span id="cb20-470"><a href="#cb20-470" aria-hidden="true" tabindex="-1"></a>                            <span class="at">na.color =</span> <span class="st">"white"</span>, <span class="at">reverse =</span> T)</span>
+<span id="cb20-471"><a href="#cb20-471" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-472"><a href="#cb20-472" aria-hidden="true" tabindex="-1"></a><span class="do">#### The interactive visual</span></span>
+<span id="cb20-473"><a href="#cb20-473" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> <span class="co"># initializing the leaflet map</span></span>
+<span id="cb20-474"><a href="#cb20-474" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setView</span>(<span class="at">lng =</span> <span class="sc">-</span><span class="dv">96</span>, <span class="at">lat =</span> <span class="fl">37.8</span>, <span class="at">zoom =</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span> <span class="co"># setting the view on Continental US</span></span>
+<span id="cb20-475"><a href="#cb20-475" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span> <span class="co"># adding the default tiles</span></span>
+<span id="cb20-476"><a href="#cb20-476" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(</span>
+<span id="cb20-477"><a href="#cb20-477" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> leaflet_sf, <span class="at">stroke =</span> <span class="cn">FALSE</span>, <span class="at">fillColor =</span> <span class="sc">~</span><span class="fu">leaflet_pal</span>(leaflet_sf<span class="sc">$</span>num_missing), <span class="co"># adding the data</span></span>
+<span id="cb20-478"><a href="#cb20-478" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight =</span> <span class="dv">2</span>, <span class="at">opacity =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">dashArray =</span> <span class="st">"3"</span>, <span class="at">fillOpacity =</span> <span class="fl">0.7</span>, <span class="co"># adding color specs</span></span>
+<span id="cb20-479"><a href="#cb20-479" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="fu">paste</span>(</span>
+<span id="cb20-480"><a href="#cb20-480" aria-hidden="true" tabindex="-1"></a>      <span class="st">"County:"</span>, leaflet_sf<span class="sc">$</span>name, <span class="st">'&lt;br&gt;'</span>, </span>
+<span id="cb20-481"><a href="#cb20-481" aria-hidden="true" tabindex="-1"></a>      <span class="st">'Num Missing:'</span>, leaflet_sf<span class="sc">$</span>num_missing)</span>
+<span id="cb20-482"><a href="#cb20-482" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="co">#pop-up Menu</span></span>
+<span id="cb20-483"><a href="#cb20-483" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(<span class="at">position =</span> <span class="st">"bottomright"</span>, <span class="at">pal =</span> leaflet_pal, <span class="at">values =</span>  leaflet_sf<span class="sc">$</span>num_missing, </span>
+<span id="cb20-484"><a href="#cb20-484" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">"#Obs Missing"</span>, <span class="at">opacity =</span> <span class="dv">1</span>) <span class="co"># legend formatting</span></span>
+<span id="cb20-485"><a href="#cb20-485" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-486"><a href="#cb20-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-487"><a href="#cb20-487" aria-hidden="true" tabindex="-1"></a><span class="in">```{r static_map_missing, include=FALSE}</span></span>
+<span id="cb20-488"><a href="#cb20-488" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting the counties map from the urbnmapr package and excluding non-continental US</span></span>
+<span id="cb20-489"><a href="#cb20-489" aria-hidden="true" tabindex="-1"></a>counties_sf <span class="ot">=</span> <span class="fu">get_urbn_map</span>(<span class="at">map =</span> <span class="st">"counties"</span>, <span class="at">sf =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-490"><a href="#cb20-490" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>state_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Alaska'</span>, <span class="st">'Hawaii'</span>) )</span>
+<span id="cb20-491"><a href="#cb20-491" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-492"><a href="#cb20-492" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting the states map from the urbnmapr package and excluding non-continental US</span></span>
+<span id="cb20-493"><a href="#cb20-493" aria-hidden="true" tabindex="-1"></a>states_sf <span class="ot">=</span> <span class="fu">get_urbn_map</span>(<span class="at">map =</span> <span class="st">"states"</span>, <span class="at">sf =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-494"><a href="#cb20-494" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>state_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'Alaska'</span>, <span class="st">'Hawaii'</span>) )</span>
+<span id="cb20-495"><a href="#cb20-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-496"><a href="#cb20-496" aria-hidden="true" tabindex="-1"></a><span class="co"># joining the data</span></span>
+<span id="cb20-497"><a href="#cb20-497" aria-hidden="true" tabindex="-1"></a>cty_sf_missing <span class="ot">=</span> <span class="fu">left_join</span>(</span>
+<span id="cb20-498"><a href="#cb20-498" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> counties_sf,</span>
+<span id="cb20-499"><a href="#cb20-499" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> index_p_matrix <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">select</span>(fips, num_missing),</span>
+<span id="cb20-500"><a href="#cb20-500" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"county_fips"</span> <span class="ot">=</span> <span class="st">"fips"</span>)</span>
+<span id="cb20-501"><a href="#cb20-501" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-502"><a href="#cb20-502" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-503"><a href="#cb20-503" aria-hidden="true" tabindex="-1"></a><span class="co"># creating static visuals to be potentially used in our paper</span></span>
+<span id="cb20-504"><a href="#cb20-504" aria-hidden="true" tabindex="-1"></a><span class="co"># not included in the output for the Markdown/Quarto since we are including</span></span>
+<span id="cb20-505"><a href="#cb20-505" aria-hidden="true" tabindex="-1"></a><span class="co"># the interactive plot</span></span>
+<span id="cb20-506"><a href="#cb20-506" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">'figs/county_missing_obs.png'</span>, <span class="at">width =</span> <span class="dv">1366</span>, <span class="at">height =</span> <span class="dv">768</span>, <span class="at">pointsize =</span> <span class="dv">16</span>)</span>
+<span id="cb20-507"><a href="#cb20-507" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(cty_sf_missing) <span class="sc">+</span> </span>
+<span id="cb20-508"><a href="#cb20-508" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="st">'num_missing'</span>, <span class="at">title =</span> <span class="st">'#Obs Missing'</span>, <span class="at">palette =</span> <span class="st">"seq"</span>) <span class="sc">+</span></span>
+<span id="cb20-509"><a href="#cb20-509" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(states_sf) <span class="sc">+</span> </span>
+<span id="cb20-510"><a href="#cb20-510" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_borders</span>(<span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb20-511"><a href="#cb20-511" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">aes.palette =</span> <span class="fu">list</span>(<span class="at">seq =</span> <span class="st">"-Oranges"</span>))</span>
+<span id="cb20-512"><a href="#cb20-512" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>( <span class="fu">dev.off</span>() ) <span class="co"># to suppress the unwanted output from dev.off</span></span>
+<span id="cb20-513"><a href="#cb20-513" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-514"><a href="#cb20-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-515"><a href="#cb20-515" aria-hidden="true" tabindex="-1"></a><span class="fu">## Generating the $\mathbf{P}$ Matrix</span></span>
+<span id="cb20-516"><a href="#cb20-516" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-517"><a href="#cb20-517" aria-hidden="true" tabindex="-1"></a><span class="in">```{r p_matrix}</span></span>
+<span id="cb20-518"><a href="#cb20-518" aria-hidden="true" tabindex="-1"></a>p_matrix <span class="ot">=</span> vaccines <span class="sc">%&gt;%</span> </span>
+<span id="cb20-519"><a href="#cb20-519" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(recip_state, fips, date, series_complete_pop_pct) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-520"><a href="#cb20-520" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>fips <span class="sc">%in%</span> fips_incomplete) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-521"><a href="#cb20-521" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(recip_state, fips) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-522"><a href="#cb20-522" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb20-523"><a href="#cb20-523" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb20-524"><a href="#cb20-524" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">map</span>(<span class="at">.x =</span> data, <span class="at">.f =</span> magrittr<span class="sc">::</span>extract2, <span class="st">'date'</span>),</span>
+<span id="cb20-525"><a href="#cb20-525" aria-hidden="true" tabindex="-1"></a>    <span class="at">series_complete_pop_pct =</span> <span class="fu">map</span>(<span class="at">.x =</span> data, <span class="at">.f =</span> magrittr<span class="sc">::</span>extract2, <span class="st">'series_complete_pop_pct'</span>)</span>
+<span id="cb20-526"><a href="#cb20-526" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-527"><a href="#cb20-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-528"><a href="#cb20-528" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(<span class="at">x =</span> p_matrix, <span class="at">file =</span> <span class="st">'data/p_matrix_final.rds'</span>)</span>
 <span id="cb20-529"><a href="#cb20-529" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-530"><a href="#cb20-530" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(<span class="at">x =</span> p_matrix, <span class="at">file =</span> <span class="st">'data/p_matrix_final.rds'</span>)</span>
-<span id="cb20-531"><a href="#cb20-531" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-532"><a href="#cb20-532" aria-hidden="true" tabindex="-1"></a>p_matrix</span>
-<span id="cb20-533"><a href="#cb20-533" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-530"><a href="#cb20-530" aria-hidden="true" tabindex="-1"></a>p_matrix</span>
+<span id="cb20-531"><a href="#cb20-531" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-532"><a href="#cb20-532" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-533"><a href="#cb20-533" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Complement of the $\mathbf{P}$ Matrix</span></span>
 <span id="cb20-534"><a href="#cb20-534" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-535"><a href="#cb20-535" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Complement of the $\mathbf{P}$ Matrix</span></span>
-<span id="cb20-536"><a href="#cb20-536" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-537"><a href="#cb20-537" aria-hidden="true" tabindex="-1"></a><span class="in">```{r comp_p_matrix}</span></span>
-<span id="cb20-538"><a href="#cb20-538" aria-hidden="true" tabindex="-1"></a>comp_p_matrix <span class="ot">=</span> vaccines <span class="sc">%&gt;%</span> </span>
-<span id="cb20-539"><a href="#cb20-539" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(recip_state, fips, date, series_complete_pop_pct) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-540"><a href="#cb20-540" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fips <span class="sc">%in%</span> fips_incomplete) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-541"><a href="#cb20-541" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(recip_state, fips) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-542"><a href="#cb20-542" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb20-543"><a href="#cb20-543" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb20-544"><a href="#cb20-544" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">map</span>(<span class="at">.x =</span> data, <span class="at">.f =</span> magrittr<span class="sc">::</span>extract2, <span class="st">'date'</span>),</span>
-<span id="cb20-545"><a href="#cb20-545" aria-hidden="true" tabindex="-1"></a>    <span class="at">series_complete_pop_pct =</span> <span class="fu">map</span>(<span class="at">.x =</span> data, <span class="at">.f =</span> magrittr<span class="sc">::</span>extract2, <span class="st">'series_complete_pop_pct'</span>)</span>
-<span id="cb20-546"><a href="#cb20-546" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-547"><a href="#cb20-547" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>data)</span>
-<span id="cb20-548"><a href="#cb20-548" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-549"><a href="#cb20-549" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(<span class="at">x =</span> comp_p_matrix, <span class="at">file =</span> <span class="st">'data/comp_p_matrix_final.rds'</span>)</span>
+<span id="cb20-535"><a href="#cb20-535" aria-hidden="true" tabindex="-1"></a><span class="in">```{r comp_p_matrix}</span></span>
+<span id="cb20-536"><a href="#cb20-536" aria-hidden="true" tabindex="-1"></a>comp_p_matrix <span class="ot">=</span> vaccines <span class="sc">%&gt;%</span> </span>
+<span id="cb20-537"><a href="#cb20-537" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(recip_state, fips, date, series_complete_pop_pct) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-538"><a href="#cb20-538" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(fips <span class="sc">%in%</span> fips_incomplete) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-539"><a href="#cb20-539" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(recip_state, fips) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-540"><a href="#cb20-540" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb20-541"><a href="#cb20-541" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb20-542"><a href="#cb20-542" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">map</span>(<span class="at">.x =</span> data, <span class="at">.f =</span> magrittr<span class="sc">::</span>extract2, <span class="st">'date'</span>),</span>
+<span id="cb20-543"><a href="#cb20-543" aria-hidden="true" tabindex="-1"></a>    <span class="at">series_complete_pop_pct =</span> <span class="fu">map</span>(<span class="at">.x =</span> data, <span class="at">.f =</span> magrittr<span class="sc">::</span>extract2, <span class="st">'series_complete_pop_pct'</span>)</span>
+<span id="cb20-544"><a href="#cb20-544" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-545"><a href="#cb20-545" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-546"><a href="#cb20-546" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(<span class="at">x =</span> comp_p_matrix, <span class="at">file =</span> <span class="st">'data/comp_p_matrix_final.rds'</span>)</span>
+<span id="cb20-547"><a href="#cb20-547" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-548"><a href="#cb20-548" aria-hidden="true" tabindex="-1"></a>comp_p_matrix <span class="co"># where the observed months will contain MULTIPLE 0s</span></span>
+<span id="cb20-549"><a href="#cb20-549" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb20-550"><a href="#cb20-550" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-551"><a href="#cb20-551" aria-hidden="true" tabindex="-1"></a>comp_p_matrix <span class="co"># where the observed months will contain MULTIPLE 0s</span></span>
-<span id="cb20-552"><a href="#cb20-552" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb20-553"><a href="#cb20-553" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-554"><a href="#cb20-554" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb20-555"><a href="#cb20-555" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-556"><a href="#cb20-556" aria-hidden="true" tabindex="-1"></a><span class="fu"># Appendix</span></span>
-<span id="cb20-557"><a href="#cb20-557" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-558"><a href="#cb20-558" aria-hidden="true" tabindex="-1"></a>In this appendix, we print all the <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> packages used in our analysis and their versions to assist with reproducing our results/analysis.</span>
-<span id="cb20-559"><a href="#cb20-559" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-560"><a href="#cb20-560" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sessionInfo}</span></span>
-<span id="cb20-561"><a href="#cb20-561" aria-hidden="true" tabindex="-1"></a><span class="fu">pander</span>(<span class="fu">sessionInfo</span>(), <span class="at">compact =</span> <span class="cn">TRUE</span>) <span class="co"># printing the session info</span></span>
-<span id="cb20-562"><a href="#cb20-562" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-551"><a href="#cb20-551" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb20-552"><a href="#cb20-552" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-553"><a href="#cb20-553" aria-hidden="true" tabindex="-1"></a><span class="fu"># Appendix</span></span>
+<span id="cb20-554"><a href="#cb20-554" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-555"><a href="#cb20-555" aria-hidden="true" tabindex="-1"></a>In this appendix, we print all the <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> packages used in our analysis and their versions to assist with reproducing our results/analysis.</span>
+<span id="cb20-556"><a href="#cb20-556" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-557"><a href="#cb20-557" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sessionInfo}</span></span>
+<span id="cb20-558"><a href="#cb20-558" aria-hidden="true" tabindex="-1"></a><span class="fu">pander</span>(<span class="fu">sessionInfo</span>(), <span class="at">compact =</span> <span class="cn">TRUE</span>) <span class="co"># printing the session info</span></span>
+<span id="cb20-559"><a href="#cb20-559" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
