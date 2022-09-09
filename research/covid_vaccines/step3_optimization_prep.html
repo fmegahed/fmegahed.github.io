@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.35">
+<meta name="generator" content="quarto-1.0.38">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Maciej Rysz">
 <meta name="author" content="Longwen Zhao">
 <meta name="author" content="Fadel M. Megahed">
 <meta name="author" content="Allison Jones-Farmer">
 <meta name="author" content="Steve Rigdon">
-<meta name="dcterms.date" content="2022-09-08">
+<meta name="dcterms.date" content="2022-09-09">
 <title>COVID-19 Vaccines by County</title>
 <style>
 code{white-space: pre-wrap;}
@@ -172,7 +172,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 8, 2022</p>
+      <p class="date">September 9, 2022</p>
     </div>
   </div>
     
@@ -196,33 +196,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span><span class="co"># Check and install if these packages are not found locally on machine</span></span>
 <span><span class="kw">if</span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/trinker/pacman">pacman</a></span><span class="op">)</span><span class="op">==</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pacman"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">tidyverse</span>, <span class="va">pander</span><span class="op">)</span> <span class="co"># needed packages</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">tidyverse</span>, <span class="va">lubridate</span>, <span class="va">pander</span><span class="op">)</span> <span class="co"># needed packages</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr></section><section id="loading-and-merging-the-datasets" class="level1" data-number="3"><h1 data-number="3">
 <span class="header-section-number">3</span> Loading and Merging the Datasets</h1>
 <p>In this step, we merge the following datasets that were obtained in Steps 0–2:</p>
 <ul>
 <li>
-<code>vaccines</code>, which contains <code>fips</code>, <code>date</code>, <code>recip_state</code>, and <code>series_completeness_pct</code> (i.e., the percent of a county’s population who are fully vaccinated);<br>
+<code>vaccine_counts</code>, which contains <code>fips</code>, <code>date</code>, <code>recip_state</code>, and <code>series_complete_yes</code> (i.e., the total number of people who are fully vaccinated (have second dose of a two-dose vaccine or one dose of a single-dose vaccine) based on the jurisdiction and county where vaccine recipient lives);<br>
 </li>
 <li>
-<code>phi_hat_tbl</code>, which contains the estimated parameters for the logistic growth curve obtained via the <code><a href="https://rdrr.io/r/stats/nls.html">nls()</a></code> and <code>spatial models</code>. We use the estimates from the spatial model to have our estimated vaccine pct per county over time, which we will smooth and constraint using the optimization model.<br>
+<code>phi_hat_tbl</code>, which contains the estimated parameters for the logistic growth curve obtained via the <code><a href="https://rdrr.io/r/stats/nls.html">nls()</a></code> and <code>spatial models</code>. We use the estimates from the spatial model to have our estimated vaccine counts per county over time, which we will smooth and constraint using the optimization model.<br>
 </li>
 <li>
-<code>y_star_final</code>, which contains the number of individuals vaccinated with a known state but unknown county over time.<br>
+<code>total_vaccines_by_state</code>, which contains the cumulative number of individuals vaccinated in a given state over time.<br>
 </li>
 <li>In addition, we compute the <code>fraction of a state's population inhibited by each county</code> from the <code>census2019</code> variable within the <code>vaccines</code> dataset since this will also be used in our optimization model.</li>
 </ul>
-<div class="cell" data-hash="step3_optimization_prep_cache/html/datasets_4da750c0c15aead5fbed86464da1a41b">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># [1] tibble containing series_completeness pct (vaccination rate) and time</span></span>
-<span><span class="va">vaccines</span> <span class="op">=</span> <span class="fu">read_rds</span><span class="op">(</span><span class="st">"data/vaccines.rds"</span><span class="op">)</span> </span>
+<div class="cell" data-hash="step3_optimization_prep_cache/html/datasets_3cff1a6279211b9588c3c56bb20370df">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># [1] tibble containing vaccines counts and time</span></span>
+<span><span class="va">vaccine_counts</span> <span class="op">=</span> </span>
+<span>  <span class="fu">read_rds</span><span class="op">(</span><span class="st">'data/raw_vaccines_tbl.rds'</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># selecting the subset of columns needed for the analysis</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">fips</span>, <span class="va">recip_county</span>, <span class="va">recip_state</span>, <span class="va">completeness_pct</span>, <span class="va">series_complete_yes</span>, <span class="va">series_complete_pop_pct</span>,<span class="va">census2019</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># removing non-contiguous US states</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">recip_state</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'AK'</span>, <span class="st">'AS'</span>, <span class="st">'FM'</span>, <span class="st">'GU'</span>, <span class="st">'HI'</span>, </span>
+<span>                             <span class="st">'MH'</span>, <span class="st">'MP'</span>, <span class="st">'PR'</span>, <span class="st">'PW'</span>, <span class="st">'UNK'</span>, <span class="st">'VI'</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    <span class="co"># converting the date variable from chr to date</span></span>
+<span>    date <span class="op">=</span> <span class="fu">mdy</span><span class="op">(</span><span class="va">date</span><span class="op">)</span>,</span>
+<span>    <span class="co"># extracting the day of month from the data</span></span>
+<span>    day_of_month <span class="op">=</span> <span class="fu">day</span><span class="op">(</span><span class="va">date</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># filtering to the first of the month</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">day_of_month</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># arranging the data in an ascending order of date and fips codes</span></span>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">date</span>, <span class="va">fips</span><span class="op">)</span></span>
 <span></span>
 <span></span>
-<span><span class="co"># [2] Recomputing the estimated vaccinate pcts from the spatial model </span></span>
+<span></span>
+<span><span class="co"># [2] Recomputing the estimated vaccinate pcts from the spatial model and</span></span>
+<span><span class="co"># we will convert it into counts</span></span>
 <span></span>
 <span><span class="co">## Computing the expected number of observations (i.e., months of data) per county</span></span>
 <span><span class="va">months_from_start</span> <span class="op">=</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/seq.Date.html">seq.Date</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">vaccines</span><span class="op">$</span><span class="va">date</span><span class="op">)</span>, to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">vaccines</span><span class="op">$</span><span class="va">date</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">'month'</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/seq.Date.html">seq.Date</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">vaccine_counts</span><span class="op">$</span><span class="va">date</span><span class="op">)</span>, </span>
+<span>           to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">vaccine_counts</span><span class="op">$</span><span class="va">date</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">'month'</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## creating a vector of months from start</span></span>
@@ -238,28 +257,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span>  <span class="fu">read_rds</span><span class="op">(</span><span class="st">'data/phi_hat_tbl.rds'</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">fips</span>, <span class="fu">contains</span><span class="op">(</span><span class="st">'hat'</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
-<span>    date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.Date.html">seq.Date</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">vaccines</span><span class="op">$</span><span class="va">date</span><span class="op">)</span>, to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">vaccines</span><span class="op">$</span><span class="va">date</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">'month'</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/seq.Date.html">seq.Date</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">vaccine_counts</span><span class="op">$</span><span class="va">date</span><span class="op">)</span>,</span>
+<span>               to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">vaccine_counts</span><span class="op">$</span><span class="va">date</span><span class="op">)</span>,</span>
+<span>               by <span class="op">=</span> <span class="st">'month'</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    spatial_fitted <span class="op">=</span> <span class="fu">pmap</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">phi1_hat</span>, <span class="va">phi2_hat</span>, <span class="va">phi3_hat</span><span class="op">)</span>, .f <span class="op">=</span> <span class="va">lgc_fit</span> <span class="op">)</span></span>
 <span>    <span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">unnest</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">spatial_fitted</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="fu">contains</span><span class="op">(</span><span class="st">'hat'</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span></span>
-<span><span class="co"># [3] a dataset of vaccinated individuals by state but with unknown counties</span></span>
-<span><span class="va">y_star_final</span> <span class="op">=</span> </span>
-<span>  <span class="fu">read_rds</span><span class="op">(</span><span class="st">'data/y_star_final.rds'</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">recip_state</span>, <span class="va">date</span>, <span class="va">series_complete_yes</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">unnest</span><span class="op">(</span> cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">series_complete_yes</span><span class="op">)</span> <span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">rename</span><span class="op">(</span>unknowns <span class="op">=</span> <span class="va">series_complete_yes</span><span class="op">)</span></span>
+<span><span class="co"># [3] total vaccine counts (not pcts) by state</span></span>
+<span><span class="va">total_vaccines_by_state</span> <span class="op">=</span> </span>
+<span>  <span class="va">vaccine_counts</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># grouping by state</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">date</span>, <span class="va">recip_state</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># creating an aggregated sum of the series_complete_yes by state</span></span>
+<span>  <span class="fu">summarize</span><span class="op">(</span>state_totals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">series_complete_yes</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="co"># ungroup</span></span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">recip_state</span>, <span class="va">date</span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="co"># [4] converting the population to a fraction of a state's population</span></span>
 <span><span class="va">population_frac</span> <span class="op">=</span> </span>
-<span>  <span class="va">vaccines</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">vaccine_counts</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">date</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">recip_state</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">recip_state</span>, <span class="va">fips</span>, <span class="va">recip_county</span>, <span class="va">census2019</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>pop_frac <span class="op">=</span> <span class="va">census2019</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">census2019</span><span class="op">)</span> <span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>pop_frac <span class="op">=</span> <span class="va">census2019</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">census2019</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span></span>
@@ -267,8 +293,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span><span class="va">merged_df</span> <span class="op">=</span> </span>
 <span>  <span class="co"># merging the actual vaccine rates with estimated from the spatial model</span></span>
 <span>  <span class="fu">left_join</span><span class="op">(</span></span>
-<span>    <span class="va">vaccines</span> <span class="op">%&gt;%</span> <span class="fu">select</span><span class="op">(</span><span class="va">recip_state</span>, <span class="va">fips</span>, <span class="va">date</span>, <span class="va">series_complete_pop_pct</span><span class="op">)</span>,</span>
 <span>    <span class="va">predicted_rates</span>,</span>
+<span>    <span class="va">vaccine_counts</span> <span class="op">%&gt;%</span> <span class="fu">select</span><span class="op">(</span><span class="va">recip_state</span>, <span class="va">fips</span>, <span class="va">date</span>, <span class="va">series_complete_yes</span><span class="op">)</span>,</span>
 <span>    by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'fips'</span> <span class="op">=</span> <span class="st">'fips'</span>, <span class="st">'date'</span> <span class="op">=</span> <span class="st">'date'</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="co"># having a continuous time that starts at 0 for the optimization routine</span></span>
@@ -277,7 +303,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="co"># merging with the state unknowns</span></span>
 <span>  <span class="fu">left_join</span><span class="op">(</span></span>
-<span>    <span class="va">y_star_final</span>,</span>
+<span>    <span class="va">total_vaccines_by_state</span>,</span>
 <span>    by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'recip_state'</span> <span class="op">=</span> <span class="st">'recip_state'</span>, <span class="st">'date'</span> <span class="op">=</span> <span class="st">'date'</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="co"># merging with fraction of population</span></span>
@@ -286,23 +312,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span>    by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'fips'</span> <span class="op">=</span> <span class="st">'fips'</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
+<span><span class="va">merged_df</span> <span class="op">=</span> <span class="va">merged_df</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    spatial_fitted <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">0.01</span><span class="op">*</span><span class="va">spatial_fitted</span><span class="op">*</span><span class="va">census2019</span>, </span>
+<span>                           digits <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># [6] tibble to be used in the optimization</span></span>
 <span><span class="va">opt_df</span> <span class="op">=</span> <span class="va">merged_df</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">recip_state</span>, <span class="va">fips</span>, <span class="va">series_complete_pop_pct</span>, <span class="va">spatial_fitted</span>, <span class="va">time</span>, <span class="va">unknowns</span>, <span class="va">pop_frac</span><span class="op">)</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">recip_state</span>, <span class="va">fips</span>, <span class="va">series_complete_yes</span>, </span>
+<span>         <span class="va">spatial_fitted</span>, <span class="va">time</span>, <span class="va">state_totals</span>, <span class="va">pop_frac</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">write_rds</span><span class="op">(</span>x <span class="op">=</span> <span class="va">opt_df</span>, file <span class="op">=</span> <span class="st">'data/merged_df.rds'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The <code>opt_df</code> contains 55944 observations which corresponds to <span class="math inline">\(3108 \text{ (counties) } \times\)</span> 18 (time periods). In addition it contains the following columns: <em>recip_state</em>, <em>fips</em>, <em>series_complete_pop_pct</em>, <em>spatial_fitted</em>, <em>time</em>, <em>unknowns</em> and <em>pop_frac</em>.</p>
+<p>The <code>opt_df</code> contains 55944 observations which corresponds to <span class="math inline">\(3108 \text{ (counties) } \times\)</span> 18 (time periods). In addition it contains the following columns: <em>recip_state</em>, <em>fips</em>, <em>series_complete_yes</em>, <em>spatial_fitted</em>, <em>time</em>, <em>state_totals</em> and <em>pop_frac</em>.</p>
 <hr></section><section id="saving-the-input-data-for-the-optimization" class="level1" data-number="4"><h1 data-number="4">
 <span class="header-section-number">4</span> Saving the Input Data for the Optimization</h1>
 <section id="creating-custom-function-for-preparing-the-data-for-each-state" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="creating-custom-function-for-preparing-the-data-for-each-state">
 <span class="header-section-number">4.1</span> Creating Custom Function for Preparing the Data for Each State</h2>
 <p>We created a custom function that builds on the <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code> function to create a tab delimited output, which lists the dimension of the data frame in the first row, followed by the observations in the data frame. The <code>append = T</code> argument allowed us to append the data and we saved the outputs from the function under the subfolder <code>optimization_inputs</code> located within our <code>data</code> folder. We named each file according to the state abbreviation.</p>
-<div class="cell" data-hash="step3_optimization_prep_cache/html/custom_output_function_4bc3c7350afb0dd295f3d48e47d6bad2">
+<div class="cell" data-hash="step3_optimization_prep_cache/html/custom_output_function_66ed26566ea1e139a19b4c8a09475f27">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">state_files</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">state</span>, <span class="va">df</span> <span class="op">=</span> <span class="va">opt_df</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="co"># filtering the data frame to the state of interest</span></span>
-<span>  <span class="va">df</span> <span class="op">=</span> <span class="va">opt_df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">recip_state</span> <span class="op">==</span> <span class="va">state</span><span class="op">)</span></span>
+<span>  <span class="va">df</span> <span class="op">=</span> <span class="va">opt_df</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">recip_state</span> <span class="op">==</span> <span class="va">state</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">recip_state</span><span class="op">)</span></span>
 <span>  <span class="va">dim_df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">'\t'</span> <span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="co"># writing the the dimensions of the df and the df itself to a tab sep file</span></span>
@@ -342,8 +374,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Platform:</strong> x86_64-w64-mingw32/x64 (64-bit)</p>
 <p><strong>locale:</strong> <em>LC_COLLATE=English_United States.utf8</em>, <em>LC_CTYPE=English_United States.utf8</em>, <em>LC_MONETARY=English_United States.utf8</em>, <em>LC_NUMERIC=C</em> and <em>LC_TIME=English_United States.utf8</em></p>
 <p><strong>attached base packages:</strong> <em>stats</em>, <em>graphics</em>, <em>grDevices</em>, <em>utils</em>, <em>datasets</em>, <em>methods</em> and <em>base</em></p>
-<p><strong>other attached packages:</strong> <em>pander(v.0.6.5)</em>, <em>forcats(v.0.5.2)</em>, <em>stringr(v.1.4.1)</em>, <em>dplyr(v.1.0.9)</em>, <em>purrr(v.0.3.4)</em>, <em>readr(v.2.1.2)</em>, <em>tidyr(v.1.2.0)</em>, <em>tibble(v.3.1.8)</em>, <em>tidyverse(v.1.3.2)</em>, <em>pacman(v.0.5.1)</em>, <em>RColorBrewer(v.1.1-3)</em> and <em>ggplot2(v.3.3.6)</em></p>
-<p><strong>loaded via a namespace (and not attached):</strong> <em>Rcpp(v.1.0.9)</em>, <em>lubridate(v.1.8.0)</em>, <em>assertthat(v.0.2.1)</em>, <em>digest(v.0.6.29)</em>, <em>utf8(v.1.2.2)</em>, <em>R6(v.2.5.1)</em>, <em>cellranger(v.1.1.0)</em>, <em>backports(v.1.4.1)</em>, <em>reprex(v.2.0.2)</em>, <em>evaluate(v.0.16)</em>, <em>httr(v.1.4.4)</em>, <em>pillar(v.1.8.1)</em>, <em>rlang(v.1.0.4)</em>, <em>googlesheets4(v.1.0.1)</em>, <em>readxl(v.1.4.1)</em>, <em>rstudioapi(v.0.13)</em>, <em>fontawesome(v.0.3.0)</em>, <em>rmarkdown(v.2.15)</em>, <em>googledrive(v.2.0.0)</em>, <em>htmlwidgets(v.1.5.4)</em>, <em>munsell(v.0.5.0)</em>, <em>broom(v.1.0.0)</em>, <em>compiler(v.4.2.1)</em>, <em>modelr(v.0.1.9)</em>, <em>xfun(v.0.32)</em>, <em>pkgconfig(v.2.0.3)</em>, <em>htmltools(v.0.5.3)</em>, <em>tidyselect(v.1.1.2)</em>, <em>codetools(v.0.2-18)</em>, <em>fansi(v.1.0.3)</em>, <em>crayon(v.1.5.1)</em>, <em>tzdb(v.0.3.0)</em>, <em>dbplyr(v.2.2.1)</em>, <em>withr(v.2.5.0)</em>, <em>grid(v.4.2.1)</em>, <em>jsonlite(v.1.8.0)</em>, <em>gtable(v.0.3.1)</em>, <em>lifecycle(v.1.0.1)</em>, <em>DBI(v.1.1.3)</em>, <em>magrittr(v.2.0.3)</em>, <em>scales(v.1.2.1)</em>, <em>cli(v.3.3.0)</em>, <em>stringi(v.1.7.8)</em>, <em>fs(v.1.5.2)</em>, <em>xml2(v.1.3.3)</em>, <em>ellipsis(v.0.3.2)</em>, <em>generics(v.0.1.3)</em>, <em>vctrs(v.0.4.1)</em>, <em>tools(v.4.2.1)</em>, <em>glue(v.1.6.2)</em>, <em>hms(v.1.1.2)</em>, <em>fastmap(v.1.1.0)</em>, <em>yaml(v.2.3.5)</em>, <em>colorspace(v.2.0-3)</em>, <em>gargle(v.1.2.0)</em>, <em>rvest(v.1.0.3)</em>, <em>knitr(v.1.39)</em> and <em>haven(v.2.5.0)</em></p>
+<p><strong>other attached packages:</strong> <em>pander(v.0.6.5)</em>, <em>lubridate(v.1.8.0)</em>, <em>forcats(v.0.5.2)</em>, <em>stringr(v.1.4.1)</em>, <em>dplyr(v.1.0.10)</em>, <em>purrr(v.0.3.4)</em>, <em>readr(v.2.1.2)</em>, <em>tidyr(v.1.2.0)</em>, <em>tibble(v.3.1.8)</em>, <em>tidyverse(v.1.3.2)</em>, <em>pacman(v.0.5.1)</em>, <em>RColorBrewer(v.1.1-3)</em> and <em>ggplot2(v.3.3.6)</em></p>
+<p><strong>loaded via a namespace (and not attached):</strong> <em>Rcpp(v.1.0.9)</em>, <em>assertthat(v.0.2.1)</em>, <em>digest(v.0.6.29)</em>, <em>utf8(v.1.2.2)</em>, <em>R6(v.2.5.1)</em>, <em>cellranger(v.1.1.0)</em>, <em>backports(v.1.4.1)</em>, <em>reprex(v.2.0.2)</em>, <em>evaluate(v.0.16)</em>, <em>httr(v.1.4.4)</em>, <em>pillar(v.1.8.1)</em>, <em>rlang(v.1.0.5)</em>, <em>googlesheets4(v.1.0.1)</em>, <em>readxl(v.1.4.1)</em>, <em>rstudioapi(v.0.14)</em>, <em>fontawesome(v.0.3.0)</em>, <em>rmarkdown(v.2.16)</em>, <em>googledrive(v.2.0.0)</em>, <em>htmlwidgets(v.1.5.4)</em>, <em>munsell(v.0.5.0)</em>, <em>broom(v.1.0.1)</em>, <em>compiler(v.4.2.1)</em>, <em>modelr(v.0.1.9)</em>, <em>xfun(v.0.32)</em>, <em>pkgconfig(v.2.0.3)</em>, <em>htmltools(v.0.5.3)</em>, <em>tidyselect(v.1.1.2)</em>, <em>codetools(v.0.2-18)</em>, <em>fansi(v.1.0.3)</em>, <em>crayon(v.1.5.1)</em>, <em>tzdb(v.0.3.0)</em>, <em>dbplyr(v.2.2.1)</em>, <em>withr(v.2.5.0)</em>, <em>grid(v.4.2.1)</em>, <em>jsonlite(v.1.8.0)</em>, <em>gtable(v.0.3.1)</em>, <em>lifecycle(v.1.0.1)</em>, <em>DBI(v.1.1.3)</em>, <em>magrittr(v.2.0.3)</em>, <em>scales(v.1.2.1)</em>, <em>cli(v.3.3.0)</em>, <em>stringi(v.1.7.8)</em>, <em>fs(v.1.5.2)</em>, <em>xml2(v.1.3.3)</em>, <em>ellipsis(v.0.3.2)</em>, <em>generics(v.0.1.3)</em>, <em>vctrs(v.0.4.1)</em>, <em>tools(v.4.2.1)</em>, <em>glue(v.1.6.2)</em>, <em>hms(v.1.1.2)</em>, <em>fastmap(v.1.1.0)</em>, <em>yaml(v.2.3.5)</em>, <em>colorspace(v.2.0-3)</em>, <em>gargle(v.1.2.0)</em>, <em>rvest(v.1.0.3)</em>, <em>knitr(v.1.40)</em> and <em>haven(v.2.5.1)</em></p>
 </div>
 </div>
 <!-- -->
@@ -607,7 +639,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb6-109"><a href="#cb6-109" aria-hidden="true" tabindex="-1"></a><span class="co"># Check and install if these packages are not found locally on machine</span></span>
 <span id="cb6-110"><a href="#cb6-110" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">require</span>(pacman)<span class="sc">==</span><span class="cn">FALSE</span>) <span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span>
 <span id="cb6-111"><a href="#cb6-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, pander) <span class="co"># needed packages</span></span>
+<span id="cb6-112"><a href="#cb6-112" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, lubridate, pander) <span class="co"># needed packages</span></span>
 <span id="cb6-113"><a href="#cb6-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-115"><a href="#cb6-115" aria-hidden="true" tabindex="-1"></a></span>
@@ -617,150 +649,182 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb6-119"><a href="#cb6-119" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-120"><a href="#cb6-120" aria-hidden="true" tabindex="-1"></a>In this step, we merge the following datasets that were obtained in Steps 0--2:  </span>
 <span id="cb6-121"><a href="#cb6-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`vaccines`</span>, which contains <span class="in">`fips`</span>, <span class="in">`date`</span>, <span class="in">`recip_state`</span>, and  <span class="in">`series_completeness_pct`</span> (i.e., the percent of a county's population who are fully vaccinated);  </span>
-<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`phi_hat_tbl`</span>, which contains the estimated parameters for the logistic growth curve obtained via the <span class="in">`nls()`</span> and <span class="in">`spatial models`</span>.  We use the estimates from the spatial model to have our estimated vaccine pct per county over time, which we will smooth and constraint using the optimization model.    </span>
-<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`y_star_final`</span>, which contains the number of individuals vaccinated with a known state but unknown county over time.  </span>
+<span id="cb6-122"><a href="#cb6-122" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`vaccine_counts`</span>, which contains <span class="in">`fips`</span>, <span class="in">`date`</span>, <span class="in">`recip_state`</span>, and  <span class="in">`series_complete_yes`</span> (i.e., the total number of people who are fully vaccinated (have second dose of a two-dose vaccine or one dose of a single-dose vaccine) based on the jurisdiction and county where vaccine  recipient lives);  </span>
+<span id="cb6-123"><a href="#cb6-123" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`phi_hat_tbl`</span>, which contains the estimated parameters for the logistic growth curve obtained via the <span class="in">`nls()`</span> and <span class="in">`spatial models`</span>.  We use the estimates from the spatial model to have our estimated vaccine counts per county over time, which we will smooth and constraint using the optimization model.    </span>
+<span id="cb6-124"><a href="#cb6-124" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`total_vaccines_by_state`</span>, which contains the cumulative number of individuals vaccinated in a given state over time.  </span>
 <span id="cb6-125"><a href="#cb6-125" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In addition, we compute the <span class="in">`fraction of a state's population inhibited by each county`</span> from the <span class="in">`census2019`</span> variable within the <span class="in">`vaccines`</span> dataset since this will also be used in our optimization model.  </span>
 <span id="cb6-126"><a href="#cb6-126" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-127"><a href="#cb6-127" aria-hidden="true" tabindex="-1"></a><span class="in">```{r datasets}</span></span>
-<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] tibble containing series_completeness pct (vaccination rate) and time</span></span>
-<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a>vaccines <span class="ot">=</span> <span class="fu">read_rds</span>(<span class="st">"data/vaccines.rds"</span>) </span>
-<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a><span class="co"># [2] Recomputing the estimated vaccinate pcts from the spatial model </span></span>
-<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a><span class="do">## Computing the expected number of observations (i.e., months of data) per county</span></span>
-<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a>months_from_start <span class="ot">=</span> </span>
-<span id="cb6-136"><a href="#cb6-136" aria-hidden="true" tabindex="-1"></a>  <span class="fu">seq.Date</span>(<span class="at">from =</span> <span class="fu">min</span>(vaccines<span class="sc">$</span>date), <span class="at">to =</span> <span class="fu">max</span>(vaccines<span class="sc">$</span>date), <span class="at">by =</span> <span class="st">'month'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>()</span>
-<span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a><span class="do">## creating a vector of months from start</span></span>
-<span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a>months_from_start <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span>months_from_start</span>
-<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a><span class="do">## custom function for logistic growth curve</span></span>
-<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a>lgc_fit <span class="ot">=</span> <span class="cf">function</span>(p1, p2, p3, <span class="at">time =</span> months_from_start){</span>
-<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a>  p1<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>(p2<span class="sc">+</span>p3<span class="sc">*</span>time)))</span>
-<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-128"><a href="#cb6-128" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] tibble containing vaccines counts and time</span></span>
+<span id="cb6-129"><a href="#cb6-129" aria-hidden="true" tabindex="-1"></a>vaccine_counts <span class="ot">=</span> </span>
+<span id="cb6-130"><a href="#cb6-130" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_rds</span>(<span class="st">'data/raw_vaccines_tbl.rds'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-131"><a href="#cb6-131" aria-hidden="true" tabindex="-1"></a>  <span class="co"># selecting the subset of columns needed for the analysis</span></span>
+<span id="cb6-132"><a href="#cb6-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, fips, recip_county, recip_state, completeness_pct, series_complete_yes, series_complete_pop_pct,census2019) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-133"><a href="#cb6-133" aria-hidden="true" tabindex="-1"></a>  <span class="co"># removing non-contiguous US states</span></span>
+<span id="cb6-134"><a href="#cb6-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>recip_state <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'AK'</span>, <span class="st">'AS'</span>, <span class="st">'FM'</span>, <span class="st">'GU'</span>, <span class="st">'HI'</span>, </span>
+<span id="cb6-135"><a href="#cb6-135" aria-hidden="true" tabindex="-1"></a>                             <span class="st">'MH'</span>, <span class="st">'MP'</span>, <span class="st">'PR'</span>, <span class="st">'PW'</span>, <span class="st">'UNK'</span>, <span class="st">'VI'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-136"><a href="#cb6-136" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-137"><a href="#cb6-137" aria-hidden="true" tabindex="-1"></a>    <span class="co"># converting the date variable from chr to date</span></span>
+<span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">mdy</span>(date),</span>
+<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a>    <span class="co"># extracting the day of month from the data</span></span>
+<span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a>    <span class="at">day_of_month =</span> <span class="fu">day</span>(date)</span>
+<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filtering to the first of the month</span></span>
+<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(day_of_month <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a>  <span class="co"># arranging the data in an ascending order of date and fips codes</span></span>
+<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date, fips)</span>
 <span id="cb6-146"><a href="#cb6-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a><span class="do">## reloading the phi_matrix_tbl</span></span>
-<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a>predicted_rates <span class="ot">=</span> </span>
-<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_rds</span>(<span class="st">'data/phi_hat_tbl.rds'</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fips, <span class="fu">contains</span>(<span class="st">'hat'</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb6-152"><a href="#cb6-152" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">list</span>(<span class="fu">seq.Date</span>(<span class="at">from =</span> <span class="fu">min</span>(vaccines<span class="sc">$</span>date), <span class="at">to =</span> <span class="fu">max</span>(vaccines<span class="sc">$</span>date), <span class="at">by =</span> <span class="st">'month'</span>)),</span>
-<span id="cb6-153"><a href="#cb6-153" aria-hidden="true" tabindex="-1"></a>    <span class="at">spatial_fitted =</span> <span class="fu">pmap</span>(<span class="fu">list</span>(phi1_hat, phi2_hat, phi3_hat), <span class="at">.f =</span> lgc_fit )</span>
-<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-155"><a href="#cb6-155" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> <span class="fu">c</span>(date, spatial_fitted)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-156"><a href="#cb6-156" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">contains</span>(<span class="st">'hat'</span>))</span>
+<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a><span class="co"># [2] Recomputing the estimated vaccinate pcts from the spatial model and</span></span>
+<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a><span class="co"># we will convert it into counts</span></span>
+<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-152"><a href="#cb6-152" aria-hidden="true" tabindex="-1"></a><span class="do">## Computing the expected number of observations (i.e., months of data) per county</span></span>
+<span id="cb6-153"><a href="#cb6-153" aria-hidden="true" tabindex="-1"></a>months_from_start <span class="ot">=</span> </span>
+<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a>  <span class="fu">seq.Date</span>(<span class="at">from =</span> <span class="fu">min</span>(vaccine_counts<span class="sc">$</span>date), </span>
+<span id="cb6-155"><a href="#cb6-155" aria-hidden="true" tabindex="-1"></a>           <span class="at">to =</span> <span class="fu">max</span>(vaccine_counts<span class="sc">$</span>date), <span class="at">by =</span> <span class="st">'month'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-156"><a href="#cb6-156" aria-hidden="true" tabindex="-1"></a>  <span class="fu">length</span>()</span>
 <span id="cb6-157"><a href="#cb6-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-158"><a href="#cb6-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-159"><a href="#cb6-159" aria-hidden="true" tabindex="-1"></a><span class="co"># [3] a dataset of vaccinated individuals by state but with unknown counties</span></span>
-<span id="cb6-160"><a href="#cb6-160" aria-hidden="true" tabindex="-1"></a>y_star_final <span class="ot">=</span> </span>
-<span id="cb6-161"><a href="#cb6-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_rds</span>(<span class="st">'data/y_star_final.rds'</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-162"><a href="#cb6-162" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(recip_state, date, series_complete_yes) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-163"><a href="#cb6-163" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>( <span class="at">cols =</span> <span class="fu">c</span>(date, series_complete_yes) ) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-164"><a href="#cb6-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">unknowns =</span> series_complete_yes)</span>
+<span id="cb6-158"><a href="#cb6-158" aria-hidden="true" tabindex="-1"></a><span class="do">## creating a vector of months from start</span></span>
+<span id="cb6-159"><a href="#cb6-159" aria-hidden="true" tabindex="-1"></a>months_from_start <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span>months_from_start</span>
+<span id="cb6-160"><a href="#cb6-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-161"><a href="#cb6-161" aria-hidden="true" tabindex="-1"></a><span class="do">## custom function for logistic growth curve</span></span>
+<span id="cb6-162"><a href="#cb6-162" aria-hidden="true" tabindex="-1"></a>lgc_fit <span class="ot">=</span> <span class="cf">function</span>(p1, p2, p3, <span class="at">time =</span> months_from_start){</span>
+<span id="cb6-163"><a href="#cb6-163" aria-hidden="true" tabindex="-1"></a>  p1<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span>(p2<span class="sc">+</span>p3<span class="sc">*</span>time)))</span>
+<span id="cb6-164"><a href="#cb6-164" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb6-165"><a href="#cb6-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] converting the population to a fraction of a state's population</span></span>
-<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a>population_frac <span class="ot">=</span> </span>
-<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a>  vaccines <span class="sc">%&gt;%</span> </span>
-<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="fu">min</span>(date)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(recip_state) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(recip_state, fips, recip_county, census2019) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pop_frac =</span> census2019<span class="sc">/</span><span class="fu">sum</span>(census2019) ) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a><span class="co"># [5] Merging all the data together</span></span>
-<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a>merged_df <span class="ot">=</span> </span>
-<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a>  <span class="co"># merging the actual vaccine rates with estimated from the spatial model</span></span>
-<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb6-181"><a href="#cb6-181" aria-hidden="true" tabindex="-1"></a>    vaccines <span class="sc">%&gt;%</span> <span class="fu">select</span>(recip_state, fips, date, series_complete_pop_pct),</span>
-<span id="cb6-182"><a href="#cb6-182" aria-hidden="true" tabindex="-1"></a>    predicted_rates,</span>
-<span id="cb6-183"><a href="#cb6-183" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">'fips'</span> <span class="ot">=</span> <span class="st">'fips'</span>, <span class="st">'date'</span> <span class="ot">=</span> <span class="st">'date'</span>)</span>
-<span id="cb6-184"><a href="#cb6-184" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-185"><a href="#cb6-185" aria-hidden="true" tabindex="-1"></a>  <span class="co"># having a continuous time that starts at 0 for the optimization routine</span></span>
-<span id="cb6-186"><a href="#cb6-186" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fips) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-187"><a href="#cb6-187" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> <span class="fu">row_number</span>() <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-188"><a href="#cb6-188" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb6-189"><a href="#cb6-189" aria-hidden="true" tabindex="-1"></a>  <span class="co"># merging with the state unknowns</span></span>
-<span id="cb6-190"><a href="#cb6-190" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb6-191"><a href="#cb6-191" aria-hidden="true" tabindex="-1"></a>    y_star_final,</span>
-<span id="cb6-192"><a href="#cb6-192" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">'recip_state'</span> <span class="ot">=</span> <span class="st">'recip_state'</span>, <span class="st">'date'</span> <span class="ot">=</span> <span class="st">'date'</span>)</span>
-<span id="cb6-193"><a href="#cb6-193" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-194"><a href="#cb6-194" aria-hidden="true" tabindex="-1"></a>  <span class="co"># merging with fraction of population</span></span>
-<span id="cb6-195"><a href="#cb6-195" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb6-196"><a href="#cb6-196" aria-hidden="true" tabindex="-1"></a>    population_frac <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>recip_state),</span>
-<span id="cb6-197"><a href="#cb6-197" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">'fips'</span> <span class="ot">=</span> <span class="st">'fips'</span>)</span>
-<span id="cb6-198"><a href="#cb6-198" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-199"><a href="#cb6-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-200"><a href="#cb6-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-201"><a href="#cb6-201" aria-hidden="true" tabindex="-1"></a><span class="co"># [6] tibble to be used in the optimization</span></span>
-<span id="cb6-202"><a href="#cb6-202" aria-hidden="true" tabindex="-1"></a>opt_df <span class="ot">=</span> merged_df <span class="sc">%&gt;%</span> </span>
-<span id="cb6-203"><a href="#cb6-203" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(recip_state, fips, series_complete_pop_pct, spatial_fitted, time, unknowns, pop_frac)</span>
-<span id="cb6-204"><a href="#cb6-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-205"><a href="#cb6-205" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(<span class="at">x =</span> opt_df, <span class="at">file =</span> <span class="st">'data/merged_df.rds'</span>)</span>
-<span id="cb6-206"><a href="#cb6-206" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-207"><a href="#cb6-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-208"><a href="#cb6-208" aria-hidden="true" tabindex="-1"></a>The <span class="in">`opt_df`</span> contains <span class="in">`r nrow(opt_df)`</span> observations which corresponds to  $3108 \text{ (counties) } \times$ <span class="in">`r nrow(opt_df)/3108`</span> (time periods). In addition it contains the following columns: <span class="in">`r pander::pander(colnames(opt_df))`</span>.   </span>
-<span id="cb6-209"><a href="#cb6-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-210"><a href="#cb6-210" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb6-211"><a href="#cb6-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-212"><a href="#cb6-212" aria-hidden="true" tabindex="-1"></a><span class="fu"># Saving the Input Data for the Optimization</span></span>
-<span id="cb6-213"><a href="#cb6-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-214"><a href="#cb6-214" aria-hidden="true" tabindex="-1"></a><span class="fu">## Creating Custom Function for Preparing the Data for Each State</span></span>
-<span id="cb6-215"><a href="#cb6-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-216"><a href="#cb6-216" aria-hidden="true" tabindex="-1"></a>We created a custom function that builds on the <span class="in">`read.table()`</span> function to create a tab delimited output, which lists the dimension of the data frame in the first row, followed by the observations in the data frame. The <span class="in">`append = T`</span> argument allowed us to append the data and we saved the outputs from the function under the subfolder <span class="in">`optimization_inputs`</span> located within our <span class="in">`data`</span> folder. We named each file according to the state abbreviation.</span>
-<span id="cb6-217"><a href="#cb6-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-218"><a href="#cb6-218" aria-hidden="true" tabindex="-1"></a><span class="in">```{r custom_output_function}</span></span>
-<span id="cb6-219"><a href="#cb6-219" aria-hidden="true" tabindex="-1"></a>state_files <span class="ot">=</span> <span class="cf">function</span>(state, <span class="at">df =</span> opt_df){</span>
-<span id="cb6-220"><a href="#cb6-220" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filtering the data frame to the state of interest</span></span>
-<span id="cb6-221"><a href="#cb6-221" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">=</span> opt_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(recip_state <span class="sc">==</span> state)</span>
-<span id="cb6-222"><a href="#cb6-222" aria-hidden="true" tabindex="-1"></a>  dim_df <span class="ot">=</span> <span class="fu">paste</span>( <span class="fu">nrow</span>(df), <span class="fu">ncol</span>(df), <span class="at">sep =</span> <span class="st">'</span><span class="sc">\t</span><span class="st">'</span> )</span>
-<span id="cb6-223"><a href="#cb6-223" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb6-224"><a href="#cb6-224" aria-hidden="true" tabindex="-1"></a>  <span class="co"># writing the the dimensions of the df and the df itself to a tab sep file</span></span>
-<span id="cb6-225"><a href="#cb6-225" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(dim_df, <span class="at">quote =</span> F, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, <span class="at">row.names =</span> F, <span class="at">col.names =</span> F,</span>
-<span id="cb6-226"><a href="#cb6-226" aria-hidden="true" tabindex="-1"></a>              <span class="at">file =</span> <span class="fu">paste0</span>(<span class="st">'data/optimization_inputs/'</span>, state, <span class="st">'.txt'</span>) )</span>
-<span id="cb6-227"><a href="#cb6-227" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(df, <span class="at">quote =</span> F, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, <span class="at">row.names =</span> F, <span class="at">col.names =</span> F,</span>
-<span id="cb6-228"><a href="#cb6-228" aria-hidden="true" tabindex="-1"></a>              <span class="at">file =</span> <span class="fu">paste0</span>(<span class="st">'data/optimization_inputs/'</span>, state, <span class="st">'.txt'</span>),</span>
-<span id="cb6-229"><a href="#cb6-229" aria-hidden="true" tabindex="-1"></a>              <span class="at">append =</span> T)</span>
-<span id="cb6-230"><a href="#cb6-230" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-231"><a href="#cb6-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-232"><a href="#cb6-232" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-233"><a href="#cb6-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-234"><a href="#cb6-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-235"><a href="#cb6-235" aria-hidden="true" tabindex="-1"></a><span class="fu">## Utilizing the Custom Function for Saving the Files</span></span>
-<span id="cb6-236"><a href="#cb6-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-237"><a href="#cb6-237" aria-hidden="true" tabindex="-1"></a>Here, we utilized a vectorized approach to create the files for each state. Below, we print the number of created files as a <span class="in">`sanity`</span> check. </span>
+<span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a><span class="do">## reloading the phi_matrix_tbl</span></span>
+<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a>predicted_rates <span class="ot">=</span> </span>
+<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_rds</span>(<span class="st">'data/phi_hat_tbl.rds'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fips, <span class="fu">contains</span>(<span class="st">'hat'</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">list</span>(</span>
+<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a>      <span class="fu">seq.Date</span>(<span class="at">from =</span> <span class="fu">min</span>(vaccine_counts<span class="sc">$</span>date),</span>
+<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a>               <span class="at">to =</span> <span class="fu">max</span>(vaccine_counts<span class="sc">$</span>date),</span>
+<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a>               <span class="at">by =</span> <span class="st">'month'</span>)),</span>
+<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a>    <span class="at">spatial_fitted =</span> <span class="fu">pmap</span>(<span class="fu">list</span>(phi1_hat, phi2_hat, phi3_hat), <span class="at">.f =</span> lgc_fit )</span>
+<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> <span class="fu">c</span>(date, spatial_fitted)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">contains</span>(<span class="st">'hat'</span>))</span>
+<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-181"><a href="#cb6-181" aria-hidden="true" tabindex="-1"></a><span class="co"># [3] total vaccine counts (not pcts) by state</span></span>
+<span id="cb6-182"><a href="#cb6-182" aria-hidden="true" tabindex="-1"></a>total_vaccines_by_state <span class="ot">=</span> </span>
+<span id="cb6-183"><a href="#cb6-183" aria-hidden="true" tabindex="-1"></a>  vaccine_counts <span class="sc">%&gt;%</span> </span>
+<span id="cb6-184"><a href="#cb6-184" aria-hidden="true" tabindex="-1"></a>  <span class="co"># grouping by state</span></span>
+<span id="cb6-185"><a href="#cb6-185" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(date, recip_state) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-186"><a href="#cb6-186" aria-hidden="true" tabindex="-1"></a>  <span class="co"># creating an aggregated sum of the series_complete_yes by state</span></span>
+<span id="cb6-187"><a href="#cb6-187" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">state_totals =</span> <span class="fu">sum</span>(series_complete_yes, <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-188"><a href="#cb6-188" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ungroup</span></span>
+<span id="cb6-189"><a href="#cb6-189" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-190"><a href="#cb6-190" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(recip_state, date)</span>
+<span id="cb6-191"><a href="#cb6-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-192"><a href="#cb6-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-193"><a href="#cb6-193" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] converting the population to a fraction of a state's population</span></span>
+<span id="cb6-194"><a href="#cb6-194" aria-hidden="true" tabindex="-1"></a>population_frac <span class="ot">=</span> </span>
+<span id="cb6-195"><a href="#cb6-195" aria-hidden="true" tabindex="-1"></a>  vaccine_counts <span class="sc">%&gt;%</span> </span>
+<span id="cb6-196"><a href="#cb6-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="fu">min</span>(date)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-197"><a href="#cb6-197" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(recip_state) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-198"><a href="#cb6-198" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(recip_state, fips, recip_county, census2019) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-199"><a href="#cb6-199" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pop_frac =</span> census2019<span class="sc">/</span><span class="fu">sum</span>(census2019, <span class="at">na.rm =</span> T) ) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-200"><a href="#cb6-200" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb6-201"><a href="#cb6-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-202"><a href="#cb6-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-203"><a href="#cb6-203" aria-hidden="true" tabindex="-1"></a><span class="co"># [5] Merging all the data together</span></span>
+<span id="cb6-204"><a href="#cb6-204" aria-hidden="true" tabindex="-1"></a>merged_df <span class="ot">=</span> </span>
+<span id="cb6-205"><a href="#cb6-205" aria-hidden="true" tabindex="-1"></a>  <span class="co"># merging the actual vaccine rates with estimated from the spatial model</span></span>
+<span id="cb6-206"><a href="#cb6-206" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb6-207"><a href="#cb6-207" aria-hidden="true" tabindex="-1"></a>    predicted_rates,</span>
+<span id="cb6-208"><a href="#cb6-208" aria-hidden="true" tabindex="-1"></a>    vaccine_counts <span class="sc">%&gt;%</span> <span class="fu">select</span>(recip_state, fips, date, series_complete_yes),</span>
+<span id="cb6-209"><a href="#cb6-209" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">'fips'</span> <span class="ot">=</span> <span class="st">'fips'</span>, <span class="st">'date'</span> <span class="ot">=</span> <span class="st">'date'</span>)</span>
+<span id="cb6-210"><a href="#cb6-210" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-211"><a href="#cb6-211" aria-hidden="true" tabindex="-1"></a>  <span class="co"># having a continuous time that starts at 0 for the optimization routine</span></span>
+<span id="cb6-212"><a href="#cb6-212" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(fips) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-213"><a href="#cb6-213" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> <span class="fu">row_number</span>() <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-214"><a href="#cb6-214" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-215"><a href="#cb6-215" aria-hidden="true" tabindex="-1"></a>  <span class="co"># merging with the state unknowns</span></span>
+<span id="cb6-216"><a href="#cb6-216" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb6-217"><a href="#cb6-217" aria-hidden="true" tabindex="-1"></a>    total_vaccines_by_state,</span>
+<span id="cb6-218"><a href="#cb6-218" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">'recip_state'</span> <span class="ot">=</span> <span class="st">'recip_state'</span>, <span class="st">'date'</span> <span class="ot">=</span> <span class="st">'date'</span>)</span>
+<span id="cb6-219"><a href="#cb6-219" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-220"><a href="#cb6-220" aria-hidden="true" tabindex="-1"></a>  <span class="co"># merging with fraction of population</span></span>
+<span id="cb6-221"><a href="#cb6-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb6-222"><a href="#cb6-222" aria-hidden="true" tabindex="-1"></a>    population_frac <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>recip_state),</span>
+<span id="cb6-223"><a href="#cb6-223" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">'fips'</span> <span class="ot">=</span> <span class="st">'fips'</span>)</span>
+<span id="cb6-224"><a href="#cb6-224" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-225"><a href="#cb6-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-226"><a href="#cb6-226" aria-hidden="true" tabindex="-1"></a>merged_df <span class="ot">=</span> merged_df <span class="sc">%&gt;%</span> </span>
+<span id="cb6-227"><a href="#cb6-227" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-228"><a href="#cb6-228" aria-hidden="true" tabindex="-1"></a>    <span class="at">spatial_fitted =</span> <span class="fu">round</span>(<span class="fl">0.01</span><span class="sc">*</span>spatial_fitted<span class="sc">*</span>census2019, </span>
+<span id="cb6-229"><a href="#cb6-229" aria-hidden="true" tabindex="-1"></a>                           <span class="at">digits =</span> <span class="dv">0</span>) )</span>
+<span id="cb6-230"><a href="#cb6-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-231"><a href="#cb6-231" aria-hidden="true" tabindex="-1"></a><span class="co"># [6] tibble to be used in the optimization</span></span>
+<span id="cb6-232"><a href="#cb6-232" aria-hidden="true" tabindex="-1"></a>opt_df <span class="ot">=</span> merged_df <span class="sc">%&gt;%</span> </span>
+<span id="cb6-233"><a href="#cb6-233" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(recip_state, fips, series_complete_yes, </span>
+<span id="cb6-234"><a href="#cb6-234" aria-hidden="true" tabindex="-1"></a>         spatial_fitted, time, state_totals, pop_frac)</span>
+<span id="cb6-235"><a href="#cb6-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-236"><a href="#cb6-236" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(<span class="at">x =</span> opt_df, <span class="at">file =</span> <span class="st">'data/merged_df.rds'</span>)</span>
+<span id="cb6-237"><a href="#cb6-237" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb6-238"><a href="#cb6-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-239"><a href="#cb6-239" aria-hidden="true" tabindex="-1"></a><span class="in">```{r custom_func_usage, results='asis'}</span></span>
-<span id="cb6-240"><a href="#cb6-240" aria-hidden="true" tabindex="-1"></a><span class="co"># a vector of the continguous states and DC</span></span>
-<span id="cb6-241"><a href="#cb6-241" aria-hidden="true" tabindex="-1"></a>states <span class="ot">=</span> <span class="fu">unique</span>(opt_df<span class="sc">$</span>recip_state)</span>
+<span id="cb6-239"><a href="#cb6-239" aria-hidden="true" tabindex="-1"></a>The <span class="in">`opt_df`</span> contains <span class="in">`r nrow(opt_df)`</span> observations which corresponds to  $3108 \text{ (counties) } \times$ <span class="in">`r nrow(opt_df)/3108`</span> (time periods). In addition it contains the following columns: <span class="in">`r pander::pander(colnames(opt_df))`</span>.   </span>
+<span id="cb6-240"><a href="#cb6-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-241"><a href="#cb6-241" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb6-242"><a href="#cb6-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-243"><a href="#cb6-243" aria-hidden="true" tabindex="-1"></a><span class="co"># using purrr::map to apply our custom function with the states vector</span></span>
-<span id="cb6-244"><a href="#cb6-244" aria-hidden="true" tabindex="-1"></a>tabbed_files <span class="ot">=</span> <span class="fu">map</span>(<span class="at">.x =</span> states, <span class="at">.f =</span> state_files)</span>
-<span id="cb6-245"><a href="#cb6-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-246"><a href="#cb6-246" aria-hidden="true" tabindex="-1"></a><span class="co"># checking the number of files in the directory</span></span>
-<span id="cb6-247"><a href="#cb6-247" aria-hidden="true" tabindex="-1"></a>files <span class="ot">=</span> <span class="fu">list.files</span>(<span class="st">"data/optimization_inputs/"</span>, <span class="at">pattern=</span><span class="st">"txt"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-243"><a href="#cb6-243" aria-hidden="true" tabindex="-1"></a><span class="fu"># Saving the Input Data for the Optimization</span></span>
+<span id="cb6-244"><a href="#cb6-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-245"><a href="#cb6-245" aria-hidden="true" tabindex="-1"></a><span class="fu">## Creating Custom Function for Preparing the Data for Each State</span></span>
+<span id="cb6-246"><a href="#cb6-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-247"><a href="#cb6-247" aria-hidden="true" tabindex="-1"></a>We created a custom function that builds on the <span class="in">`read.table()`</span> function to create a tab delimited output, which lists the dimension of the data frame in the first row, followed by the observations in the data frame. The <span class="in">`append = T`</span> argument allowed us to append the data and we saved the outputs from the function under the subfolder <span class="in">`optimization_inputs`</span> located within our <span class="in">`data`</span> folder. We named each file according to the state abbreviation.</span>
 <span id="cb6-248"><a href="#cb6-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-249"><a href="#cb6-249" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>( </span>
-<span id="cb6-250"><a href="#cb6-250" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">'We have created '</span>, <span class="fu">length</span>(files),</span>
-<span id="cb6-251"><a href="#cb6-251" aria-hidden="true" tabindex="-1"></a>         <span class="st">' input files for the optimization model'</span>)</span>
-<span id="cb6-252"><a href="#cb6-252" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-253"><a href="#cb6-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-254"><a href="#cb6-254" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-255"><a href="#cb6-255" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-256"><a href="#cb6-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-257"><a href="#cb6-257" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb6-258"><a href="#cb6-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-259"><a href="#cb6-259" aria-hidden="true" tabindex="-1"></a><span class="fu"># Appendix</span></span>
-<span id="cb6-260"><a href="#cb6-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-261"><a href="#cb6-261" aria-hidden="true" tabindex="-1"></a>In this appendix, we print all the <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> packages used in our analysis and their versions to assist with reproducing our results/analysis.</span>
-<span id="cb6-262"><a href="#cb6-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-263"><a href="#cb6-263" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sessionInfo}</span></span>
-<span id="cb6-264"><a href="#cb6-264" aria-hidden="true" tabindex="-1"></a><span class="fu">pander</span>(<span class="fu">sessionInfo</span>(), <span class="at">compact =</span> <span class="cn">TRUE</span>) <span class="co"># printing the session info</span></span>
-<span id="cb6-265"><a href="#cb6-265" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-249"><a href="#cb6-249" aria-hidden="true" tabindex="-1"></a><span class="in">```{r custom_output_function}</span></span>
+<span id="cb6-250"><a href="#cb6-250" aria-hidden="true" tabindex="-1"></a>state_files <span class="ot">=</span> <span class="cf">function</span>(state, <span class="at">df =</span> opt_df){</span>
+<span id="cb6-251"><a href="#cb6-251" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filtering the data frame to the state of interest</span></span>
+<span id="cb6-252"><a href="#cb6-252" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">=</span> opt_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(recip_state <span class="sc">==</span> state) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-253"><a href="#cb6-253" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>recip_state)</span>
+<span id="cb6-254"><a href="#cb6-254" aria-hidden="true" tabindex="-1"></a>  dim_df <span class="ot">=</span> <span class="fu">paste</span>( <span class="fu">nrow</span>(df), <span class="fu">ncol</span>(df), <span class="at">sep =</span> <span class="st">'</span><span class="sc">\t</span><span class="st">'</span> )</span>
+<span id="cb6-255"><a href="#cb6-255" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-256"><a href="#cb6-256" aria-hidden="true" tabindex="-1"></a>  <span class="co"># writing the the dimensions of the df and the df itself to a tab sep file</span></span>
+<span id="cb6-257"><a href="#cb6-257" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(dim_df, <span class="at">quote =</span> F, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, <span class="at">row.names =</span> F, <span class="at">col.names =</span> F,</span>
+<span id="cb6-258"><a href="#cb6-258" aria-hidden="true" tabindex="-1"></a>              <span class="at">file =</span> <span class="fu">paste0</span>(<span class="st">'data/optimization_inputs/'</span>, state, <span class="st">'.txt'</span>) )</span>
+<span id="cb6-259"><a href="#cb6-259" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write.table</span>(df, <span class="at">quote =</span> F, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, <span class="at">row.names =</span> F, <span class="at">col.names =</span> F,</span>
+<span id="cb6-260"><a href="#cb6-260" aria-hidden="true" tabindex="-1"></a>              <span class="at">file =</span> <span class="fu">paste0</span>(<span class="st">'data/optimization_inputs/'</span>, state, <span class="st">'.txt'</span>),</span>
+<span id="cb6-261"><a href="#cb6-261" aria-hidden="true" tabindex="-1"></a>              <span class="at">append =</span> T)</span>
+<span id="cb6-262"><a href="#cb6-262" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-263"><a href="#cb6-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-264"><a href="#cb6-264" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-265"><a href="#cb6-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-266"><a href="#cb6-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-267"><a href="#cb6-267" aria-hidden="true" tabindex="-1"></a><span class="fu">## Utilizing the Custom Function for Saving the Files</span></span>
+<span id="cb6-268"><a href="#cb6-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-269"><a href="#cb6-269" aria-hidden="true" tabindex="-1"></a>Here, we utilized a vectorized approach to create the files for each state. Below, we print the number of created files as a <span class="in">`sanity`</span> check. </span>
+<span id="cb6-270"><a href="#cb6-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-271"><a href="#cb6-271" aria-hidden="true" tabindex="-1"></a><span class="in">```{r custom_func_usage, results='asis'}</span></span>
+<span id="cb6-272"><a href="#cb6-272" aria-hidden="true" tabindex="-1"></a><span class="co"># a vector of the continguous states and DC</span></span>
+<span id="cb6-273"><a href="#cb6-273" aria-hidden="true" tabindex="-1"></a>states <span class="ot">=</span> <span class="fu">unique</span>(opt_df<span class="sc">$</span>recip_state)</span>
+<span id="cb6-274"><a href="#cb6-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-275"><a href="#cb6-275" aria-hidden="true" tabindex="-1"></a><span class="co"># using purrr::map to apply our custom function with the states vector</span></span>
+<span id="cb6-276"><a href="#cb6-276" aria-hidden="true" tabindex="-1"></a>tabbed_files <span class="ot">=</span> <span class="fu">map</span>(<span class="at">.x =</span> states, <span class="at">.f =</span> state_files)</span>
+<span id="cb6-277"><a href="#cb6-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-278"><a href="#cb6-278" aria-hidden="true" tabindex="-1"></a><span class="co"># checking the number of files in the directory</span></span>
+<span id="cb6-279"><a href="#cb6-279" aria-hidden="true" tabindex="-1"></a>files <span class="ot">=</span> <span class="fu">list.files</span>(<span class="st">"data/optimization_inputs/"</span>, <span class="at">pattern=</span><span class="st">"txt"</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-280"><a href="#cb6-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-281"><a href="#cb6-281" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>( </span>
+<span id="cb6-282"><a href="#cb6-282" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">'We have created '</span>, <span class="fu">length</span>(files),</span>
+<span id="cb6-283"><a href="#cb6-283" aria-hidden="true" tabindex="-1"></a>         <span class="st">' input files for the optimization model'</span>)</span>
+<span id="cb6-284"><a href="#cb6-284" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-285"><a href="#cb6-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-286"><a href="#cb6-286" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-287"><a href="#cb6-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-288"><a href="#cb6-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-289"><a href="#cb6-289" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb6-290"><a href="#cb6-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-291"><a href="#cb6-291" aria-hidden="true" tabindex="-1"></a><span class="fu"># Appendix</span></span>
+<span id="cb6-292"><a href="#cb6-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-293"><a href="#cb6-293" aria-hidden="true" tabindex="-1"></a>In this appendix, we print all the <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> packages used in our analysis and their versions to assist with reproducing our results/analysis.</span>
+<span id="cb6-294"><a href="#cb6-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-295"><a href="#cb6-295" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sessionInfo}</span></span>
+<span id="cb6-296"><a href="#cb6-296" aria-hidden="true" tabindex="-1"></a><span class="fu">pander</span>(<span class="fu">sessionInfo</span>(), <span class="at">compact =</span> <span class="cn">TRUE</span>) <span class="co"># printing the session info</span></span>
+<span id="cb6-297"><a href="#cb6-297" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
