@@ -4,3 +4,6 @@ covid_deaths_files/
 covid_analysis_final_files/
 trials/
 markdown_basics_files/
+.Rproj.user
+intro_rmarkdown_cache/
+intro_rmarkdown_files/

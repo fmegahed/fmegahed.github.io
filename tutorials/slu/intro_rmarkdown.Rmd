@@ -1,0 +1,79 @@
+---
+title: "An Introduction to R Markdown"
+author: "Fadel M. Megahed"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: 
+  html_document:
+    code_download: TRUE
+    code_folding: show
+    df_print: paged
+    number_sections: TRUE
+    theme: readable
+    toc: TRUE
+    toc_depth: 3
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      cache = TRUE)
+
+# Setting the random seed and chunk dependencies
+knitr::opts_chunk$set(cache.extra = set.seed(2021),
+                      autodep = TRUE) 
+knitr::dep_auto()
+```
+
+# R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+library(DT)
+datatable(cars)
+```
+
+# Including Plots {.tabset .tabset-pills .tabset-fade}
+
+## Pressure {-}
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+## Cars {-}
+```{r plot2, echo=FALSE}
+plot(cars)
+```
+
+```{r mtcars, echo=FALSE, results='asis'}
+df = mtcars
+
+for (i in 1:2) {
+  cat(paste('## Plot', i+2, '{-} \n \n') )
+  plot(mtcars[,i], mtcars[,i+1])
+  cat('\n \n')
+}
+```
+
+# GGplot
+
+
+```{r, results='asis'}
+library(tidyverse)
+library(plotly)
+df = iris
+
+iris %>% ggplot(aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point() + theme_bw() + theme(legend.position = 'bottom') -> p1
+
+invisible(ggsave(filename = 'figs/iris_plot.png', plot = p1) )
+
+plotly::ggplotly(p = p1)
+```
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
