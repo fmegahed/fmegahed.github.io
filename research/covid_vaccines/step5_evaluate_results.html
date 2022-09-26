@@ -9,7 +9,7 @@
 <meta name="author" content="Fadel M. Megahed">
 <meta name="author" content="Allison Jones-Farmer">
 <meta name="author" content="Steve Rigdon">
-<meta name="dcterms.date" content="2022-09-22">
+<meta name="dcterms.date" content="2022-09-25">
 <title>COVID-19 Vaccines by County</title>
 <style>
 code{white-space: pre-wrap;}
@@ -104,6 +104,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="#objectives-of-this-document" id="toc-objectives-of-this-document" class="nav-link active" data-scroll-target="#objectives-of-this-document"> <span class="header-section-number">1</span> Objectives of this Document</a></li>
   <li><a href="#r-setup-and-required-packages" id="toc-r-setup-and-required-packages" class="nav-link" data-scroll-target="#r-setup-and-required-packages"> <span class="header-section-number">2</span> R Setup and Required Packages</a></li>
   <li><a href="#reading-the-optimization-model-results" id="toc-reading-the-optimization-model-results" class="nav-link" data-scroll-target="#reading-the-optimization-model-results"> <span class="header-section-number">3</span> Reading the Optimization Model Results</a></li>
+  <li><a href="#plotting-the-optimization-model-results" id="toc-plotting-the-optimization-model-results" class="nav-link" data-scroll-target="#plotting-the-optimization-model-results"> <span class="header-section-number">4</span> Plotting the Optimization Model Results</a></li>
   </ul></nav>
 </div>
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
@@ -164,7 +165,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 22, 2022</p>
+      <p class="date">September 25, 2022</p>
     </div>
   </div>
     
@@ -188,7 +189,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span><span class="co"># Check and install if these packages are not found locally on machine</span></span>
 <span><span class="kw">if</span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/trinker/pacman">pacman</a></span><span class="op">)</span><span class="op">==</span><span class="cn">FALSE</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"pacman"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">tidyverse</span>, <span class="va">lubridate</span>, <span class="va">pander</span>, <span class="va">qdapRegex</span><span class="op">)</span> <span class="co"># needed packages</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu">pacman</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">tidyverse</span>, <span class="va">lubridate</span>, <span class="va">pander</span>, <span class="va">qdapRegex</span>, <span class="va">plotly</span>, <span class="va">magick</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr></section><section id="reading-the-optimization-model-results" class="level1" data-number="3"><h1 data-number="3">
 <span class="header-section-number">3</span> Reading the Optimization Model Results</h1>
@@ -210,9 +211,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
 <li>We extract the counts and state totals reported by CDC as computed by our <a href="https://fmegahed.github.io/research/covid_vaccines/step3_optimization_prep.html">step3_optimization_prep.html</a> file, which we stored in <code>data/merged_df.rds</code> and assign to an object titled <code>reported_actuals</code><br>
 </li>
-<li>We use a <code>left_join()</code> to merge the <code>reported_actuals</code> with our <code>opt_results</code> object and export the merged object to a CSV file.</li>
+<li>We use a <code>left_join()</code> to merge the <code>reported_actuals</code> with our <code>opt_results</code> object and export the merged object to CSV and RDS files.</li>
 </ul>
-<div class="cell" data-hash="step5_evaluate_results_cache/html/read_opt_results_e80f7ee0d692bbd341e5c6ff599fb151">
+<div class="cell" data-hash="step5_evaluate_results_cache/html/read_opt_results_a817730e80717d4f76e2be1189fda1be">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">opt_file_paths</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">'data/optimization_results/'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">opt_results</span> <span class="op">=</span> <span class="fu">map_df</span><span class="op">(</span></span>
@@ -230,7 +231,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span>      <span class="co"># optimality_gap, and # solution time</span></span>
 <span>      <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>      <span class="co"># renaming the columns to understandable column names</span></span>
-<span>      <span class="fu">rename</span><span class="op">(</span>fips <span class="op">=</span> <span class="va">X10</span>, counts_spatial <span class="op">=</span> <span class="va">X2</span>, counts_opt_model <span class="op">=</span> <span class="va">X4</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>      <span class="fu">rename</span><span class="op">(</span>fips <span class="op">=</span> <span class="va">X10</span>, counts_opt_model <span class="op">=</span> <span class="va">X2</span>, counts_spatial <span class="op">=</span> <span class="va">X4</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>      <span class="co"># string padding the fips to five digits</span></span>
 <span>      <span class="fu">mutate</span><span class="op">(</span></span>
 <span>        recip_state <span class="op">=</span> <span class="va">state_name</span>,</span>
@@ -257,6 +258,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span>    x <span class="op">=</span> <span class="va">opt_results</span>, y<span class="op">=</span> <span class="va">reported_actuals</span>, </span>
 <span>    by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'fips'</span> <span class="op">=</span> <span class="st">'fips'</span>, <span class="st">'time'</span> <span class="op">=</span> <span class="st">'time'</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">left_join</span><span class="op">(</span>y <span class="op">=</span> <span class="fu">read_rds</span><span class="op">(</span><span class="st">'data/vaccines.rds'</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>              <span class="fu">select</span><span class="op">(</span><span class="va">fips</span>, <span class="va">recip_county</span><span class="op">)</span>,</span>
+<span>            by <span class="op">=</span><span class="st">'fips'</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="co"># time start at 1 (instead of 0) and shifting other indices accordingly</span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>time <span class="op">=</span> <span class="va">time</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
@@ -264,8 +268,77 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span><span class="fu">write_csv</span><span class="op">(</span>x <span class="op">=</span> <span class="va">opt_results</span>, file <span class="op">=</span> <span class="st">'data/optimization_results_cleaned.csv'</span><span class="op">)</span></span>
 <span><span class="fu">write_rds</span><span class="op">(</span>x <span class="op">=</span> <span class="va">opt_results</span>, file <span class="op">=</span> <span class="st">'data/optimization_results_cleaned.rds'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<hr></section><section id="plotting-the-optimization-model-results" class="level1" data-number="4"><h1 data-number="4">
+<span class="header-section-number">4</span> Plotting the Optimization Model Results</h1>
+<p>In the code chunk below, we extract the states for which we have smoothed the spatial model based on the constraints and optimization model introduced in <code>step4</code>. For each state, we create a panel plot, showing the CDC reported counts, counts obtained from our spatial model, and counts obtained from our optimization model over time for a given county. If the state has 10 or less counties, we do not sample; otherwise, we show a random sample of 10 counties from that state. The results are shown through an animated <code>mp4</code> video, which can be paused and controlled using the video’s control buttons.</p>
+<div class="cell" data-hash="step5_evaluate_results_cache/html/sample_data_plot_24a71c042c0c480ff416f1aa56d6dfc1">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">states</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">opt_results</span><span class="op">$</span><span class="va">recip_state</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plots</span> <span class="op">=</span> <span class="fu">map</span><span class="op">(</span>.x <span class="op">=</span> <span class="va">states</span>,</span>
+<span>      .f <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">df</span> <span class="op">=</span> <span class="va">opt_results</span><span class="op">)</span><span class="op">{</span></span>
+<span>        </span>
+<span>        <span class="co"># filtering for a specific state</span></span>
+<span>        <span class="va">state_tbl</span> <span class="op">=</span> <span class="va">df</span> <span class="op">%&gt;%</span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">recip_state</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span></span>
+<span>        </span>
+<span>        <span class="co"># converting to long_data</span></span>
+<span>        <span class="va">long_data</span> <span class="op">=</span> <span class="va">state_tbl</span> <span class="op">%&gt;%</span> </span>
+<span>          <span class="fu">pivot_longer</span><span class="op">(</span></span>
+<span>            <span class="va">counts_spatial</span><span class="op">:</span><span class="va">cdc_reported</span>, </span>
+<span>            names_to <span class="op">=</span> <span class="st">'models'</span>,</span>
+<span>            values_to <span class="op">=</span> <span class="st">'counts'</span><span class="op">)</span></span>
+<span>        </span>
+<span>        <span class="co"># sampling ten or all counties from a state (whichever is smaller)</span></span>
+<span>        <span class="va">counties_in_state</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">long_data</span><span class="op">$</span><span class="va">fips</span><span class="op">)</span></span>
+<span>        <span class="va">num_counties</span> <span class="op">=</span> <span class="va">counties_in_state</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>        </span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span><span class="op">(</span></span>
+<span>          <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">num_counties</span> <span class="op">&lt;=</span><span class="fl">10</span>,</span>
+<span>                 <span class="va">fips_sample</span> <span class="op">&lt;-</span> <span class="va">counties_in_state</span>,</span>
+<span>                 <span class="va">fips_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">counties_in_state</span>, <span class="fl">10</span><span class="op">)</span> <span class="op">)</span></span>
+<span>        <span class="op">)</span></span>
+<span>        </span>
+<span>        <span class="co"># setting the color panel with colors based on the Dark2 colorbrewer pal</span></span>
+<span>        <span class="va">color_pal</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#1B9E77"</span>, <span class="st">"#D95F02"</span>, <span class="st">"#7570B3"</span><span class="op">)</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">color_pal</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'cdc_reported'</span>, <span class="st">'counts_opt_model'</span>, <span class="st">'counts_spatial'</span><span class="op">)</span></span>
+<span>        </span>
+<span>        <span class="co"># creating the static plot</span></span>
+<span>        <span class="va">long_data</span> <span class="op">%&gt;%</span> </span>
+<span>          <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">fips</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">fips_sample</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>          <span class="fu">mutate</span><span class="op">(</span>county_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">recip_county</span>, <span class="va">recip_state</span>, sep <span class="op">=</span> <span class="st">', '</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>          <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y<span class="op">=</span> <span class="va">counts</span>, color <span class="op">=</span> <span class="va">models</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>          <span class="fu">geom_line</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>          <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>          <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">color_pal</span><span class="op">)</span> <span class="op">+</span></span>
+<span>          <span class="fu">scale_y_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/pretty_breaks.html">pretty_breaks</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">5</span><span class="op">)</span>, </span>
+<span>                             labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span>          <span class="fu">scale_x_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/pretty_breaks.html">pretty_breaks</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>          <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">county_name</span>, ncol <span class="op">=</span> <span class="fl">2</span>, scales <span class="op">=</span> <span class="st">'free_y'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>          <span class="fu">theme_bw</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>          <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">'bottom'</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">p</span></span>
+<span>        </span>
+<span>        <span class="fu">ggsave</span><span class="op">(</span>filename <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">'figs/opt_results/'</span>, <span class="va">x</span>, <span class="st">'.png'</span><span class="op">)</span>,</span>
+<span>               plot <span class="op">=</span> <span class="va">p</span>,</span>
+<span>               width<span class="op">=</span><span class="fl">10</span>, height<span class="op">=</span><span class="fl">6</span><span class="op">)</span></span>
+<span>        </span>
+<span>       <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
+<span>      <span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># read the generated figures and convert them into a video</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="st">'figs/opt_results/'</span>, full.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">map</span><span class="op">(</span>.f <span class="op">=</span> <span class="va">image_read</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># reads each img from the extracted path file</span></span>
+<span>  <span class="fu">image_join</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="co"># joins the images</span></span>
+<span>  <span class="fu">image_write_video</span><span class="op">(</span>path <span class="op">=</span><span class="st">"figs/sample_opt_results.mp4"</span>, framerate <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># include the video in the code output</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">'figs/sample_opt_results.mp4'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="step5_evaluate_results_cache/html/sample_data_plot_show_813807d641cf984cb3cbb2196f5ab171">
+<div class="cell-output-display">
+<p><video src="figs/sample_opt_results.mp4" class="img-fluid" controls=""><a href="figs/sample_opt_results.mp4">Video</a></video></p>
+</div>
+</div>
+<hr>
 <!-- -->
-
 </section></main><!-- /main column --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -414,189 +487,271 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "COVID-19 Vaccines by County"</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Step 5: Examining the Outputs from the Optimization Model"</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Maciej Rysz</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0003-2667-0398</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">    email: ryszmw@miamioh.edu</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: Farmer School of Business, Miami University</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">        address: 800 E. High St.</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">        city: Oxford</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">        state: OH</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">        postal-code: 45056</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Longwen Zhao</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">    email: longwen.zhao@slu.edu</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: College for Public Health and Social Justice, Saint Louis University</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">        address: 3545 Lafayette Ave</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">        city: St. Louis</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">        state: MO</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">        postal-code: 63104</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Fadel M. Megahed</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0003-2194-5110</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co">    email: fmegahed@miamioh.edu</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co">    corresponding: true</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: Farmer School of Business, Miami University</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co">        address: 800 E. High St.</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co">        city: Oxford</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co">        state: OH</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">        postal-code: 45056</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Allison Jones-Farmer</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0002-1529-1133</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co">    email: farmerl2@miamioh.edu</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: Farmer School of Business, Miami University</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co">        address: 800 E. High St.</span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co">        city: Oxford</span></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co">        state: OH</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co">        postal-code: 45056</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Steve Rigdon</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0001-7668-0899</span></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="co">    email: steve.rigdon@slu.edu</span></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: College for Public Health and Social Justice, Saint Louis University</span></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="co">        address: 3545 Lafayette Ave</span></span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="co">        city: St. Louis</span></span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="co">        state: MO</span></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="co">        postal-code: 63104</span></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "`r format(Sys.time(), '%B %d, %Y')`"</span></span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="co">    code-download: true</span></span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="co">    highlight-style: pygments</span></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="co">    paged-df: true</span></span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-float: true</span></span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="co">    include-in-header: structure.tex</span></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>  <span class="at">cache =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>  <span class="at">warning =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>  <span class="at">message =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.path =</span> <span class="st">"figs/"</span>,</span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>  <span class="at">cache.extra =</span> <span class="fu">set.seed</span>(<span class="dv">2022</span>), </span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>  <span class="at">autodep =</span> <span class="cn">TRUE</span></span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">qwraps2_markup =</span> <span class="st">"markdown"</span>)</span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting properties for the default theme_bw() behavior for all plots</span></span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">require</span>(ggplot2) <span class="sc">==</span> <span class="cn">FALSE</span>) <span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) ; <span class="fu">theme_set</span>(<span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>)) </span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting default color palettes to RColorBrewer Palettes</span></span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">require</span>(RColorBrewer) <span class="sc">==</span> <span class="cn">FALSE</span>) <span class="fu">install.packages</span>(<span class="st">"RColorBrewer"</span>)</span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>scale_colour_discrete <span class="ot">=</span> <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Dark2"</span>)</span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="fu"># Objectives of this Document</span></span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>This is the seventh Markdown in our analysis workflow (see <span class="co">[</span><span class="ot">step0_extract_and_eda.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step0_extract_and_eda.html)</span>, <span class="co">[</span><span class="ot">step0_transform.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step0_transform.html)</span>, <span class="co">[</span><span class="ot">step1_logistic_growth.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step1_logistic_growth.html)</span>, and <span class="co">[</span><span class="ot">step2_spatial_model.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step2_spatial_model.html)</span> for our previous analyses). The main objective of this document is to:</span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Examine and evaluate the results from the optimization model. </span>
-<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a><span class="fu"># R Setup and Required Packages</span></span>
-<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>In this project, the open-source <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> programming language is used to model the COVID-19 percent fully-vaccinated progression in different U.S. counties. <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> is maintained by an international team of developers who make the language available at <span class="co">[</span><span class="ot">The Comprehensive R Archive Network</span><span class="co">](https://cran.r-project.org/)</span>. Readers interested in reusing our code and reproducing our results should have <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> installed locally on their machines. <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> can be installed on a number of different operating systems (see <span class="co">[</span><span class="ot">Windows</span><span class="co">](https://cran.r-project.org/bin/windows/)</span>, <span class="co">[</span><span class="ot">Mac</span><span class="co">](https://cran.r-project.org/bin/macosx/)</span>, and <span class="co">[</span><span class="ot">Linux</span><span class="co">](https://cran.r-project.org/bin/linux/)</span> for the installation instructions for these systems). We also recommend using the RStudio interface for <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span>. The reader can <span class="co">[</span><span class="ot">download RStudio</span><span class="co">](http://www.rstudio.com/ide)</span> for free by following the instructions at the link. For non-R users, we recommend the <span class="co">[</span><span class="ot">Hands-on Programming with R</span><span class="co">](https://rstudio-education.github.io/hopr/packages.html)</span> for a brief overview of the software's functionality. Hereafter, we assume that the reader has an introductory understanding of the <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> programming language.</span>
-<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>In the code chunk below, we load the packages used to support our analysis. Our input and output files can also be accessed/ downloaded from <span class="co">[</span><span class="ot">fmegahed/vaccines_spatial_and_optimization</span><span class="co">](https://github.com/fmegahed/vaccines_spatial_and_optimization)</span>.</span>
-<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a><span class="in">```{r packages, cache=FALSE}</span></span>
-<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a><span class="co"># create a files directory if it does not exist</span></span>
-<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="st">'step5_evaluate_results_files'</span>)) {<span class="fu">dir.create</span>(<span class="st">'step5_evaluate_results_files'</span>)}</span>
-<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a><span class="co"># Check and install if these packages are not found locally on machine</span></span>
-<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">require</span>(pacman)<span class="sc">==</span><span class="cn">FALSE</span>) <span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span>
-<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, lubridate, pander, qdapRegex) <span class="co"># needed packages</span></span>
-<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a><span class="fu"># Reading the Optimization Model Results</span></span>
-<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>In the code chunk below, we perform the following operations:  </span>
-<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We identify all the files that exist within the <span class="in">`data/optimiation_results`</span> folder  </span>
-<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We write a custom function that:    </span>
-<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a><span class="ss">  + </span>extracts the state name from the file name,   </span>
-<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="ss">  + </span>reads the data in all the files,   </span>
-<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a><span class="ss">  + </span>extracts the <span class="in">`fips`</span>, <span class="in">`counts_spatial`</span> (input to optimization model), <span class="in">`counts_opt_model`</span> (output) in addition to adding columns for <span class="in">`recip_state`</span> &amp; <span class="in">`time`</span>, and   </span>
-<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a><span class="ss">  + </span>combines the results for all states in a single df  </span>
-<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We extract the counts and state totals reported by CDC as computed by our <span class="co">[</span><span class="ot">step3_optimization_prep.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step3_optimization_prep.html)</span> file, which we stored in <span class="in">`data/merged_df.rds`</span> and assign to an object titled <span class="in">`reported_actuals`</span>  </span>
-<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We use a <span class="in">`left_join()`</span> to merge the <span class="in">`reported_actuals`</span> with our <span class="in">`opt_results`</span> object and export the merged object to a CSV file.</span>
-<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a><span class="in">```{r read_opt_results, results='hide'}</span></span>
-<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>opt_file_paths <span class="ot">=</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">'data/optimization_results/'</span>)</span>
-<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>opt_results <span class="ot">=</span> <span class="fu">map_df</span>(</span>
-<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>  <span class="at">.x =</span> opt_file_paths,</span>
-<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a>  <span class="at">.f =</span> <span class="cf">function</span>(x){</span>
-<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>    <span class="co"># extracting the state name from file</span></span>
-<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a>    state_name <span class="ot">=</span> qdapRegex<span class="sc">::</span><span class="fu">ex_between</span>(x, <span class="st">'_'</span>, <span class="st">'.'</span>)[[<span class="dv">1</span>]]</span>
-<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>    <span class="co"># specifying the full path including the file name</span></span>
-<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a>    full_path <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">'data/optimization_results/'</span>, x)</span>
-<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a>    <span class="co"># reading and cleaning the data from the file </span></span>
-<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">=</span> <span class="fu">read_delim</span>(full_path, <span class="at">col_names =</span> F) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a>      <span class="co"># removing the last three rows containing the optimiality_risk, </span></span>
-<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a>      <span class="co"># optimality_gap, and # solution time</span></span>
-<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a>      <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span>(<span class="fu">n</span>() <span class="sc">-</span> <span class="dv">3</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a>      <span class="co"># renaming the columns to understandable column names</span></span>
-<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(<span class="at">fips =</span> X10, <span class="at">counts_spatial =</span> X2, <span class="at">counts_opt_model =</span> X4) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a>      <span class="co"># string padding the fips to five digits</span></span>
-<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(</span>
-<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a>        <span class="at">recip_state =</span> state_name,</span>
-<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a>        <span class="at">fips =</span> <span class="fu">str_pad</span>(<span class="at">string =</span> fips, <span class="at">width =</span> <span class="dv">5</span>, <span class="at">side =</span> <span class="st">'left'</span>, <span class="at">pad =</span> <span class="dv">0</span>)</span>
-<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a>      <span class="co"># group by fips to create a time index</span></span>
-<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(fips) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">time =</span> <span class="fu">row_number</span>()<span class="sc">-</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a>      <span class="co"># rearranging and selecting only the needed columns</span></span>
-<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(recip_state, fips, time, counts_spatial, counts_opt_model)</span>
-<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>    <span class="co"># converting scientific notation in some states to numeric</span></span>
-<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a>    df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>( <span class="fu">across</span>(counts_spatial<span class="sc">:</span>counts_opt_model, as.numeric) )</span>
-<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a><span class="co"># getting the cdc reported actuals and state totals from our optimization_prep</span></span>
-<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a><span class="co"># results</span></span>
-<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a>reported_actuals <span class="ot">=</span> <span class="fu">read_rds</span>(<span class="st">'data/merged_df.rds'</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fips, time, series_complete_yes, state_totals) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">cdc_reported =</span> series_complete_yes)</span>
-<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a><span class="co"># merging the optimization results with the CDC data</span></span>
-<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a>opt_results <span class="ot">=</span> </span>
-<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> opt_results, <span class="at">y=</span> reported_actuals, </span>
-<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">'fips'</span> <span class="ot">=</span> <span class="st">'fips'</span>, <span class="st">'time'</span> <span class="ot">=</span> <span class="st">'time'</span>)</span>
-<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a>  <span class="co"># time start at 1 (instead of 0) and shifting other indices accordingly</span></span>
-<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> time <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a><span class="co"># saving the merged data to our results folder</span></span>
-<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(<span class="at">x =</span> opt_results, <span class="at">file =</span> <span class="st">'data/optimization_results_cleaned.csv'</span>)</span>
-<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(<span class="at">x =</span> opt_results, <span class="at">file =</span> <span class="st">'data/optimization_results_cleaned.rds'</span>)</span>
-<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "COVID-19 Vaccines by County"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Step 5: Examining the Outputs from the Optimization Model"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Maciej Rysz</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0003-2667-0398</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">    email: ryszmw@miamioh.edu</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: Farmer School of Business, Miami University</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">        address: 800 E. High St.</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">        city: Oxford</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">        state: OH</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">        postal-code: 45056</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Longwen Zhao</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">    email: longwen.zhao@slu.edu</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: College for Public Health and Social Justice, Saint Louis University</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">        address: 3545 Lafayette Ave</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">        city: St. Louis</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">        state: MO</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">        postal-code: 63104</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Fadel M. Megahed</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0003-2194-5110</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">    email: fmegahed@miamioh.edu</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">    corresponding: true</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: Farmer School of Business, Miami University</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">        address: 800 E. High St.</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">        city: Oxford</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">        state: OH</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">        postal-code: 45056</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Allison Jones-Farmer</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0002-1529-1133</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co">    email: farmerl2@miamioh.edu</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: Farmer School of Business, Miami University</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="co">        address: 800 E. High St.</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">        city: Oxford</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">        state: OH</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co">        postal-code: 45056</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Steve Rigdon</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0001-7668-0899</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="co">    email: steve.rigdon@slu.edu</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: College for Public Health and Social Justice, Saint Louis University</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co">        address: 3545 Lafayette Ave</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co">        city: St. Louis</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="co">        state: MO</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="co">        postal-code: 63104</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "`r format(Sys.time(), '%B %d, %Y')`"</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="co">    code-download: true</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="co">    highlight-style: pygments</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="co">    paged-df: true</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-float: true</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co">    include-in-header: structure.tex</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE}</span></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>  <span class="at">cache =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>  <span class="at">warning =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>  <span class="at">message =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>  <span class="at">fig.path =</span> <span class="st">"figs/"</span>,</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>  <span class="at">cache.extra =</span> <span class="fu">set.seed</span>(<span class="dv">2022</span>), </span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>  <span class="at">autodep =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">qwraps2_markup =</span> <span class="st">"markdown"</span>)</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting properties for the default theme_bw() behavior for all plots</span></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">require</span>(ggplot2) <span class="sc">==</span> <span class="cn">FALSE</span>) <span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) ; <span class="fu">theme_set</span>(<span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>)) </span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting default color palettes to RColorBrewer Palettes</span></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">require</span>(RColorBrewer) <span class="sc">==</span> <span class="cn">FALSE</span>) <span class="fu">install.packages</span>(<span class="st">"RColorBrewer"</span>)</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>scale_colour_discrete <span class="ot">=</span> <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Dark2"</span>)</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a><span class="fu"># Objectives of this Document</span></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>This is the seventh Markdown in our analysis workflow (see <span class="co">[</span><span class="ot">step0_extract_and_eda.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step0_extract_and_eda.html)</span>, <span class="co">[</span><span class="ot">step0_transform.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step0_transform.html)</span>, <span class="co">[</span><span class="ot">step1_logistic_growth.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step1_logistic_growth.html)</span>, and <span class="co">[</span><span class="ot">step2_spatial_model.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step2_spatial_model.html)</span> for our previous analyses). The main objective of this document is to:</span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Examine and evaluate the results from the optimization model. </span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a><span class="fu"># R Setup and Required Packages</span></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>In this project, the open-source <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> programming language is used to model the COVID-19 percent fully-vaccinated progression in different U.S. counties. <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> is maintained by an international team of developers who make the language available at <span class="co">[</span><span class="ot">The Comprehensive R Archive Network</span><span class="co">](https://cran.r-project.org/)</span>. Readers interested in reusing our code and reproducing our results should have <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> installed locally on their machines. <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> can be installed on a number of different operating systems (see <span class="co">[</span><span class="ot">Windows</span><span class="co">](https://cran.r-project.org/bin/windows/)</span>, <span class="co">[</span><span class="ot">Mac</span><span class="co">](https://cran.r-project.org/bin/macosx/)</span>, and <span class="co">[</span><span class="ot">Linux</span><span class="co">](https://cran.r-project.org/bin/linux/)</span> for the installation instructions for these systems). We also recommend using the RStudio interface for <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span>. The reader can <span class="co">[</span><span class="ot">download RStudio</span><span class="co">](http://www.rstudio.com/ide)</span> for free by following the instructions at the link. For non-R users, we recommend the <span class="co">[</span><span class="ot">Hands-on Programming with R</span><span class="co">](https://rstudio-education.github.io/hopr/packages.html)</span> for a brief overview of the software's functionality. Hereafter, we assume that the reader has an introductory understanding of the <span class="in">`r fontawesome::fa(name = "r-project", fill = "steelblue")`</span> programming language.</span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>In the code chunk below, we load the packages used to support our analysis. Our input and output files can also be accessed/ downloaded from <span class="co">[</span><span class="ot">fmegahed/vaccines_spatial_and_optimization</span><span class="co">](https://github.com/fmegahed/vaccines_spatial_and_optimization)</span>.</span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a><span class="in">```{r packages, cache=FALSE}</span></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a><span class="co"># create a files directory if it does not exist</span></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(<span class="st">'step5_evaluate_results_files'</span>)) {<span class="fu">dir.create</span>(<span class="st">'step5_evaluate_results_files'</span>)}</span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a><span class="co"># Check and install if these packages are not found locally on machine</span></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">require</span>(pacman)<span class="sc">==</span><span class="cn">FALSE</span>) <span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, lubridate, pander, qdapRegex, plotly, magick)</span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a><span class="fu"># Reading the Optimization Model Results</span></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>In the code chunk below, we perform the following operations:  </span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We identify all the files that exist within the <span class="in">`data/optimiation_results`</span> folder  </span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We write a custom function that:    </span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a><span class="ss">  + </span>extracts the state name from the file name,   </span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a><span class="ss">  + </span>reads the data in all the files,   </span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a><span class="ss">  + </span>extracts the <span class="in">`fips`</span>, <span class="in">`counts_spatial`</span> (input to optimization model), <span class="in">`counts_opt_model`</span> (output) in addition to adding columns for <span class="in">`recip_state`</span> &amp; <span class="in">`time`</span>, and   </span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a><span class="ss">  + </span>combines the results for all states in a single df  </span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We extract the counts and state totals reported by CDC as computed by our <span class="co">[</span><span class="ot">step3_optimization_prep.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step3_optimization_prep.html)</span> file, which we stored in <span class="in">`data/merged_df.rds`</span> and assign to an object titled <span class="in">`reported_actuals`</span>  </span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We use a <span class="in">`left_join()`</span> to merge the <span class="in">`reported_actuals`</span> with our <span class="in">`opt_results`</span> object and export the merged object to CSV and RDS files.</span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a><span class="in">```{r read_opt_results, results='hide'}</span></span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>opt_file_paths <span class="ot">=</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">'data/optimization_results/'</span>)</span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>opt_results <span class="ot">=</span> <span class="fu">map_df</span>(</span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a>  <span class="at">.x =</span> opt_file_paths,</span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>  <span class="at">.f =</span> <span class="cf">function</span>(x){</span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a>    <span class="co"># extracting the state name from file</span></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>    state_name <span class="ot">=</span> qdapRegex<span class="sc">::</span><span class="fu">ex_between</span>(x, <span class="st">'_'</span>, <span class="st">'.'</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a>    <span class="co"># specifying the full path including the file name</span></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a>    full_path <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">'data/optimization_results/'</span>, x)</span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a>    <span class="co"># reading and cleaning the data from the file </span></span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">=</span> <span class="fu">read_delim</span>(full_path, <span class="at">col_names =</span> F) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>      <span class="co"># removing the last three rows containing the optimiality_risk, </span></span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a>      <span class="co"># optimality_gap, and # solution time</span></span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a>      <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span>(<span class="fu">n</span>() <span class="sc">-</span> <span class="dv">3</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a>      <span class="co"># renaming the columns to understandable column names</span></span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rename</span>(<span class="at">fips =</span> X10, <span class="at">counts_opt_model =</span> X2, <span class="at">counts_spatial =</span> X4) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a>      <span class="co"># string padding the fips to five digits</span></span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(</span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a>        <span class="at">recip_state =</span> state_name,</span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a>        <span class="at">fips =</span> <span class="fu">str_pad</span>(<span class="at">string =</span> fips, <span class="at">width =</span> <span class="dv">5</span>, <span class="at">side =</span> <span class="st">'left'</span>, <span class="at">pad =</span> <span class="dv">0</span>)</span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a>      <span class="co"># group by fips to create a time index</span></span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(fips) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">time =</span> <span class="fu">row_number</span>()<span class="sc">-</span><span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a>      <span class="co"># rearranging and selecting only the needed columns</span></span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(recip_state, fips, time, counts_spatial, counts_opt_model)</span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>    <span class="co"># converting scientific notation in some states to numeric</span></span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a>    df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>( <span class="fu">across</span>(counts_spatial<span class="sc">:</span>counts_opt_model, as.numeric) )</span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a><span class="co"># getting the cdc reported actuals and state totals from our optimization_prep</span></span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a><span class="co"># results</span></span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>reported_actuals <span class="ot">=</span> <span class="fu">read_rds</span>(<span class="st">'data/merged_df.rds'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fips, time, series_complete_yes, state_totals) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">cdc_reported =</span> series_complete_yes)</span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a><span class="co"># merging the optimization results with the CDC data</span></span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a>opt_results <span class="ot">=</span> </span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> opt_results, <span class="at">y=</span> reported_actuals, </span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">'fips'</span> <span class="ot">=</span> <span class="st">'fips'</span>, <span class="st">'time'</span> <span class="ot">=</span> <span class="st">'time'</span>)</span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">y =</span> <span class="fu">read_rds</span>(<span class="st">'data/vaccines.rds'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>              <span class="fu">select</span>(fips, recip_county),</span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span><span class="st">'fips'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a>  <span class="co"># time start at 1 (instead of 0) and shifting other indices accordingly</span></span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time =</span> time <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a><span class="co"># saving the merged data to our results folder</span></span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(<span class="at">x =</span> opt_results, <span class="at">file =</span> <span class="st">'data/optimization_results_cleaned.csv'</span>)</span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(<span class="at">x =</span> opt_results, <span class="at">file =</span> <span class="st">'data/optimization_results_cleaned.rds'</span>)</span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a><span class="fu"># Plotting the Optimization Model Results</span></span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a>In the code chunk below, we extract the states for which we have smoothed the spatial model based on the constraints and optimization model introduced in <span class="in">`step4`</span>. For each state, we create a panel plot, showing the CDC reported counts, counts obtained from our spatial model, and counts obtained from our optimization model over time for a given county. If the state has 10 or less counties, we do not sample; otherwise, we show a random sample of 10 counties from that state. The results are shown through an animated <span class="in">`mp4`</span> video, which can be paused and controlled using the video's control buttons.  </span>
+<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sample_data_plot, results='hide'}</span></span>
+<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a>states <span class="ot">=</span> <span class="fu">unique</span>(opt_results<span class="sc">$</span>recip_state)</span>
+<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">=</span> <span class="fu">map</span>(<span class="at">.x =</span> states,</span>
+<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a>      <span class="at">.f =</span> <span class="cf">function</span>(x, <span class="at">df =</span> opt_results){</span>
+<span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a>        <span class="co"># filtering for a specific state</span></span>
+<span id="cb4-202"><a href="#cb4-202" aria-hidden="true" tabindex="-1"></a>        state_tbl <span class="ot">=</span> df <span class="sc">%&gt;%</span>  <span class="fu">filter</span>(recip_state <span class="sc">==</span> x)</span>
+<span id="cb4-203"><a href="#cb4-203" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a>        <span class="co"># converting to long_data</span></span>
+<span id="cb4-205"><a href="#cb4-205" aria-hidden="true" tabindex="-1"></a>        long_data <span class="ot">=</span> state_tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb4-206"><a href="#cb4-206" aria-hidden="true" tabindex="-1"></a>          <span class="fu">pivot_longer</span>(</span>
+<span id="cb4-207"><a href="#cb4-207" aria-hidden="true" tabindex="-1"></a>            counts_spatial<span class="sc">:</span>cdc_reported, </span>
+<span id="cb4-208"><a href="#cb4-208" aria-hidden="true" tabindex="-1"></a>            <span class="at">names_to =</span> <span class="st">'models'</span>,</span>
+<span id="cb4-209"><a href="#cb4-209" aria-hidden="true" tabindex="-1"></a>            <span class="at">values_to =</span> <span class="st">'counts'</span>)</span>
+<span id="cb4-210"><a href="#cb4-210" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-211"><a href="#cb4-211" aria-hidden="true" tabindex="-1"></a>        <span class="co"># sampling ten or all counties from a state (whichever is smaller)</span></span>
+<span id="cb4-212"><a href="#cb4-212" aria-hidden="true" tabindex="-1"></a>        counties_in_state <span class="ot">=</span> <span class="fu">unique</span>(long_data<span class="sc">$</span>fips)</span>
+<span id="cb4-213"><a href="#cb4-213" aria-hidden="true" tabindex="-1"></a>        num_counties <span class="ot">=</span> counties_in_state <span class="sc">%&gt;%</span> <span class="fu">length</span>()</span>
+<span id="cb4-214"><a href="#cb4-214" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-215"><a href="#cb4-215" aria-hidden="true" tabindex="-1"></a>        <span class="fu">invisible</span>(</span>
+<span id="cb4-216"><a href="#cb4-216" aria-hidden="true" tabindex="-1"></a>          <span class="fu">ifelse</span>(num_counties <span class="sc">&lt;=</span><span class="dv">10</span>,</span>
+<span id="cb4-217"><a href="#cb4-217" aria-hidden="true" tabindex="-1"></a>                 fips_sample <span class="ot">&lt;-</span> counties_in_state,</span>
+<span id="cb4-218"><a href="#cb4-218" aria-hidden="true" tabindex="-1"></a>                 fips_sample <span class="ot">&lt;-</span> <span class="fu">sample</span>(counties_in_state, <span class="dv">10</span>) )</span>
+<span id="cb4-219"><a href="#cb4-219" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb4-220"><a href="#cb4-220" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-221"><a href="#cb4-221" aria-hidden="true" tabindex="-1"></a>        <span class="co"># setting the color panel with colors based on the Dark2 colorbrewer pal</span></span>
+<span id="cb4-222"><a href="#cb4-222" aria-hidden="true" tabindex="-1"></a>        color_pal <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"#1B9E77"</span>, <span class="st">"#D95F02"</span>, <span class="st">"#7570B3"</span>)</span>
+<span id="cb4-223"><a href="#cb4-223" aria-hidden="true" tabindex="-1"></a>        <span class="fu">names</span>(color_pal) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'cdc_reported'</span>, <span class="st">'counts_opt_model'</span>, <span class="st">'counts_spatial'</span>)</span>
+<span id="cb4-224"><a href="#cb4-224" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-225"><a href="#cb4-225" aria-hidden="true" tabindex="-1"></a>        <span class="co"># creating the static plot</span></span>
+<span id="cb4-226"><a href="#cb4-226" aria-hidden="true" tabindex="-1"></a>        long_data <span class="sc">%&gt;%</span> </span>
+<span id="cb4-227"><a href="#cb4-227" aria-hidden="true" tabindex="-1"></a>          <span class="fu">filter</span>(fips <span class="sc">%in%</span> fips_sample) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-228"><a href="#cb4-228" aria-hidden="true" tabindex="-1"></a>          <span class="fu">mutate</span>(<span class="at">county_name =</span> <span class="fu">paste</span>(recip_county, recip_state, <span class="at">sep =</span> <span class="st">', '</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-229"><a href="#cb4-229" aria-hidden="true" tabindex="-1"></a>          <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y=</span> counts, <span class="at">color =</span> models)) <span class="sc">+</span></span>
+<span id="cb4-230"><a href="#cb4-230" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb4-231"><a href="#cb4-231" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb4-232"><a href="#cb4-232" aria-hidden="true" tabindex="-1"></a>          <span class="fu">scale_color_manual</span>(<span class="at">values =</span> color_pal) <span class="sc">+</span></span>
+<span id="cb4-233"><a href="#cb4-233" aria-hidden="true" tabindex="-1"></a>          <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="at">n=</span><span class="dv">5</span>), </span>
+<span id="cb4-234"><a href="#cb4-234" aria-hidden="true" tabindex="-1"></a>                             <span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb4-235"><a href="#cb4-235" aria-hidden="true" tabindex="-1"></a>          <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb4-236"><a href="#cb4-236" aria-hidden="true" tabindex="-1"></a>          <span class="fu">facet_wrap</span>(<span class="sc">~</span> county_name, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">scales =</span> <span class="st">'free_y'</span>) <span class="sc">+</span></span>
+<span id="cb4-237"><a href="#cb4-237" aria-hidden="true" tabindex="-1"></a>          <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span> </span>
+<span id="cb4-238"><a href="#cb4-238" aria-hidden="true" tabindex="-1"></a>          <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'bottom'</span>) <span class="ot">-&gt;</span> p</span>
+<span id="cb4-239"><a href="#cb4-239" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-240"><a href="#cb4-240" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="fu">paste0</span>(<span class="st">'figs/opt_results/'</span>, x, <span class="st">'.png'</span>),</span>
+<span id="cb4-241"><a href="#cb4-241" aria-hidden="true" tabindex="-1"></a>               <span class="at">plot =</span> p,</span>
+<span id="cb4-242"><a href="#cb4-242" aria-hidden="true" tabindex="-1"></a>               <span class="at">width=</span><span class="dv">10</span>, <span class="at">height=</span><span class="dv">6</span>)</span>
+<span id="cb4-243"><a href="#cb4-243" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-244"><a href="#cb4-244" aria-hidden="true" tabindex="-1"></a>       <span class="fu">return</span>(p)</span>
+<span id="cb4-245"><a href="#cb4-245" aria-hidden="true" tabindex="-1"></a>      })</span>
+<span id="cb4-246"><a href="#cb4-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-247"><a href="#cb4-247" aria-hidden="true" tabindex="-1"></a><span class="co"># read the generated figures and convert them into a video</span></span>
+<span id="cb4-248"><a href="#cb4-248" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">'figs/opt_results/'</span>, <span class="at">full.names =</span> T) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-249"><a href="#cb4-249" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="at">.f =</span> image_read) <span class="sc">%&gt;%</span> <span class="co"># reads each img from the extracted path file</span></span>
+<span id="cb4-250"><a href="#cb4-250" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_join</span>() <span class="sc">%&gt;%</span> <span class="co"># joins the images</span></span>
+<span id="cb4-251"><a href="#cb4-251" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_write_video</span>(<span class="at">path =</span><span class="st">"figs/sample_opt_results.mp4"</span>, <span class="at">framerate =</span> <span class="fl">0.5</span>)</span>
+<span id="cb4-252"><a href="#cb4-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-253"><a href="#cb4-253" aria-hidden="true" tabindex="-1"></a><span class="co"># include the video in the code output</span></span>
+<span id="cb4-254"><a href="#cb4-254" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">'figs/sample_opt_results.mp4'</span>)</span>
+<span id="cb4-255"><a href="#cb4-255" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-256"><a href="#cb4-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-257"><a href="#cb4-257" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sample_data_plot_show, echo=FALSE}</span></span>
+<span id="cb4-258"><a href="#cb4-258" aria-hidden="true" tabindex="-1"></a><span class="co"># we include it in a seperate chunk and hide the previous chunks results</span></span>
+<span id="cb4-259"><a href="#cb4-259" aria-hidden="true" tabindex="-1"></a><span class="co"># since our custom function in plots returns an empty list in addition to the</span></span>
+<span id="cb4-260"><a href="#cb4-260" aria-hidden="true" tabindex="-1"></a><span class="co"># plots</span></span>
+<span id="cb4-261"><a href="#cb4-261" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">'figs/sample_opt_results.mp4'</span>)</span>
+<span id="cb4-262"><a href="#cb4-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-263"><a href="#cb4-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-264"><a href="#cb4-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-265"><a href="#cb4-265" aria-hidden="true" tabindex="-1"></a>---</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
