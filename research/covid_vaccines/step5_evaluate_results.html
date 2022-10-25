@@ -2,22 +2,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.35">
+<meta name="generator" content="quarto-1.1.189">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Maciej Rysz">
 <meta name="author" content="Longwen Zhao">
 <meta name="author" content="Fadel M. Megahed">
 <meta name="author" content="Allison Jones-Farmer">
 <meta name="author" content="Steve Rigdon">
-<meta name="dcterms.date" content="2022-09-25">
+<meta name="dcterms.date" content="2022-10-25">
 <title>COVID-19 Vaccines by County</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -56,7 +61,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -69,7 +74,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -98,13 +103,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-  <nav id="TOC" role="doc-toc"><h2 id="toc-title">Table of contents</h2>
+  <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#objectives-of-this-document" id="toc-objectives-of-this-document" class="nav-link active" data-scroll-target="#objectives-of-this-document"> <span class="header-section-number">1</span> Objectives of this Document</a></li>
-  <li><a href="#r-setup-and-required-packages" id="toc-r-setup-and-required-packages" class="nav-link" data-scroll-target="#r-setup-and-required-packages"> <span class="header-section-number">2</span> R Setup and Required Packages</a></li>
-  <li><a href="#reading-the-optimization-model-results" id="toc-reading-the-optimization-model-results" class="nav-link" data-scroll-target="#reading-the-optimization-model-results"> <span class="header-section-number">3</span> Reading the Optimization Model Results</a></li>
-  <li><a href="#plotting-the-optimization-model-results" id="toc-plotting-the-optimization-model-results" class="nav-link" data-scroll-target="#plotting-the-optimization-model-results"> <span class="header-section-number">4</span> Plotting the Optimization Model Results</a></li>
+<li><a href="#objectives-of-this-document" id="toc-objectives-of-this-document" class="nav-link active" data-scroll-target="#objectives-of-this-document"><span class="toc-section-number">1</span>  Objectives of this Document</a></li>
+  <li><a href="#r-setup-and-required-packages" id="toc-r-setup-and-required-packages" class="nav-link" data-scroll-target="#r-setup-and-required-packages"><span class="toc-section-number">2</span>  R Setup and Required Packages</a></li>
+  <li><a href="#reading-the-optimization-model-results" id="toc-reading-the-optimization-model-results" class="nav-link" data-scroll-target="#reading-the-optimization-model-results"><span class="toc-section-number">3</span>  Reading the Optimization Model Results</a></li>
+  <li><a href="#plotting-the-optimization-model-results" id="toc-plotting-the-optimization-model-results" class="nav-link" data-scroll-target="#plotting-the-optimization-model-results"><span class="toc-section-number">4</span>  Plotting the Optimization Model Results</a></li>
   </ul></nav>
 </div>
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
@@ -165,7 +170,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 25, 2022</p>
+      <p class="date">October 25, 2022</p>
     </div>
   </div>
     
@@ -174,7 +179,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header><section id="objectives-of-this-document" class="level1" data-number="1"><h1 data-number="1">
 <span class="header-section-number">1</span> Objectives of this Document</h1>
-<p>This is the seventh Markdown in our analysis workflow (see <a href="https://fmegahed.github.io/research/covid_vaccines/step0_extract_and_eda.html">step0_extract_and_eda.html</a>, <a href="https://fmegahed.github.io/research/covid_vaccines/step0_transform.html">step0_transform.html</a>, <a href="https://fmegahed.github.io/research/covid_vaccines/step1_logistic_growth.html">step1_logistic_growth.html</a>, and <a href="https://fmegahed.github.io/research/covid_vaccines/step2_spatial_model.html">step2_spatial_model.html</a> for our previous analyses). The main objective of this document is to:</p>
+<p>This is the seventh Markdown in our analysis workflow (see <a href="https://fmegahed.github.io/research/covid_vaccines/step0_extract_and_eda.html">step0_extract_and_eda.html</a>, <a href="https://fmegahed.github.io/research/covid_vaccines/step0_transform.html">step0_transform.html</a>, <a href="https://fmegahed.github.io/research/covid_vaccines/step1_logistic_growth.html">step1_logistic_growth.html</a>, <a href="https://fmegahed.github.io/research/covid_vaccines/step2_spatial_model.html">step2_spatial_model.html</a>, and <a href="https://fmegahed.github.io/research/covid_vaccines/step3_optimization_prep.html">step3_optimization_prep</a> for our previous analyses). The main objective of this document is to:</p>
 <ul>
 <li>Examine and evaluate the results from the optimization model.</li>
 </ul>
@@ -332,7 +337,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span><span class="co"># include the video in the code output</span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">'figs/sample_opt_results.mp4'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="step5_evaluate_results_cache/html/sample_data_plot_show_813807d641cf984cb3cbb2196f5ab171">
+<div class="cell" data-hash="step5_evaluate_results_cache/html/sample_data_plot_show_1100c06a8e71c00fe45a98672cf4639f">
 <div class="cell-output-display">
 <p><video src="figs/sample_opt_results.mp4" class="img-fluid" controls=""><a href="figs/sample_opt_results.mp4">Video</a></video></p>
 </div>
@@ -459,7 +464,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
@@ -579,7 +585,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a><span class="fu"># Objectives of this Document</span></span>
 <span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>This is the seventh Markdown in our analysis workflow (see <span class="co">[</span><span class="ot">step0_extract_and_eda.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step0_extract_and_eda.html)</span>, <span class="co">[</span><span class="ot">step0_transform.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step0_transform.html)</span>, <span class="co">[</span><span class="ot">step1_logistic_growth.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step1_logistic_growth.html)</span>, and <span class="co">[</span><span class="ot">step2_spatial_model.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step2_spatial_model.html)</span> for our previous analyses). The main objective of this document is to:</span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>This is the seventh Markdown in our analysis workflow (see <span class="co">[</span><span class="ot">step0_extract_and_eda.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step0_extract_and_eda.html)</span>, <span class="co">[</span><span class="ot">step0_transform.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step0_transform.html)</span>, <span class="co">[</span><span class="ot">step1_logistic_growth.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step1_logistic_growth.html)</span>, <span class="co">[</span><span class="ot">step2_spatial_model.html</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step2_spatial_model.html)</span>, and <span class="co">[</span><span class="ot">step3_optimization_prep</span><span class="co">](https://fmegahed.github.io/research/covid_vaccines/step3_optimization_prep.html)</span> for our previous analyses). The main objective of this document is to:</span>
 <span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Examine and evaluate the results from the optimization model. </span>
 <span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a></span>
@@ -744,7 +750,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb4-255"><a href="#cb4-255" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb4-256"><a href="#cb4-256" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-257"><a href="#cb4-257" aria-hidden="true" tabindex="-1"></a><span class="in">```{r sample_data_plot_show, echo=FALSE}</span></span>
-<span id="cb4-258"><a href="#cb4-258" aria-hidden="true" tabindex="-1"></a><span class="co"># we include it in a seperate chunk and hide the previous chunks results</span></span>
+<span id="cb4-258"><a href="#cb4-258" aria-hidden="true" tabindex="-1"></a><span class="co"># we include it in a separate chunk and hide the previous chunks results</span></span>
 <span id="cb4-259"><a href="#cb4-259" aria-hidden="true" tabindex="-1"></a><span class="co"># since our custom function in plots returns an empty list in addition to the</span></span>
 <span id="cb4-260"><a href="#cb4-260" aria-hidden="true" tabindex="-1"></a><span class="co"># plots</span></span>
 <span id="cb4-261"><a href="#cb4-261" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">'figs/sample_opt_results.mp4'</span>)</span>
