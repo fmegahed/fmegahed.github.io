@@ -114,6 +114,18 @@ a:active {
 }
 
 
+.left-code {
+  color: #777;
+  width: 38%;
+  height: 92%;
+  float: left;
+}
+.right-plot {
+  width: 60%;
+  float: right;
+  padding-left: 1%;
+}
+
 img, video, iframe {
   max-width: 100%;
 }
@@ -328,4 +340,11 @@ b, strong {
     -webkit-transform: rotate(2deg);
     -moz-transform: rotate(2deg);
     transform: rotate(2deg);     
+}
+
+.rt
+{
+  position:absolute;
+  right:5px;
+  bottom:25px;
 }
