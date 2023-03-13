@@ -1,0 +1,186 @@
+% [A] Theme Stuff
+\usetheme{CambridgeUS}
+\usecolortheme{beaver}
+\definecolor{miamired}{RGB}{200,16,46}
+\definecolor{darkgreen}{rgb}{0.09, 0.45, 0.27}
+\setbeamertemplate{footline}{\thepage}
+%\setbeamertemplate{footline}[frame number]
+\setbeamercolor{title}{fg=miamired}
+\setbeamercolor{block title}{bg=gray!35,fg=black}
+\setbeamercolor{block body}{bg=gray!0,fg=black}
+\setbeamercolor{frametitle}{fg=miamired}
+\usefonttheme[]{serif}
+\setbeamertemplate{items}[ball]
+\setbeamercolor{alerted text}{fg=miamired,bg=}
+\setbeamercolor*{item}{fg=miamired}
+\setbeamercolor{section number projected}{bg=miamired}
+\setbeamercolor{colorbox}{bg=miamired, fg=white}
+\setbeamercolor{section in head/foot}{bg=miamired}
+\setbeamercolor{author in head/foot}{bg=miamired}
+\setbeamercolor{bibliography entry author}{fg=miamired}
+\setbeamercolor{bibliography entry title}{fg=black} 
+\setbeamercolor{bibliography entry location}{fg=miamired} 
+\setbeamercolor{bibliography entry note}{fg=black!85}
+\setbeamertemplate{bibliography item}[text]
+%\setbeamertemplate{bibliography item}[article] % To have an article instead of the number
+% https://tex.stackexchange.com/questions/183052/what-are-all-the-possible-first-arguments-to-setbeamerfont/183053#183053
+\setbeamerfont{alerted text}{series=\bfseries}
+\setbeamerfont{block title}{series=\bfseries}
+\setbeamerfont{block body}{series=\bfseries}
+\setbeamerfont{itemize item}{series=\bfseries}
+\setbeamerfont*{itemize/enumerate subbody}{parent=itemize/enumerate body}
+\setbeamerfont*{itemize/enumerate subsubbody}{parent=itemize/enumerate body}
+\setbeamerfont{section in toc}{series=\bfseries}
+\setbeamerfont{frametitle}{series=\bfseries}
+\setbeamerfont{footline}{series=\tiny}
+\setbeamerfont{headlineline}{series=\tiny}
+\setbeamerfont{section in head/foot}{series=\tiny}
+\setbeamerfont{subsection in head/foot}{series=\tiny}
+\setbeamerfont{subsubsection in head/foot}{series=\tiny}
+\setbeamerfont{page number in head/foot}{series=\tiny}
+\setbeamerfont{date}{series=\scriptsize}
+\setbeamerfont{date in head/foot}{series=\tiny}
+\setbeamercolor*{block title example}{fg=miamired,
+	bg=miamired!10}
+\setbeamercolor*{block body example}{fg= black}
+
+\setbeamerfont{bibliography item}{size=\footnotesize}
+\setbeamerfont{bibliography entry author}{size=\footnotesize}
+\setbeamerfont{bibliography entry title}{size=\footnotesize}
+\setbeamerfont{bibliography entry location}{size=\footnotesize}
+\setbeamerfont{bibliography entry note}{size=\footnotesize}
+
+% [B] Needed Packages
+\usepackage[export]{adjustbox}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{animate}
+\usepackage{array}
+\newcolumntype{m}[1]{>{\arraybackslash\hspace{0pt}}p{#1}}
+\usepackage[justification=centering]{caption}
+\usepackage{colortbl}
+\usepackage{etoolbox}
+\usepackage{fancybox}
+\usepackage{framed}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{hyperref} 
+\usepackage[utf8]{inputenc}
+\usepackage{makecell}
+\usepackage{mathtools}
+\usepackage{marvosym}
+\usepackage[framemethod=default]{mdframed}
+\usepackage{media9}
+%\addmediapath{./Figures/}
+\usepackage{multicol}
+%\usepackage{multimedia}
+\usepackage{multirow}
+\usepackage{pgfplots} %for tikzpictures
+\usepackage{sidecap}
+\usepackage{smartdiagram}
+\usepackage{soul}
+\usepackage{subfigure}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+\usepackage{times}
+\usepackage{url}
+	\urlstyle{same}
+\usepackage{wasysym} % for smiley faces
+\usepackage{wrapfig}
+
+
+
+
+
+
+
+
+% [C] New Commands and Default Pathes
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\graphicspath{ {Figures/} }
+\setbeamertemplate{frametitle continuation}{[\insertcontinuationcount]}
+\setbeamercovered{still covered={\opaqueness<1->{5}},again covered={\opaqueness<1->{60}}}
+% begining of the new definition
+\makeatletter
+\newcommand*\fix@beamer@close{%
+	\ifnum\beamer@trivlistdepth>0
+	\beamer@closeitem
+	\fi
+}
+\newcommand*\fix@beamer@open{%
+	\ifnum\beamer@trivlistdepth>0
+	\gdef\beamer@closeitem{}%
+	\fi
+}
+\BeforeBeginEnvironment{itemize}{\fix@beamer@close}
+\AfterEndEnvironment{itemize}{\fix@beamer@open}
+\makeatother
+% end of the new definition
+
+% For Boxes
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=false,
+backgroundcolor= miamired!10,
+linecolor= miamired,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=5pt,
+innerbottommargin=5pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=4pt]{eBox}
+
+\newmdenv[skipabove=7pt,
+skipbelow=7pt,
+rightline=false,
+leftline=true,
+topline=false,
+bottomline=false,
+linecolor=miamired,
+innerleftmargin=5pt,
+innerrightmargin=5pt,
+innertopmargin=0pt,
+leftmargin=0cm,
+rightmargin=0cm,
+linewidth=4pt,
+innerbottommargin=0pt]{dBox}
+
+\newtheorem{exampleT}{Example}[section]
+\newenvironment{ExamplesT}{\begin{exampleT}}{\hfill{\tiny\ensuremath{\blacksquare}}\end{exampleT}}
+
+
+\newenvironment{conditions}
+{\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}={}$} l}}
+	{\end{tabular}\par\vspace{\belowdisplayskip}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\AtBeginSection[]
+{
+	\begin{frame}{Outline}
+	\tableofcontents[currentsection, %subsectionstyle=show/shaded/hide,
+	subsectionstyle=hide,
+	subsubsectionstyle=hide]
+\end{frame}
+}
+
+\AtBeginSubsection[]
+{
+\begin{frame}{Outline}
+\tableofcontents[currentsection, %subsectionstyle=show/shaded/hide, %subsubsectionstyle=hide]
+\end{frame}
+}
+
+
+\institute[Miami University]{
+	Neil R. Anderson Endowed Assistant Professor\\
+	Department of Information Systems and Analytics \\
+	Farmer School of Business \\ 
+	Miami University \\
+	Email: \href{mailto:fmegahed@miamioh.edu?subject=ISA 401/501 Questions}{fmegahed@miamioh.edu} \\
+	Office Hours: TR 12:30-2:00 pm or \href{https://calendly.com/fmegahed/}{by appointment} @ 2004 FSB}
