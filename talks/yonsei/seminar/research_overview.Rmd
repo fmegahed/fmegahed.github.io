@@ -1,5 +1,5 @@
 ---
-title: "Data Driven Decisions ( D$^3$ ) Making"
+title: "Data-Driven Decisions ( D$^3$ ) Making"
 subtitle: 'Examples from America’s Manufacturing, Healthcare, and Transportation Industries'
 author: '<br>Fadel M. Megahed, PhD <br>[`r icons::icon_style(icons::fontawesome("google"), fill = "white")` Scholar](https://scholar.google.com/citations?user=6CTlKGMAAAAJ&hl=en&oi=ao) &nbsp; |  &nbsp;
 [`r icons::icon_style(icons::fontawesome("twitter"), fill = "white")` @FadelMegahed](https://twitter.com/FadelMegahed) &nbsp; | &nbsp;
@@ -1235,11 +1235,11 @@ count: false
 count: false
 # Seat Assignment with Social Distancing
 
-```{r seat_assignment2, out.height='430px', echo=FALSE}
-knitr::include_url('http://seatplanner.fsb.miamioh.edu/')
+```{r seat_assignment2, out.width='90%', echo=FALSE}
+knitr::include_graphics('figs/seat_planner.PNG')
 ```
 
-.center[.font80[Click on the app to interact with it (e.g., pick **household** from the **dropdown next to optimization type**)]]
+.center[.font80[Click [here to open the app](http://seatplanner.fsb.miamioh.edu/) and interact with it (e.g., pick **household** from the **dropdown next to optimization type**)]]
 
 .footnote[
 <html>
@@ -1357,7 +1357,7 @@ list.files(path = 'figs/', pattern = 'case3_', full.names = T) |>
 ```
 
 <center>
-<video width="34%" height="34%" autoplay controls aria-label="A video showing the routes corresponding to pareto ranks 1, 2, and 3 for driving between Cincinnati, OH and Gary, IN.">
+<video width="44%" height="44%" autoplay controls aria-label="A video showing the routes corresponding to pareto ranks 1, 2, and 3 for driving between Cincinnati, OH and Gary, IN.">
 <source src="figs/case3.mp4" type="video/mp4">
 </video>
 </center>
