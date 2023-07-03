@@ -21,13 +21,13 @@
 		\node [header, below left of=chatgpt, node distance=3cm] (pros) at (-2, 0) {Strengths};
 		\node [block, below of=pros] (python) at (-4.15, -2.5) {\textbf{Seems to be more proficient in Python than} \faRProject \, (less errors)};
 		\node [block, below of=python] (explain) at (-4.15, -3.75) {\textbf{Can explain code fairly well}};
-		\node [block, below of=explain] (translate)  at (-4.15, -5.25) {\textbf{Translates code fairly well between  \faRProject \ (base and tidyverse) and Python }};
+		\node [block, below of=explain] (translate)  at (-4.15, -5.25) {\textbf{Translates code fairly well \newline between}  \faRProject \ (base and tidyverse) \textbf{and Python }};
 		\node [block, below of=translate] (idea)  at (-4.15, -6.75) {\textbf{Useful for knowledge generation and brainstorming}};
-		\node [header, below right of=chatgpt, node distance=3cm] (cons) at (2, 0){Cons};
+		\node [header, below right of=chatgpt, node distance=3cm] (cons) at (2, 0){Limitations};
 		
-		\node [block, below of=cons] (rarg) at (4.15, -2.5)  {\textbf{Limited understanding of \faRProject \ arguments in some \faBox} (e.g., \texttt{qcc})};
-		\node [block, below of=rarg] (spc) at (4.15, -3.75) {\textbf{Cannot be for precision definitions, especially for SPC concepts}};
-		\node [block, below of=rarg] (experts) at (4.15, -5.25) {\textbf{When used in coding, logical errors are hard to detect by non-experts}};
+		\node [block, below of=cons] (rarg) at (4.15, -2.5)  {\textbf{Limited understanding of \faRProject \newline arguments in some \faBox} (e.g., \texttt{qcc})};
+		\node [block, below of=rarg] (spc) at (4.15, -3.75) {\textbf{Cannot be used for precise definitions, especially for SPC concepts}};
+		\node [block, below of=rarg] (experts) at (4.15, -5.25) {\textbf{When used in coding, logical \newline errors are hard to detect by non-experts}};
 		\node [block, below of=rarg] (spc) at (4.15, -6.75) {\textbf{Can produce nonsensical results (the hallucination problem)}};
 		
 		% Draw lines

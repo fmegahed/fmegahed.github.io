@@ -81,7 +81,7 @@ xaringanExtra::use_xaringan_extra(c("tile_view", "animate_css", "tachyons", "pan
 
 .bold[.red[Prompt:] A robot typing on a computer in front of a beach in the style of Pablo Picasso.]
 
-```{r robot1, out.width='42%'}
+```{r robot1, out.width='42%', fig.alt='A generated art by Midjourney, a generative AI tool, showing a robot typing on a computer in front of a beach in the style of Pablo Picasso'}
 knitr::include_graphics('figs/fmegahed_A_robot_typing_on_a_computer_in_front_of_a_beach_81712b26-91ab-4092-a8db-bf733278dadc.png')
 ```
 
@@ -100,7 +100,7 @@ count: false
 
 .bold[.red[Prompt:] A robot performing statistical analysis on a computer in front of a beach digital art.]
 
-```{r robot2, out.width='42%'}
+```{r robot2, out.width='42%', fig.alt='A generated art by Midjourney, a generative AI tool, showing a robot performing statistical analysis on a computer in front of a beach digital art'}
 knitr::include_graphics('figs/fmegahed_A_robot_performing_statistical_analysis_on_a_computer__70802736-5bf4-4669-b5d4-d59f7b849074.png')
 ```
 
@@ -142,7 +142,7 @@ pdftools::pdf_convert('figs/conclusions.pdf', dpi = 600,
 pdftools::pdf_convert('figs/open_questions.pdf', dpi = 600,
                       filenames = 'figs/open_questions.png')
 ```
-```{r ai_apps_out, out.width='100%', dpi = 600}
+```{r ai_apps_out, out.width='100%', dpi = 600, fig.alt='A flowchart highlighting the applications of AI, with highlight in red for fraud detection (in e-commerce), grading and assessment (in education), quality control and predictive maintenance (in manufacturing and production) as they relate the most to our SPC audience'}
 knitr::include_graphics('figs/ai_applications.png')
 ```
 
@@ -156,6 +156,24 @@ knitr::include_graphics('figs/ai_applications.png')
 **Image Source:** The flowchart's content and its LaTex code were generated using ChatGPT (May 24 Version). You can view the chat used to populate the ideas and make the figure [here](https://chat.openai.com/share/42574eda-ff9a-4fc0-a7cc-e2b1e8bda6fc).
 ]
 
+
+---
+
+# Background: The Road to Generative AI
+
+<br>
+
+```{r generative_ai_chart_out, out.width='100%', dpi = 600, fig.alt='From big data to big models, a flow chart documenting how we got to large language models'}
+knitr::include_graphics('figs/generative_ai_chart.png')
+```
+
+.footnote[
+<html>
+<hr>
+</html>
+
+**Comment:** You have been hearing about **big data** in SPC for over a decade now. In fact, we presented our paper titled [Statistical Perspectives on Big Data](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=ab40f392e653b7336cbebf7c4fb95d3988748282) was presented almost exactly 10 years ago in the ISQC Workshop in Sydney. We now have models that can digest and generate answers based on more than 45TB of text. 
+]
 
 ---
 
@@ -175,9 +193,7 @@ knitr::include_graphics('figs/ai_applications.png')
 - LLMs are **foundation models** (see [Bommasani et al. 2021](https://arxiv.org/abs/2108.07258)), large pre-trained AI systems
 that can be **repurposed with minimal effort across numerous domains and diverse tasks**
 ]
-```{r generative_ai_chart_out, out.width='100%', dpi = 600}
-knitr::include_graphics('figs/generative_ai_chart.png')
-```
+
 
 ---
 
@@ -241,7 +257,7 @@ pdftools::pdf_convert('figs/ai_dev.pdf', dpi = 600,
                       filenames = 'figs/ai_dev.png')
 ```
 
-```{r generative_ai_dev_out, out.width='100%', dpi = 600}
+```{r generative_ai_dev_out, out.width='100%', dpi = 600, fig.alt='A timeline showing that there has been a lot of developments in generative AI over the past 2-3 years'}
 plotly::ggplotly(p1, height=500,
                  tooltip = c('AI Method', 'Company', 'Date', 'Description')) |> 
   plotly::layout(annotations = 
@@ -256,7 +272,7 @@ plotly::ggplotly(p1, height=500,
 
 # Background: Generative AI Hype
 
-```{r gen_ai_hype, out.width='100%', fig.height = 3.5, dpi = 600, echo=FALSE}
+```{r gen_ai_hype, out.width='100%', fig.height = 3.5, dpi = 600, echo=FALSE, fig.alt='It took ChatGPT 5 days to reach 1 million users, while Instagram took 2.5 months and twitter took 24 months. We have not seen such a huge adoption that quick in tech before.'}
 companies = c('ChatGPT', 'Facebook', 'Twitter', 'Instagram',  'Hulu', 'Spotify', 'Pinterest')
 time_taken = c(5/30, 10, 24, 2.5, 10, 5, 20)
 
@@ -312,10 +328,10 @@ count: false
 
 # Background: Generative AI Hype
 
-```{r gen_ai_hype2, out.width='100%', fig.height = 3.5, dpi = 600, echo=FALSE}
+```{r gen_ai_hype2, out.width='100%', fig.height = 3.5, dpi = 600, echo=FALSE, fig.alt='A header of a news article from Fortune Magazine, which shows that the French Generative AI company, Mistral, raised over 100 million US Dollars less than a month since it has been founded, with limited employees and no products'}
 knitr::include_graphics('figs/fortune_mistral.png')
 ```
-.center[.white[vertical scpacing]]
+.center[.white[vertical spacing]]
 
 .center[.font90[Excitement about generative AI continues (click [here to access the Fortune article on Mistral](https://fortune.com/2023/06/14/mistral-ai-startup-record-113-million-seed-round-arthur-mensch/))]]
 
@@ -375,7 +391,7 @@ pdftools::pdf_convert('figs/methods.pdf', dpi = 600,
                       filenames = 'figs/methods.png') # convert latex pdf to png
 ```
 <center>
-<img src="./figs/methods.png" alt="An overview of our study design" width="70%" height="70%" border="0" style="padding:0px; display: block; line-height: 0px; font-size: 0px; border:0px;" />
+<img src="./figs/methods.png" alt="An overview of our study design, where we focused on three applications code, explanation, and knowledge generation for each application domain of practice, learning, and research. Red color is used to highlight the questions that will be discussed in the presentation." width="70%" height="70%" border="0" style="padding:0px; display: block; line-height: 0px; font-size: 0px; border:0px;" />
 </center>
 
 
@@ -410,7 +426,7 @@ count: false
 
 # The Good: Knowledge Generation
 
-```{r spc_research_knowledge, echo=FALSE, out.width='70%'}
+```{r spc_research_knowledge, echo=FALSE, out.width='63%', fig.alt='Chat GPT highlighted six areas where there are open issues in statistical process control. We will highlight the main themese in the next slide'}
 knitr::include_graphics('figs/research_prompt_08_fig_01.png')
 ```
 
@@ -477,7 +493,7 @@ count: false
 
 ```
 
-```{r code_exp_2, echo=FALSE, out.width='80%', fig.align='center'}
+```{r code_exp_2, echo=FALSE, out.width='80%', fig.align='center', fig.alt='We asked ChatGPT to tell us the mathematical method for the code prompt above and ChatGPT answered Markov Chain analysis which is close to the precise answer of Markov Chain approximation'}
 knitr::include_graphics('figs/research_prompt_03_fig_01.png')
 ```
 
@@ -499,7 +515,7 @@ count: false
 ]
 
 .pull-right[
-```{r code_exp_3, echo=FALSE, out.width='90%', fig.align='center'}
+```{r code_exp_3, echo=FALSE, out.width='90%', fig.align='center', fig.alt='A screen shot from the video from a couple of slide ago, showing ChatGPT did a good job of explaining our ewma dot arl function'}
 knitr::include_graphics('figs/research_prompt_02_fig_01.png')
 ```
 ]
@@ -580,15 +596,15 @@ count: false
 
 # The Bad: Precise Definitions
 
-```{r imprecise, out.width='60%', echo=FALSE}
-knitr::include_graphics('figs/research_prompt_08_fig_01.png')
+```{r imprecise, out.width='46%', echo=FALSE, fig.alt="ChatGPT's generated response for our prompt of explain the practitioner-to-practitioner variability. Its response is somewhat long and imprecise. Specifically, ChatGPT presented five factors, which share a common feature; all deal with differences on the method level, i.e., chart type, subgroup design, techniques to calculate the limits, dealing with outliers, and choice of software. While we agree that these factors are important and will drive different results, ChatGPT's answer ignores the context for which the practitioner-to-practitioner variability is used in the SPC literature. In fact, the practitioner-to-practitioner variability refers to the variation that occurs with a fixed configuration of the five aforementioned factors, i.e., the variation results from multiple implementations of the same procedure on the same data-generating process."}
+knitr::include_graphics('figs/research_prompt_05_fig_01.png')
 ```
 
 
 
 ---
 
-# The Ugly: `bigfish` Halucination
+# The Ugly: ChatGPT's Halucination
 
 .bold[To detect whether ChatGPT can detect erroneous requests, we asked:]
 
@@ -605,9 +621,9 @@ knitr::include_graphics('figs/research_prompt_08_fig_01.png')
 ---
 count: false
 
-# The Ugly: `bigfish` Halucination
+# The Ugly: ChatGPT's Halucination
 
-```{r bigfish1, out.width='60%', echo=FALSE}
+```{r bigfish1, out.width='60%', echo=FALSE, fig.alt='The ChatGPT halucination, answering a question about a non-existent dataset in the qcc library'}
 knitr::include_graphics('figs/practice_prompt_03_fig_01.png')
 ```
 
@@ -615,9 +631,9 @@ knitr::include_graphics('figs/practice_prompt_03_fig_01.png')
 ---
 count: false
 
-# The Ugly: `bigfish` Halucination
+# The Ugly: ChatGPT's Halucination
 
-```{r bigfish2, out.width='80%', echo=FALSE}
+```{r bigfish2, out.width='80%', echo=FALSE, fig.alt='ChatGPT making up details about the non-existent bigfish dataset and saying it is popular in the SPC community'}
 knitr::include_graphics('figs/practice_prompt_03_fig_02.png')
 ```
 
@@ -626,7 +642,7 @@ knitr::include_graphics('figs/practice_prompt_03_fig_02.png')
 
 # Conclusions
 
-```{r conclusions, out.width='80%', dpi = 600, echo=FALSE}
+```{r conclusions, out.width='80%', dpi = 600, echo=FALSE, fig.alt='A flowchart highlighting the strengths of ChatGPT and its weakness, following from our highlighted questions'}
 knitr::include_graphics('figs/conclusions.png')
 ```
 
@@ -635,10 +651,27 @@ knitr::include_graphics('figs/conclusions.png')
 
 # Open Questions
 
-```{r open_questions, out.width='50%', dpi = 600, echo=FALSE}
+```{r open_questions, out.width='50%', dpi = 600, echo=FALSE, fig.alt='Five open questions that relate to output quality assessment, variability assessment, how to tailor generative AI methods to SPC applications, ethics of use, and legal issues from using it'}
 knitr::include_graphics('figs/open_questions.png')
 ```
 
+
+---
+count: false
+
+# Open Questions - EU Legal Issues
+
+```{r open_questions2, out.width='92%', dpi = 600, echo=FALSE}
+knitr::include_graphics('https://crfm.stanford.edu/static/img/posts/2023-06-15-eu-ai-act/results.png')
+```
+
+.footnote[
+<html>
+<hr>
+</html>
+
+**Image Source:** Stanford's Center for Research on Foundation Models (see [the post by Bommasani et al. 2023](https://crfm.stanford.edu/2023/06/15/eu-ai-act.html) for more details).
+]
 
 ---
 class: center, middle, inverse, title-slide
