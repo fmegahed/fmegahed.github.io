@@ -79,7 +79,7 @@ xaringanExtra::use_xaringan_extra(c("tile_view", "animate_css", "tachyons", "pan
 # An Informal Survey of ISSPM Participants
 
 <center>
-<iframe src="https://wall.sli.do/event/96xo9nt46ye7iitJq1pqeW" frameborder="0" height=“100%” width="100%" scrolling="yes"></iframe>
+<iframe src="https://wall.sli.do/event/96xo9nt46ye7iitJq1pqeW" frameborder="0" height=“100%” width="100%"  style="min-height: 480px;"></iframe>
 </center>
 
 
@@ -618,7 +618,7 @@ knitr::include_graphics('figs/research_prompt_05_fig_01.png')
 
 <br>
 
-> .bold[.large["Can you use the ‘bigfish' dataset from the qcc library in \texttt{R} to create a control chart?'' Note that we made up this dataset name.]]
+> .bold[.large["Can you use the ‘bigfish' dataset from the qcc library in R to create a control chart?'' Note that we made up this dataset name.]]
 
 <br>
 
