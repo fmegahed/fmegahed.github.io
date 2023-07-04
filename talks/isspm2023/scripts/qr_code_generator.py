@@ -59,7 +59,7 @@ QRcode = qrcode.QRCode(
 )
 
 # taking url or text
-url = 'https://fmegahed.github.io/talks/isspm2023/generative_ai_spc.html/'
+url = 'https://fmegahed.github.io/talks/isspm2023/generative_ai_spc.html'
 
 # adding URL or text to QRcode
 QRcode.add_data(url)
