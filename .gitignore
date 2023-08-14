@@ -7,3 +7,6 @@ markdown_basics_files/
 .Rproj.user
 intro_rmarkdown_cache/
 intro_rmarkdown_files/
+talks/isqc2023/.Rprofile
+talks/isqc2023/chatsqc_cache/
+talks/isqc2023/chatsqc_files/
