@@ -445,7 +445,7 @@ knitr::include_graphics('figs/practice_prompt_03_fig_02.png')
 ---
 class: inverse, center, middle
 
-# ChatSQC: Our Grounded App, to address Imprecise SQC Answers and Halucinations
+# ChatSQC: Our Grounded App, to address Imprecise SQC Answers and Hallucinations
 
 <br>
 
