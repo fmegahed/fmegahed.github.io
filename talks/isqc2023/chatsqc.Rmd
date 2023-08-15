@@ -276,7 +276,12 @@ df_popularity |>
     caption = expression(paste(bold('By: '), 'Fadel M. Megahed   | ', bold('Data Source:'), ' Business Insider')),
     title = 'Months to Reach 1M Users in Tech', 
     subtitle = "Hype/potential is unprecedented for ChatGPT; **5 days** to reach 1M users vs 2+ months for other tech."
-  )
+  ) -> plot_hype
+
+ggplot2::ggsave(filename = 'figs/chatgpt_hype.png', plot = plot_hype,
+                width = 11, height = 5)
+
+knitr::include_graphics('figs/chatgpt_hype.png')
 
 ```
 
