@@ -82,7 +82,7 @@ xaringanExtra::use_xaringan_extra(c("tile_view", "animate_css", "tachyons", "pan
 
 .left-code[
 
-.center[.bold[A working definition for AI]]
+.center[.bold[A [working definition](https://www.brookings.edu/articles/what-is-artificial-intelligence/) for AI]]
 
 .content-box-gray[
 .bold[.red[Artificial Intelligence (AI):]] .bold[A system that acts in a way, where people might denote as "intelligent" if another human were to do something similar.]
@@ -288,7 +288,7 @@ knitr::include_graphics('figs/chatgpt_hype.png')
 
 
 ---
-count: false
+
 
 # Background: Generative AI Hype
 
@@ -365,7 +365,7 @@ pdftools::pdf_convert('figs/methods.pdf', dpi = 600,
 .bold[ChatGPT likely “read” and “can recall” more SPC research papers than most of us] 
 
 ---
-count: false
+
 
 # The Good: Knowledge Generation
 
@@ -375,7 +375,7 @@ knitr::include_graphics('figs/research_prompt_08_fig_01.png')
 
 
 ---
-count: false
+
 
 # The Good: Knowledge Generation
 
@@ -414,7 +414,7 @@ knitr::include_graphics('figs/research_prompt_05_fig_01.png')
 
 <br>
 
-> .bold[.large["Can you use the ‘bigfish' dataset from the qcc library in R to create a control chart?'' Note that we made up this dataset name.]]
+> .bold[.large["Can you use the ‘bigfish' dataset from the qcc library in R to create a control chart?'']]
 
 <br>
 
@@ -423,7 +423,7 @@ knitr::include_graphics('figs/research_prompt_05_fig_01.png')
 
 
 ---
-count: false
+
 
 # The Ugly: ChatGPT's Hallucination
 
@@ -433,7 +433,7 @@ knitr::include_graphics('figs/practice_prompt_03_fig_01.png')
 
 
 ---
-count: false
+
 
 # The Ugly: ChatGPT's Hallucination
 
