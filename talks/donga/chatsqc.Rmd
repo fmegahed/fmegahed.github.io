@@ -449,7 +449,11 @@ class: inverse, center, middle
 
 <br>
 
-Megahed, F. M., Chen, Y. J., Zwetsloot, I., Knoth, S., Montgomery, D.C., & Jones-Farmer, L. A. (2023). AI and the Future of Work in Statistical Quality Control: Insights from a First Attempt to Augmenting ChatGPT with an SQC Knowledge Base (ChatSQC). To be submitted to publication (next week).
+.pull-left-2[Megahed, F. M., Chen, Y. J., Zwetsloot, I., Knoth, S., Montgomery, D.C., & Jones-Farmer, L. A. (2023). AI and the Future of Work in Statistical Quality Control: Insights from a First Attempt to Augmenting ChatGPT with an SQC Knowledge Base (ChatSQC). 
+
+Available on [arXiv](https://arxiv.org/pdf/2308.13550.pdf).]
+
+.pull-right-2[<div><img src="figs/paper2_qr_code.png" class="paper-img" width="300px" align="right"></div>]
 
 ---
 
