@@ -549,11 +549,12 @@ list.files(path = 'figs/jqt/', pattern = 'LineGraph-', full.names = T) |>
   magick::image_write_video(path ="figs/LineGraph.mp4", framerate = 1)
 ```
 
-<center>
-<video width="63%" height="63%" autoplay controls aria-label="A video showing that the scaled stride height, length and duration for all 15 participants show a significant amount of noise, which needs to be filtered out prior to any meaningful processing.">
-<source src="figs/LineGraph.mp4" type="video/mp4">
-</video>
-</center>
+<div style="text-align: center;">
+    <video width="63%" height="63%" autoplay controls>
+        <source src="https://drive.google.com/open?id=1AEA7PdOLlFapVOx13og2PJxIoCEF47fn&usp=drive_fs" type="video/mp4">
+    </video>
+</div>
+
 
 .footnote[
 <html>
@@ -576,11 +577,12 @@ list.files(path = 'figs/jqt/', pattern = 'MedianFiltering-', full.names = T) |>
   magick::image_write_video(path ="figs/MedianFiltering.mp4", framerate = 1)
 ```
 
-<center>
-<video width="63%" height="63%" autoplay controls aria-label="A video showing that the use of median filtering, with a rolling window, has significantly smoothed the scaled stride height, length and duration for all 15 participants.">
-<source src="figs/MedianFiltering.mp4" type="video/mp4">
-</video>
-</center>
+<div style="text-align: center;">
+    <video width="63%" height="63%" autoplay controls>
+        <source src="https://drive.google.com/open?id=1AMu8mlFNfSPk7NXDIif7cd68unIBSpxI&usp=drive_fs.mp4" type="video/mp4">
+    </video>
+</div>
+
 
 .footnote[
 <html>
@@ -603,11 +605,12 @@ list.files(path = 'figs/jqt/', pattern = 'RPE_Analysis-', full.names = T) |>
   magick::image_write_video(path ="figs/RPE_Analysis.mp4", framerate = 1)
 ```
 
-<center>
-<video width="63%" height="63%" autoplay controls aria-label="A video showing that the use of the multivariate changepoint models and the cumulative sum of each signal can detect distinct changepoints that are associated with fatigue development in each participant.">
-<source src="figs/RPE_Analysis.mp4" type="video/mp4">
-</video>
-</center>
+<div style="text-align: center;">
+    <video width="63%" height="63%" autoplay controls>
+        <source src="https://drive.google.com/open?id=1AIHQlynwgsi1AMWzIFBmc0j4FuqTytka&usp=drive_fs" type="video/mp4">
+    </video>
+</div>
+
 
 .footnote[
 <html>
@@ -625,7 +628,7 @@ count:false
 
 .pull-left[
 .font90[
-.center[.bold[From the cluster visualization (right), we observe the followig patterns:]]
+.center[.bold[From the cluster visualization (right), we observe the following patterns:]]
 
 - A large variation in fatigue development patterns across participants.  
 - There are varying patterns of fatigue development across participants.  
