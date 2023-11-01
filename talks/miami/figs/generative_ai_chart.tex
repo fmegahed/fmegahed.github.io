@@ -1,0 +1,55 @@
+\documentclass[border=10pt]{standalone}
+\usepackage[edges]{forest}
+\usepackage{xcolor}
+
+\definecolor{myred}{RGB}{195,20,45}
+
+\tikzset{
+	parent/.style={align=center, rounded corners=2pt, draw=gray, thick, fill=white, font=\sffamily\bfseries\large},
+	child/.style={align=center, rounded corners=2pt, draw=myred,thick,fill=white, font=\sffamily\bfseries\large},
+	grandchild/.style={align=center, rounded corners=2pt, draw=black, thick, fill=white, font=\sffamily\bfseries\large},
+}
+
+\begin{document}
+	
+	\begin{forest}
+		for tree={
+			grow'=0, % Changed from south to 0 for left-to-right growth
+			child anchor=west, 
+			parent anchor=east,
+			anchor=west,
+			l sep+=1cm, % Increased separation for larger font size
+			line width=0.8pt,
+			edge path={
+				\noexpand\path[\forestoption{edge}]
+				(!u.parent anchor) -- +(7.5pt,0) |- (.child anchor)\forestoption{edge label};
+			},
+		},
+		where level=0{parent}{},
+		where level=1{child}{},
+		where level=2{grandchild, tier=word}{},
+		[From Big Data to Big Models
+		[Data Explosion]
+		[ , phantom]
+		[Increase in Computational Power]
+		[ , phantom]
+		[Advancements in Machine Learning
+		[Deep Learning]
+		[Emergence of Transformer Models]
+		]
+		[ , phantom]
+		[Development of Large Language Models
+		[ , phantom]
+		[Use of Transformer Models]
+		[Understanding of Language Semantics]
+		[ , phantom]
+		[Training and Tuning
+		[Use of Large Datasets]
+		[Adjustment of Model Parameters]
+		[Evaluation and Improvement]
+		]
+		]
+		]
+	\end{forest}
+	
+\end{document}

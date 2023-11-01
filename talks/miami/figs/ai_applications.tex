@@ -1,0 +1,79 @@
+\documentclass[border=10pt]{standalone}
+\usepackage[edges]{forest}
+\usepackage{xcolor}
+
+\definecolor{myred}{RGB}{195,20,45}
+
+\tikzset{
+	parent/.style={align=center, rounded corners=2pt, draw=gray, thick, fill=white, font=\sffamily\bfseries\large},
+	child/.style={align=center, rounded corners=2pt, draw=myred, thick, fill=white, font=\sffamily\bfseries\large},
+	grandchild/.style={align=center, rounded corners=2pt, draw=black, thick, fill=white, font=\sffamily\bfseries\large},
+	special/.style={align=center, rounded corners=2pt, draw=myred, thick, fill=gray!10, font=\sffamily\bfseries\large},
+}
+
+\begin{document}
+	
+	\begin{forest}
+		for tree={
+			grow'=0, 
+			child anchor=west, 
+			parent anchor=east,
+			anchor=west,
+			l sep+=1cm,
+			line width=0.8pt,
+			edge path={
+				\noexpand\path[\forestoption{edge}]
+				(!u.parent anchor) -- +(7.5pt,0) |- (.child anchor)\forestoption{edge label};
+			},
+		},
+		where level=0{parent}{},
+		where level=1{child, for children={before computing xy={t-= -50mm}}}{},
+		where level=2{grandchild, tier=word}{},
+		where content={Quality Control}{special, name=QC}{},
+		where content={Predictive Maintenance}{special, name=PM}{},
+		[Applications of AI
+		[Healthcare
+		[Medical Imaging]
+		[Drug Discovery]
+		[Personalized Medicine]
+		]
+		[E-commerce
+		[,phantom]
+		[Recommendation Systems]
+		[Fraud Detection, draw=myred, top color=myred!5, bottom color=myred!30]
+		[Customer Service]
+		]
+		[Transportation
+		[,phantom]
+		[Autonomous Vehicles]
+		% [Traffic Management]
+		%[Logistics and Supply Chain]
+		]
+		[Education
+		[,phantom]
+		[Personalized Learning]
+		[Intelligent Tutoring Systems]
+		[Grading and Assessment, draw=myred, top color=myred!5, bottom color=myred!30]
+		]
+		[Finance
+		[,phantom]
+		%[Algorithmic Trading]
+		%[Credit Scoring]
+		[Predictive Analysis]
+		]
+%		[Media and Entertainment
+%		[,phantom]
+%		[Content Recommendation]
+%		[Computer Graphics]
+%		[Content Creation]
+%		]
+		[Manufacturing \& Production
+		[,phantom]
+		[Quality Control, draw=myred, top color=myred!5, bottom color=myred!30]
+		[Predictive Maintenance, draw=myred, top color=myred!5, bottom color=myred!30]
+		[Supply Chain Optimization]
+		]
+		]
+	\end{forest}
+	
+\end{document}
