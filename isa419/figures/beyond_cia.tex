@@ -1,0 +1,26 @@
+\documentclass[border=10pt]{standalone}
+
+\usepackage{framed}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{smartdiagram}
+\usepackage{xcolor}
+
+\definecolor{miamired}{RGB}{200,16,46}
+\definecolor{darkgreen}{rgb}{0.09, 0.45, 0.27}
+
+\begin{document}
+
+\centering 
+	\smartdiagramset{
+		uniform color list= miamired for 5 items,
+		bubble node size = 2.25cm,
+		bubble center node size = 3.33 cm,
+		bubble center node font = \small,
+		bubble node font = \small
+	}
+	
+	\smartdiagram[bubble diagram]{
+		\textbf{Beyond} \\ \textbf{the} \textbf{CIA},\textbf{ Authentication} \\ (computer \\ vs. network), \textbf{Authorization}, \textbf{Privacy}, \textbf{Non-repudiation}, \textbf{Auditability}}	
+
+\end{document}
