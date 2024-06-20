@@ -309,12 +309,19 @@ knitr::include_graphics('figs/practice_prompt_03_fig_02.png')
 
 <div style="margin-top: -10px;">
     <center>
-        <video style="width: 100%; max-height: 63vh;" controls>
+        <video style="width: 100%; max-height: 63vh;" controls id="myVideo">
             <source src="figs/bigfish.mp4" type="video/mp4">
         </video>
     </center>
 </div>
 
+<script>
+    var video = document.getElementById('myVideo');
+    video.addEventListener('loadedmetadata', function() {
+        video.currentTime = 11;
+        video.playbackRate = 1.25;
+    }, false);
+</script>
 
 .footnote[
 <html>
@@ -331,7 +338,7 @@ class: inverse, center, middle
 
 <br>
 
-.pull-left-2[<br>Megahed, F. M., Chen, Y. J., Zwetsloot, I., Knoth, S., Montgomery, D.C., & Jones-Farmer, L. A. (2024). Introducing ChatSQC: Enhancing Statistical Quality Control with Augmented AI. Under second review.
+.pull-left-2[<br>Megahed, F. M., Chen, Y. J., Zwetsloot, I., Knoth, S., Montgomery, D.C., & Jones-Farmer, L. A. (2024). Introducing ChatSQC: Enhancing Statistical Quality Control with Augmented AI. To appear in the *Journal of Quality Technology*.
 
 [Freely available @ [arXiv](https://arxiv.org/pdf/2308.13550)].]
 
@@ -353,7 +360,7 @@ knitr::include_graphics('figs/ChatSQC_flowchart_new.png')
 
 <center>
     <a href="https://chatsqc.osc.edu/">
-        <img alt="The interface to our ChatSQC app" src="figs/chatsqc_demo.png" style="width:100%; height:100%;">
+        <img alt="The interface to our ChatSQC app" src="figs/chatsqc_demo.png" style="width:90%; height:90%;">
     </a>
 </center>
 
@@ -364,6 +371,42 @@ knitr::include_graphics('figs/ChatSQC_flowchart_new.png')
 
 **Note:** We encourage the audience to experiment with **ChatSQC** at <https://chatsqc.osc.edu/>.
 ]
+
+
+---
+class: inverse, center, middle
+
+# ChatISA: Our In-House Bot for Students
+
+<br>
+
+.pull-left-2[<br>Megahed, F. M., Chen, Y. J., Ferris, J.A., Resatar, C., Ross, K., Lee, Y., & Jones-Farmer, L. A. (2024). ChatISA: A Prompt-Engineered Chatbot for Coding, Project Management, Interview and Exam Preparation Activities. Under review at *IEEE Transactions at Learning Technologies*.
+
+Paper will be announced @ arXiv soon.]
+
+.pull-right-2[<div><img src="figs/paper3_qr_code.png" class="paper-img" width="300px" align="right"></div>]
+
+
+---
+
+# A Live Demo of ChatISA
+
+<center>
+    <a href="https://chatisa.fsb.miamioh.edu/">
+        <img alt="The interface to our ChatISA app" src="figs/chatisa_demo.gif" style="width:80%; height:80%;">
+    </a>
+</center>
+
+.footnote[
+<html>
+<hr>
+</html>
+
+**Note:** We encourage the audience to experiment with **ChatISA** at <https://chatisa.fsb.miamioh.edu/>. If we have time, we can also go over [this pre-recorded and sped-up demo of the Exam Ally module](https://www.loom.com/share/239950fad0e24ef1875e8d5fb35cbe60).
+]
+
+
+
 
 ---
 class: inverse, center, middle
@@ -455,7 +498,7 @@ knitr::include_graphics("figs/adjusted_paper_info.gif")
 
 ---
 
-# On "Generative AI and Firm Values"
+# "Generative AI and Firm Values:" An Overview
 
 ```{r andrea_paper, include=FALSE}
 graph2 = DiagrammeR::grViz("
@@ -502,18 +545,247 @@ knitr::include_graphics("figs/andrea_paper.svg")
 
 ---
 
+# "Generative AI and Firm Values:" Pairings
+
+.font70[
+A random sample drawn from `r readr::read_csv("parsed_results.csv") |> dplyr::filter(
+    occupation %in% c('Statisticians', 'Biostatisticians', 'Statistical Assistants')
+    ) |> nrow()` occupation-task pairings, for **biostatisticians**, **statistical assistants**, and **statisticians**.
+    ]
+
+```{r pairings, include=FALSE}
+set.seed(062024)
+results = readr::read_csv("parsed_results.csv") |> 
+  dplyr::filter(
+    occupation %in% c('Statisticians', 'Biostatisticians', 'Statistical Assistants')
+    ) |> 
+  dplyr::select(occupation, task_description, gpt_label) |> 
+  dplyr::group_by(occupation) |> dplyr::sample_n(size = 3)
+
+results |> 
+  dplyr::mutate(
+    gpt_label = kableExtra::cell_spec(
+      gpt_label, 
+      color = dplyr::case_when(
+        gpt_label == 'E0' ~ "#A9A9A9", gpt_label == 'E2' ~ "#FEB24C",
+        gpt_label == 'E3' ~ "#FD8D3C", gpt_label =='E1' ~ "#C3142D"
+      ) 
+    )
+  ) |> 
+  kableExtra::kbl(booktabs = F, linesep = "", escape = F) |>
+  kableExtra::kable_styling(full_width = T, bootstrap_options = 'none') |> 
+  kableExtra::column_spec(1, bold=T)  |> 
+  kableExtra::column_spec(3, bold=T) 
+```
+
+
+.font70[
+```{r pairings_out, echo=FALSE, ref.label='pairings', results='asis'}
+# printing out the results of the pairings code chunk
+```
+]
+
+.footnote[
+<html>
+<hr>
+</html>
+
+**Note:** Using the rubric from [Eisfeldt et al. (2023)](https://www.nber.org/papers/w31222), we utilized GPT3.5-Turbo on March 24, 2024 to classify 19,281 occupation-task pairings per the request of our colleague [Brooke Wang](https://www.jiaweibrookewang.com/). 
+]
+
+
+---
+
+# "Generative AI and Firm Values:" Consistency
+
+.font80[
+> To validate the consistency and replicability
+of our procedure, we compare the scores assigned across **3 different GPT runs** ... for a **randomly selected subsample of 100 task statements**.  
+
+> We compare the different sets of scores as follows: First, we construct **3 different classifications for each task** based on the assigned score: 
+  - **Current exposure:** score 1 has been assigned.  
+  - **Expected exposure:** Either score 1 or 2 has been assigned.  
+  - **Broad exposure:** Any score other than 0 has been assigned. 
+  
+> Then, we **compute the agreement** between different scoring runs with regard to which tasks belong in these categories. The comparison between different runs is shown (below). 
+
+]
+
+
+```{r esf_out, echo=FALSE, out.width='50%'}
+knitr::include_graphics('figs/eisfeld2023.png')
+```
+
+.footnote[
+<html>
+<hr>
+</html>
+
+**Source:** The quotes and the results in the table are from [Eisfeldt et al. (2023)](https://www.nber.org/papers/w31222). 
+]
+
+
+---
+
+# Alternatively: Percent vs. Expected Agreement
+
+.font80[
+We made 5,000 GPT3.5-Turbo API calls (1000 occupation-task pairings $\times$ 5 replicates) and obtained:
+]
+
+```{r pct_agreement, echo=FALSE, out.width='80%'}
+knitr::include_graphics('figs/gpt35_dist_label_conc.png')
+```
+
+.footnote[
+<html>
+<hr>
+</html>
+
+**Note:** This is also an **imperfect** approach since it assumes that all outcomes are equally likely/important.
+]
+
+
+---
+
+# Conjentures based on Roger Hoerl's Work
+
+.font80[
+> There is no knowledge without **theory** ... Experience
+ teaches nothing without a **theory**  ... Without theory you have
+ nothing to revise, nothing to learn from ... **You have no way to
+ use the information that comes to you.**  -- [Deming (1993)](https://mitpress.mit.edu/9780262535939/the-new-economics-for-industry-government-education/)
+]
+
+<br>
+
+.font80[
+> Interestingly, **mathematics and statistics are perhaps the only disciplines that tend to equate "theory" with "mathematics."** 
+
+> Biologists, geologists, and scientists in most other disciplines understand that **theory may or may not be mathematical in nature**. 
+
+> [Madigan and Stuetzle](https://academiccommons.columbia.edu/doi/10.7916/D8ZG73DT/download) ... made this point:  "The issues we raise above have nothing to do with the old distinction between applied statistics and theoretical statistics. The traditional viewpoint equates statistical theory with mathematics and hence with intellectual depth and rigor, but this misrepresents the notion of theory. We agree with the viewpoint that David Cox expressed at the 2002 NSF Workshop on the Future of Statistics that **'theory is primarily conceptual,' rather than mathematical**."
+
+]
+
+.footnote[
+<html>
+<hr>
+</html>
+
+**Source:** The quote (as well as the quotes and references within) are from: Hoerl, R.W. and Snee, R.D. (2010). [Moving the Statistics Profession Forward to the Next Level](https://www.tandfonline.com/doi/epdf/10.1198/tast.2010.09240). *The American Statistician*, 64(1), 10-14.
+]
+
+
+---
+
+background-image: url("figs/stevens_science_paper.png")
+background-position: right
+background-size: contain
+
+# On the Theory of <br/> Scales of Measurement
+
+.pull-left-2[
+An initial and reasonable **starting point** for evaluating LLM output in task classification scenarios is to utilize the seminal work of Stanley Stevens. From here, we can think of:
+
+- What is the **data type** of the label?  
+
+- How should **different data types** be evaluated from an **interrater reliability** perspective?
+]
+
+.footnote[
+<html>
+<hr>
+</html>
+
+**Source:** Stevens, S. S. (1946). [On the theory of scales of measurement](https://www.jstor.org/stable/pdf/1671815.pdf). Science, 103(2684), 677-680.
+]
+
+---
+
+# From Theory to LLM Practice: Initial Thoughts
+
+```{r theory_to_practice, echo=FALSE}
+library(DiagrammeR)
+
+alpha <- "\u03B1"
+
+graph_string <- paste0("
+  digraph LLM_Reliability {
+    graph [fontsize=12, overlap=true]
+
+    node [shape = box, fontname = Arial, fontcolor = black, style=filled, fillcolor=white, width=2.25]
+
+    Reliability [label = <<B>Reliability of LLM for Task Classification    </B>>, fontsize=15, color = black, style = bold, penwidth = 2, width = 3]
+    Consistency [label = <<B>Consistency</B>>, fontsize=14, color =\"#C3142D\", style = bold, penwidth = 2]
+    Validation [label = <<B>Validation</B>>, fontsize=14, color = gray, style = bold, penwidth = 2]
+
+    BinaryClassification [label = <<B>Binary Classification</B>>, fontsize=12, color=\"#C3142D\"]
+    NominalOrdinal [label = <<B>Nominal/Ordinal</B>>, fontsize=10, color=\"#C3142D\"]
+    SimplePercentAgreement [label = 'Simple Percent Agreement\n(equal costs)', fontsize=10, color = black]
+    KrippendorffAlpha [label = 'Generalized Krippendorff ", alpha, "\n(unequal costs)', fontsize=10, color = black]
+
+    MulticlassClassification [label = <<B>Multiclass Classification</B>>, fontsize=12, color=\"#C3142D\"]
+    Nominal [label = <<B>Nominal</B>>, fontsize=10, color=\"#C3142D\"]
+    Ordinal [label = <<B>Ordinal</B>>, fontsize=10, color=\"#C3142D\"]
+    Mixed [label = <<B>Mixed</B>>, fontsize=10, color=\"#C3142D\"]
+    KrippendorffAlphaMulticlass [label = 'Generalized Krippendorff ", alpha, "\n(different difference functions)', fontsize=10, color = black]
+
+    GoldStandard [label = <<B>Gold Standard</B>>, fontsize=12, color = black]
+    NoGoldStandard [label = <<B>No Gold Standard</B>>, fontsize=12, color = black]
+
+    Reliability -> Consistency [color=black]
+    Reliability -> Validation [color=black]
+    Consistency -> BinaryClassification [color=gray]
+    BinaryClassification -> NominalOrdinal [color=gray]
+    NominalOrdinal -> SimplePercentAgreement [color=\"#C3142D\"]
+    NominalOrdinal -> KrippendorffAlpha [color=\"#C3142D\"]
+    Consistency -> MulticlassClassification [color=gray]
+    MulticlassClassification -> Nominal [color=\"#C3142D\"]
+    MulticlassClassification -> Ordinal [color=\"#C3142D\"]
+    MulticlassClassification -> Mixed [color=\"#C3142D\"]
+    Nominal -> KrippendorffAlphaMulticlass [color=\"#C3142D\"]
+    Ordinal -> KrippendorffAlphaMulticlass [color=\"#C3142D\"]
+    Mixed -> KrippendorffAlphaMulticlass [color=\"#C3142D\"]
+    Validation -> GoldStandard [color=gray]
+    Validation -> NoGoldStandard [color=gray]
+  }
+")
+
+graph <- DiagrammeR::grViz(graph_string)
+
+graph |> DiagrammeRsvg::export_svg() |> xml2::read_xml() |> 
+  xml2::write_xml("figs/llm_reliability_flowchart.svg")
+```
+
+```{r theory_to_practice_out, echo=FALSE, out.width='100%'}
+knitr::include_graphics("figs/llm_reliability_flowchart.svg") 
+```
+
+.footnote[
+<html>
+<hr>
+</html>
+
+**Created By:** Fadel Megahed. This flowchart captures some ideas that we are currently investigating in this space.
+]
+
+---
+
+
 # Our Future Work in this Area
 
-1. Evaluating the **reliability of LLMs in automated text labeling:**  
-  - How can we rigorously evaluate the reliability of large language models (LLMs) both within a single model (intra-model) and across different models (inter-model)?  
-  - Consider the unequal costs associated with different model runs.  
-  - Predetermine the number of runs, replicates, and other design of experiments (DoE) factors before starting the experiments.  
-  - Consider different text labeling scenarios.
-  
-  
-2. Optimizing **LLM Evaluations:**  
-  - What comprehensive evaluation strategy should practitioners and applied researchers use to optimize their evaluations of LLMs?  
-  - Incorporate factors such as cost variations, performance rankings, and consistency results. 
+.content-box-gray[
+
+1. **Overarching research question:**
+   - How can we rigorously evaluate the reliability of large language models (LLMs) both within a single model (intra-model) and across different models (inter-model)?
+
+2. **Considerations:**
+   - Unequal costs associated with different model runs.
+   - Predetermine the number of runs, replicates, and other design of experiments (DoE) factors before starting the experiments.
+   - Consider different text labeling scenarios.
+
+]
 
 
 ---
@@ -642,7 +914,7 @@ def update(num):
     ax.set_title('A Timeline of Major AI Model Releases by OpenAI', fontname='DejaVu Sans', fontsize=12, weight='bold')
     ax.text(0.5, .985, 'Rapid advancements in AI technologies by OpenAI, highlighting key model releases.', 
         transform=ax.transAxes, ha='center', va='center', fontsize=10, color='darkgray', weight='bold', fontname='DejaVu Sans')
-    ax.annotate("Created By: Fadel Megahed | Data Source: Publicly available data, which was compiled by the author", xy=(0.05, 0.01), xycoords='figure fraction', ha='left', fontsize=10, fontname='DejaVu Sans')
+    ax.annotate("Created By: Fadel Megahed | Data Source: Publicly available data, which was compiled by the author.", xy=(0.05, 0.01), xycoords='figure fraction', ha='left', fontsize=10, fontname='DejaVu Sans')
     ax.yaxis.grid(False)
     ax.xaxis.grid(False)
     ax.spines['top'].set_visible(False)
@@ -653,17 +925,15 @@ def update(num):
 ani = FuncAnimation(fig, update, frames=len(dates)+1, repeat=False)
 
 # Save or show the animation
-ani.save('timeline_animation.mp4', writer='ffmpeg', fps=0.333)
+ani.save('figs/timeline_animation.mp4', writer='ffmpeg', fps=0.75)
+ani.save('figs/timeline_animation.gif', fps=0.75)
 # plt.show()  # Uncomment this line to display the animation instead of saving it
 ```
 
-<div style="margin-top: -35px;">
-    <center>
-        <video style="width: 100%; max-height: 50vh;" controls>
-            <source src="figs/timeline_animation.mp4" type="video/mp4">
-        </video>
-    </center>
-</div>
+```{r use_cases1_out, echo=FALSE, out.width='74%'}
+knitr::include_graphics("figs/timeline_animation.gif") 
+```
+
 
 
 ---
