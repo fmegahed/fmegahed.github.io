@@ -52,14 +52,14 @@ This document presents an optimization model for Fantasy Premier League (FPL) te
 
 # Reading FPL Review's Data
 
-For simplicity, I will be reading the data from the [FPL Review Site](https://fplreview.com/massive-data-planner23/). The data was downloaded on August 15, 2024 at 6:22 PM Eastern U.S. time using the download data (CSV) from the bottom of the page. Note that this data is available for subscribers only (at \$4/month). 
+For simplicity, I will be reading the data from the [FPL Review Site](https://fplreview.com/massive-data-planner23/). The data was downloaded on August 16, 2024 at 7:30 AM Eastern U.S. time using the download data (CSV) from the bottom of the page. Note that this data is available for subscribers only (at \$4/month). 
 
 ```{r fpl_review}
 # so I can convert the position into a factor column
 custom_order = c("G", "D", "M", "F")
 
 # reading the data, creating the expected points based on the next three game weeks, cleaning variable names and introducing a player index that will be used in the optimization model to pick players who belong to certain positions and teams
-fpl_review = readr::read_csv("data/fplreview_1723760553.csv") |>
+fpl_review = readr::read_csv("data/fplreview_1723807857.csv") |>
     dplyr::mutate(expected_points = `1_Pts` + `2_Pts` + `3_Pts`) |>
     dplyr::rename(web_name = Name, name = Team, cost = SV) |>
     janitor::clean_names() |>
@@ -81,14 +81,14 @@ fpl_review = readr::read_csv("data/fplreview_1723760553.csv") |>
     - **Fabianski** - I wanted a 4.0 GK and I did not want to pick the most commonly chosen 4.0 GKP since I do not think he will be playing much. He was benched at the end of the season and did not play again.  
     - **Barco**, as he will start as a LB for Brighton. So he will be picking some decent points in the begining of the season.  
     - **Faes**, as he is a sure-fire starter for *Leicester*. They will likely be a bit better than *Southampton*.
-    - **Smith Rowe**, I believe he will be the best 5.0 MID in the game based on the preseason he had. He will be in my starting 11 in some game weeks and will be the first player off the bench in most game weeks.
+    - **Rogers**, I believe he will be the best 5.0 MID in the game based on the preseason he had. He will be in my starting 11 in some game weeks and will be the first player off the bench in most game weeks. He is also owned by only 8.5% of the FPL community so has the potential for an increase in price.
 
 
 ## Plain English Explanation of the Model
 
 The optimization model aims to select a team of 15 players for Fantasy Premier League, maximizing the total expected points while adhering to various constraints. Here's a breakdown of the model:
 
-The **objective** is to maximize the total expected points, including doubled points for the selected captain. This is **subject to** the following constraints (so that we do not only pick the best players from the game):  
+The **objective** is to maximize the total expected points, including doubled points for the selected captain. Note that in the formulation, I have the total points of all 15 players and therefore, I subtract the points by the bench as they will not be in the team (and I am not doing a bench boost in any of these game weeks). This is **subject to** the following constraints (so that we do not only pick the best players from the game):  
 
 - The model must select exactly 15 players, with specific positions: 2 goalkeepers, 5 defenders, 5 midfielders, and 3 forwards.  
 - One player must be selected as the captain, whose points are doubled.  
@@ -111,7 +111,7 @@ This formulation allows for the simultaneous selection of players and the captai
 ### Objective Function
 Maximize the total expected points, including doubled points for the captain:
 $$
-\text{Maximize } \sum_{i=1}^{n} \text{expected\_points}_i \cdot (x_i + y_i)
+\text{Maximize } \sum_{i=1}^{n} \text{expected_points}_i \cdot (x_i + y_i) - \sum_{i \ \in \text{ bench_players}} \text{expected_points}_i 
 $$
 
 ### Constraints
@@ -169,7 +169,7 @@ haaland_index = fpl_review |>
 
 # I have a specific bench that I would like to have in my data.
 bench_players = fpl_review |>
-  dplyr::filter(web_name %in% c("Fabianski", "Barco", "Faes", "Winks")) |>
+  dplyr::filter(web_name %in% c("Fabianski", "Barco", "Faes", "Rogers")) |>
   dplyr::pull(player_index)
 
 # I do not trust Pep so I do not want to have more than two players from City on my team
@@ -225,7 +225,8 @@ for (j in 1:20) {
     ompr::add_variable(y[i], i = 1:n, type = "binary") |> # y[i] = 1 if player i is captain, 0 otherwise
     ompr::set_objective(
         ompr::sum_expr(df$expected_points[i] * x[i], i = 1:n) +
-        ompr::sum_expr(df$expected_points[i] * y[i], i = 1:n), # double captain points
+        ompr::sum_expr(df$expected_points[i] * y[i], i = 1:n) - 
+        ompr::sum_expr(df$expected_points[i], i = bench_players), # double captain points and remove the bench players from the calculation (they are included in the first addition and then subtracted at the end)
         "max"
     ) |> # Objective: Maximize expected points
 
@@ -237,6 +238,12 @@ for (j in 1:20) {
 
     # Constraint: Do not pick more than two Man City players
     ompr::add_constraint(ompr::sum_expr(x[i], i = man_city_indices) <= 2) |>
+    # For the sensitivity analysis, I am excluding Haaland and Salah
+    # best solution was 182.3 so lets see how much it goes down with
+    # a more balanced team (it was within 3 points so it did not matter much)
+     # ompr::add_constraint(x[haaland_index] == 0) |> 
+     # ompr::add_constraint(x[salah_index] == 0) |> 
+  
 
     # Constraint: Pick 2 GKP, 5 DEF, 5 MID, and 3 ATT
     ompr::add_constraint(ompr::sum_expr(x[i], i = gkp_indices) == 2) |>
@@ -312,10 +319,9 @@ for (j in 1:20) {
 
 # printing the best solution
 DT::datatable(
-    solutions[[1]], filter = 'top', rownames = FALSE,
+    solutions[[1]] |> dplyr::select(c(web_name, name, pos, cost, is_captain)), filter = 'top', rownames = FALSE,
     options = list(pageLength = 15, autoWidth = TRUE, scrollX = TRUE)
-) |>
-  DT::formatRound(columns=c('expected_points'), digits=1)
+)
 ```
 
 ### Printing the 20 Best Solutions
@@ -330,6 +336,7 @@ DT::datatable(
 res = purrr::map_chr(1:length(solutions), function(j) {  
   # Calculate the objective function value (sum of expected points)
   obj_value = round(obj_values[[j]], 1)
+  printed_solution = solutions[[j]] |> dplyr::select(c(web_name, name, pos, cost, is_captain))
   
   # Generate the tab content with the objective function value in the tab name
   knitr::knit_child(text = c(
@@ -337,8 +344,8 @@ res = purrr::map_chr(1:length(solutions), function(j) {
     "", 
     "```{r}",
     "#| echo: false",
-    "DT::datatable(solutions[[j]], filter = 'top', rownames = FALSE,",
-    "  options = list(pageLength = 15, autoWidth = TRUE, scrollX = TRUE)) |> DT::formatRound(columns=c('expected_points'), digits=1)",
+    "DT::datatable(printed_solution, filter = 'top', rownames = FALSE,",
+    "  options = list(pageLength = 15, autoWidth = TRUE, scrollX = TRUE))",
     "```",
     ""
   ), envir = environment(), quiet = TRUE)
