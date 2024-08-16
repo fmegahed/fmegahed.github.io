@@ -111,7 +111,7 @@ This formulation allows for the simultaneous selection of players and the captai
 ### Objective Function
 Maximize the total expected points, including doubled points for the captain:
 $$
-\text{Maximize } \sum_{i=1}^{n} \text{expected_points}_i \cdot (x_i + y_i) - \sum_{i \ \in \text{ bench\_players}} \text{expected\_points}_i 
+\text{Maximize } \sum_{i=1}^{n} \text{expected\_points}_i \cdot (x_i + y_i) - \sum_{i \ \in \text{ bench\_players}} \text{expected\_points}_i 
 $$
 
 ### Constraints
