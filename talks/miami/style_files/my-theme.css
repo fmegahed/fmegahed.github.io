@@ -2,7 +2,7 @@
 .title-slide {
   background-color: #c3142d; /* Set the background color to red or your desired color */
   position: relative;
-  background-image: url(../figs/pres_qr_code.png);
+  background-image: url(../figs/pres_qr_code25.png);
   background-position: 98% 98%; /* ## just start changing this */
   background-size: 220px;
 }
@@ -352,4 +352,8 @@ b, strong {
   position:absolute;
   right:5px;
   bottom:25px;
+}
+
+.text-right{
+  text-align: right;
 }

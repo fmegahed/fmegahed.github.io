@@ -1,0 +1,338 @@
+---
+title: | 
+    Beyond the Initial Shock: Leveraging AI to Enhance Student Learning
+author: 'Josh Ferris, Assistant Lecturer &nbsp; [`r icons::icon_style(icons::fontawesome("link", style = "solid"), fill = "white")` MU Webpage](https://miamioh.edu/fsb/directory/?up=/directory/ferrisj2)<br><br/>
+Rayna Xu, Assistant Professor &nbsp; [`r icons::icon_style(icons::fontawesome("link", style = "solid"), fill = "white")` MU Webpage](http://www.fsb.miamioh.edu/directory/xur29)<br><br/>
+Jay Shan, Rose-Marie Garia Anderson Chair Assistant Prof. &nbsp; [`r icons::icon_style(icons::fontawesome("link", style = "solid"), fill = "white")` MU Webpage](http://www.fsb.miamioh.edu/directory/shanz3)<br><br/> 
+Fadel M. Megahed, Professor &nbsp; [`r icons::icon_style(icons::fontawesome("link", style = "solid"), fill = "white")` MU Webpage](http://www.fsb.miamioh.edu/directory/megahefm)<br><br/>'
+date: 'March 10, 2025 | 2nd AI Symposium | Miami University'
+output:
+  xaringan::moon_reader:
+    self_contained: false
+    css: [default, "style_files/fonts.css", "style_files/my-theme.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLanguage: ["r"]
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+    seal: true
+header-includes:  
+  - "style_files/header.html"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = FALSE,
+                      echo = FALSE,
+                      warning = FALSE,
+                      message = FALSE,
+                      progress = FALSE, 
+                      verbose = FALSE,
+                      dev = 'png',
+                      fig.height = 3,
+                      dpi = 300,
+                      fig.align = 'center')
+
+options(htmltools.dir.version = FALSE)
+
+
+miamired = '#C3142D'
+
+if(require(pacman)==FALSE) install.packages("pacman")
+if(require(devtools)==FALSE) install.packages("devtools")
+if(require(countdown)==FALSE) devtools::install_github("gadenbuie/countdown")
+if(require(xaringanExtra)==FALSE) devtools::install_github("gadenbuie/xaringanExtra")
+if(require(emo)==FALSE) devtools::install_github("hadley/emo")
+if(require(icons)==FALSE) devtools::install_github("mitchelloharawild/icons")
+
+pacman::p_load(tidyverse, magrittr, lubridate, janitor, # data analysis pkgs
+               DataExplorer, scales, plotly, calendR, pdftools, # plots
+               tmap, sf, urbnmapr, tigris, # maps
+               bibliometrix, # for bibliometric analysis of my papers
+               gifski, av, gganimate, ggtext, glue, extrafont, # for animations
+               emojifont, emo, RefManageR, xaringanExtra, countdown) # for
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+if(require(xaringanthemer) == FALSE) install.packages("xaringanthemer")
+library(xaringanthemer)
+
+style_mono_accent(base_color = "#84d6d3",
+                  base_font_size = "20px")
+
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         
+  mute_unhighlighted_code = TRUE  
+)
+
+xaringanExtra::use_xaringan_extra(c("tile_view", "animate_css", "tachyons", "panelset", "share_again", "search", "fit_screen", "editable", "clipboard"))
+
+```
+
+
+## What our Students and their Families See in the Media
+
+```{r cnn, echo=FALSE, out.width='92%', fig.align='center', fig.alt="41% of companies worldwide plan to reduce workforces by 2030 due to AI"}
+knitr::include_graphics("figs/cnn_ai_displace_jobs.png")
+```
+
+.footnote[
+<html>
+<hr>
+</html>
+
+**Article Source:** Dmitracova, O. (2025, January 8). **41% of companies worldwide plan to reduce workforces by 2030 due to AI**. CNN Business. <https://www.cnn.com/2025/01/08/business/ai-job-losses-by-2030-intl/index.html>
+]
+
+
+---
+
+## The Fear of Technological Unemployment is Not New
+
+> "The **fear** has even been expressed by some that **technological change** would in the **near future not only cause increasing unemployment**, but that **eventually it would eliminate all but a few jobs**, with the major portion of what we now call **work being performed automatically** ..." 
+>
+> .font70[National Commission on Technology, Automation and Economic Progress (1966). Technology and the American Economy. Volume 1. February 1966. Report to the President and Members of Congress [(p.xii)](https://files.eric.ed.gov/fulltext/ED023803.pdf)].
+
+
+???
+We have the honor to present the report of the National Commission on Technology, Automation, and Economic Progress. This Commission was established by Public Law 88-444, which was approved by Congress on August 5, 1964, and signed by the President on August 19, 1964.
+
+The Commission was appointed by the President in December 1964, and the
+appointments were approved by the Senate on January 27, 1965. 
+
+
+---
+
+## Historical Predictions of Technlogical Change
+
+> Technological change on the other hand, has been a major factor in the **displacement and temporary unemployment of particular workers**. Thus technological change (along with other forms of economic change) is an important determinant of the **precise places, industries, and people affected by unemployment**. 
+>
+> .font70[National Commission on Technology, Automation and Economic Progress (1966). Technology and the American Economy. Volume 1. February 1966. Report to the President and Members of Congress [(p.9)](https://files.eric.ed.gov/fulltext/ED023803.pdf)].
+
+<br>
+
+> The .black[.bold[basic fact]] is that **technology eliminates jobs, not work**.  
+>
+> .font70[National Commission on Technology, Automation and Economic Progress (1966). Technology and the American Economy. Volume 1. February 1966. Report to the President and Members of Congress [(p.9)](https://files.eric.ed.gov/fulltext/ED023803.pdf)].
+
+
+---
+
+## Historical Predictions of Technlogical Change: Accurate
+
+```{r manfacturing_and_unrate, echo = FALSE, results='hide', fig.height=4.25, fig.width=8.4}
+manf_and_unrate = 
+  tidyquant::tq_get("UNRATE", get = "economic.data", from = "1960-01-01") |>
+  dplyr::filter(date >= "1960-01-01") |>
+  dplyr::mutate(date = as.Date(date)) |>
+  dplyr::rename(unrate = price) |>
+  dplyr::left_join(
+    tidyquant::tq_get("MANEMP", get = "economic.data", from = "1960-01-01") , 
+    by = c("date" = "date")
+    ) |>
+  dplyr::mutate(manfemp = price) |>
+  dplyr::select(date, unrate, manfemp) |>
+  dplyr::mutate(manfemp = manfemp / 1000) |> 
+  tidyr::pivot_longer(
+    cols = c(unrate, manfemp),
+    names_to = "series",
+    values_to = "value"
+  ) |> 
+  dplyr::mutate(
+    series = dplyr::case_when(
+      series == "unrate" ~ "Unemployment Rate (%)",
+      series == "manfemp" ~ "Manuf. Employment (M)"
+    )
+  )
+
+
+max_dates <- manf_and_unrate |> 
+  dplyr::group_by(series) |> 
+  dplyr::filter(value == max(value)) |> 
+  dplyr::select(series, date, value) |> 
+  dplyr::distinct()
+
+
+# Highlight values on the plot on Feb 1966
+feb_1966_annotations <- manf_and_unrate |>
+  dplyr::filter(date == as.Date("1966-02-01"))
+
+# Highlight values on the plot on Feb 2025
+feb_2025_annotations <- manf_and_unrate |>
+  dplyr::filter(date == as.Date("2025-02-01"))
+  
+# Create a paneled plot
+manf_and_unrate |>
+  ggplot2::ggplot(ggplot2::aes(x = date, y = value)) +
+  ggplot2::geom_line(linewidth = 1) +
+  
+  # Feb 1966 Annotations
+  ggplot2::facet_wrap(~ series, scales = "free", ncol = 1, strip.position = "left") +
+  ggplot2::geom_point(data = feb_1966_annotations, ggplot2::aes(x = date, y = value), size = 2, color = "darkgray") +
+  ggplot2::geom_segment(
+    data = feb_1966_annotations, 
+    ggplot2::aes(x = date, xend = date, y = value + 2, yend = value),
+    arrow = ggplot2::arrow(length = ggplot2::unit(0.2, "cm")), color = "darkgray"
+  ) +
+  ggplot2::geom_text(
+    data = feb_1966_annotations, 
+    ggplot2::aes(x = date, y = value + 2.5, label = paste0("Feb 1966: ", round(value, 2))), 
+    size = 2.25, color = "darkgray", fontface = "bold"
+  ) +
+  
+  # Feb 2025 Annotations
+  ggplot2::geom_point(data = feb_2025_annotations, ggplot2::aes(x = date, y = value), size = 2, color = "#C3142D") +
+  ggplot2::geom_segment(
+    data = feb_2025_annotations, 
+    ggplot2::aes(x = date, xend = date, y = value + 2, yend = value),
+    arrow = ggplot2::arrow(length = ggplot2::unit(0.2, "cm")), color = "#C3142D"
+  ) +
+  ggplot2::geom_text(
+    data = feb_2025_annotations, 
+    ggplot2::aes(x = date, y = value + 2.5, label = paste0("Feb 2025: ", round(value, 2))), 
+    size = 2.25, color = "#C3142D", fontface = "bold"
+  ) +
+  ggplot2::scale_x_date(date_labels = "%Y", date_breaks = "5 years") +
+  ggplot2::labs(
+    title = "U.S. Manufacturing Employment and Unemployment Rate (1960-2025)",
+    x = "Year",
+    y = "",
+    caption = '**Data Source:** FRED | **Created by:** Fadel M. Megahed for the AI Symposium 2025' 
+  ) +
+  
+  # Add vertical lines for max values
+  ggplot2::geom_vline(xintercept = as.Date("1998-06-01"), linetype = "dashed", color = "darkgray") +
+  ggplot2::geom_text(data = max_dates, ggplot2::aes(value-1), x = as.Date("1998-06-30") + 30, label = "Digital Economy", color = "darkgray", size = 3, hjust = 0, fontface= "bold") +
+  ggplot2::theme_bw() +
+  ggplot2::theme(
+    plot.title = ggplot2::element_text(hjust = 0.5, size = 14, face = "bold"),
+    legend.position='none',
+    panel.grid.major = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(fill ="#C3142D"),
+    strip.text = ggplot2::element_text(color = "white", size = 8, face = "bold"),
+    panel.spacing = ggplot2::unit(1, "lines"),
+    # bold x-ticks, yticks and the axis labels
+    axis.text = ggplot2::element_text(face = "bold", color = "black"),
+    axis.title = ggplot2::element_text(face = "bold", color = "black"),
+    plot.caption = ggtext::element_markdown(size = 8, color = "black")
+  )
+
+```
+
+
+---
+
+## Generative AI Usage in Higher Education Today
+
+.left-column[
+
+.content-box-gray[
+
+.center[
+
+**95%**  
+.font70[say the .black[.bold[teaching models]] at their schools will be affected significantly or to some degree]
+
+___
+
+**95%**  
+.font70[say .black[.bold[academic integrity]] will be impacted by the spread of GenAI tools]   
+
+___
+
+**92%**   
+.font70[think GenAI tools will lead to .black[.bold[overreliance]] by students on the tools]  
+
+___
+
+**81%**   
+.font70[think GenAI will have an impact on .black[.bold[digital divides]]]
+
+
+]
+]
+]
+
+.right-column[
+```{r gen_ai_challenges, echo = FALSE, results='hide', fig.height=2.5, fig.width=6.9}
+
+# Extracted data for institutions with more than 10,000 students
+df <- data.frame(
+  Category = c(
+    "Preparing students for the future",
+    "Preparing faculty for effective teaching and mentoring of students",
+    "Helping non-faculty staff using GenAI tools to perform their work"
+  ),
+  Percentage = c(51, 53, 58)
+)
+
+# Function to wrap text if the category name exceeds 45 characters
+df$Category <- sapply(df$Category, function(x) {
+  if (nchar(x) > 35) {
+    return(stringr::str_wrap(x, width = 35))
+  } else {
+    return(x)
+  }
+})
+
+# Create the bar chart
+ggplot2::ggplot(df, ggplot2::aes(x = Percentage, y = Category)) +
+  ggplot2::geom_bar(stat = "identity", fill = "#C3142D") +
+  
+  # Annotations inside the bars in white
+  ggplot2::geom_text(
+    ggplot2::aes(label = paste0(Percentage, "%")), 
+    color = "white", fontface = "bold", size = 4, hjust = 1.2
+  ) +
+  
+  # Set x-axis limits to 0-100
+  ggplot2::scale_x_continuous(limits = c(0, 100)) +
+  
+  # Labels and title
+  ggplot2::labs(
+    title = "Universities Unprepared for GenAI Challenges",
+    subtitle = '% of the 88 universities (>10,000 students) whose leaders say their <br>schools are **not very or not at all prepared** to use GenAI effectively for <br> ... ',
+    x = "Percentage (%)",
+    y = "",
+    caption = "**Data Source:** Survey by the American Association of Colleges and Universities (AAC&U) and Elon University, Nov. 4-Dec. 7, 2024. <br> **Created by:** Fadel M. Megahed for the AI Symposium 2025."
+  ) +
+  
+  # Theme styling as requested
+  ggplot2::theme_bw() +
+  ggplot2::theme(
+    plot.title = ggplot2::element_text(hjust = 0.5, size = 14, face = "bold"),
+    legend.position = 'none',
+    panel.grid.major = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    axis.text = ggplot2::element_text(face = "bold", color = "black"),
+    axis.title = ggplot2::element_text(face = "bold", color = "black"),
+    plot.caption = ggtext::element_markdown(size = 8, color = "black"),
+    plot.subtitle = ggtext::element_markdown(size = 10, color = "black"),
+    plot.margin = ggplot2::margin(2, 2, 2, 2)
+  )
+
+```
+
+<br>
+
+.font80[
+.center[
+Across all surveyed universities, **only 2% (7/337 universities) of leaders** think that a .black[.bold[clear majority of their faculty are well prepared to use GenAI in teaching]].
+]
+]
+
+
+]
+
+.footnote[
+<html>
+<hr>
+</html>
+
+**Data Source:** Survey by the American Association of Colleges and Universities (AAC&U) and Elon University, Nov. 4-Dec. 7, 2024. See [Watson and Rainie
+(2025)](https://dgmg81phhvh63.cloudfront.net/content/user-photos/AACU_AI_Report_2025.pdf) to access the survey report. <br> The text data captures the responses of the 337 *university presidents, chancellors, provosts, rectors, academic affairs vice presidents, and academic deans*, who responded to GenAI tool questions. The chart data is based on the 88 *universities with more than 10,000 students* .
+
+]
