@@ -529,7 +529,7 @@ knitr::include_graphics('figs/hf_clip.png')
 
 class: inverse, center, middle
 
-# Three Final Thoughts
+# Two Final Thoughts
 
 
 ---
@@ -764,22 +764,6 @@ knitr::include_graphics("figs/use_cases2.svg")
 **Created By:** Fadel Megahed based on the text in the article by Ava McCartney. (2024). "When Not to Use Generative AI", *Gartner*. The article was published on April 23, 2024 and last accessed on June 14, 2024. It can be accessed at <https://www.gartner.com/en/articles/when-not-to-use-generative-ai>.
 ]
 
-
----
-
-# 3. AI and Statistics: Perfect Together!!
-
-```{r ai_stats_perfect, echo=FALSE, out.width='60%'}
-knitr::include_graphics("figs/ai_stats_perfect.png") 
-```
-
-.footnote[
-<html>
-<hr>
-</html>
-
-**Source:** Redman, T.C., and Hoerl, R.W. (2024). "AI and Statistics: Perfect Together". *MIT Sloan Management Review*, available at <https://sloanreview.mit.edu/article/ai-and-statistics-perfect-together/>.
-]
 
 
 ---
