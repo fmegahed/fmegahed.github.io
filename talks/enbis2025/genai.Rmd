@@ -773,7 +773,9 @@ knitr::include_graphics('figs/hf_timegpt.png')
 <hr>
 </html>
 
-**Note:** For an end-to-end example of how I compared the performance of traditional statistical time series forecasting models with ML models and TimeGPT to predict electrical energy demand for Ohio-based Duke Energy, please refer to [Stat](https://colab.research.google.com/drive/1OiWZOL857YoeP-w7tfUasSxUfHjrjEbP?usp=sharing), [ML](https://colab.research.google.com/drive/1KA6K43CdnJ2jSMhkZW_mjsfL-TMbcwc_?usp=sharing), and [TimeGPT](https://colab.research.google.com/drive/182o9R9teYj7XflsRmxAy7xcGo0rtKH9n?usp=sharing) notebooks.  
+**Note:** For an end-to-end example of how I compared the performance of traditional statistical time series forecasting models with ML models and TimeGPT to predict electrical energy demand for Ohio-based Duke Energy, please refer to [Stat](https://colab.research.google.com/drive/1OiWZOL857YoeP-w7tfUasSxUfHjrjEbP?usp=sharing), [ML](https://colab.research.google.com/drive/1KA6K43CdnJ2jSMhkZW_mjsfL-TMbcwc_?usp=sharing), and [TimeGPT](https://colab.research.google.com/drive/182o9R9teYj7XflsRmxAy7xcGo0rtKH9n?usp=sharing) notebooks. 
+
+**Demo Data:** You can download the demo Duke Energy Data [here](https://github.com/fmegahed/fmegahed.github.io/raw/refs/heads/master/talks/enbis2025/data/duke_energy_weather_2020_2025.csv).
 
 ]
 
