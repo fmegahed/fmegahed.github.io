@@ -1,0 +1,273 @@
+/*-- scss:defaults --*/
+
+// Your exact color palette from xaringan theme
+$miami-red: #c3142d;
+$teal-accent: #84d6d3;
+$shout-pink: #ee5863;
+$fire-orange: #ff7436;
+$highlight-yellow: #ffdf65;
+$body-text: #585E60;
+
+// Background and text colors
+$body-bg: #ffffff;
+$body-color: $body-text;
+$link-color: $teal-accent;
+$link-color-hover: $shout-pink;
+$selection-bg: rgba($teal-accent, 0.2);
+
+// Heading colors
+$presentation-heading-color: $miami-red;
+$presentation-h1-font-size: 2.5em;
+$presentation-h2-font-size: 1.6em;
+
+// Code styling
+$code-block-bg: #f8f8f8;
+$code-color: $miami-red;
+$code-copy-button-color: $miami-red;
+
+/*-- scss:rules --*/
+
+// Base text styling
+.reveal {
+  color: $body-text;
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    color: $miami-red;
+  }
+}
+
+// Title slide styling
+.reveal .slides section.title-slide {
+  background-color: $miami-red;
+  color: #ffffff;
+  text-align: left;
+  
+  .title {
+    color: #ffffff;
+    font-size: 45px;
+    line-height: 1.05;
+    padding-top: 100px;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    text-shadow: none;
+    word-wrap: break-word;
+  }
+  
+  .subtitle {
+    color: #ffffff;
+    font-size: 40px;
+    padding-top: 0px;
+    margin-top: 0px;
+    text-shadow: none;
+  }
+  
+  .author {
+    font-family: 'Cabin', sans-serif;
+    font-size: 25px;
+    color: #ffffff;
+    text-shadow: none;
+    padding: 0px;
+    margin: 0px;
+    line-height: 1.1;
+  }
+  
+  .date {
+    color: #ffffff;
+    font-size: 20px;
+  }
+}
+
+// Custom text classes
+.shout {
+  color: $shout-pink;
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
+}
+
+.whisper {
+  color: $teal-accent;
+  font-family: 'Zeyada', cursive;
+  font-size: larger;
+}
+
+.onfire {
+  color: $fire-orange;
+}
+
+// Link styling
+.reveal a {
+  color: $teal-accent;
+  
+  &:hover {
+    color: $shout-pink;
+  }
+  
+  &:visited {
+    color: $teal-accent;
+  }
+  
+  &:active {
+    color: $shout-pink;
+  }
+}
+
+// Code styling
+.reveal code {
+  color: $miami-red;
+  background: none;
+}
+
+.reveal pre code {
+  color: $miami-red;
+  background: #f8f8f8;
+  padding: 1em;
+  border-radius: 5px;
+}
+
+.reveal .code-with-copy {
+  border: none;
+}
+
+// Highlighted code lines
+.reveal pre code .line-highlight {
+  background-color: $highlight-yellow;
+}
+
+// Inverse slides (like your .inverse class)
+.reveal .slides section.inverse {
+  background-color: $miami-red;
+  color: #ffffff;
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
+    line-height: 1.0em;
+  }
+  
+  h2 {
+    line-height: 1.1;
+    font-family: 'Rock Salt', cursive;
+  }
+  
+  code {
+    color: #3498CC;
+    background: none;
+  }
+  
+  .code-with-copy code {
+    color: #ffffff;
+  }
+}
+
+// List styling
+.reveal ul li::marker {
+  content: "• ";
+  color: $miami-red;
+}
+
+.reveal ol li::marker {
+  color: $miami-red;
+}
+
+// Strong/bold text
+.reveal strong,
+.reveal b {
+  color: $miami-red;
+}
+
+// Blockquotes
+.reveal blockquote {
+  border-left: solid 5px $miami-red;
+  padding-left: 1em;
+  background: #f9f9f9;
+  font-style: normal;
+}
+
+// Tables
+.reveal table {
+  margin: auto;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+  
+  thead th {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th, td {
+    padding: 5px;
+  }
+  
+  thead, tfoot, tr:nth-child(even) {
+    background: #eee;
+  }
+}
+
+// Content boxes
+.content-box {
+  box-sizing: content-box;
+  border-radius: 15px;
+  margin: 0 0 25px;
+  overflow: hidden;
+  padding: 20px;
+  width: 100%;
+}
+
+.content-box-blue {
+  background-color: #F0F8FF;
+}
+
+.content-box-gray, .content-box-grey {
+  background-color: #F5F5F5;
+}
+
+.content-box-army {
+  background-color: #737a36;
+  color: white;
+}
+
+.content-box-green {
+  background-color: #d9edc2;
+}
+
+.content-box-purple {
+  background-color: #e2e2f9;
+}
+
+.content-box-red {
+  background-color: #f9dbdb;
+}
+
+.content-box-yellow {
+  background-color: #fef5c4;
+}
+
+// Utility classes
+.opacity {
+  opacity: 0.5;
+}
+
+.blur {
+  filter: blur(5px);
+}
+
+.grayscale img {
+  filter: grayscale(100%);
+}
+
+.rotate-left {
+  transform: rotate(-2deg);
+}
+
+.rotate-right {
+  transform: rotate(2deg);
+}
+
+// Progress bar
+.reveal .progress {
+  color: $miami-red;
+}
+
+// Slide numbers
+.reveal .slide-number {
+  color: $miami-red;
+}
