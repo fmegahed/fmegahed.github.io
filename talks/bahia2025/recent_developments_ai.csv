@@ -1,0 +1,21 @@
+AI Method,Company,Description,Date
+GPT-3,OpenAI,Generative Pre-trained Transformer 3 is an autoregressive language model that uses deep learning to produce human-like text,6/11/2020
+CLIP,OpenAI,Connects text to images,1/5/2021
+DALL.E,OpenAI,Generating images and art from text,1/5/2021
+MidJourney,Midjourney,From text to images,2/1/2022
+AlphaCode,DeepMind,A competition-level code generation by DeepMind,2/2/2022
+DALL.E 2,OpenAI,"Generating images and art from text, with ability to combine concepts, attributes and styles",4/13/2022
+PaLM,Google,Google's 540 billion parameter LLM,5/4/2022
+CoPilot,GitHub,A LLM trained on GitHub data,6/21/2022
+Stable Diffusion,U. Munich + Stability.AI,A state of the art text-to-image model that generates images from text,8/22/2022
+Make-A-Video,Meta,"AI system that lets people turn text prompts into brief, high-quality video clips",9/29/2022
+ChatGPT, OpenAI, Chatbot built on top of GPT models, 11/30/2022
+MusicLM,Google,From text to music,1/26/2023
+Make-A-Video,Meta,From text to videos,1/26/2023
+Bing Chat,Microsoft,Integrating GPT models with Bing Search,2/7/2023
+GPT-4,OpenAI,Open AI's current LLM Model,3/14/2023
+Bard,Google,"Google's Chatbot, which competes with ChatGPT",3/21/2023
+PaLM 2,Google,Google's current LLM,5/10/2023
+Google AI Search,Google,Integrating PaLM models with Google Search,5/25/2023
+Snapdragon 8 Gen 3 Mobile Chips, Qualcomm, Generative AI Offline, 8/25/2023
+ChatGPT Plus Multimodal, OpenAI, ChatGPT can see hear, 9/25/2023

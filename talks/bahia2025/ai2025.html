@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Beyond the Initial Shock: Leveraging AI to Enhance Student Learning</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Fadel M. Megahed, Raymond E. Glos Professor     MU Webpage  " />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra_fit-screen/fit-screen.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"ae113984eacd46aab2ea4c84e20de212","expires":14}</script>
+    <script src="libs/himalaya/himalaya.js"></script>
+    <script src="libs/js-cookie/js.cookie.js"></script>
+    <link href="libs/editable/editable.css" rel="stylesheet" />
+    <script src="libs/editable/editable.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <script src="libs/mark.js/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":false,"autoSearch":true}) })</script>
+    <link rel="stylesheet" href="style_files/fonts.css" type="text/css" />
+    <link rel="stylesheet" href="style_files/my-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# <p>Beyond the Initial Shock: Leveraging AI to Enhance Student Learning</p>
+]
+.author[
+### Fadel M. Megahed, Raymond E. Glos Professor   <a href="http://www.fsb.miamioh.edu/directory/megahefm"><svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:white;" xmlns="http://www.w3.org/2000/svg"> <path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"></path></svg> MU Webpage</a><br><br/>
+]
+.date[
+### July 02, 2025 | Federal University of Bahia | Miami University
+]
+
+---
+
+
+
+
+
+
+
+
+## What our Students and their Families See in the Media
+
+&lt;img src="figs/cnn_ai_displace_jobs.png" alt="41% of companies worldwide plan to reduce workforces by 2030 due to AI" width="92%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Article Source:** Dmitracova, O. (2025, January 8). **41% of companies worldwide plan to reduce workforces by 2030 due to AI**. CNN Business. &lt;https://www.cnn.com/2025/01/08/business/ai-job-losses-by-2030-intl/index.html&gt;
+]
+
+
+---
+
+## The Fear of Technological Unemployment is Not New
+
+&gt; "The **fear** has even been expressed by some that **technological change** would in the **near future not only cause increasing unemployment**, but that **eventually it would eliminate all but a few jobs**, with the major portion of what we now call **work being performed automatically** ..." 
+&gt;
+&gt; .font70[National Commission on Technology, Automation and Economic Progress (1966). Technology and the American Economy. Volume 1. February 1966. Report to the President and Members of Congress [(p.xii)](https://files.eric.ed.gov/fulltext/ED023803.pdf)].
+
+
+???
+We have the honor to present the report of the National Commission on Technology, Automation, and Economic Progress. This Commission was established by Public Law 88-444, which was approved by Congress on August 5, 1964, and signed by the President on August 19, 1964.
+
+The Commission was appointed by the President in December 1964, and the
+appointments were approved by the Senate on January 27, 1965. 
+
+
+---
+
+## Historical Predictions of Technlogical Change
+
+&gt; .black[.bold[Technological change]] on the other hand, has been a .black[.bold[major factor]] in the **displacement and temporary unemployment of particular workers**. Thus technological change (along with other forms of economic change) is an important determinant of the **precise places, industries, and people affected by unemployment**. 
+&gt;
+&gt; .font70[National Commission on Technology, Automation and Economic Progress (1966). Technology and the American Economy. Volume 1. February 1966. Report to the President and Members of Congress [(p.9)](https://files.eric.ed.gov/fulltext/ED023803.pdf)].
+
+&lt;br&gt;
+
+&gt; The .black[.bold[basic fact]] is that **technology eliminates jobs, not work**.  
+&gt;
+&gt; .font70[National Commission on Technology, Automation and Economic Progress (1966). Technology and the American Economy. Volume 1. February 1966. Report to the President and Members of Congress [(p.9)](https://files.eric.ed.gov/fulltext/ED023803.pdf)].
+
+
+---
+
+## Historical Predictions of Technlogical Change: Accurate
+
+&lt;img src="ai2025_files/figure-html/manfacturing_and_unrate-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Generative AI Usage in Higher Education Today
+
+.left-column[
+
+.content-box-gray[
+
+.center[
+
+**95%**  
+.font70[say the .black[.bold[teaching models]] at their schools will be affected significantly or to some degree]
+
+___
+
+**95%**  
+.font70[say .black[.bold[academic integrity]] will be impacted by the spread of GenAI tools]   
+
+___
+
+**92%**   
+.font70[think GenAI tools will lead to .black[.bold[overreliance]] by students on the tools]  
+
+___
+
+**81%**   
+.font70[think GenAI will have an impact on .black[.bold[digital divides]]]
+
+
+]
+]
+]
+
+.right-column[
+&lt;img src="ai2025_files/figure-html/gen_ai_challenges-1.png" style="display: block; margin: auto;" /&gt;
+
+&lt;br&gt;
+
+.font80[
+.center[
+Across all surveyed universities, **only 2% (7/337 universities) of leaders** think that a .black[.bold[clear majority of their faculty are well prepared to use GenAI in teaching]].
+]
+]
+
+
+]
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Data Source:** Survey by the American Association of Colleges and Universities (AAC&amp;U) and Elon University, Nov. 4-Dec. 7, 2024. See [Watson and Rainie
+(2025)](https://dgmg81phhvh63.cloudfront.net/content/user-photos/AACU_AI_Report_2025.pdf) to access the survey report. &lt;br&gt; The text data captures the responses of the 337 *university presidents, chancellors, provosts, rectors, academic affairs vice presidents, and academic deans*, who responded to GenAI tool questions. The chart data is based on the 88 *universities with more than 10,000 students* .
+
+]
+
+
+---
+
+## Challenges to GenAI Adoption in Higher Education
+
+&lt;img src="ai2025_files/figure-html/challenges-1.png" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Image Adapted** from [Watson and Rainie
+(2025)](https://dgmg81phhvh63.cloudfront.net/content/user-photos/AACU_AI_Report_2025.pdf) Survey. The The American Association of Colleges and Universities (AAC&amp;U) and Elon University, Nov. 4-Dec. 7, 2024.
+
+]
+
+
+---
+
+## But, Students are Using GenAI Tools: OpenAI's View
+
+&lt;img src="figs/openai_student_usage_final.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Image Adapted** from OpenAI (2025). [Building an AI-Ready Workforce: A Look at College Student ChatGPT Adoption in the US](https://cdn.openai.com/global-affairs/openai-edu-ai-ready-workforce.pdf), P.5.
+]
+
+---
+
+## But, Students are Using GenAI Tools: Anthropic's View (1)
+
+&lt;img src="https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F7d9704a6edee6bb96a7f767621d83beadc039a0c-2400x1586.png&amp;w=3840&amp;q=75" width="76%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Image Source:** Anthropic (2025). [Anthropic Education Report: How University Students Use Claude](https://www.anthropic.com/news/anthropic-education-report-how-university-students-use-claude).
+]
+
+
+---
+
+## But, Students are Using GenAI Tools: Anthropic's View (2)
+
+&lt;img src="https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fd22ea4cc33c603b51435e334c4311ffc5b1d7f5a-2400x1818.png&amp;w=3840&amp;q=75" width="71%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Image Source:** Anthropic (2025). [Anthropic Education Report: How University Students Use Claude](https://www.anthropic.com/news/anthropic-education-report-how-university-students-use-claude).
+]
+
+
+
+---
+
+## And, Employers are Embracing GenAI
+
+&lt;img src="figs/Hiring_Imperative_Annual_Work_Trend_Index_2024_663b217129faa.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Image Source:** 2024 Work Trend Index Annual Report from Microsoft and LinkedIn (2024). [AI at Work is Here. Now Comes the Hard Part](https://www.microsoft.com/en-us/worklab/s/43878f19ef5e48d9bc2c21de5476ea2d/). Published on May 8, 2024.
+]
+
+
+---
+
+## And, Employers are Projecting Skill Transitions 2025-30
+
+&lt;img src="figs/wef_core_skills_2030.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Source:** World Economic Forum (2025). [The Future of Jobs Report 2025](https://reports.weforum.org/docs/WEF_Future_of_Jobs_Report_2025.pdf), P. 41. The Future of Jobs Report 2025 brings together the perspective of over 1,000 leading global
+employers, representing more than 14 million workers across 22 industry clusters and
+55 economies from around the world.
+
+]
+
+
+
+---
+
+## My Opinion on the Integration of GenAI in Courses
+
+
+.font70[
+There is no singular recipe for integrating GenAI in courses. The integration of GenAI in courses should be based on the **course objectives**, **learning outcomes**, and **assessment methods**. 
+
+I believe that the **integration of GenAI in courses** can be simplified into dimensions: **(a) Learning Activities** and **(b) Assessment Activities**, with AI being .black[.bold[prohibited]] or .black[.bold[controlled/integrated/encouraged]] within each dimension.  
+
+]
+
+.font70[
+
+  |   | **AI Not Permitted**  | **AI Permitted (Controlled/Integrated)**  |
+    |---|----------------------|--------------------------------------------|
+    | **Learning Activities**   | **Prohibited in Learning** &lt;br&gt;&lt;br&gt;**Rationale:** &lt;br&gt;• Fosters independent learning &lt;br&gt;• Allow for broader discussion on: &lt;br&gt; - *AI Ethics*, and &lt;br&gt; - *Environmental stewardship* &lt;br&gt;&lt;br&gt;**Examples:** &lt;br&gt;• No AI for drafting &lt;br&gt;• No AI for brainstorming or feedback | **Integrated in Learning** &lt;br&gt;&lt;br&gt;**Rationale:** &lt;br&gt;• Advances *technological literacy*, &lt;br&gt;• Stimulates *creative thinking*, &lt;br&gt;• Stimulates *analytical thinking*, and &lt;br&gt;• Supports *lifelong learning* &lt;br&gt;&lt;br&gt;**Examples:** &lt;br&gt;• AI-assisted brainstorming and drafting &lt;br&gt;• Personalized feedback via AI tools |
+    | **Assessment Activities** |  | **Integrated in Learning and Assessment** &lt;br&gt;&lt;br&gt;**Rationale:** &lt;br&gt;• Supports coherent skill development when AI is integrated in learning  &lt;br&gt;&lt;br&gt;**Examples:** &lt;br&gt;• AI-assisted assessments/exams with clear guidelines |
+
+]
+
+
+---
+
+## The Cost-Benefit Analysis of AI in Learning
+
+.font70[
+
+|   | **Benefits of AI in Learning** | **Risks of AI in Learning** |
+|---|-------------------------------|-----------------------------|
+| **Summary** | AI offers enhanced productivity, synthesis, and alignment with modern workplace tools. | AI introduces potential for misinformation and diminished learner autonomy. |
+| **Key Points** | • Can replace traditional search tasks &lt;br&gt;• Synthesizes and summarizes content &lt;br&gt;• Generates creative outputs quickly &lt;br&gt;• Becoming a core workplace skill | • Prone to hallucinations (false but confident answers) &lt;br&gt;• May erode student agency and critical thinking &lt;br&gt;• Encourages over-reliance on automation &lt;br&gt;• Quality depends heavily on prompting and oversight |
+| **Tension** | Encourages innovation and tech literacy | Raises ethical, epistemic, and educational concerns |
+
+]
+
+
+### 🎯 My Goal in This Talk
+
+To share how I attempt to **walk this tight line:** recognizing that while AI can genuinely support learning and creativity, it must be used **critically and intentionally** to avoid undermining deeper educational values.
+
+???
+
+This framing sets the tone: you're not here to argue for or against AI outright — you're here to show your nuanced, practical approach as an educator working in real classrooms with real constraints.
+
+---
+class: center, middle, inverse
+
+# Conquering the Digital Divide with ChatISA
+
+&lt;br&gt;
+
+.pull-left-2[&lt;br&gt;Megahed, F. M., Chen, Y. J., Ferris, J.A., Resatar, C., Ross, K., Lee, Y., &amp; Jones-Farmer, L. A. (2025). ChatISA: A Prompt-Engineered Chatbot for Coding, Project Management, Interview and Exam Preparation Activities. Under review.
+
+[Freely available @ [arXiv](https://arxiv.org/abs/2407.15010)].]
+
+.pull-right-2[&lt;div&gt;&lt;img src="figs/paper3_qr_code.png" class="paper-img" width="300px" align="right"&gt;&lt;/div&gt;]
+
+---
+
+## A Live Demo of ChatISA
+
+&lt;center&gt;
+    &lt;a href="https://chatisa.fsb.miamioh.edu/"&gt;
+        &lt;img alt="The interface to our ChatISA app" src="figs/chat_isa_demo.gif" style="width:60%; height:60%;"&gt;
+    &lt;/a&gt;
+&lt;/center&gt;
+
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Note:** I encourage the audience to experiment with **ChatISA** at &lt;https://chatisa.fsb.miamioh.edu/&gt;. For demos, please see our [Exam Ally module demo](https://www.loom.com/share/239950fad0e24ef1875e8d5fb35cbe60), and our [Interview Prep module demo](https://www.loom.com/share/896d4ab0e18747f0bca8dba5fff9cc36?sid=3ea3eaa3-c88b-4d60-b150-b6e14a443575) as examples.
+]  
+
+---
+class: center, middle, inverse
+
+# Re-imagining Assessments with AI-Evaluation Questions
+
+
+---
+
+## Evaluating AI-Generated Responses in ISA 401
+
+.pull-left[
+- **Premise**  
+  + Students will have to work with AI-generated responses in their future careers.  
+  + It is important to evaluate the quality of AI-generated responses.  
+  + We can move from traditional **application** and **analysis** to **(deeper) evaluation** type assessments.
+]
+
+.pull-right[
+
+&lt;br&gt;
+
+&lt;img src="figs/Blooms-Taxonomy.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Image Source:** Center for Instructional Technology and Training. University of Florida. [Bloom's Taxonomy Graphic Description](https://citl.ufl.edu/teaching-resources/teaching-strategies/blooms-taxonomy/).
+]
+
+
+---
+
+## Evaluating AI-Generated Responses in ISA 401 (Q6F24)
+
+.font80[
+I have asked ChatGPT to critique the .black[.bold[third chart]] in [this Financial Times article](https://www.ft.com/content/392e1e79-a8c1-4473-ab51-3267c415b078) (a static image of is presented below).
+]
+
+&lt;img src="figs/image-7.png" width="43%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Evaluating AI-Generated Responses in ISA 401 (Q6F24)
+
+.font70[
+.black[.bold[ChatGPT presented a lot of "potential" issues with the chart. It was a ton to put on an exam question, so I followed up with, "Forget about that; how do I ask relevant data visualization questions to data visualization business students based on this chart?"]]  It mentioned several things including:
+
+&gt; Here are some data visualization questions that could help business students critically analyze and interpret this chart:  
+&gt;
+&gt; **1. Interpretation and Context:**  
+&gt; - What additional context or baseline data would help make the shifts in support more meaningful for viewers?  
+&gt; - How would you ensure the chart communicates both the change in support and the initial levels of support in 2020?  
+&gt;
+&gt; **2. Design Choices:**  
+&gt; - Why might the designer have chosen arrows to represent shifts? Are arrows the most effective way to communicate this information?
+&gt; - How could alternative chart types (like a .black[.bold[bar chart]] or slope chart) change the audience’s interpretation of these shifts?
+ 
+
+So I naturally asked the following question based on the underlined content from ChatGPT answer above, "Can you make a bar chart with this data to allow students to compare?" **It made the chart in the next slide (assume that the values in it are correct since ChatGPT likely eye-balled the values from the Financial Times Chart).** 
+]  
+
+---
+
+## Evaluating AI-Generated Responses in ISA 401 (Q6F24)
+
+
+&lt;img src="figs/output-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+**Explain which of the two charts provides a more complete story of the elections**. Please limit your answer to 15-20 words.
+
+
+---
+
+## Evaluating AI-Generated Responses in ISA 444 (Q1S25)
+
+.font90[I provided ChatGPT (GPT-4o on April 02, 2025) with the following chart and asked it to answer this multiple-choice question with justification.]
+
+&lt;img src="figs/fredgraph.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+.font90[
+RSAFS is a seasonally adjusted monthly time series that exhibits a clear upward trend over time. Based on the chart provided, which of the following **baseline forecasting methods is expected to have the worst performance in terms of Mean Absolute Error (MAE)**?
+
+A. Historical Average 
+B. 12-Month Window Average 
+C. Naive 
+D. Seasonal Naive 
+E. Holt’s Method 
+
+Please **identify the worst method and provide a short justification** for your choice.
+]
+
+
+---
+
+## Evaluating AI-Generated Responses in ISA 444 (Q1S25)
+
+.font80[
+&lt;html&gt;
+&lt;p class="" data-start="0" data-end="129"&gt;The baseline forecasting method expected to perform &lt;strong data-start="52" data-end="99"&gt;worst in terms of Mean Absolute Error (MAE)&lt;/strong&gt; for the RSAFS time series is:&amp;nbsp; &lt;strong data-start="135" data-end="160"&gt;A. Historical Average&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 class="" data-start="167" data-end="189"&gt;&lt;strong data-start="171" data-end="189"&gt;Justification:&lt;/strong&gt;&lt;/h3&gt;
+&lt;p class="" data-start="191" data-end="269"&gt;The chart of the &lt;strong data-start="208" data-end="250"&gt;Retail and Food Services Sales (RSAFS)&lt;/strong&gt; time series shows:&lt;/p&gt;
+&lt;ul data-start="271" data-end="339"&gt;
+    &lt;li class="" data-start="271" data-end="297"&gt;
+        &lt;p class="" data-start="273" data-end="297"&gt;&lt;strong data-start="273" data-end="297"&gt;A clear upward trend&lt;/strong&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class="" data-start="298" data-end="315"&gt;
+        &lt;p class="" data-start="300" data-end="315"&gt;&lt;strong data-start="300" data-end="315"&gt;Seasonality&lt;/strong&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class="" data-start="316" data-end="339"&gt;
+        &lt;p class="" data-start="318" data-end="339"&gt;&lt;strong data-start="318" data-end="339"&gt;Monthly frequency&lt;/strong&gt;&lt;/p&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/html&gt;
+]
+
+
+---
+
+## Evaluating AI-Generated Responses in ISA 444 (Q1S25)
+
+.font70[
+&lt;html&gt;
+&lt;p class="" data-start="341" data-end="414"&gt;Given these characteristics, here's how each method would likely perform:&lt;/p&gt;
+&lt;div class="overflow-x-auto contain-inline-size"&gt;
+    &lt;table style="border-collapse: collapse; width: 61.0979%; height: 172.674px;" border="1" data-start="416" data-end="1076"&gt;
+        &lt;thead data-start="416" data-end="498"&gt;
+            &lt;tr style="height: 27.1007px;" data-start="416" data-end="498"&gt;
+                &lt;th style="width: 17.5249%; height: 27.1007px;" data-start="416" data-end="439"&gt;Method&lt;/th&gt;
+                &lt;th style="width: 11.4993%; height: 27.1007px;" data-start="439" data-end="456"&gt;Handles Trend?&lt;/th&gt;
+                &lt;th style="width: 39.651%; height: 27.1007px;" data-start="456" data-end="479"&gt;Handles Seasonality?&lt;/th&gt;
+                &lt;th style="width: 31.1645%; height: 27.1007px;" data-start="479" data-end="498"&gt;MAE Performance&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody data-start="584" data-end="1076"&gt;
+            &lt;tr style="height: 29.1146px;" data-start="584" data-end="673"&gt;
+                &lt;td style="width: 17.5249%; height: 29.1146px;"&gt;&lt;strong data-start="586" data-end="608"&gt;Historical Average&lt;/strong&gt;&lt;/td&gt;
+                &lt;td style="width: 11.4993%; height: 29.1146px;"&gt;❌ No&lt;/td&gt;
+                &lt;td style="width: 39.651%; height: 29.1146px;"&gt;❌ No&lt;/td&gt;
+                &lt;td style="width: 31.1645%; height: 29.1146px;"&gt;&lt;strong data-start="656" data-end="665"&gt;Worst&lt;/strong&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr style="height: 29.1146px;" data-start="674" data-end="756"&gt;
+                &lt;td style="width: 17.5249%; height: 29.1146px;"&gt;12-Month Window Avg&lt;/td&gt;
+                &lt;td style="width: 11.4993%; height: 29.1146px;"&gt;✅ (partially)&lt;/td&gt;
+                &lt;td style="width: 39.651%; height: 29.1146px;"&gt;✅ Yes&lt;/td&gt;
+                &lt;td style="width: 31.1645%; height: 29.1146px;"&gt;Better&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr style="height: 29.1146px;" data-start="757" data-end="871"&gt;
+                &lt;td style="width: 17.5249%; height: 29.1146px;"&gt;Naive&lt;/td&gt;
+                &lt;td style="width: 11.4993%; height: 29.1146px;"&gt;✅ Yes&lt;/td&gt;
+                &lt;td style="width: 39.651%; height: 29.1146px;"&gt;❌ No&lt;/td&gt;
+                &lt;td style="width: 31.1645%; height: 29.1146px;"&gt;Worse than seasonal, better than historical&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr style="height: 29.1146px;" data-start="872" data-end="957"&gt;
+                &lt;td style="width: 17.5249%; height: 29.1146px;"&gt;Seasonal Naive&lt;/td&gt;
+                &lt;td style="width: 11.4993%; height: 29.1146px;"&gt;✅ Yes&lt;/td&gt;
+                &lt;td style="width: 39.651%; height: 29.1146px;"&gt;✅ Yes&lt;/td&gt;
+                &lt;td style="width: 31.1645%; height: 29.1146px;"&gt;Better&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr style="height: 29.1146px;" data-start="958" data-end="1076"&gt;
+                &lt;td style="width: 17.5249%; height: 29.1146px;"&gt;Holt&amp;rsquo;s Method&lt;/td&gt;
+                &lt;td style="width: 11.4993%; height: 29.1146px;"&gt;✅ Yes&lt;/td&gt;
+                &lt;td style="width: 39.651%; height: 29.1146px;"&gt;❌ (but can be extended to Holt-Winters for seasonal)&lt;/td&gt;
+                &lt;td style="width: 31.1645%; height: 29.1146px;"&gt;Better than naive&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/div&gt;
+&lt;ul data-start="1078" data-end="1618"&gt;
+    &lt;li class="" data-start="1078" data-end="1253"&gt;
+        &lt;p class="" data-start="1080" data-end="1253"&gt;&lt;strong data-start="1080" data-end="1102"&gt;Historical Average&lt;/strong&gt; uses the same average value for all future forecasts, ignoring both trend and seasonality, making it highly inaccurate for a trending seasonal series.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class="" data-start="1254" data-end="1414"&gt;
+        &lt;p class="" data-start="1256" data-end="1414"&gt;&lt;strong data-start="1256" data-end="1273"&gt;Holt&amp;rsquo;s Method&lt;/strong&gt; accounts for trend, so even though it doesn&amp;rsquo;t directly model seasonality, it's still far superior to methods that ignore the trend entirely.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class="" data-start="1415" data-end="1484"&gt;
+        &lt;p class="" data-start="1417" data-end="1484"&gt;&lt;strong data-start="1417" data-end="1435"&gt;Seasonal Naive&lt;/strong&gt; works better when strong seasonality is present.&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li class="" data-start="1485" data-end="1618"&gt;
+        &lt;p class="" data-start="1487" data-end="1618"&gt;&lt;strong data-start="1487" data-end="1514"&gt;12-Month Window Average&lt;/strong&gt; adapts slightly better than a global historical average by capturing local trend and seasonal behavior.&lt;/p&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;html&gt;
+]
+
+
+---
+
+## Evaluating AI-Generated Responses in ISA 444 (Q1S25)
+.font70[
+&lt;html&gt;
+&lt;h3&gt;&lt;strong data-start="1625" data-end="1640"&gt;Conclusion:&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong data-start="1643" data-end="1675"&gt;Option A. Historical Average&lt;/strong&gt; will have the &lt;strong data-start="1690" data-end="1703"&gt;worst MAE&lt;/strong&gt; because it fails to account for both the &lt;strong data-start="1745" data-end="1761"&gt;upward trend&lt;/strong&gt; and &lt;strong data-start="1766" data-end="1787"&gt;seasonal patterns&lt;/strong&gt; evident in the time series.&lt;/p&gt;
+&lt;hr class="" data-start="162" data-end="165" /&gt;
+&lt;p&gt;&lt;span style="text-decoration: underline; font-size: 18pt;"&gt;&lt;strong&gt;Proof of the ChatGPT interaction:&lt;/strong&gt;&lt;/span&gt;&lt;span style="font-size: 12pt;"&gt;&lt;strong&gt; (You do not need to look at the recording; I am just providing you to emphasize that I did not try to trick ChatGPT in any of my exam questions)&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Here is &lt;a class="inline_disabled" href="https://www.loom.com/share/19a10e510c3c4471b02a654230b2b6b0?sid=81642c49-6e9c-4bad-8ba6-6221f48cce50" target="_blank" rel="noopener"&gt;my video recording of the interaction&lt;/a&gt;. Note that the ChatGPT project only contains the course notes for context and I did not provide it with any custom instructions besides what is in the prompt.&lt;/p&gt;
+&lt;hr class="" data-start="162" data-end="165" /&gt;
+&lt;p&gt;&lt;span style="text-decoration: underline; font-size: 18pt;"&gt;&lt;strong&gt;Exam Question:&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Assess the &lt;span style="text-decoration: underline;"&gt;correctness&lt;/span&gt; of (a) &lt;span style="text-decoration: underline;"&gt;ChatGPT's answer&lt;/span&gt; and (b) &lt;span style="text-decoration: underline;"&gt;its justification&lt;/span&gt;. &lt;span style="text-decoration: underline;"&gt;If there are error(s) in either the answer or justification, please present each error in its bullet point&lt;/span&gt;.&amp;nbsp;&lt;/strong&gt;&lt;/p&gt;
+&lt;html&gt;
+]
+
+
+---
+
+## Evaluating AI-Generated Responses in ISA 444 (Q1S25)
+
+In this question, ChatGPT was able to provide a **correct answer**, but it **did not provide a correct justification**. Additionally, some students struggle with these types of assessment questions. 
+
+&lt;img src="figs/q1_results.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+class: center, middle, inverse
+
+# Concluding Remarks
+
+---
+
+
+## AI is Here to Stay, ...  
+
+- But educators should have the **academic freedom** and **pedagogical autonomy** to decide how to use AI in their courses (from prohibiting it to encouraging its use).   
+
+- I would be happy to share my experiences and insights on using AI in my courses, and learn from your experiences as well.  
+
+- I am also happy to share our **ChatISA** app with you, and I encourage you to experiment with it.  
+
+
+---
+
+## Happy to Answer any Questions
+
+&lt;center&gt;
+&lt;iframe width="728" height="410" src="https://www.youtube.com/embed/aQDEt-YhyVc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/center&gt;
+
+.footnote[
+&lt;html&gt;
+&lt;hr&gt;
+&lt;/html&gt;
+
+**Original Source:** Unknown, but this version is from [this YouTube Channel](https://youtube.com/shorts/aQDEt-YhyVc?si=cUxxee7Lf-kMAXV_). The original creator of this video is unknown. 
+
+]
+
+
+---
+class: center, middle, inverse, title-slide
+
+.title[
+# &lt;p&gt;Beyond the Initial Shock: Leveraging AI to Enhance Student Learning&lt;/p&gt;
+]
+.author[
+### Fadel M. Megahed, Raymond E. Glos Professor   &lt;a href="http://www.fsb.miamioh.edu/directory/megahefm"&gt;&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:white;" xmlns="http://www.w3.org/2000/svg"&gt; &lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"&gt;&lt;/path&gt;&lt;/svg&gt; MU Webpage&lt;/a&gt;&lt;br&gt;&lt;br/&gt;
+]
+.date[
+### July 02, 2025 | Federal University of Bahia | Miami University
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+  "highlightStyle": "github",
+  "highlightLanguage": "r",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
