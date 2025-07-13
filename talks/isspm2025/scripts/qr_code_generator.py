@@ -25,7 +25,7 @@ QRcode = qrcode.QRCode(
 
 
 # taking url or text
-url = 'https://fmegahed.github.io/talks/isspm2025/clip.html'
+url = 'https://fmegahed.github.io/talks/isqc2025/genai.html'
 
 # adding URL or text to QRcode
 QRcode.add_data(url)
