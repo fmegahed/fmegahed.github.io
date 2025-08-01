@@ -6,7 +6,7 @@ from PIL import Image
 
 # taking image which user wants
 # in the QR code center
-Logo_link = 'figs/qc_icon.png'
+Logo_link = 'C:\\Users\\megahefm\\Dropbox\\Miami\\Code\\GitHub\\fmegahed.github.io\\talks\\isspm2025\\figs\\qc_icon.png'
 
 logo = Image.open(Logo_link)
 
@@ -46,6 +46,6 @@ pos = ((QRimg.size[0] - logo.size[0]) // 2,
 QRimg.paste(logo, pos)
 
 # save the QR code generated
-QRimg.save('./figs/pres_qr_code.png')
+QRimg.save('C:\\Users\\megahefm\\Dropbox\\Miami\\Code\\GitHub\\fmegahed.github.io\\talks\\isspm2025\\figs\\pres_qr_code.png')
 
 print('QR code generated!')

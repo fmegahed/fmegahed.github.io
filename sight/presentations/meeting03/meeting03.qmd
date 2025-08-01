@@ -1,0 +1,578 @@
+---
+title: "SIGHT: Safety Immersion and Gamified Hazard Training for Industry 5.0"
+subtitle: "Meeting 03: Updates on our RAG Chatbot, Image-to-3D Modeling and MaxByte's Workshop at MU Hamilton "
+author: 
+  - name : Fadel Megahed
+    email: fmegahed@miamioh.edu
+    affiliation: PI
+  - name: Arthur Carvalho
+    email: carvalag@miamioh.edu
+    affiliation: Co-PI
+  - name: Mohammad Mayyas
+    email: mayyasm@miamioh.edu
+    affiliation: Co-PI
+  - name: Jay Shan
+    email: jayshan@miamioh.edu
+    affiliation: Co-PI
+date: "August 01, 2025"
+date-format: "MMMM DD, YYYY"
+format:
+  revealjs:
+    theme: [default, ../../style_files/mu_theme.scss]
+    slide-number: true
+    chalkboard: true
+    countdown: true
+    pdfexport: true
+    
+    toc: false
+    toc-depth: 1
+    logo: "https://miamioh.edu/miami-brand/_files/images/system/identity/logo-horizontal-stacked.png" 
+    footer: "Project funded by the Ohio BWC through their [Worker Safety Innovation Center](https://info.bwc.ohio.gov/for-employers/safety-services/workplace-safety-innovation-center/wsic-overview)"
+    
+    title-slide-attributes:
+      data-background-color: "#c3142d"
+      data-background-image: pres_qr_code.png
+      data-background-size: 10%
+      data-background-position: 99% 95%
+    
+    touch: true
+    controls: true
+    center: false
+---
+
+
+## Meeting Goals
+
+- **Review and approve** Meeting 01 minutes and action items   
+
+- **Update** the full team on **administrative tasks** that were carried out over the past two weeks 
+
+- **Technical updates**:  
+
+  + *Preliminary* RAG chatbot documentation   
+  + *Preliminary* RAG chatbot design and implementation  
+  + *Plan* for expanding the chatbot  
+  + Image to 3D CAD Rendering 
+  + *Plan* for the MaxByte Workshop at Miami University Hamilton
+
+- **Outline next steps**, **risks**, and assign **new action items**
+
+```{r options}
+#| include: false
+
+reticulate::use_condaenv("sight", required = TRUE)
+
+# setting miamired color and ggplot2 theme for all plots
+miamired = "#c3142d"
+
+ggplot2::theme_set(
+  ggplot2::theme_bw() +
+  ggplot2::theme(
+    plot.title = ggplot2::element_text(hjust = 0.5, size = 14, face = "bold"),
+    plot.subtitle = ggtext::element_markdown(size = 12, color = "black"),
+    legend.position='none',
+    panel.grid.major = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(fill ="#C3142D"),
+    strip.text = ggplot2::element_text(color = "white", size = 8, face = "bold"),
+    panel.spacing = ggplot2::unit(1, "lines"),
+    # bold x-ticks, yticks and the axis labels
+    axis.text = ggplot2::element_text(face = "bold", color = "black"),
+    axis.title = ggplot2::element_text(face = "bold", color = "black"),
+    plot.caption = ggtext::element_markdown(size = 8, color = "black")
+  ) 
+  )
+```
+
+# Review Action Items from Previous Meeting and Approve Minutes  {.inverse .center}
+
+Fadel M. Megahed
+
+## Recap: Action Item Status
+
+<table style="width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 0.75em;">
+  <colgroup>
+    <col style="width: 8%;">
+    <col style="width: 60%;">
+    <col style="width: 12%;">
+    <col style="width: 20%;">
+  </colgroup>
+  <thead>
+    <tr style="background-color: #c3142d; color: white;">
+      <th style="text-align: center; padding: 10px; border: 1px solid #ddd;">Status</th>
+      <th style="text-align: center; padding: 10px; border: 1px solid #ddd;">What</th>
+      <th style="text-align: center; padding: 10px; border: 1px solid #ddd;">Due Date</th>
+      <th style="text-align: center; padding: 10px; border: 1px solid #ddd;">Who</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background-color: white;">
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">🟩</td>
+      <td style="text-align: left; padding: 8px; border: 1px solid #ddd;">Update meeting calendar invitations (avoid holidays and match scheduling tool submission)</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Jul 25</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Fadel Megahed & Mohamed Farrag</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">🟩</td>
+      <td style="text-align: left; padding: 8px; border: 1px solid #ddd;">Complete Google Form for BWC attendance records</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Jul 25</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Everyone</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">🟩</td>
+      <td style="text-align: left; padding: 8px; border: 1px solid #ddd;">Develop and lead Notion training session</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Jul 25</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Arthur Carvalho</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">🟩</td>
+      <td style="text-align: left; padding: 8px; border: 1px solid #ddd;">Complete Notion training</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Jul 25</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">PIs, SP, and PM</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">🟩</td>
+      <td style="text-align: left; padding: 8px; border: 1px solid #ddd;">Compile and complete Internal Control Questionnaire (ICQ)</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Jul 30</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Fadel Megahed & Mohamed Farrag</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">🟩</td>
+      <td style="text-align: left; padding: 8px; border: 1px solid #ddd;">Transfer all project deliverables and dates from BWC scheduling tool to Notion</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Aug 1</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Mohamed Farrag</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">🟩</td>
+      <td style="text-align: left; padding: 8px; border: 1px solid #ddd;">Add Paula Murray to BWC’s OIA platform</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Aug 1</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Fadel Megahed</td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">🟩</td>
+      <td style="text-align: left; padding: 8px; border: 1px solid #ddd;">Coordinate MaxByte's site visit and workshop</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Aug 8</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Mohammad Mayyas</td>
+    </tr>
+    <tr style="background-color: white;">
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">🟨</td>
+      <td style="text-align: left; padding: 8px; border: 1px solid #ddd;">Begin drafting content for Q1 Project Management Plan and Risk Mitigation Plan</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">Aug 15</td>
+      <td style="text-align: center; padding: 8px; border: 1px solid #ddd;">All PIs/Co-PIs</td>
+    </tr>
+  </tbody>
+</table>
+
+
+## Approval of Meeting Minutes
+
+[![](../../figs/meeting02_minutes_Page_1.png){fig-align="center" width='46%'}](https://drive.google.com/open?id=160dgFt7k4GPhRA8eYprH_E9O9fKhMfoH&usp=drive_fs)
+
+
+## Attendance Sign as Required By BWC
+
+::: {.columns}
+
+::: {.column width="60%"}
+
+- **Use your full name** (first and last) when joining the Zoom call — even if you're in a shared conference room.  
+
+- This helps us log attendance accurately for BWC reporting.  
+
+- If you're in a conference room:  
+  - Only **one computer** should have audio enabled.  
+  - All **other devices** must be **muted** (microphone **and** speaker).  
+
+:::
+
+::: {.column width="40%"}
+
+<br><br>
+```{python attendance_qr}
+#| echo: false
+#| output: hide
+#| fig-align: center
+#| cache: true
+#| out-width: "100%"
+#| fig-cap: "Scan QR code if you are not on Zoom."
+
+import qrcode
+import matplotlib.pyplot as plt
+
+url = "https://miamioh.zoom.us/j/87563617657?pwd%3DviB8cWMcSRpYBzWHVafGPf1yCetdJ3.1%26jst%3D2&sa=D&source=calendar&ust=1754468940568351&usg=AOvVaw3f2aSQpGrlTGsQYxrl7TLR"
+img = qrcode.make(url)
+
+# Display without extraneous output
+plt.imshow(img, cmap="gray")
+_ = plt.axis("off")  # suppress output
+plt.tight_layout()
+plt.show()
+
+```
+
+:::
+:::
+
+
+# Administrative Updates {.center .inverse}
+
+Mo Farrag, Fadel Megahed, and Jay Shan
+
+## Contracts Sent Out to Partners (Must be Finalized by Aug 14, 2025)
+
+![](../../figs/contract_art.png){width='30%' fig-align='center' fig-cap='Contracts have been sent out. Reach out to us if you have any questions.'}
+
+## IRB Submission Update
+
+::: {.columns}
+
+::: {.column width="70%"}
+
+- Submitted **Level-2 Expedited Review Application** for the SIGHT project on **July 23, 2025**
+- Assigned study number: **#02415r**
+- Initial feedback received from IRB:
+  - CITI training update required (now completed)
+  - Clarifications were needed on:
+    - Data confidentiality & sharing with  partners   
+    - Survey tools and measures  
+    - Consent process and withdrawal protocol  
+    - Site permissions
+- **Revised application** submitted on **July 31, 2025**
+- Awaiting final approval from IRB
+
+:::
+
+::: {.column width="30%"}
+<br><br>
+![](../../figs/irb_icon.png){fig-align="center"}
+:::
+:::
+
+
+## Notion Workspace: Up and Running
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border:1px solid #ccc;">
+  <iframe 
+    src="https://modern-carrot-878.notion.site/ebd/23cd922af5438194a0f3ea856c39338a?v=242d922af543808d8518000cba3ac5eb" 
+    style="position: absolute; top:0; left:0; width:100%; height:80%; border:0;" 
+    loading="lazy" 
+    allowfullscreen 
+    referrerpolicy="strict-origin-when-cross-origin"
+  ></iframe>
+</div>
+
+
+# Technical Updates: RAG Chatbot {.inverse .center}
+
+Lora A. Cavuoto, Fadel Megahed, and Arthur Carvalho 
+
+## Preliminary RAG Documents: Code of Federal Regulations
+
+[![](../../figs/cfr.png){fig-align="center" width='70%'}](https://www.ecfr.gov/current/title-29/subtitle-B/chapter-XVII/part-1910/subpart-O)
+
+## Preliminary RAG Documents: OSHA 3170-02R 2007
+
+[![](../../figs/osha3170.png){fig-align="center" width='45%'}](https://www.osha.gov/sites/default/files/publications/osha3170.pdf)
+
+
+## Preliminary RAG Chatbot: Design
+
+- 📁 **Data Sources**  
+  - OSHA/CFR PDFs  
+  - HTML content from OSHA and NIOSH <span style="color: white;">white text white text white text white text white text white text white text</span>
+
+- ⚙️ **Document Processing**  
+  - Extract and convert to Markdown  
+  - Chunk by headers  
+  - Generate embeddings (`text-embedding-3-large`) <span style="color: white;">white text white text white text white text white text white text white text</span>
+
+- 🗄️ **Knowledge Base**  
+  - Store chunks and relations in a NetworkX graph (`graph.gml`) <span style="color: white;">white text white text white text white text white text white text white text</span>
+
+
+## Preliminary RAG Chatbot: Design (Cont.)
+
+- 👤 **User Interface**  
+  - Streamlit chat receives user question <span style="color: white;">white text white text white text white text white text white text white text</span>
+
+- 🔍 **Retrieval**  
+  - Embed question  
+  - Compute similarity  
+  - Retrieve top-K relevant chunks <span style="color: white;">white text white text white text white text white text white text white text</span>
+
+- 🤖 **Generation and Response Display**  
+  - Assemble context prompt  
+  - GPT-4o-mini generates answer 
+  - Answer with citations and collapsible details
+
+
+## Preliminary RAG Chatbot: Try It Out!!
+
+[![](../../figs/sight_chat.png)](https://huggingface.co/spaces/fmegahed/sight_chat)
+
+::: {style="text-align:center; font-size: 0.7em"}
+Please click on the image to go to our hosted app.
+:::
+
+
+## Future RAG Development
+
+{{< pdf rag_research_plan.pdf width=100% height=600 >}}
+
+
+# Technical Updates: Image to 3D CAD Rendering <br> (Ibrahim Yousif) {.inverse .center}
+
+## Challenges & Research Objectives for Autonomous Assembly
+
+![](../../figs/ibrahim_meeting03_slide01.png)
+
+
+## Computer Vision Solutions
+
+![](../../figs/ibrahim_meeting03_slide02.png)
+
+
+## Image Classification vs Object Detection
+
+![](../../figs/ibrahim_meeting03_slide03.png)
+
+
+## Image Segmentation & Pose Estimation
+
+![](../../figs/ibrahim_meeting03_slide04.png)
+
+
+## Image Classification, Object Detection & Instance Segmentation
+
+![](../../figs/ibrahim_meeting03_slide05.png)
+
+
+## Proposed Diversity-Aware Active Learning Pipeline
+
+![](../../figs/ibrahim_meeting03_slide06.png)
+
+
+## Ensuring Labeling Integrity for Computer Vision
+
+- Defects cost manufacturers nearly 20% of overall sales revenue 
+
+- The automated inspection market is projected to increase from $4.15 billion in 2025 to $5.58 billion by 2029.
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+![](../../figs/ibrahim_meeting03_slide07_media.mp4){width="75%" fig-align="center"}
+![](../../figs/ibrahim_meeting03_slide07l.png){width="75%" fig-align="center"}
+:::
+
+::: {.column width="50%"}
+![](../../figs/ibrahim_meeting03_slide07r.png){width="98%" fig-align="center"}
+:::
+:::
+
+
+## Bridging the Gap to Production-Ready Vision Systems
+
+![](../../figs/ibrahim_meeting03_slide08.png){width="98%" fig-align="center"}
+
+
+## Computer Vision Pipeline
+
+![](../../figs/ibrahim_meeting03_slide09.png){width="98%" fig-align="center"}
+
+
+## {data-background-image="../../figs/ibrahim_meeting03_slide10.png" data-background-size="contain"}
+
+
+## Synthetic Defect Generation (1)
+
+![](../../figs/ibrahim_meeting03_slide11.png){width="100%" fig-align="center"}
+
+
+## Synthetic Defect Generation (2)
+
+![](../../figs/ibrahim_meeting03_slide12.png){width="100%" fig-align="center"}
+
+
+## Synthetic Defect Generation (3)
+
+![](../../figs/ibrahim_meeting03_slide13.png){width="100%" fig-align="center"}
+
+
+## Digital Transformation Process & Products
+
+![](../../figs/ibrahim_meeting03_slide14.png){width="100%" fig-align="center"}
+
+
+## Reallocating Labor in Industrial Facilities Through Integrating AMRs
+
+![](../../figs/ibrahim_meeting03_slide15_media.mp4){width="100%" fig-align="center"}
+
+
+## Smart vs. Autonomous Manufacturing Systems
+
+![](../../figs/ibrahim_meeting03_slide16.png){width="100%" fig-align="center"}
+
+
+## End-to-End System Architecture & Data Flow for Autonomous Assembly
+
+![](../../figs/ibrahim_meeting03_slide17.png){width="100%" fig-align="center"}
+
+
+## Physical, Digital and Cognitive Twins
+
+::: {.columns}
+
+::: {.column width="40%"}
+<br>
+![](../../figs/ibrahim_meeting03_slide18_media_l.mp4){width="80%" fig-align="center"}
+:::
+
+::: {.column width="55%"}
+![](../../figs/ibrahim_meeting03_slide18_media_r.mp4){width="75%" fig-align="center"}
+![](../../figs/ibrahim_meeting03_slide18_gif.gif){width="75%" fig-align="center"}
+:::
+:::
+
+
+
+## Human-Machine Collaboration: Interaction
+
+![](../../figs/ibrahim_meeting03_slide19.png){width="100%" fig-align="center"}
+
+
+## Human-Machine Collaboration: Intervention
+
+![](../../figs/ibrahim_meeting03_slide20.png){width="100%" fig-align="center"}
+
+
+
+## Sight Plan & Live Demo: Overview
+
+
+![](../../figs/ibrahim_meeting03_slide21.png){width="95%" fig-align="center"}
+
+
+## Sight Plan & Live Demo: Fanuc HTML Details
+
+<iframe src="fanuc.html" width="100%" height="600" style="border:1px solid #ccc;"></iframe>
+
+
+## Sight Plan & Live Demo: EC1600 HTML Details
+
+<iframe src="EC1600_interactive_fixed.html" width="100%" height="600" style="border:1px solid #ccc;"></iframe>
+
+
+# Technical Discussion: MeetKai {.inverse .center}
+
+SIGHT × MeetKai
+
+## Integration: SIGHT × MeetKai
+
+<div style="font-size:0.8em">
+
+- **SIGHT's Planned Contributions (SIGHT Project):**
+  - Knowledge Graph: OSHA/NIOSH/CFR documents, machine manuals
+  - Graph-based RAG: semantic chunk retrieval and generation
+  - Visual Data: 3D CADs, annotated photos, safety overlays
+
+- **MeetKai's Contributions:**
+  - Functionary LLM with JSON tool-calling support
+  - Multimodal dialogue engine (text, vision, voice)
+  - VR rendering engine and avatar-based UX
+
+- 🔗 **Goal:**  
+  Seamless RAG-powered interactive safety guidance, integrated into immersive VR
+
+</div>
+
+
+## Technical Integration Plan: A Possible Approach?
+
+<div style="font-size:0.8em">
+
+- 🔌 **Function-Calling API (from MeetKai → SIGHT):**
+  ```json
+  {
+    "name": "get_equipment_rag_answer",
+    "parameters": {
+      "query": "string",
+      "machine_id": "string"
+    }
+  }
+  ```
+
+<br>
+
+- 📦 **SIGHT Response (back to Functionary):**
+  ```json
+  {
+    "answer": "Wear gloves and lock out power before cleaning.",
+    "highlight_zones": ["Zone A", "Pinch Point"],
+    "citations": ["OSHA 1910.147", "Manual pg. 12"]
+  }
+  ```
+
+<br>
+
+- 🧩 **MeetKai Uses This To:**
+  - Render visual overlays on equipment in VR  
+  - Drive avatar speech or guidance
+
+</div>
+
+
+## A Potential Example VR Use Case?
+
+<div style="font-size:0.8em">
+
+**User (in VR):**  
+*"Can I clean this machine while it’s running?"*
+
+**Flow:**  
+1. Functionary parses intent   
+
+
+2. Calls `get_equipment_rag_answer(query, machine_id)`   <span style="color: white;">white text white text white text white text white text white text white text</span>
+
+3. RAG system returns:   
+   - Answer + citations
+   - Zones to highlight  <span style="color: white;">white text white text white text white text white text white text white text white text text text</span>
+
+
+4. MeetKai platform:  
+   - Shows overlay of danger zones  
+   - Avatar warns: *"Please lock out power before cleaning."* 
+</div>
+
+**Result:** Safety-first decision support inside immersive training
+
+
+# MaxByte Workshop at Miami Hamilton {.inverse .center}
+
+Reza Abrisham Baf and MaxByte Team
+
+
+## Plan for Workshop
+
+{{< pdf sight_workshop01.pdf width=100% height=600 >}}
+
+
+# Open Discussion and Next Steps {.inverse .center}
+Mo Farrag and Arthur Carvalho
+
+## What questions, concerns, or risks that we should consider?
+
+
+## Immediate Next Steps and Tasks: See and Add to our Notion Calendar
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border:1px solid #ccc;">
+  <iframe 
+    src="https://modern-carrot-878.notion.site/ebd/23cd922af5438194a0f3ea856c39338a?v=242d922af543808d8518000cba3ac5eb" 
+    style="position: absolute; top:0; left:0; width:100%; height:80%; border:0;" 
+    loading="lazy" 
+    allowfullscreen 
+    referrerpolicy="strict-origin-when-cross-origin"
+  ></iframe>
+</div>
