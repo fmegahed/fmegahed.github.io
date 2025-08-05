@@ -242,6 +242,23 @@ We have **two built-in advantages:**
 
 :::
 
+::: {.notes}
+Embeddings:
+Both images and text are encoded into a shared, lower-dimensional embedding space using separate image and text encoders.
+
+Similarity Calculation:
+The cosine similarity (or dot product) is computed between every image embedding and every text embedding in the batch. This results in a similarity matrix where the diagonal elements represent the similarities of the correct, matching image-text pairs, and the off-diagonal elements represent the similarities of incorrect, non-matching pairs.
+
+Loss Calculation:
+The symmetric cross-entropy loss is applied to this similarity matrix.
+  - For the correct pairs (diagonal elements), the loss encourages high similarity scores.
+  - For the incorrect pairs (off-diagonal elements), the loss encourages low similarity scores.
+
+Temperature Parameter:
+A learned temperature parameter is incorporated into the similarity calculation, which influences the sharpness of the probability distribution over the positive and negative pairs, helping the model learn more effectively.
+
+:::
+
 
 
 ## An Illustrative Example: The Ask?
@@ -462,7 +479,7 @@ Therefore we evaluate our **few‑shot** performance.
 
 - **CLIP Few-Shot performs at least as well as the [benchmark](https://link.springer.com/content/pdf/10.1007/s10845-010-0378-3.pdf) across all reported metrics**, with perfect specificity and precision, and a higher F1-score.
 
-- It also offers a **simpler and more efficient implementation**, requiring just 9.1 minutes of runtime (loading the 100 images, few-shot learning, and test classification).
+- It also offers a **simpler and more efficient implementation**, requiring just 9.1 minutes of runtime (loading the 78 images, few-shot learning, and test classification).
 
 
 
@@ -516,7 +533,7 @@ Therefore we evaluate **few‑shot** performance while varying the learning‑se
 
 - **Encoing Model choice matters:** ViT-L/14 offers superior performance for fine-grained textures.
 
-- Effective with as few as **10–50 images per class** in many settings—ideal for data-scarce domains.
+- Effective with as few as **10–50 images per class** in many settings; ideal for data-scarce domains.
 
 
 ## Try-Out Our No-Code App? In Public Alpha

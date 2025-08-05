@@ -280,6 +280,22 @@ Benchmark ViT-B/32 vs.&nbsp;ViT-L/14 in terms of classification accuracy and com
 <div class="footnote">
 <p><strong>Image Source:</strong> <a href="https://github.com/openai/CLIP">OpenAI’s GitHub Repo for CLIP</a></p>
 </div>
+<aside class="notes">
+<p>Embeddings: Both images and text are encoded into a shared, lower-dimensional embedding space using separate image and text encoders.</p>
+<p>Similarity Calculation: The cosine similarity (or dot product) is computed between every image embedding and every text embedding in the batch. This results in a similarity matrix where the diagonal elements represent the similarities of the correct, matching image-text pairs, and the off-diagonal elements represent the similarities of incorrect, non-matching pairs.</p>
+<p>Loss Calculation: The symmetric cross-entropy loss is applied to this similarity matrix. - For the correct pairs (diagonal elements), the loss encourages high similarity scores. - For the incorrect pairs (off-diagonal elements), the loss encourages low similarity scores.</p>
+<p>Temperature Parameter: A learned temperature parameter is incorporated into the similarity calculation, which influences the sharpness of the probability distribution over the positive and negative pairs, helping the model learn more effectively.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="an-illustrative-example-the-ask" class="slide level2">
 <h2>An Illustrative Example: The Ask?</h2>
@@ -585,7 +601,7 @@ CLIP Few-Shot
 <p><br></p>
 <ul>
 <li><p><strong>CLIP Few-Shot performs at least as well as the <a href="https://link.springer.com/content/pdf/10.1007/s10845-010-0378-3.pdf">benchmark</a> across all reported metrics</strong>, with perfect specificity and precision, and a higher F1-score.</p></li>
-<li><p>It also offers a <strong>simpler and more efficient implementation</strong>, requiring just 9.1 minutes of runtime (loading the 100 images, few-shot learning, and test classification).</p></li>
+<li><p>It also offers a <strong>simpler and more efficient implementation</strong>, requiring just 9.1 minutes of runtime (loading the 78 images, few-shot learning, and test classification).</p></li>
 </ul>
 </section>
 <section id="the-stochastic-textured-surfaces-sts-example" class="slide level2">
@@ -653,7 +669,7 @@ CLIP Few-Shot
 <li><p>CLIP is a <strong>simple, yet effective baseline for image inspection before exploring more complex or costly alternatives</strong>.</p></li>
 <li><p>Performance is <strong>strong in single-component, texture-rich applications, and weaker in multi-object, complex scenes</strong> (please refer to <a href="https://arxiv.org/abs/2501.12596">our paper</a>).</p></li>
 <li><p><strong>Encoing Model choice matters:</strong> ViT-L/14 offers superior performance for fine-grained textures.</p></li>
-<li><p>Effective with as few as <strong>10–50 images per class</strong> in many settings—ideal for data-scarce domains.</p></li>
+<li><p>Effective with as few as <strong>10–50 images per class</strong> in many settings; ideal for data-scarce domains.</p></li>
 </ul>
 </section>
 <section id="try-out-our-no-code-app-in-public-alpha" class="slide level2">
