@@ -1,0 +1,410 @@
+---
+title: "SIGHT: Safety Immersion and Gamified Hazard Training for Industry 5.0"
+subtitle: "Meeting 04: Updates on Chatbot Advancements, VR Integration Needs, MaxByte, and PMP"
+author: 
+  - name : Fadel Megahed
+    email: fmegahed@miamioh.edu
+    affiliation: PI
+  - name: Arthur Carvalho
+    email: carvalag@miamioh.edu
+    affiliation: Co-PI
+  - name: Mohammad Mayyas
+    email: mayyasm@miamioh.edu
+    affiliation: Co-PI
+  - name: Jay Shan
+    email: jayshan@miamioh.edu
+    affiliation: Co-PI
+date: "August 15, 2025"
+date-format: "MMMM DD, YYYY"
+format:
+  revealjs:
+    theme: [default, ../../style_files/mu_theme.scss]
+    slide-number: true
+    chalkboard: true
+    countdown: true
+    pdfexport: true
+    
+    toc: false
+    toc-depth: 1
+    logo: "https://miamioh.edu/miami-brand/_files/images/system/identity/logo-horizontal-stacked.png" 
+    footer: "Project funded by the Ohio BWC through their [Worker Safety Innovation Center](https://info.bwc.ohio.gov/for-employers/safety-services/workplace-safety-innovation-center/wsic-overview)"
+    
+    title-slide-attributes:
+      data-background-color: "#c3142d"
+      data-background-image: pres_qr_code.png
+      data-background-size: 10%
+      data-background-position: 99% 95%
+    
+    touch: true
+    controls: true
+    center: false
+---
+
+
+## Meeting Goals
+
+- **Review and approve** Meeting 03 minutes and action items   
+
+- **Update** the full team on **administrative tasks** that were carried out over the past two weeks 
+
+- **Technical updates**:  
+  
+  + Advancements to the chatbot (multiple RAG implementations, vision, speech-to-speech), and near-term plan.   
+  + VR integration needs.  
+  + MaxByte updates.
+
+- **MU Internal Session:**   
+
+  + Unifying efforts across the AI and manufacturing subteams.  
+  + Project management plan alignment, completed tasks, and things to do.   
+
+```{r options}
+#| include: false
+
+reticulate::use_condaenv("sight", required = TRUE)
+
+# setting miamired color and ggplot2 theme for all plots
+miamired = "#c3142d"
+
+ggplot2::theme_set(
+  ggplot2::theme_bw() +
+  ggplot2::theme(
+    plot.title = ggplot2::element_text(hjust = 0.5, size = 14, face = "bold"),
+    plot.subtitle = ggtext::element_markdown(size = 12, color = "black"),
+    legend.position='none',
+    panel.grid.major = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(fill ="#C3142D"),
+    strip.text = ggplot2::element_text(color = "white", size = 8, face = "bold"),
+    panel.spacing = ggplot2::unit(1, "lines"),
+    # bold x-ticks, yticks and the axis labels
+    axis.text = ggplot2::element_text(face = "bold", color = "black"),
+    axis.title = ggplot2::element_text(face = "bold", color = "black"),
+    plot.caption = ggtext::element_markdown(size = 8, color = "black")
+  ) 
+  )
+```
+
+# Review Action Items from Previous Meeting and Approve Minutes  {.inverse .center}
+
+Fadel M. Megahed
+
+## Recap: Action Item Status
+
+<style>
+  table.task-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 0.75em;
+  }
+  .task-table th, .task-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  .task-table th {
+    background-color: #c3142d;
+    color: white;
+    padding: 10px;
+  }
+  .task-table td:nth-child(2) {
+    text-align: left;
+  }
+  .task-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+</style>
+
+<table class="task-table">
+  <colgroup>
+    <col style="width: 8%;">
+    <col style="width: 60%;">
+    <col style="width: 12%;">
+    <col style="width: 20%;">
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>What</th>
+      <th>Due Date</th>
+      <th>Who</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>🟩</td>
+      <td>MaxByte's site visit and workshop</td>
+      <td>Aug 8</td>
+      <td>Mayyas &amp; MaxByte</td>
+    </tr>
+    <tr>
+      <td>🟩</td>
+      <td>Update and submit D2.1 based on WSIC comments</td>
+      <td>Aug 11</td>
+      <td>Mohamed Farrag</td>
+    </tr>
+    <tr>
+      <td>🟩</td>
+      <td>Finalize and submit contractor contracts</td>
+      <td>Aug 15</td>
+      <td>Fadel Megahed &amp; Mohamed Farrag</td>
+    </tr>
+    <tr>
+      <td>🟨</td>
+      <td>Begin drafting content for Q1 Project Management Plan and Risk Mitigation Plan</td>
+      <td>Aug 15</td>
+      <td>MU Team</td>
+    </tr>
+  </tbody>
+</table>
+
+
+## Approval of Meeting Minutes
+
+{{< pdf meeting03_minutes.pdf width=100% height=600 >}}
+
+
+## Attendance Sign as Required By BWC
+
+::: {.columns}
+
+::: {.column width="60%"}
+
+- **Use your full name** (first and last) when joining the Zoom call — even if you're in a shared conference room.  
+
+- This helps us log attendance accurately for BWC reporting.  
+
+- If you're in a conference room:  
+  - Only **one computer** should have audio enabled.  
+  - All **other devices** must be **muted** (microphone **and** speaker).  
+
+:::
+
+::: {.column width="40%"}
+
+<br><br>
+```{python attendance_qr}
+#| echo: false
+#| output: hide
+#| fig-align: center
+#| cache: true
+#| out-width: "100%"
+#| fig-cap: "Scan QR code if you are not on Zoom."
+
+import qrcode
+import matplotlib.pyplot as plt
+
+url = "https://miamioh.zoom.us/j/87563617657?pwd%3DviB8cWMcSRpYBzWHVafGPf1yCetdJ3.1%26jst%3D2&sa=D&source=calendar&ust=1754468940568351&usg=AOvVaw3f2aSQpGrlTGsQYxrl7TLR"
+img = qrcode.make(url)
+
+# Display without extraneous output
+plt.imshow(img, cmap="gray")
+_ = plt.axis("off")  # suppress output
+plt.tight_layout()
+plt.show()
+
+```
+
+:::
+:::
+
+
+# Administrative Updates {.center .inverse}
+
+Fadel Megahed
+
+## Requirements: ICQ Information Compiled and Submitted
+
+{{< pdf icq_miami.pdf width=100% height=600 >}}
+
+## Requirements: Contracts Executed and Submited to the BWC
+
+We  thank **Ram (MaxByte)** and **Kevin (MeetKai)** for working with their legal teams and Miami University to ensure the **contracts were executed and submitted to the BWC on time.**
+
+![](../../figs/contracts_submitted.png){width='100%' fig-align='center' fig-alt='Contracts have been executed and sent to the BWC.'}
+
+::: {style="text-align:center; font-size: 0.7em"}
+A screenshot of the contracts (under requirements) tab from the Ohio BWC/WSIC online portal.
+:::
+
+## Deliverables: 1.1 and 2.1 Have Been Approved
+
+With both deliverables approved, **BWC/WSIC can release 4% of the proposed budget** to Miami University, **amounting to approximately $60,000**.  
+
+![](../../figs/approved_first_two_deliverables.png)
+
+::: {style="text-align:center; font-size: 0.7em"}
+A screenshot of the (approved) deliverables tab from the Ohio BWC/WSIC online portal.
+:::
+
+This **reimbursement will occur after our Q1 expenditure reports are submitted and approved**. Our expenditure reports for Q1 (July 1 – September 30, 2025 ) will contain aggregated information from MU, industry partners, and consultant. 
+
+The Q1 report is due on October 31, 2025 so **non-MU entities should submit their invoices to MU by close of business on October 8, 2025.**
+
+
+## July Meeting Attendance Verification (Update)
+
+{{< pdf sight_meeting02_attendance.pdf width=100% height=600 >}}
+
+
+
+# Technical Updates: RAG Chatbot {.inverse .center}
+
+Fadel Megahed, Arthur Carvalho, and Jay Shan
+
+## Recall: Preliminary RAG Documents
+
+```{python rag_docs_svg}
+#| include: false
+
+# Generates the SVG with tooltips and immediately embeds it as HTML (<object>)
+import graphviz
+from IPython.display import HTML
+
+dot = graphviz.Digraph(format='svg')
+dot.attr(rankdir='LR',
+         size='16,9!',        # lock to 16:9 for Reveal.js
+         ratio='compress',
+         pad='0.2',
+         nodesep='0.4',
+         ranksep='0.6',
+         bgcolor='white',
+         dpi='96')
+
+title_node  = dict(shape='box',   style='filled', color='lightblue',  fontname='Helvetica')
+folder_node = dict(shape='folder',style='filled', color='lightyellow',fontname='Helvetica')
+common_node = dict(shape='note',  color='lightgrey',                  fontname='Helvetica')
+
+# Main + categories
+dot.node('KB', 'Chatbot Knowledge Base',
+         tooltip="All reference documents used in the chatbot's RAG system.", **title_node)
+dot.node('OSHA', 'OSHA Regulations (29 CFR 1910)',
+         tooltip="Federal workplace safety standards under 29 CFR 1910.", **folder_node)
+dot.node('NIOSH', 'NIOSH Publications',
+         tooltip="NIOSH research and safety guidance documents.", **folder_node)
+dot.node('Guides', 'OSHA Guides / Technical Manuals',
+         tooltip="Supplementary OSHA guides and manuals for specific hazards.", **folder_node)
+dot.edge('KB','OSHA'); dot.edge('KB','NIOSH'); dot.edge('KB','Guides')
+
+# OSHA regs
+osha_regs = [
+    ("1910.147", "Lockout/Tagout [§1910.147]", "Requirements for controlling hazardous energy during servicing and maintenance."),
+    ("1910.178", "Powered Industrial Trucks [§1910.178]", "Safety standards for forklifts and powered trucks."),
+    ("1910.211", "Definitions – Machine Guarding [§1910.211]", "Key definitions used in OSHA’s machine guarding rules."),
+    ("1910.212", "General Requirements for All Machines [§1910.212]", "General machine guarding rules to protect operators and others."),
+    ("1910.213", "Woodworking Machinery [§1910.213]", "Guarding and operational requirements for woodworking machines."),
+    ("1910.215", "Abrasive Wheel Machinery [§1910.215]", "Safety specs for abrasive wheel machinery, including guards and work rests."),
+    ("1910.217", "Mechanical Power Presses [§1910.217]", "Safety requirements for mechanical power press operation and maintenance."),
+    ("1910.218", "Forging Machines [§1910.218]", "Safety practices and guarding for forging machinery."),
+    ("1910.219", "Mechanical Power Transmission Apparatus [§1910.219]", "Guarding requirements for belts, pulleys, gears, and other transmission parts.")
+]
+for code, title, tip in osha_regs:
+    dot.node(code, title, tooltip=tip, **common_node)
+    dot.edge('OSHA', code)
+
+# NIOSH
+niosh_docs = [
+    ("2011-156", "Using Lockout/Tagout to Prevent Injury (2011-156)", "Guidance on implementing LOTO programs to protect workers."),
+    ("85-103", "Preventing Injury of Workers by Robots (85-103)", "Safety strategies for preventing robot-related injuries.")
+]
+for code, title, tip in niosh_docs:
+    dot.node(code, title, tooltip=tip, **common_node)
+    dot.edge('NIOSH', code)
+
+# Guides
+guides_docs = [
+    ("OTM", "OSHA Technical Manual – IV: Industrial Robots", "Technical guidance on hazards, safeguarding, and risk assessments for industrial robots."),
+    ("OSHA3120", "Lockout/Tagout: Control of Hazardous Energy (OSHA 3120)", "OSHA handbook outlining lockout/tagout procedures."),
+    ("OSHA3170", "Safeguarding Equipment & Preventing Amputations (OSHA 3170)", "OSHA guide to machine guarding methods to prevent injuries.")
+]
+for code, title, tip in guides_docs:
+    dot.node(code, title, tooltip=tip, **common_node)
+    dot.edge('Guides', code)
+
+# Save SVG
+svg_path = "../../figs/chatbot_kb_flowchart_16x9_tooltips"
+dot.render(svg_path, cleanup=True, format='svg')
+```
+
+```{=html}
+<object data="../../figs/chatbot_kb_flowchart_with_tooltips.svg" type="image/svg+xml" style="width:100%; aspect-ratio: 16 / 9;"></object>
+```
+
+
+
+## Recall: Preliminary RAG Chatbot
+
+[![](../../figs/sight_chat.png)](https://huggingface.co/spaces/fmegahed/sight_chat)
+
+::: {style="text-align:center; font-size: 0.7em"}
+Please click on the image to go to our hosted app.
+:::
+
+
+## Recall: Arthur's Proposed RoadMap
+
+{{< pdf ../meeting03/rag_research_plan.pdf width=100% height=600 >}}
+
+
+## Developments Since Last Meeting
+
+<div style="position: relative; padding-bottom: 54.21436004162331%; height: 0;"><iframe src="https://www.loom.com/embed/7a82ca97bce94590a0cb4ddcc90e1094?sid=1a10fa99-38c5-4713-b77e-ef7c2507d1e9" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+
+## Things We Plan to Add: Additional Docs
+
+```{=html}
+<object data="../../figs/kb_graph_compact3.svg" type="image/svg+xml" style="width:100%; aspect-ratio: 16 / 9;"></object>
+```
+
+## Things We Plan to Explore: Alternate Chunking/Embeddings
+
+[![](../../figs/mongo_db_embeddings.png){fig-align="center" width='65%'}](https://www.mongodb.com/company/blog/product-release-announcements/voyage-context-3-focused-chunk-level-details-global-document-context)
+
+## Things We Plan to Explore: AIOps (Jay Shan)
+
+- **Latency Concerns**
+  - Current architecture may introduce delays in chatbot responses.
+  - Transmission speed is critical since chatbot outputs will inform downstream applications (e.g., VR/AR modules).
+
+- **Architecture Optimization**
+  - Shift from a *linear* to a **hub-and-spoke** streaming design to speed up message transmission and processing.
+  - Central hub for message coordination, with optimized spokes for LLM queries, RAG lookups, and monitoring.
+
+- **Model Deployment Strategies**
+  - Evaluate **fine-tuning** the LLM to reduce reliance on extensive RAG calls.
+  - Consider **edge deployment** for faster inference and lower network latency.
+
+# Technical Updates: Image to 3D VR-Ready Rendering (Ibrahim Yousif) {.inverse .center}
+
+## Can we Create Suitable Rendering Files for VR Integration?
+
+The area below is reserved for note taking.
+
+<textarea rows="20" style="width:100%; font-size: 20px;"></textarea>
+
+# MaxByte Updates from their Work at MU Hamilton  {.inverse .center}
+
+## MaxByte Updates from their Work at MU Hamilton (Harish Chittaluri)
+
+### Progress
+<textarea rows="6" style="width:100%; font-size: 20px;"></textarea>
+
+### Needs
+<textarea rows="6" style="width:100%; font-size: 20px;"></textarea>
+
+### Next Steps
+<textarea rows="6" style="width:100%; font-size: 20px;"></textarea>
+
+
+# MU Working Session  {.inverse .center}
+
+## Ibrahim's Requested Alignment Discussion
+
+The area below is reserved for note taking.
+
+<textarea rows="20" style="width:100%; font-size: 20px;"></textarea>
+
+## Project Management Plan
+
+Please refer to our draft on [Google Docs](https://docs.google.com/document/d/1uGmgAmx9RlOSF01DPpycyXIG1ELZY9Jh/edit?usp=sharing&ouid=100347026043929663392&rtpof=true&sd=true).
