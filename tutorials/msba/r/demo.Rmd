@@ -1,0 +1,288 @@
+---
+title: "MSBA R Demo"
+author: "Fadel M. Megahed"
+date: "Fall 2025"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    theme: cosmo
+    highlight: tango
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Overview
+
+This analysis examines [Duke Energy Ohio's hourly load data from 2021-2025](https://www.duke-energyohiocbp.com/Documents/LoadandOtherData.aspx), combining it with weather data and holiday information to create a comprehensive dataset for peak load modeling and forecasting.
+
+
+# Data Collection
+
+## Duke Energy Load Data
+
+We collect actual hourly loads by class from Duke Energy Ohio's public data portal for years 2021-2025.
+
+```{r duke-data-download}
+# Duke Energy Ohio load data URLs
+# Source: https://www.duke-energyohiocbp.com/Documents/LoadandOtherData.aspx
+
+duke_links <- c(
+  "https://www.duke-energyohiocbp.com/Portals/0/Documents/Actual_Hourly_Loads_by_Class_2021.xlsx",
+  "https://www.duke-energyohiocbp.com/Portals/0/Documents/Actual_Hourly_Loads_by_Class_2022_20230307.xlsx",
+  "https://www.duke-energyohiocbp.com/Portals/0/Documents/Actual_Hourly_Loads_by_Class_2023_20240507.xlsx",
+  "https://www.duke-energyohiocbp.com/Portals/0/Documents/Actual_Hourly_Loads_by_Class_2024.xlsx",
+  "https://www.duke-energyohiocbp.com/Portals/0/Documents/Actual_Hourly_Loads_by_Class_2025_20250814.xlsx"
+)
+
+names(duke_links) <- paste0("duke_loads_", 2021:2025, ".xlsx")
+
+# Create data directory if it doesn't exist
+if (!dir.exists("data")) {
+  dir.create("data")
+}
+
+# Download each file to data folder
+for (i in seq_along(duke_links)) {
+  file_path <- paste0("data/", names(duke_links)[i])
+  if (!file.exists(file_path)) {
+    download.file(duke_links[i], destfile = file_path, mode = "wb")
+    cat("Downloaded:", names(duke_links)[i], "\n")
+  }
+}
+```
+
+```{r duke-data-processing}
+# Read and combine all Excel files
+local_files <- list.files("data/", pattern = "*.xlsx", full.names = TRUE)
+
+duke_data <- purrr::map_df(
+  .x = local_files, 
+  .f = readxl::read_excel, 
+  sheet = 1, 
+  skip = 1
+)
+
+# Clean and standardize column names
+duke_data_clean <- duke_data |> 
+  dplyr::select("REPORT DAY", "HOUR ENDING", "#TOTAL", "TOTAL") |> 
+  dplyr::rename(
+    date = "REPORT DAY", 
+    hour = "HOUR ENDING", 
+    total = "TOTAL", 
+    clients = "#TOTAL"
+  )
+
+# Calculate daily peak loads
+daily_peak_loads <- duke_data_clean |>
+  dplyr::group_by(date) |>
+  dplyr::summarise(
+    peak_load_mw = max(total, na.rm = TRUE),
+    clients = max(clients, na.rm = TRUE),
+    .groups = "drop"
+  ) |> 
+  dplyr::mutate(
+    weekday = lubridate::wday(date, label = TRUE),
+    month = lubridate::month(date, label = TRUE)
+  )
+
+cat("Duke Energy data processed:", nrow(daily_peak_loads), "daily records\n")
+```
+
+## U.S. Holiday Data
+
+We scrape federal holiday information from [timeanddate.com](https://www.timeanddate.com/holidays/us/) to identify days that may have different load patterns.
+
+```{r holiday-data}
+# Function to scrape holiday data for a given year
+scrape_holidays <- function(year) {
+  url <- paste0("https://www.timeanddate.com/holidays/us/", year)
+  
+  tryCatch({
+    data <- rvest::read_html(url) |> 
+      rvest::html_element("table") |> 
+      rvest::html_table(header = TRUE) |>
+      janitor::clean_names() |>
+      dplyr::select(1:4) |> 
+      dplyr::slice(-1) |>
+      dplyr::filter(type == "Federal Holiday") |> 
+      dplyr::mutate(
+        date = paste0(date, " ", year) |> lubridate::mdy()
+      ) |> 
+      dplyr::select(date, name)
+    
+    return(data)
+  }, error = function(e) {
+    cat("Error scraping holidays for", year, ":", e$message, "\n")
+    return(data.frame(date = as.Date(character(0)), name = character(0)))
+  })
+}
+
+# Collect holiday data for all years
+holidays_df <- purrr::map_df(2021:2025, scrape_holidays)
+cat("Holiday data collected:", nrow(holidays_df), "federal holidays\n")
+```
+
+## Weather Data
+
+We collect daily weather data for three major Ohio cities (Cincinnati, Columbus, Cleveland) using the [Meteostat API](https://rapidapi.com/meteostat/api/meteostat/playground/).
+
+```{r weather-data}
+# After usethis::edit_r_environ("project") to set your API key
+# Load it using Sys.getenv()
+meteo_api_key = Sys.getenv("meteo_api_key")
+
+# Function to pull historical weather data
+hist_weather_pull <- function(lat, long, alt, city) {
+  tryCatch({
+    resp <- httr2::request("https://meteostat.p.rapidapi.com/point/daily") |>
+      httr2::req_url_query(
+        lat = lat,
+        lon = long,
+        alt = alt,
+        start = "2021-01-01",
+        end = "2025-05-31"
+      ) |>
+      httr2::req_headers(
+        "x-rapidapi-host" = "meteostat.p.rapidapi.com",
+        "x-rapidapi-key" = meteo_api_key
+      ) |>
+      httr2::req_perform()
+    
+    weather_data <- httr2::resp_body_json(resp)[[2]] |> 
+      dplyr::bind_rows() |> 
+      dplyr::rename_with(~ paste0(.x, "_", city), -date)
+    
+    return(weather_data)
+  }, error = function(e) {
+    cat("Error fetching weather data for", city, ":", e$message, "\n")
+    return(data.frame())
+  })
+}
+
+# Ohio city coordinates
+weather_locations <- list(
+  list(lat = 39.1031, long = -84.5120, alt = 226, city = "cincy"),
+  list(lat = 39.5744, long = -83.00, alt = 241, city = "columbus"),
+  list(lat = 41.5, long = -81.6954, alt = 200, city = "cleveland")
+)
+
+# Collect weather data for all cities
+weather_data <- purrr::map(
+  weather_locations,
+  ~ hist_weather_pull(.x$lat, .x$long, .x$alt, .x$city)
+)
+
+# Combine weather data from all cities
+weather_df <- purrr::reduce(weather_data, dplyr::full_join, by = "date") |> 
+  dplyr::mutate(date = lubridate::as_date(date))
+
+cat("Weather data collected for", length(weather_locations), "cities\n")
+```
+
+# Merging the Multiple Datasets
+
+Combine all data sources into a single modeling dataset with engineered features.
+
+```{r data-integration}
+# Create comprehensive dataset
+df <- daily_peak_loads |>
+  dplyr::left_join(holidays_df, by = "date") |>
+  dplyr::mutate(
+    holiday = ifelse(is.na(name), "No", "Yes"),
+    name = ifelse(is.na(name), "No Holiday", name)
+  ) |> 
+  dplyr::left_join(weather_df, by = "date") |> 
+  # Add lagged load variables for time series patterns
+  dplyr::arrange(date) |>
+  dplyr::mutate(
+    lag28 = dplyr::lag(peak_load_mw, 28),  # 4 weeks ago
+    lag35 = dplyr::lag(peak_load_mw, 35),  # 5 weeks ago
+    lag42 = dplyr::lag(peak_load_mw, 42),  # 6 weeks ago
+    lag49 = dplyr::lag(peak_load_mw, 49)   # 7 weeks ago
+  ) |> 
+  # Reorder columns for clarity
+  dplyr::relocate(peak_load_mw, .after = dplyr::last_col()) |> 
+  # Remove rows with missing values
+  na.omit()
+
+# Save the final dataset
+write.csv(df, "data/duke_peak_loads.csv", row.names = FALSE)
+
+cat("Final dataset created with", nrow(df), "complete daily records\n")
+cat("Date range:", as.character(min(df$date)), "to", as.character(max(df$date)), "\n")
+```
+
+# Exploratory Data Analysis
+
+## Dataset Summary
+
+```{r data-summary}
+skimr::skim(df[c("peak_load_mw", "clients", "tavg_cincy", "tavg_columbus", "tavg_cleveland")])
+```
+
+## Correlation Analysis
+
+```{r correlation-plot, fig.width=12, fig.height=8}
+DataExplorer::plot_correlation(df, maxcat = 7)
+```
+
+
+# Modeling
+
+```{python pysetup, results='hide'}
+import pandas as pd
+from pycaret.regression import * 
+
+# Load the dataset
+df = pd.read_csv('data/duke_peak_loads.csv')
+
+# Initialize PyCaret regression setup
+setup(
+  data=df, 
+  target='peak_load_mw', 
+  session_id=2025, 
+  categorical_features=['weekday', 'month', 'name', 'holiday'],
+  ignore_features=['date'],
+  train_size=0.8,
+  verbose=False,
+  n_jobs = None
+  )
+  
+rf = create_model('rf')
+
+rf_performance = pull()
+
+rf_performance.to_csv('data/rf_performance.csv')
+```
+
+```{r pyresults, results='asis'}
+rf_table = read.csv('data/rf_performance.csv') |> 
+  dplyr::select("MAE", "RMSE", "R2", "MAPE") |> 
+  dplyr::mutate(
+    folds = c(1:10, 'Avg', 'STD')
+  ) |> 
+  dplyr::relocate(folds)
+
+
+gt_tbl <- rf_table |>
+  gt::gt(rowname_col = "folds") |>
+  gt::tab_row_group(
+    label = "Cross-validation folds",
+    rows = 1:10
+  ) |>
+  gt::tab_row_group(
+    label = "Summary",
+    rows = 11:12
+  ) |> 
+    gt::row_group_order(
+    groups = c("Cross-validation folds", "Summary") # enforce order
+  )
+
+gt_tbl
+
+```

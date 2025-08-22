@@ -13,3 +13,6 @@ talks/isqc2023/chatsqc_files/
 /portfolio/projects/fpl/data
 talks/enbis2025/data/FLAT_RCL.txt
 talks/isqc2025/data/FLAT_RCL.txt
+
+*.Renviron
+*.Rproj
