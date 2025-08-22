@@ -1,5 +1,5 @@
 ---
-title: "MSBA R Demo"
+title: "MSBA R Bootcamp: An End-to-End Analysis"
 author: "Fadel M. Megahed"
 date: "Fall 2025"
 output: 
