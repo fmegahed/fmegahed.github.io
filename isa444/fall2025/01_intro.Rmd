@@ -463,7 +463,7 @@ forecast = pd.DataFrame({
 
   - **Problem**: You are tasked with forecasting hotel occupancy for the next 11 months.  
 
-  - **Data**: You have access to the hotel's monthly room occupancy data from 2022 to January of 2025. Download the file [here](https://miamioh.instructure.com/courses/230182/files/34510709?module_item_id=5759088). 
+  - **Data**: You have access to the hotel's monthly room occupancy data from 2022 to January of 2025. Download the file [here]https://miamioh.instructure.com/courses/240425/files/36340085?module_item_id=6161473). 
 
   - **Task:** .black[.bold[Without the use of any AI tools]], create a forecast for the hotel's occupancy for the next 11 months. The forecast can be made in Excel, R, or Python. .black[.bold[Document the process and the rationale behind your forecasts.]] 
 
