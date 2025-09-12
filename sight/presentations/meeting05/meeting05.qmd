@@ -1,0 +1,451 @@
+---
+title: "SIGHT: Safety Immersion and Gamified Hazard Training for Industry 5.0"
+subtitle: "Meeting 05: Updates on Chatbot Advancements, VR Integration Needs, MaxByte, and Q1 Progress"
+author: 
+  - name : Fadel Megahed
+    email: fmegahed@miamioh.edu
+    affiliation: PI
+  - name: Arthur Carvalho
+    email: carvalag@miamioh.edu
+    affiliation: Co-PI
+  - name: Mohammad Mayyas
+    email: mayyasm@miamioh.edu
+    affiliation: Co-PI
+  - name: Jay Shan
+    email: jayshan@miamioh.edu
+    affiliation: Co-PI
+date: "Sept 12, 2025"
+date-format: "MMMM DD, YYYY"
+format:
+  revealjs:
+    theme: [default, ../../style_files/mu_theme.scss]
+    slide-number: true
+    chalkboard: true
+    countdown: true
+    pdfexport: true
+    
+    toc: false
+    toc-depth: 1
+    logo: "https://miamioh.edu/miami-brand/_files/images/system/identity/logo-horizontal-stacked.png" 
+    footer: "Project funded by the Ohio BWC through their [Worker Safety Innovation Center](https://info.bwc.ohio.gov/for-employers/safety-services/workplace-safety-innovation-center/wsic-overview)"
+    
+    title-slide-attributes:
+      data-background-color: "#c3142d"
+      data-background-image: pres_qr_code.png
+      data-background-size: 10%
+      data-background-position: 99% 95%
+    
+    touch: true
+    controls: true
+    center: false
+---
+
+
+## SIGHT: A Vision for Smarter Safety Training (For New Participants)
+
+::: {.v-center-container}
+{{< video '../../figs/sight_vision_final.mp4' width="853" height="484" >}}  
+:::
+
+::: footnote
+**Note:** Our **AI-generated concept video** is intended to visually communicate **our vision for SIGHT as an adaptive, immersive training solution that integrates safety and productivity by leveraging XR and generative AI technologies**.
+:::
+
+
+## SIGHT: A Vision for Smarter Safety Training (For New Participants)
+
+![](../../figs/ibrahim_meeting05_slide01_media.mp4){width="75%" fig-align="center"}
+
+
+## From Vision to Reality: Our Five-Phased Approach (For New Participants)
+
+![](../../figs/methods.png){width="30%"} 
+
+
+## From Vision to Reality: Our Timeline (For New Participants)
+
+![](../../figs/sight_timeline.png){width="100%"} 
+
+
+
+## Meeting Goals
+
+- **Review and approve** Meeting 04 minutes and action items   
+
+- **Update** the team on **administrative tasks** that were carried out  
+
+  + Status of Project Management Plan (PMP) submission.  
+  + Progress on the Project Risk Mitigation Plan (Leads: Arthur, Fadel, Ibrahim).
+  + Update on Q1 progress report (Lead: Jay Shan + Discovery Center).
+
+- **Technical updates**:  
+  
+  + Phase 1 (Q1): Status of standardized documentation for the Bridgeport Mill, TL-1
+CNC, and Universal Cobot; progress on image database creation.  
+  + Phase 2 (Q2): Initial findings and next steps for the RAG Chatbot; preliminary work
+on the AI Image Classification system.
+
+- **Industry Partner Collaboration:** Updates from MaxByte and MeetKai   
+
+- **Consultant Updates**  
+
+- **Risk mitigation/log** and further updates. 
+
+```{r options}
+#| include: false
+
+reticulate::use_condaenv("sight", required = TRUE)
+
+# setting miamired color and ggplot2 theme for all plots
+miamired = "#c3142d"
+
+ggplot2::theme_set(
+  ggplot2::theme_bw() +
+  ggplot2::theme(
+    plot.title = ggplot2::element_text(hjust = 0.5, size = 14, face = "bold"),
+    plot.subtitle = ggtext::element_markdown(size = 12, color = "black"),
+    legend.position='none',
+    panel.grid.major = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(fill ="#C3142D"),
+    strip.text = ggplot2::element_text(color = "white", size = 8, face = "bold"),
+    panel.spacing = ggplot2::unit(1, "lines"),
+    # bold x-ticks, yticks and the axis labels
+    axis.text = ggplot2::element_text(face = "bold", color = "black"),
+    axis.title = ggplot2::element_text(face = "bold", color = "black"),
+    plot.caption = ggtext::element_markdown(size = 8, color = "black")
+  ) 
+  )
+```
+
+# Review Action Items from Previous Meeting and Approve Minutes  {.inverse .center}
+
+Fadel M. Megahed
+
+## Recap: Action Item Status
+
+<style>
+  table.task-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 0.75em;
+  }
+  .task-table th, .task-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  .task-table th {
+    background-color: #c3142d;
+    color: white;
+    padding: 10px;
+  }
+  .task-table td:nth-child(2) {
+    text-align: left;
+  }
+  .task-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+</style>
+
+<table class="task-table">
+  <colgroup>
+    <col style="width: 8%;">
+    <col style="width: 60%;">
+    <col style="width: 12%;">
+    <col style="width: 20%;">
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>What</th>
+      <th>Due Date</th>
+      <th>Who</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>🟨</td>
+      <td>MeetKai + Miami discussion on converting CAD files into VR-ready 3D models</td>
+      <td>Aug 29</td>
+      <td>MU &amp; MeetKai</td>
+    </tr>
+    <tr>
+      <td>🟩</td>
+      <td>Obtain OEM documentation for lab equipment</td>
+      <td>Aug 29</td>
+      <td>Reza Abrisham Baf &amp; Harish Chittaluri</td>
+    </tr>
+    <tr>
+      <td>🟩</td>
+      <td>Secure new indusrty partner</td>
+      <td>Aug 15</td>
+      <td>Fadel Megahed, M. Mayyas &amp; Ramshankar C S</td>
+    </tr>
+    <tr>
+      <td>🟩</td>
+      <td>Submit Project Management Plan and progress on Risk Mitigation Plan</td>
+      <td>Aug 29 &amp; Sept 12</td>
+      <td>MU Team</td>
+    </tr>
+    <tr>
+      <td>🟩</td>
+      <td>Host Chatbot on MU Servers</td>
+      <td>Aug 23</td>
+      <td>MU Team</td>
+    </tr>
+  </tbody>
+</table>
+
+
+## Approval of Meeting Minutes
+
+{{< pdf meeting04_minutes.pdf width=100% height=600 >}}
+
+
+## Attendance Sign as Required By BWC
+
+::: {.columns}
+
+::: {.column width="60%"}
+
+- **Use your full name** (first and last) when joining the Zoom call — even if you're in a shared conference room.  
+
+- This helps us log attendance accurately for BWC reporting.  
+
+- If you're in a conference room:  
+  - Only **one computer** should have audio enabled.  
+  - All **other devices** must be **muted** (microphone **and** speaker).  
+
+:::
+
+::: {.column width="40%"}
+
+<br><br>
+```{python attendance_qr}
+#| echo: false
+#| output: hide
+#| fig-align: center
+#| cache: true
+#| out-width: "100%"
+#| fig-cap: "Scan QR code if you are not on Zoom."
+
+import qrcode
+import matplotlib.pyplot as plt
+
+url = "https://miamioh.zoom.us/j/87563617657?pwd%3DviB8cWMcSRpYBzWHVafGPf1yCetdJ3.1%26jst%3D2&sa=D&source=calendar&ust=1754468940568351&usg=AOvVaw3f2aSQpGrlTGsQYxrl7TLR"
+img = qrcode.make(url)
+
+# Display without extraneous output
+plt.imshow(img, cmap="gray")
+_ = plt.axis("off")  # suppress output
+plt.tight_layout()
+plt.show()
+
+```
+
+:::
+:::
+
+
+# Administrative Updates {.center .inverse}
+
+Fadel Megahed
+
+## Deliverable: Project Management Plan
+
+{{< pdf pmp.pdf width=100% height=600 >}}
+
+
+## Deliverables Submitted so Far
+
+<br>
+
+![](../../figs/sight_deliverables_progress_sept_2025.png){width='100%' fig-align='center' fig-alt='Deliverables status.'}
+
+::: {style="text-align:center; font-size: 0.7em"}
+A screenshot of the deliverables tab from the Ohio BWC/WSIC online portal.
+:::
+
+# Status of Q1 Deliverables {.inverse .center}
+
+Michael Wise and Ibrahim Yousif
+
+## 1.1. Compile Machine Manuals
+
+![](../../figs/ibrahim_meeting05_slide09.png){width='100%' fig-align='center' fig-alt='Compiled reports.'}
+
+## 1.2-1.3 Create Image Database and Image Tagging
+
+![](../../figs/ibrahim_meeting05_slide10.png){width='100%' fig-align='center' fig-alt='Image Database'}
+
+- We are currently using **Roboflow** to store the images and their associated metadata.  
+
+
+
+# Technical Updates: RAG Chatbot {.inverse .center}
+
+Fadel Megahed
+
+## Recall: Preliminary RAG Documents
+
+```{python rag_docs_svg}
+#| include: false
+#| eval: false
+
+# Generates the SVG with tooltips and immediately embeds it as HTML (<object>)
+import graphviz
+from IPython.display import HTML
+
+dot = graphviz.Digraph(format='svg')
+dot.attr(rankdir='LR',
+         size='16,9!',        # lock to 16:9 for Reveal.js
+         ratio='compress',
+         pad='0.2',
+         nodesep='0.4',
+         ranksep='0.6',
+         bgcolor='white',
+         dpi='96')
+
+title_node  = dict(shape='box',   style='filled', color='lightblue',  fontname='Helvetica')
+folder_node = dict(shape='folder',style='filled', color='lightyellow',fontname='Helvetica')
+common_node = dict(shape='note',  color='lightgrey',                  fontname='Helvetica')
+
+# Main + categories
+dot.node('KB', 'Chatbot Knowledge Base',
+         tooltip="All reference documents used in the chatbot's RAG system.", **title_node)
+dot.node('OSHA', 'OSHA Regulations (29 CFR 1910)',
+         tooltip="Federal workplace safety standards under 29 CFR 1910.", **folder_node)
+dot.node('NIOSH', 'NIOSH Publications',
+         tooltip="NIOSH research and safety guidance documents.", **folder_node)
+dot.node('Guides', 'OSHA Guides / Technical Manuals',
+         tooltip="Supplementary OSHA guides and manuals for specific hazards.", **folder_node)
+dot.edge('KB','OSHA'); dot.edge('KB','NIOSH'); dot.edge('KB','Guides')
+
+# OSHA regs
+osha_regs = [
+    ("1910.147", "Lockout/Tagout [§1910.147]", "Requirements for controlling hazardous energy during servicing and maintenance."),
+    ("1910.178", "Powered Industrial Trucks [§1910.178]", "Safety standards for forklifts and powered trucks."),
+    ("1910.211", "Definitions – Machine Guarding [§1910.211]", "Key definitions used in OSHA’s machine guarding rules."),
+    ("1910.212", "General Requirements for All Machines [§1910.212]", "General machine guarding rules to protect operators and others."),
+    ("1910.213", "Woodworking Machinery [§1910.213]", "Guarding and operational requirements for woodworking machines."),
+    ("1910.215", "Abrasive Wheel Machinery [§1910.215]", "Safety specs for abrasive wheel machinery, including guards and work rests."),
+    ("1910.217", "Mechanical Power Presses [§1910.217]", "Safety requirements for mechanical power press operation and maintenance."),
+    ("1910.218", "Forging Machines [§1910.218]", "Safety practices and guarding for forging machinery."),
+    ("1910.219", "Mechanical Power Transmission Apparatus [§1910.219]", "Guarding requirements for belts, pulleys, gears, and other transmission parts.")
+]
+for code, title, tip in osha_regs:
+    dot.node(code, title, tooltip=tip, **common_node)
+    dot.edge('OSHA', code)
+
+# NIOSH
+niosh_docs = [
+    ("2011-156", "Using Lockout/Tagout to Prevent Injury (2011-156)", "Guidance on implementing LOTO programs to protect workers."),
+    ("85-103", "Preventing Injury of Workers by Robots (85-103)", "Safety strategies for preventing robot-related injuries.")
+]
+for code, title, tip in niosh_docs:
+    dot.node(code, title, tooltip=tip, **common_node)
+    dot.edge('NIOSH', code)
+
+# Guides
+guides_docs = [
+    ("OTM", "OSHA Technical Manual – IV: Industrial Robots", "Technical guidance on hazards, safeguarding, and risk assessments for industrial robots."),
+    ("OSHA3120", "Lockout/Tagout: Control of Hazardous Energy (OSHA 3120)", "OSHA handbook outlining lockout/tagout procedures."),
+    ("OSHA3170", "Safeguarding Equipment & Preventing Amputations (OSHA 3170)", "OSHA guide to machine guarding methods to prevent injuries.")
+]
+for code, title, tip in guides_docs:
+    dot.node(code, title, tooltip=tip, **common_node)
+    dot.edge('Guides', code)
+
+# Save SVG
+svg_path = "../../figs/chatbot_kb_flowchart_16x9_tooltips_revised"
+dot.render(svg_path, cleanup=True, format='svg')
+```
+
+```{=html}
+<object data="../../figs/chatbot_kb_flowchart_16x9_tooltips_revised.svg" type="image/svg+xml" style="height:68vh; aspect-ratio: 16 / 9;"></object>
+```
+
+## SIGHT Hosted Chatbot
+
+<div style="position: relative; padding-bottom: 54.21436004162331%; height: 0;"><iframe src="https://sight.fsb.miamioh.edu/" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+
+**Available at:** <https://sight.fsb.miamioh.edu/>
+
+
+
+# Technical Updates: Image Classification {.inverse .center}
+
+Ibrahim Yousif and Michael Wise
+
+## Preliminary Object Detection Results 
+
+![](../../figs/ibrahim_meeting05_slide11.png){width='100%' fig-align='center' fig-alt='Really good image classification results.'}
+
+
+
+# Industry Partner Updates {.inverse .center}
+
+## Maxbyte Inc.
+
+![](../../figs/ibrahim_meeting05_slide12.png){width='100%' fig-align='center' fig-alt='Really good image classification results.'}
+
+## MeetKai Inc.
+
+<table style="border-collapse: collapse; width: 100%; font-size: 18px;">
+  <thead>
+    <tr style="background-color: #f2f2f2;">
+      <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">
+        Description and Justification
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Pre-processing: Collaborative planning, data, &amp; image collection. Processing &amp; digitizing for various environments.
+      </td>
+    </tr>
+    <tr style="background-color: #fafafa;">
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        AI Model Generation: RAG &amp; Image Recognition
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Integrate “Speech-Speech” AI Training
+      </td>
+    </tr>
+    <tr style="background-color: #fafafa;">
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Develop and Gamify: Interactive, scalable, web-based VR training system
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Provide high quality 3D Environmental and Equipment Models
+      </td>
+    </tr>
+    <tr style="background-color: #fafafa;">
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Integrate real-world industrial hazard models into VR scenarios
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Tracking and Analytics: Provide a robust set
+      </td>
+    </tr>
+    <tr style="background-color: #fafafa;">
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Support: Pilot testing and system refinement
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+# Discussion {.inverse .center}
+
+## Discussion

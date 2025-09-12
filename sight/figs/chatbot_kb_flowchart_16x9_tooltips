@@ -1,0 +1,38 @@
+digraph {
+	bgcolor=white dpi=96 nodesep=0.4 pad=0.2 rankdir=LR ranksep=0.6 ratio=compress size="16,9!"
+	KB [label="Chatbot Knowledge Base" color=lightblue fontname=Helvetica shape=box style=filled tooltip="All reference documents used in the chatbot's RAG system."]
+	OSHA [label="OSHA Regulations (29 CFR 1910)" color=lightyellow fontname=Helvetica shape=folder style=filled tooltip="Federal workplace safety standards under 29 CFR 1910."]
+	NIOSH [label="NIOSH Publications" color=lightyellow fontname=Helvetica shape=folder style=filled tooltip="NIOSH research and safety guidance documents."]
+	Guides [label="OSHA Guides / Technical Manuals" color=lightyellow fontname=Helvetica shape=folder style=filled tooltip="Supplementary OSHA guides and manuals for specific hazards."]
+	KB -> OSHA
+	KB -> NIOSH
+	KB -> Guides
+	1910.147 [label="Lockout/Tagout [§1910.147]" color=lightgrey fontname=Helvetica shape=note tooltip="Requirements for controlling hazardous energy during servicing and maintenance."]
+	OSHA -> 1910.147
+	1910.178 [label="Powered Industrial Trucks [§1910.178]" color=lightgrey fontname=Helvetica shape=note tooltip="Safety standards for forklifts and powered trucks."]
+	OSHA -> 1910.178
+	1910.211 [label="Definitions – Machine Guarding [§1910.211]" color=lightgrey fontname=Helvetica shape=note tooltip="Key definitions used in OSHA’s machine guarding rules."]
+	OSHA -> 1910.211
+	1910.212 [label="General Requirements for All Machines [§1910.212]" color=lightgrey fontname=Helvetica shape=note tooltip="General machine guarding rules to protect operators and others."]
+	OSHA -> 1910.212
+	1910.213 [label="Woodworking Machinery [§1910.213]" color=lightgrey fontname=Helvetica shape=note tooltip="Guarding and operational requirements for woodworking machines."]
+	OSHA -> 1910.213
+	1910.215 [label="Abrasive Wheel Machinery [§1910.215]" color=lightgrey fontname=Helvetica shape=note tooltip="Safety specs for abrasive wheel machinery, including guards and work rests."]
+	OSHA -> 1910.215
+	1910.217 [label="Mechanical Power Presses [§1910.217]" color=lightgrey fontname=Helvetica shape=note tooltip="Safety requirements for mechanical power press operation and maintenance."]
+	OSHA -> 1910.217
+	1910.218 [label="Forging Machines [§1910.218]" color=lightgrey fontname=Helvetica shape=note tooltip="Safety practices and guarding for forging machinery."]
+	OSHA -> 1910.218
+	1910.219 [label="Mechanical Power Transmission Apparatus [§1910.219]" color=lightgrey fontname=Helvetica shape=note tooltip="Guarding requirements for belts, pulleys, gears, and other transmission parts."]
+	OSHA -> 1910.219
+	"2011-156" [label="Using Lockout/Tagout to Prevent Injury (2011-156)" color=lightgrey fontname=Helvetica shape=note tooltip="Guidance on implementing LOTO programs to protect workers."]
+	NIOSH -> "2011-156"
+	"85-103" [label="Preventing Injury of Workers by Robots (85-103)" color=lightgrey fontname=Helvetica shape=note tooltip="Safety strategies for preventing robot-related injuries."]
+	NIOSH -> "85-103"
+	OTM [label="OSHA Technical Manual – IV: Industrial Robots" color=lightgrey fontname=Helvetica shape=note tooltip="Technical guidance on hazards, safeguarding, and risk assessments for industrial robots."]
+	Guides -> OTM
+	OSHA3120 [label="Lockout/Tagout: Control of Hazardous Energy (OSHA 3120)" color=lightgrey fontname=Helvetica shape=note tooltip="OSHA handbook outlining lockout/tagout procedures."]
+	Guides -> OSHA3120
+	OSHA3170 [label="Safeguarding Equipment & Preventing Amputations (OSHA 3170)" color=lightgrey fontname=Helvetica shape=note tooltip="OSHA guide to machine guarding methods to prevent injuries."]
+	Guides -> OSHA3170
+}

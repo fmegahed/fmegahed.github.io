@@ -16,3 +16,4 @@ talks/isqc2025/data/FLAT_RCL.txt
 
 *.Renviron
 *.Rproj
+*.ini
