@@ -1,0 +1,328 @@
+---
+title: "SIGHT: Safety Immersion and Gamified Hazard Training for Industry 5.0"
+subtitle: "Meeting 06: Updates on Chatbot Advancements and VR Developments"
+author: 
+  - name : Fadel Megahed
+    email: fmegahed@miamioh.edu
+    affiliation: PI
+  - name: Arthur Carvalho
+    email: carvalag@miamioh.edu
+    affiliation: Co-PI
+  - name: Mohammad Mayyas
+    email: mayyasm@miamioh.edu
+    affiliation: Co-PI
+  - name: Jay Shan
+    email: jayshan@miamioh.edu
+    affiliation: Co-PI
+date: "Sept 26, 2025"
+date-format: "MMMM DD, YYYY"
+format:
+  revealjs:
+    theme: [default, ../../style_files/mu_theme.scss]
+    slide-number: true
+    chalkboard: true
+    countdown: true
+    pdfexport: true
+    
+    toc: false
+    toc-depth: 1
+    logo: "https://miamioh.edu/miami-brand/_files/images/system/identity/logo-horizontal-stacked.png" 
+    footer: "Project funded by the Ohio BWC through their [Worker Safety Innovation Center](https://info.bwc.ohio.gov/for-employers/safety-services/workplace-safety-innovation-center/wsic-overview)"
+    
+    title-slide-attributes:
+      data-background-color: "#c3142d"
+      data-background-image: pres_qr_code.png
+      data-background-size: 10%
+      data-background-position: 99% 95%
+    
+    touch: true
+    controls: true
+    center: false
+---
+
+
+
+## Meeting Goals
+
+- **Review and approve** Meeting 05 minutes and action items   
+
+- **Update** the team on **administrative tasks** that were carried out  
+
+  + Status of Project Management Plan (PMP) submission.  
+  + Progress on the Project Risk Mitigation Plan (Leads: Arthur, Fadel, Ibrahim).
+  + Update on Q1 progress report (Lead: Jay Shan + Discovery Center).
+
+- **Technical updates**:  
+  
+  + Phase 1 (Q1): Status of standardized documentation for the Bridgeport Mill, TL-1
+CNC, and Universal Cobot; progress on image database creation.  
+  + Phase 2 (Q2): Initial findings and next steps for the RAG Chatbot; preliminary work
+on the AI Image Classification system.
+
+- **Industry Partner Collaboration:** Updates from MaxByte and MeetKai   
+
+- **Consultant Updates**  
+
+- **Risk mitigation/log** and further updates. 
+
+```{r options}
+#| include: false
+
+reticulate::use_condaenv("sight", required = TRUE)
+
+# setting miamired color and ggplot2 theme for all plots
+miamired = "#c3142d"
+
+ggplot2::theme_set(
+  ggplot2::theme_bw() +
+  ggplot2::theme(
+    plot.title = ggplot2::element_text(hjust = 0.5, size = 14, face = "bold"),
+    plot.subtitle = ggtext::element_markdown(size = 12, color = "black"),
+    legend.position='none',
+    panel.grid.major = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(fill ="#C3142D"),
+    strip.text = ggplot2::element_text(color = "white", size = 8, face = "bold"),
+    panel.spacing = ggplot2::unit(1, "lines"),
+    # bold x-ticks, yticks and the axis labels
+    axis.text = ggplot2::element_text(face = "bold", color = "black"),
+    axis.title = ggplot2::element_text(face = "bold", color = "black"),
+    plot.caption = ggtext::element_markdown(size = 8, color = "black")
+  ) 
+  )
+```
+
+# Review Action Items from Previous Meeting and Approve Minutes  {.inverse .center}
+
+Fadel M. Megahed
+
+
+## Review of Action Items and Approval of Meeting Minutes
+
+{{< pdf meeting05_minutes.pdf width=100% height=600 >}}
+
+
+## Attendance Sign as Required By BWC
+
+::: {.columns}
+
+::: {.column width="60%"}
+
+- **Use your full name** (first and last) when joining the Zoom call — even if you're in a shared conference room.  
+
+- This helps us log attendance accurately for BWC reporting.  
+
+- If you're in a conference room:  
+  - Only **one computer** should have audio enabled.  
+  - All **other devices** must be **muted** (microphone **and** speaker).  
+
+:::
+
+::: {.column width="40%"}
+
+<br><br>
+```{python attendance_qr}
+#| echo: false
+#| output: hide
+#| fig-align: center
+#| cache: true
+#| out-width: "100%"
+#| fig-cap: "Scan QR code if you are not on Zoom."
+
+import qrcode
+import matplotlib.pyplot as plt
+
+url = "https://miamioh.zoom.us/j/87563617657?pwd%3DviB8cWMcSRpYBzWHVafGPf1yCetdJ3.1%26jst%3D2&sa=D&source=calendar&ust=1754468940568351&usg=AOvVaw3f2aSQpGrlTGsQYxrl7TLR"
+img = qrcode.make(url)
+
+# Display without extraneous output
+plt.imshow(img, cmap="gray")
+_ = plt.axis("off")  # suppress output
+plt.tight_layout()
+plt.show()
+
+```
+
+:::
+:::
+
+
+# Administrative Updates {.center .inverse}
+
+Fadel Megahed, Arthur Carvalho, Jay Shan
+
+## Deliverables Submitted so Far
+
+<br>
+
+![](../../figs/sight_deliverables_progress2_sept_2025.png){width='100%' fig-align='center' fig-alt='Deliverables status.'}
+
+::: {style="text-align:center; font-size: 0.7em"}
+A screenshot of the deliverables tab from the Ohio BWC/WSIC online portal.
+:::
+
+## Deliverable: Project Management Plan (Resubmitted)
+
+{{< pdf pmp.pdf width=100% height=600 >}}
+
+
+## Deliverable: Risk Mitigation Plan (Arthur; To-be-Submitted Soon)
+
+{{< pdf rmp.pdf width=100% height=600 >}}
+
+## Status on Industry and Consultant Invoices
+
+- We are currently creating three service requistions for POs to cover the entire year.  
+
+- Once the POs are issued, we will process each invoice with the respective PO numbers.  
+
+## Update on Q1 Progress Report (Jay Shan)
+
+Jay to discuss needs from the industry partners, consultant, and the Discovery Center
+
+# Consultant Updates {.inverse .center}
+
+Lora Cavuoto
+
+## Updates on Q1 Contributions
+
+:::: {.columns}
+::: {.column width="50%"}
+### IRB Submission
+- Current status  
+- Next steps
+:::
+
+::: {.column width="50%"}
+### Safety Materials (RAG)
+- Collection progress  
+- Remaining items
+:::
+::::
+
+
+# Technical Updates: RAG Chatbot {.inverse .center}
+
+Fadel Megahed, Michael Wise, and Ibrahim Yousif
+
+## Recall: 1.1. Compile Machine Manuals (Finalization)
+
+![](../../figs/ibrahim_meeting05_slide09.png){width='100%' fig-align='center' fig-alt='Compiled reports.'}
+
+## Recall: 1.2-1.3 Create Image Database & Image Tagging (Finalized)
+
+![](../../figs/ibrahim_meeting05_slide10.png){width='100%' fig-align='center' fig-alt='Image Database'}
+
+- We are currently using **Roboflow** to store the images and their associated metadata.  
+
+## Q2: 2.1. SIGHT Hosted Chatbot (V. 3.0.3)
+
+<div style="position: relative; padding-bottom: 54.21436004162331%; height: 0;"><iframe src="https://sight.fsb.miamioh.edu/" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+
+**Available at:** <https://sight.fsb.miamioh.edu/>
+
+
+## Q2: 2.2.  Image Classification and Object Detection Results 
+
+![](../../figs/ibrahim_meeting05_slide11.png){width='100%' fig-align='center' fig-alt='Really good image classification results.'}
+
+
+
+# Industry Partner Updates {.inverse .center}
+
+## MeetKai Virtual Environment Demonstration
+
+![](../../figs/vr_netlify.png){width='100%' fig-align='center' fig-alt='Image Database'}
+
+## MeetKai Deliverables Table
+
+<table style="border-collapse: collapse; width: 100%; font-size: 18px;">
+  <thead>
+    <tr style="background-color: #f2f2f2;">
+      <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">
+        Description and Justification
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Pre-processing: Collaborative planning, data, &amp; image collection. Processing &amp; digitizing for various environments.
+      </td>
+    </tr>
+    <tr style="background-color: #fafafa;">
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        AI Model Generation: RAG &amp; Image Recognition
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Integrate “Speech-Speech” AI Training
+      </td>
+    </tr>
+    <tr style="background-color: #fafafa;">
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Develop and Gamify: Interactive, scalable, web-based VR training system
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Provide high quality 3D Environmental and Equipment Models
+      </td>
+    </tr>
+    <tr style="background-color: #fafafa;">
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Integrate real-world industrial hazard models into VR scenarios
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Tracking and Analytics: Provide a robust set
+      </td>
+    </tr>
+    <tr style="background-color: #fafafa;">
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Support: Pilot testing and system refinement
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## MaxByte Delivery Table
+
+<table style="border-collapse: collapse; width: 100%; font-size: 18px;"> <thead> <tr style="background-color: #f2f2f2;"> <th style="border: 1px solid #ccc; padding: 8px; text-align: left; width: 25%;"> Milestone </th> <th style="border: 1px solid #ccc; padding: 8px; text-align: left;"> Deliverables </th> </tr> </thead> <tbody>
+<!-- Q1 - M1 -->
+<tr>
+  <td style="border: 1px solid #ccc; padding: 8px;">
+    Q1 - M1  
+    <br> Initial Documentation & Infra
+  </td>
+  <td style="border: 1px solid #ccc; padding: 8px;">
+    • Machine assessment and requirement gathering  
+    • M2M OT-IT Integration Server configuration & software installation  
+    • Server configuration & software installation  
+    • Kepware license management  
+  </td>
+</tr>
+
+<!-- Q2 - M2 -->
+<tr style="background-color: #fafafa;">
+  <td style="border: 1px solid #ccc; padding: 8px;">
+    Q2 - M2  
+    <br> Visibility
+  </td>
+  <td style="border: 1px solid #ccc; padding: 8px;">
+    • EDGE Gateway / Custom Script development and deployment  
+    • Energy Kit installation & configuration  
+    • Sensor integration for condition monitoring  
+    • Application development, configuration, customization, migration & maintenance  
+    • Pallet truck integration with industrial autonomous vehicle platform  
+  </td>
+</tr>
+
+</tbody> </table>
+
+
+# Discussion {.inverse .center}
+
+## Discussion
