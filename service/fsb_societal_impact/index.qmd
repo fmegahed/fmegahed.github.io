@@ -119,10 +119,12 @@ df_cleaned =
   ) |> 
     dplyr::arrange(pub_year)
 
+readr::write_csv(df_cleaned, 'results/df_cleaned.csv')
+
 DT::datatable(
     df_cleaned,
     options = list(
-    pageLength = 20, autoWidth = TRUE, scrollX = TRUE,
+    pageLength = 6, autoWidth = TRUE, scrollX = TRUE,
     dom = 'Bfrtip',
     buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
     )
@@ -237,7 +239,7 @@ wrap_items_html <- function(items, width = 100) {
   paste(lines, collapse = "<br>")
 }
 
-sdg_subtitle_wrapped <- wrap_items_html(sdg_items, width = 120)
+sdg_subtitle_wrapped <- wrap_items_html(sdg_items, width = 200)
 
 # 6) Draw heatmap with three aligned columns of tiles:
 #    - a gray "count" column with raw counts
@@ -302,9 +304,14 @@ ggplot2::ggplot() +
   ggplot2::theme_minimal() +
   ggplot2::theme(
     panel.grid = ggplot2::element_blank(),
-    plot.subtitle = ggtext::element_markdown(size = 8, lineheight = 1.1),
-    plot.caption  = ggtext::element_markdown(size = 8)
+    plot.subtitle = ggtext::element_markdown(size = 10, lineheight = 1.1),
+    plot.caption  = ggtext::element_markdown(size = 10)
   ) +
   ggplot2::guides(fill = "none")
+
+ggplot2::ggsave(
+    filename = 'results/heatmap.png',
+    width = 10, height = 5
+)
 
 ```
