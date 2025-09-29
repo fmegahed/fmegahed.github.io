@@ -1,0 +1,18 @@
+// Flowchart: Baseline Model to Advanced Technique
+digraph {
+	graph [ratio=fill size="7,6"]
+	node [shape=rectangle]
+	edge [color=darkred]
+	A [label="Start: Apply 1-5 Baseline Models"]
+	B [label="Evaluate the Baseline Performance"]
+	C [label="Is Performance Sufficient?"]
+	D [label="Yes: Deploy Best Baseline Model"]
+	E [label="No: Apply Advanced Techniques"]
+	F [label="Re-Evaluate Performance"]
+	A -> B
+	B -> C
+	C -> D [label=" Yes"]
+	C -> E [label=" No"]
+	E -> F
+	F -> C [label=" Re-evaluate"]
+}
