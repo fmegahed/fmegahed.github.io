@@ -1,0 +1,659 @@
+---
+title: "Navigating the Cyber Frontier"
+subtitle: "Harnessing AI to Mitigate Risks and Enhance Security"
+author: 
+  - name: Joseph Nwankpa
+    email: nwankpjk@miamioh.edu
+    orcid: 0000-0001-5711-8411
+    affiliation: Endres Associate Professor
+  - name : Fadel Megahed
+    email: fmegahed@miamioh.edu
+    orcid: 0000-0003-2194-5110
+    affiliation: Raymond E. Glos Professor in Business
+date: "Oct 04, 2025"
+date-format: "MMMM DD, YYYY"
+format:
+  revealjs:
+    theme: [default, mu_theme.scss]
+    slide-number: true
+    chalkboard: true
+    countdown: true
+    pdfexport: true
+    
+    toc: false
+    toc-depth: 1
+    logo: "https://miamioh.edu/miami-brand/_files/images/system/identity/logo-horizontal-stacked.png" 
+    footer: "AI in Cybersecurity"
+    
+    title-slide-attributes:
+      data-background-color: "#c3142d"
+      data-background-image: pres_qr_code.png
+      data-background-size: 10%
+      data-background-position: 99% 95%
+    
+    touch: true
+    controls: true
+    center: false
+---
+
+
+## Workshop Goals
+
+- Understand at a high level how AI helps and harms security  
+
+- Practice spotting spam and phishing with simple checklists  
+
+- See how both non‑generative and generative AI fit into a security workflow
+
+
+## Our Workshop Goals and Agenda
+
+### Goals
+
+- Understand at a high level how AI helps and harms security  
+
+- Practice spotting spam and phishing with simple checklists  
+
+- See how both non‑generative and generative AI fit into a security workflow  
+
+### Agenda
+
+```{mermaid}
+flowchart LR
+
+%% Styles
+classDef planBox stroke:#444,stroke-width:3px,fill:#ffffff,font-size:32px,font-weight:900,color:#c3142d
+classDef planStep stroke:#c3142d,stroke-width:3px,stroke-dasharray:5 5,fill:#f9f9f9,color:#000000,font-weight:900,padding:2px,font-size:28px
+
+subgraph plan[" "]
+    direction LR
+    
+    A["(1) Warm-up:<br/>What is AI?"]:::planStep
+    B["(2) Hands-on:<br/>Classify 10 messages"]:::planStep
+    C["(3)Scale up:<br/>Use a GenAI assistant"]:::planStep
+    D["(4) Detect anomalies:<br/> Non-gen AI demo"]:::planStep
+    E["(5) GenAI Threats:<br/>+ Deepfakes<br/>+ Voice Cloning<br/>+ Prompt Injection"]:::planStep
+    F["(6) Takeaways &<br/>resources"]:::planStep
+    
+    A --> B --> C --> D --> E --> F
+end
+
+class plan planBox
+```
+
+
+::: aside
+**Notes:**  
+
+- Non‑gen AI can help predict or spots unusual patterns.   
+- GenAI can help with reading, writing, and explaining, with a human in the loop.
+:::
+
+## The Two AI Flavors: Non-Generative and Generative AI for Cybersecurity
+
+```{mermaid}
+
+flowchart LR
+
+
+%% Styles
+classDef nonGen stroke:#c3142d,stroke-width:3px,stroke-dasharray:5 5,fill:#f9f9f9,color:#000000,font-weight:bold,padding:2px,font-size:24px
+classDef nonGenGroup stroke:darkgray, stroke-width:2px, color:black, fill:#ffffff, font-size:28px, font-weight:bold;
+
+classDef gen stroke:#c3142d,stroke-width:3px,stroke-dasharray:5 5,fill:#f9f9f9,color:#000000,font-weight:bold,padding:2px,font-size:24px
+classDef genGroup stroke:black, stroke-width:2px, color:black, fill:#ffffff, font-size:28px, font-weight:bold;
+
+classDef human stroke:#c3142d, color:black, fill:#ffffff;
+
+
+%% Row with two independent groups (no links between them)
+subgraph Row[ ]
+direction LR
+
+
+subgraph NG[Non-generative AI]
+direction TB
+N1[Classifiers & Regressors]
+N2[Risk scores]
+N3[Intrusion Detection<br/>Systems]
+end
+class NG nonGenGroup
+class N1,N2,N3 nonGen
+
+
+subgraph G[Generative AI]
+direction TB
+G1[Summarize alerts]
+G2[Draft actions]
+G3[Explain configs or code]
+G4[Classification of text]
+end
+class G genGroup
+class G1,G2,G3,G4 gen
+
+
+end
+
+```
+
+## Generative AI in the Loop: Not in the Wild
+
+```{mermaid}
+%%{init: {'flowchart': {'nodeSpacing': 30, 'rankSpacing': 15}}}%%
+flowchart TB
+classDef group stroke:black, stroke-width:2px, color:black, fill:#ffffff, font-size:17px, font-weight:bold; 
+classDef dashed stroke-dasharray: 5 5, stroke:black, color:black, fill:#f9f9f9;
+classDef human stroke:#c3142d, color:black, fill:#ffffff;
+
+
+subgraph GenAI[Our View of GenAI Workflows]
+direction TB
+S1[Detections + Artifacts]
+S2[RAG Pipeline: retrievers + policies]
+S3[GenAI Assistant]
+S4[Draft Investigation Notes]
+S5[Suggested Actions]
+S6[Guardrails:<br/>AuthZ, PII filters, Prompt Rules]
+S7[Human Approval]
+S8[SOAR Execution]
+end
+
+
+class GenAI group
+class S1,S2,S3,S4,S5,S6 dashed
+class S7 human
+class S8 dashed
+
+
+S1 --> S2 --> S3 --> S4
+S3 --> S5 --> S7 --> S8
+S3
+```
+
+
+# Traditional Cybersecurity Training {.center .inverse}
+
+## Motivation
+
+[![](../figs/wef_phishing.png)](https://www.weforum.org/stories/2025/07/rethinking-cybersecurity-a-systemic-approach-to-combat-cyber-enabled-fraud-and-phishing/)
+
+
+## Miami University InfoSec Training
+
+```{r mu_phishing, out.width='100%'}
+knitr::include_url("https://miamioh.edu/it-services/offices-centers-programs/information-security/security-awareness-tips/phishing.html", height = '550px')
+```
+
+::: aside
+**Note**: The information presented here is from [MU's Phishing Resources Webpage](https://miamioh.edu/it-services/offices-centers-programs/information-security/security-awareness-tips/phishing.html).
+:::
+
+
+## IBM's Explanation of Phishing Attacks
+
+<div style="text-align:center;">
+  <iframe width="960" height="540"
+          src="https://www.youtube.com/embed/gWGhUdHItto"
+          title="Spam/Phishing Detection Video"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+  </iframe>
+</div>
+
+::: aside
+**Source**: For more information on phishing attacks, please see the [IMB: Phishing Explained](https://www.ibm.com/think/videos/phishing) webpage.
+:::
+
+
+# Are the "Trainings" Useful? {.center .inverse}
+
+## Group Activity: Categorize Each of these Emails as Legit or Spam
+
+```{r, echo=FALSE}
+countdown::countdown(minutes = 5, top = "-0.35in", right="-0.5in", margin = "0.02em")
+```
+
+```{r phishing_out}
+#| echo: false
+#| results: asis
+
+# Read CSV with the 6 columns:
+# id, sender_name, sender_email, subject, body_preview, artifacts
+msgs = readr::read_csv("data/phishing.csv")
+
+sample_ids = 1:8
+
+tbl = msgs |>
+  dplyr::filter(id %in% sample_ids) |>
+  dplyr::mutate(
+    # escape HTML to avoid rendering issues
+    sender_name  = htmltools::htmlEscape(sender_name),
+    sender_email = htmltools::htmlEscape(sender_email),
+    subject      = htmltools::htmlEscape(subject),
+    body_preview = htmltools::htmlEscape(body_preview),
+    # trim previews so rows stay readable on a slide
+    body_preview = stringr::str_trunc(body_preview, 140, side = "right", ellipsis = "…"),
+    zebra        = dplyr::if_else(dplyr::row_number() %% 2 == 0, "#fafafa", "#ffffff"),
+    row_html     = glue::glue(
+      "<tr data-id='{id}' style='background-color:{zebra};'>
+         <td style='border:1px solid #ccc; padding:8px; vertical-align:top;'>
+           <span style=\"color:#666; font-size:14px;\">{id}</span>
+         </td>
+         <td style='border:1px solid #ccc; padding:8px; vertical-align:top;'>
+           {sender_name}<br>
+           <span style=\"color:#666; font-size:14px;\">&lt;{sender_email}&gt;</span>
+         </td>
+         <td style='border:1px solid #ccc; padding:8px; vertical-align:top; word-break:break-word;'>{subject}</td>
+         <td style='border:1px solid #ccc; padding:8px; vertical-align:top; word-break:break-word;'>{body_preview}</td>
+         <td style='border:1px solid #ccc; padding:8px; vertical-align:top;'>
+           <select data-classify style='width:100%; font-size:16px; padding:4px;'>
+             <option value=''>— choose —</option>
+             <option value='Legit'>Legit</option>
+             <option value='Spam'>Spam</option>
+           </select>
+         </td>
+       </tr>"
+    )
+  ) |>
+  dplyr::pull(row_html)
+
+cat("
+<table data-phish-table='1' style='border-collapse:collapse; width:100%; font-size:18px;'>
+  <colgroup>
+    <col style='width:3%'>
+    <col style='width:22%'>
+    <col style='width:22%'>
+    <col style='width:39%'>
+    <col style='width:13%'>
+  </colgroup>
+  <thead>
+    <tr style='background-color:#c3142d; color:#ffffff;'>
+      <th style='border:1px solid #c3142d; padding:8px; text-align:left;'>ID</th>
+      <th style='border:1px solid #c3142d; padding:8px; text-align:left;'>Sender</th>
+      <th style='border:1px solid #c3142d; padding:8px; text-align:left;'>Subject</th>
+      <th style='border:1px solid #c3142d; padding:8px; text-align:left;'>Preview</th>
+      <th style='border:1px solid #c3142d; padding:8px; text-align:left;'>Your Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+")
+cat(paste(tbl, collapse = "\n"))
+cat("
+  </tbody>
+</table>
+
+<div style='margin-top:8px; text-align:right;'>
+  <button id='export-phish' style='font-size:14px; padding:6px 10px; border:1px solid #ccc; background:#f7f7f7; border-radius:6px;'>
+    Download CSV of your classifications
+  </button>
+</div>
+
+<script>
+(function(){
+  const btn = document.getElementById('export-phish');
+  if(!btn) return;
+  btn.addEventListener('click', function(){
+    const rows = Array.from(document.querySelectorAll(\"table[data-phish-table] tbody tr\")) || [];
+    const header = 'id,classification';
+    const lines = [header];
+    rows.forEach(function(tr){
+      const id  = tr.getAttribute('data-id') || '';
+      const sel = tr.querySelector('select[data-classify]');
+      const val = sel ? sel.value : '';
+      // avoid commas issues by quoting values
+      lines.push('\"' + id + '\",\"' + val + '\"');
+    });
+    const blob = new Blob([lines.join('\\n')], {type:'text/csv'});
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    a.download = 'phishing_classifications.csv';
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(url);
+    a.remove();
+  });
+})();
+</script>
+")
+```
+
+# Generative AI Usage for Threat Classification {.center .inverse}
+
+## Categorizing these Emails Using ChatISA
+
+In this demo, we will use our [ChatISA](https://chatisa.fsb.miamioh.edu/ai_comparisons) app to compare the performance of `GPT-5 Chat` and `Claude Sonnet 4` in categorizing our dataset.
+
+[![](../figs/chatisa_cyber.png)](https://chatisa.fsb.miamioh.edu/ai_comparisons)
+
+## Categorizing these Emails Using OpenAI: R (Code)
+
+```{r ellmer_demo}
+#| eval: false
+#| echo: true
+
+msgs = readr::read_csv("data/phishing.csv") |> dplyr::select(id, sender_email, subject, body_preview)
+
+system_prompt = ""  # =- students fill this in
+
+# Schema for one row
+one_row_schema = ellmer::type_object(
+  id = ellmer::type_integer("Row id"),
+  classification = ellmer::type_enum(c("Legit", "Spam"), "Label"),
+  rationale = ellmer::type_string("Short reason", required = FALSE)
+)
+
+# Chat handle
+chat = ellmer::chat_openai(system_prompt = system_prompt, model = "gpt-5-mini-2025-08-07")
+
+# Iterate rows with purrr and request structured output per row
+classify_one = function(id, sender_email, subject, body_preview) {
+  user_msg = paste0(
+    "Classify this message as Legit or Spam and explain briefly.\n",
+    "id: ", id, "\n",
+    "sender_email: ", sender_email, "\n",
+    "subject: ", subject, "\n",
+    "body_preview: ", body_preview, "\n"
+  )
+  res = chat$chat_structured( user_msg,  type = one_row_schema)
+  tibble::as_tibble(res)
+}
+
+out = purrr::pmap_dfr(msgs, classify_one)
+
+```
+
+
+## Categorizing these Emails Using OpenAI: R (Output)
+
+```{r ellmer_demo_out}
+#| eval: true
+#| echo: false
+#| cache: true
+
+msgs = readr::read_csv("data/phishing.csv") |> dplyr::select(id, sender_email, subject, body_preview)
+
+system_prompt = ""  # =- students fill this in
+
+# Schema for one row
+one_row_schema = ellmer::type_object(
+  id = ellmer::type_integer("Row id"),
+  classification = ellmer::type_enum(c("Legit", "Spam"), "Label"),
+  rationale = ellmer::type_string("Short reason", required = FALSE)
+)
+
+# Chat handle
+chat = ellmer::chat_openai(system_prompt = system_prompt, model = "gpt-5-mini-2025-08-07")
+
+# Iterate rows with purrr and request structured output per row
+classify_one = function(id, sender_email, subject, body_preview) {
+  user_msg = paste0(
+    "Classify this message as Legit or Spam and explain briefly.\n",
+    "id: ", id, "\n",
+    "sender_email: ", sender_email, "\n",
+    "subject: ", subject, "\n",
+    "body_preview: ", body_preview, "\n"
+  )
+  res = chat$chat_structured( user_msg,  type = one_row_schema)
+  tibble::as_tibble(res)
+}
+
+out = purrr::pmap_dfr(msgs, classify_one)
+
+DT::datatable(
+  out,
+  extensions = c('Buttons', 'FixedColumns'),
+  rownames = FALSE,
+  options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
+    scrollX = TRUE,
+    paging = TRUE,
+    pageLength = 5
+  )
+) |> DT::formatStyle(
+  columns = 1:3,
+  fontSize = '10pt'
+)
+```
+
+
+# Non-Generative AI Applications {.center .inverse}
+
+## Anomaly-based Intrusion Detection (One-Class classification)
+
+> Train what looks normal, then flag what deviates.
+
+```{mermaid}
+%%{init: { 'flowchart': { 'htmlLabels': true, 'useMaxWidth': false } }}%%
+flowchart TB
+
+%% --- Style Definitions (adapted from previous style) ---
+%% Style for the outer container box
+classDef workflowBox stroke:darkgray,stroke-width:3px,fill:#ffffff,font-size:22px,font-weight:900,color:darkgray;
+%% Style for the individual steps
+classDef workflowStep stroke:#c3142d,stroke-width:3px,stroke-dasharray:5 5,fill:#f9f9f9,color:black,font-weight:900,font-size:20px;
+
+
+%% --- Chart Structure ---
+subgraph IDS[IDS Workflow]
+    direction LR
+    
+    A["Data:<br/>KDD '99 10% sample"]:::workflowStep
+    B["Preprocess:<br/>Encode & Normalize"]:::workflowStep
+    C["Train Model:<br/>On 'normal' data only"]:::workflowStep
+    D["Score:<br/>Run on mixed test set"]:::workflowStep
+    E["Evaluate:<br/>Accuracy, Recall, F1"]:::workflowStep
+
+    A --> B --> C --> D --> E
+end
+
+%% --- Apply Styles to Subgraph ---
+class IDS workflowBox
+```
+
+## KDD Cup 1999 intrusion detection dataset
+
+<table style="border-collapse:collapse; width:100%; font-size:18px; margin-bottom:10px;">
+  <thead>
+    <tr style="background-color:#c3142d; color:#ffffff;">
+      <th style="border:1px solid #c3142d; padding:8px; text-align:left;">Key facts</th>
+      <th style="border:1px solid #c3142d; padding:8px; text-align:left;">Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border:1px solid #ccc; padding:8px;">Origin</td>
+      <td style="border:1px solid #ccc; padding:8px;">Derived from the 1998 DARPA IDS evaluation data; used in the KDD'99 competition</td>
+    </tr>
+    <tr style="background-color:#fafafa;">
+      <td style="border:1px solid #ccc; padding:8px;">Records</td>
+      <td style="border:1px solid #ccc; padding:8px;">Full train has ~4.9M rows; a 10% subset has ~494K rows</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #ccc; padding:8px;">Features</td>
+      <td style="border:1px solid #ccc; padding:8px;">41 per connection + label (normal or attack)</td>
+    </tr>
+    <tr style="background-color:#fafafa;">
+      <td style="border:1px solid #ccc; padding:8px;">Attack families</td>
+      <td style="border:1px solid #ccc; padding:8px;">DoS, Probe, R2L, U2R (training has 24 attack types; test adds 14 more)</td>
+    </tr>
+  </tbody>
+</table>
+
+**Feature groups with examples**  
+
+- Basic (`src_bytes`, `dst_bytes`, `protocol`, `service`, `flag`)  
+
+- Content (`failed_logins`, `logged_in`, `num_shells`)  
+
+- Time based (2 second window: `count`, `srv_count`, `error rates`)  
+
+- Host based (last 100 connections: `dst_host_count`, `srv_error_rate`)
+
+
+**More details:**  
+
+- [KDD Cup 1999 data and docs (UCI)](https://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html)  
+- [Competition task overview](https://www.kdd.org/kdd-cup/view/kdd-cup-1999/Tasks)
+
+
+
+## Training Plan for Anomaly Detection
+
+- Make a binary label: normal = 0, attack = 1  
+
+- **Train set:** only normal rows (learn the baseline)  
+
+- **Test set:** remaining normal + all attacks  
+
+- Categorical features: `protocol_type`, `service`, `flag`
+
+- Normalize numeric features for distance-based methods
+
+
+
+## Non-Generative Models Tried
+
+- **KNN** - distance to neighbors in normal-only space  
+
+- **One-Class SVM** - boundary around normal points  
+
+::: notes
+We used PyCaret to set up and compare models quickly.
+:::
+
+
+
+
+
+## Tiny Code Peek (PyCaret) with Results
+
+```{python anomaly_detect}
+#| eval: false
+#| echo: true
+from pycaret.anomaly import *
+
+# (1) Setup with categorical features and normalization
+setup(
+data=train_df, categorical_features=['protocol_type','service','flag'],
+ignore_features=['label','binary_label'],
+session_id=2025, normalize=True, normalize_method='zscore'
+)
+
+# (2) Create candidate models
+knn = create_model('knn')
+svm = create_model('svm')
+
+# (3) Score on the mixed test set
+pred_knn = predict_model(knn, data=test_df.drop(columns=['label','binary_label']))
+```
+
+<br>
+
+<table style="border-collapse: collapse; width: 100%; font-size: 18px;">
+  <colgroup>
+    <col style="width:20%">
+    <col style="width:20%">
+    <col style="width:20%">
+    <col style="width:20%">
+    <col style="width:20%">
+  </colgroup>
+  <thead>
+    <tr style="background-color:#c3142d; color:#ffffff;">
+      <th style="border:1px solid #c3142d; padding:8px; text-align:left;">Method</th>
+      <th style="border:1px solid #c3142d; padding:8px; text-align:right;">Accuracy</th>
+      <th style="border:1px solid #c3142d; padding:8px; text-align:right;">Recall</th>
+      <th style="border:1px solid #c3142d; padding:8px; text-align:right;">Precision</th>
+      <th style="border:1px solid #c3142d; padding:8px; text-align:right;">F1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border:1px solid #ccc; padding:8px;">knn</td>
+      <td style="border:1px solid #ccc; padding:8px; text-align:right;"><strong>0.9899</strong></td>
+      <td style="border:1px solid #ccc; padding:8px; text-align:right;"><strong>0.9997</strong></td>
+      <td style="border:1px solid #ccc; padding:8px; text-align:right;"><strong>0.9879</strong></td>
+      <td style="border:1px solid #ccc; padding:8px; text-align:right;"><strong>0.9937</strong></td>
+    </tr>
+    <tr style="background-color:#fafafa;">
+      <td style="border:1px solid #ccc; padding:8px;">svm</td>
+      <td style="border:1px solid #ccc; padding:8px; text-align:right;">0.9823</td>
+      <td style="border:1px solid #ccc; padding:8px; text-align:right;">0.9901</td>
+      <td style="border:1px solid #ccc; padding:8px; text-align:right;">0.9878</td>
+      <td style="border:1px solid #ccc; padding:8px; text-align:right;">0.9890</td>
+    </tr>
+  </tbody>
+</table>
+
+
+::: aside
+For **our source code**, please see [this Colab Notebook](https://colab.research.google.com/drive/1y7oF1RSDpsgv_KTCZR-4toii0H9E3-Pn#scrollTo=p74J3nHI3g9z) for our full analysis and results.
+:::
+
+
+# Generative AI Impact on Cybersecurity {.inverse .center}
+
+## An Overview of Generative AI Impact on Cybersecurity
+
+```{mermaid}
+%%{init: { 'flowchart': { 'htmlLabels': true, 'useMaxWidth': false } }}%%
+flowchart LR
+
+%% --- Style Definitions ---
+%% Central/origin node
+classDef originNode stroke:black,stroke-width:3px,fill:#f9f9f9,color:black,font-weight:900,font-size:22px;
+%% Human review node
+classDef humanNode stroke:#c3142d,stroke-width:3px,fill:#f9f9f9,color:black,font-weight:900,font-size:20px;
+
+%% Defender styles (Blue)
+classDef defenderBox stroke:#0077be,stroke-width:3px,fill:#ffffff,font-size:22px,font-weight:900,color:#0077be;
+classDef defenderStep stroke:#0077be,stroke-width:3px,stroke-dasharray:5 5,fill:#f9f9f9,color:black,font-weight:900,font-size:20px;
+
+%% Adversary styles (Red)
+classDef adversaryBox stroke:#c3142d,stroke-width:3px,fill:#ffffff,font-size:22px,font-weight:900,color:#c3142d;
+classDef adversaryStep stroke:#c3142d,stroke-width:3px,stroke-dasharray:5 5,fill:#f9f9f9,color:black,font-weight:900,font-size:20px;
+
+
+%% --- Chart Structure ---
+GA[Generative AI<br/>Impact on<br/> CyberSecurity]:::originNode
+
+subgraph GOOD[Defender Benefits]
+    direction LR
+    G1[Alert Triage]:::defenderStep
+    G2[NLP Queries]:::defenderStep
+    G3[Code Assistant<br/>]:::defenderStep
+end
+
+subgraph BAD[Adversary Capabilities]
+    direction TB
+    B1[Deepfakes:<br/>Video & Images]:::adversaryStep
+    B2[Voice Cloning<br/>for Vishing]:::adversaryStep
+    B3[Personalized<br/>Social<br/>Engineering]:::adversaryStep
+end
+
+
+
+
+%% --- Flow Connections ---
+GA --> GOOD
+GA --> BAD
+```
+
+
+## Let us Create a Fake Image of Taylor Swift at FSB
+
+Using tools like Gemini's Nano-Banana, it is easy to create fake images and likely other deep fakes. In the session, we will include a picture of Taylor Swift at [FSB](https://miamioh.edu/fsb/home-files/images/landing-page/farmer-school-commons-generic.jpg). 
+
+
+### Questions  
+
+1. What are the implications of things like deepfakes and voice cloning on cybersecurity?   
+
+<textarea rows="4" style="width:100%; font-size: 20px;">Edit me</textarea>
+
+2. What are other implications of generative AI on cybersecurity resilience?  
+
+<textarea rows="4" style="width:100%; font-size: 20px;">Edit me</textarea>

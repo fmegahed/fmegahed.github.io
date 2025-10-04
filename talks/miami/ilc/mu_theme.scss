@@ -1,0 +1,214 @@
+/*-- scss:defaults --*/
+$theme-color: #c3142d;
+$light-theme-color: lighten($theme-color, 15%);
+$very-light-theme-color: lighten($theme-color, 30%);
+$dark-theme-color: darken($theme-color, 15%);
+
+// importing fonts
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&family=Lato&family=Yanone+Kaffeesatz&display=swap');
+
+// font stacks
+$font-family-sans-serif: 'Lato', Tahoma, sans-serif !default;
+$font-family-monospace: 'Inconsolata', monospace !default;
+$presentation-heading-font: 'Yanone Kaffeesatz', Tahoma, sans-serif !default;
+
+// font sizes
+$h1-font-size: 1.6em !default;
+$h2-font-size: 1.3em !default;
+$h3-font-size: 1.15em !default;
+
+// colors
+$presentation-heading-color: $theme-color !default;
+$code-color: $light-theme-color !default;
+$body-bg: #fff;
+$body-color: #000000;
+
+// root
+$presentation-font-size-root: 30px;
+
+/*-- SCSS: placeholders --*/
+
+%heading-shared {
+  font-family: $presentation-heading-font;
+  font-size: $h2-font-size;
+  color: white;
+}
+
+%margin-top-bottom {
+  margin-top: 1.25em !important;
+  margin-bottom: 1.25em !important;
+}
+
+/*-- scss:rules --*/
+
+// Code block styling
+.reveal pre code {
+  background-color: #f8f8f8;
+  font-size: 1em;
+  padding: 0.5em;
+  line-height: 1.2em;
+}
+
+// Title/subtitle/date styling
+.subtitle {
+  @extend %heading-shared;
+  margin-top: 1.25em !important;
+  margin-bottom: 2em !important;
+}
+
+.author {
+  @extend %heading-shared;
+  color: $body-bg;
+}
+
+.date {
+  @extend %heading-shared;
+  font-size: $h3-font-size;
+  @extend %margin-top-bottom;
+}
+
+
+// Strong styling
+.strong {
+  font-weight: bold;
+  color: $theme-color !important;
+}
+
+
+// Footer and slide number
+.footer,
+.reveal .slide-number {
+  font-family: $presentation-heading-font;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8em;
+  padding: 0.5em 1em;
+  background: transparent;
+  z-index: 5;
+  color: #808080 !important;
+  line-height: 1em;
+}
+
+// Panel tabsets
+.reveal .panel-tabset [role=tab] {
+  font-size: 0.8em;
+}
+
+// Centering utility
+.center-x {
+  text-align: center;
+}
+
+// Dark slide link override
+section.has-dark-background a,
+section.has-dark-background a:hover {
+  color: #fee4ff !important;
+}
+
+// Slide logo
+.slide-logo {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important;
+  right: 10px !important;
+  max-height: 3% !important;
+  height: 100% !important;
+  width: auto !important;
+  color: $body-color !important;
+}
+
+// Slide number override
+.slide-number,
+.reveal.has-logo .slide-number {
+  bottom: 10px !important;
+  right: 10px !important;
+  top: unset !important;
+  color: $body-color !important;
+}
+
+// Inverse slides
+.inverse {
+  background-color: $theme-color !important;
+
+  $h1-color: white !important;
+  $h2-color: white !important;
+  $h3-color: white !important;
+  $link-color: $light-theme-color;
+}
+
+// Author grid layout
+.reveal .quarto-title-authors {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 0.5em !important;
+  justify-items: center !important;
+  max-width: 100% !important;
+  margin: 0.5em auto !important;
+}
+
+.reveal .quarto-title-author {
+  text-align: center !important;
+  margin: 0 !important;
+  padding: 0.5em !important;
+}
+
+.reveal .quarto-title-author-name {
+  font-size: 0.95em;
+  font-weight: bold !important;
+  margin-bottom: 0.2em !important;
+}
+
+.reveal .quarto-title-author-email {
+  font-size: 0.8em !important;
+  margin-bottom: 0.2em !important;
+}
+
+.reveal .quarto-title-affiliation {
+  font-size: 0.85em !important;
+  font-style: italic !important;
+  margin: 0 !important;
+}
+
+/*-- Footnote Styling for Quarto Markdown Footnotes --*/
+
+.footnote {
+  position: absolute;
+  bottom: 2em;
+  width: 90%;
+  left: 5%;
+  padding-right: 8em;
+  z-index: 4;
+  text-align: left;
+  color: #808080;
+  font-size: 60%;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.footnote::before {
+  content: "";
+  display: block;
+  border-top: 1px solid #808080;
+  margin-bottom: 0.2em;
+  width: 100%;
+}
+
+
+// Centering videos and figures
+/*-- scss:rules --*/
+.v-center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75%;
+}
+
+.reveal .slides section .v-center-container video {
+  max-width: 80%;
+  max-height: 80%;
+}

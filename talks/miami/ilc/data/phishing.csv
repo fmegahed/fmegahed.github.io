@@ -1,0 +1,11 @@
+id,sender_name,sender_email,subject,body_preview
+1,IT Service Desk,security-update@miamioh-support.com,Urgent: Password expires in 2 hours,Your single sign-on password will expire in 2 hours. Scan the QR code to keep access to Canvas and email.
+2,Bursar Office,bursar@miamioh.edu,eBill reminder for Fall term,Your tuition eBill is ready in the student portal. Log in at miamioh.edu/portal to view and pay.
+3,Delivery Notice,no-reply@delivery-status.com,We could not deliver your package,"We attempted delivery. To reschedule, scan the QR code on the postcard arriving today."
+4,Prof. Fadel Megahed,fadel-megahed-faculty@gmail.com,Paid personal assistant opportunity,I need a responsible student for 8-10 hrs/week at $350/week. I will mail you a check for supplies up front.
+5,Student Activities,activities@miamioh.edu,Friday: Resume lab + pizza,Drop by the Career Center at 3 pm. Bring a PDF of your resume or use the lab printers.
+6,Payroll Admin,payroll@miamioh-pay.com,Action required: Direct deposit issue,We could not verify your direct deposit. Click to update before your paycheck is delayed.
+7,Library Services,library@miamioh.edu,Overdue notice for loaned materials,One or more items are overdue. Log in to your library account to renew or return.
+8,Recruiting Team,sms-to-email@carrier.example,Interview fast track for Summer Intern,Hi! I am a recruiter. Reply YES to move forward. A $75 certification fee is required before scheduling.
+9,Accounts Security,no-reply@secure-auth.com,Approve sign-in request to keep your account active,We sent a push notification to your phone. Approve it now or your account will be locked.
+10,Office of Compliance,compliance@miamioh.edu,Please sign the updated ethics policy,Review and sign the updated policy by Friday. The DocuSign envelope will come from dse_na2@docusign.net.
