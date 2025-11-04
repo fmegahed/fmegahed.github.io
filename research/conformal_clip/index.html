@@ -225,7 +225,7 @@ window.Quarto = {
 <ol type="1">
 <li>run few-shot classification with CLIP,<br>
 </li>
-<li>**add conformal prediction for set-valued outputs, and<br>
+<li><strong>add conformal prediction for set-valued outputs</strong>, and<br>
 </li>
 <li><strong>compute both standard and conformal metrics</strong>.</li>
 </ol>
@@ -404,7 +404,7 @@ The calibrated probability is: <span class="math display">\[p_{\text{cal}} = \si
 <blockquote class="blockquote">
 <p>Comment in our previous paper we did <strong>not</strong> load the 336px version of the <code>ViT-L/14</code> model. If we wanted to do that, we should have explicitly loaded the model as: <code>ViT-L/14@336px</code>.</p>
 </blockquote>
-<div id="a4f989fa" class="cell" data-execution_count="1">
+<div id="2551aaf9" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys, os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, os.path.abspath(<span class="st">"."</span>))</span>
@@ -495,7 +495,7 @@ Estimated Total Size (MB): 1167.13
 <h1 data-number="4"><span class="header-section-number">4</span> The “Stochastic Textured Surfaces” Experiment</h1>
 <section id="loading-the-images" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="loading-the-images"><span class="header-section-number">4.1</span> Loading the Images</h2>
-<div id="fca28b0c" class="cell" data-execution_count="2">
+<div id="b099ef54" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Load and split local images --------------------</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os, glob</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -605,7 +605,7 @@ Estimated Total Size (MB): 1167.13
 <section id="run-conformal-few-shot" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="run-conformal-few-shot"><span class="header-section-number">4.2</span> Run conformal few-shot</h2>
 <p>Despite what is mentioned in the <a href="https://scikit-learn.org/stable/modules/calibration.html#isotonic">sklearn manual</a>, the isotonic calibration was much better for this example. See the results for the isotonic regression below.</p>
-<div id="190f57df" class="cell" data-cache="true" data-execution_count="3">
+<div id="35f72876" class="cell" data-cache="true" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> few_shot_fault_classification_conformal(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    test_images<span class="op">=</span>test_images,</span>
@@ -630,7 +630,7 @@ Estimated Total Size (MB): 1167.13
 </section>
 <section id="classification-metrics" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="classification-metrics"><span class="header-section-number">4.3</span> Classification Metrics</h2>
-<div id="e38f6436" class="cell" data-execution_count="4">
+<div id="51cb3f81" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">"Nominal"</span>, <span class="st">"Defective"</span>]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>label_counts <span class="op">=</span> [<span class="dv">100</span>, <span class="dv">100</span>]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -645,41 +645,41 @@ Estimated Total Size (MB): 1167.13
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>cls_metrics.style.hide()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <style type="text/css">
 </style>
 
-<table id="T_ec18b" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="T_88bfd" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th id="T_ec18b_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Metric</th>
-<th id="T_ec18b_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Value</th>
+<th id="T_88bfd_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Metric</th>
+<th id="T_88bfd_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_ec18b_row0_col0" class="data row0 col0">Accuracy</td>
-<td id="T_ec18b_row0_col1" class="data row0 col1">0.990000</td>
+<td id="T_88bfd_row0_col0" class="data row0 col0">Accuracy</td>
+<td id="T_88bfd_row0_col1" class="data row0 col1">0.990000</td>
 </tr>
 <tr class="even">
-<td id="T_ec18b_row1_col0" class="data row1 col0">Sensitivity (Recall)</td>
-<td id="T_ec18b_row1_col1" class="data row1 col1">0.980000</td>
+<td id="T_88bfd_row1_col0" class="data row1 col0">Sensitivity (Recall)</td>
+<td id="T_88bfd_row1_col1" class="data row1 col1">0.980000</td>
 </tr>
 <tr class="odd">
-<td id="T_ec18b_row2_col0" class="data row2 col0">Specificity</td>
-<td id="T_ec18b_row2_col1" class="data row2 col1">1.000000</td>
+<td id="T_88bfd_row2_col0" class="data row2 col0">Specificity</td>
+<td id="T_88bfd_row2_col1" class="data row2 col1">1.000000</td>
 </tr>
 <tr class="even">
-<td id="T_ec18b_row3_col0" class="data row3 col0">Precision</td>
-<td id="T_ec18b_row3_col1" class="data row3 col1">1.000000</td>
+<td id="T_88bfd_row3_col0" class="data row3 col0">Precision</td>
+<td id="T_88bfd_row3_col1" class="data row3 col1">1.000000</td>
 </tr>
 <tr class="odd">
-<td id="T_ec18b_row4_col0" class="data row4 col0">F1 Score</td>
-<td id="T_ec18b_row4_col1" class="data row4 col1">0.989899</td>
+<td id="T_88bfd_row4_col0" class="data row4 col0">F1 Score</td>
+<td id="T_88bfd_row4_col1" class="data row4 col1">0.989899</td>
 </tr>
 <tr class="even">
-<td id="T_ec18b_row5_col0" class="data row5 col0">AUC</td>
-<td id="T_ec18b_row5_col1" class="data row5 col1">0.989800</td>
+<td id="T_88bfd_row5_col0" class="data row5 col0">AUC</td>
+<td id="T_88bfd_row5_col1" class="data row5 col1">0.989800</td>
 </tr>
 </tbody>
 </table>
@@ -688,7 +688,7 @@ Estimated Total Size (MB): 1167.13
 </section>
 <section id="conformal-set-metrics" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="conformal-set-metrics"><span class="header-section-number">4.4</span> Conformal Set Metrics</h2>
-<div id="cf3f9bb6" class="cell" data-execution_count="5">
+<div id="36352bd0" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>conf_metrics <span class="op">=</span> compute_conformal_set_metrics(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"results/exp03_results_conformal.csv"</span>,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>labels,</span>
@@ -696,37 +696,37 @@ Estimated Total Size (MB): 1167.13
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>conf_metrics.style.hide()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="25">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <style type="text/css">
 </style>
 
-<table id="T_daef2" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="T_e763d" class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th id="T_daef2_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Metric</th>
-<th id="T_daef2_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Value</th>
+<th id="T_e763d_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Metric</th>
+<th id="T_e763d_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Value</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_daef2_row0_col0" class="data row0 col0">Alpha</td>
-<td id="T_daef2_row0_col1" class="data row0 col1">0.100000</td>
+<td id="T_e763d_row0_col0" class="data row0 col0">Alpha</td>
+<td id="T_e763d_row0_col1" class="data row0 col1">0.100000</td>
 </tr>
 <tr class="even">
-<td id="T_daef2_row1_col0" class="data row1 col0">Mondrian</td>
-<td id="T_daef2_row1_col1" class="data row1 col1">True</td>
+<td id="T_e763d_row1_col0" class="data row1 col0">Mondrian</td>
+<td id="T_e763d_row1_col1" class="data row1 col1">True</td>
 </tr>
 <tr class="odd">
-<td id="T_daef2_row2_col0" class="data row2 col0">Coverage (overall)</td>
-<td id="T_daef2_row2_col1" class="data row2 col1">0.990000</td>
+<td id="T_e763d_row2_col0" class="data row2 col0">Coverage (overall)</td>
+<td id="T_e763d_row2_col1" class="data row2 col1">0.990000</td>
 </tr>
 <tr class="even">
-<td id="T_daef2_row3_col0" class="data row3 col0">Coverage [Nominal]</td>
-<td id="T_daef2_row3_col1" class="data row3 col1">1.000000</td>
+<td id="T_e763d_row3_col0" class="data row3 col0">Coverage [Nominal]</td>
+<td id="T_e763d_row3_col1" class="data row3 col1">1.000000</td>
 </tr>
 <tr class="odd">
-<td id="T_daef2_row4_col0" class="data row4 col0">Coverage [Defective]</td>
-<td id="T_daef2_row4_col1" class="data row4 col1">0.980000</td>
+<td id="T_e763d_row4_col0" class="data row4 col0">Coverage [Defective]</td>
+<td id="T_e763d_row4_col1" class="data row4 col1">0.980000</td>
 </tr>
 </tbody>
 </table>
@@ -1251,7 +1251,7 @@ Estimated Total Size (MB): 1167.13
 <span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>This file shows how we:   </span>
 <span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="ss">  1. </span>run few-shot classification with CLIP,  </span>
-<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a><span class="ss">  2. </span>**add conformal prediction for set-valued outputs, and   </span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a><span class="ss">  2. </span>**add conformal prediction for set-valued outputs**, and   </span>
 <span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a><span class="ss">  3. </span>**compute both standard and conformal metrics**. </span>
 <span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>It is organized to be easy to follow and to mirror our earlier ad‑hoc functions in <span class="co">[</span><span class="ot">fmegahed/qe_genai</span><span class="co">](https://github.com/fmegahed/qe_genai)</span>, now refactored into modules.</span>
