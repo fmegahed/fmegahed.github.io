@@ -1,0 +1,482 @@
+---
+title: "SIGHT: Safety Immersion and Gamified Hazard Training for Industry 5.0"
+subtitle: "Meeting 10: Updates on RAG/Chatbot, Digital Twins and Feedback on VR Development"
+author: 
+  - name : Fadel Megahed
+    email: fmegahed@miamioh.edu
+    affiliation: PI
+  - name: Arthur Carvalho
+    email: carvalag@miamioh.edu
+    affiliation: Co-PI
+  - name: Mohammad Mayyas
+    email: mayyasm@miamioh.edu
+    affiliation: Co-PI
+  - name: Jay Shan
+    email: jayshan@miamioh.edu
+    affiliation: Co-PI
+date: "Nov 21, 2025"
+date-format: "MMMM DD, YYYY"
+format:
+  revealjs:
+    theme: [default, ../../style_files/mu_theme.scss]
+    slide-number: true
+    chalkboard: true
+    countdown: true
+    pdfexport: true
+    
+    toc: false
+    toc-depth: 1
+    logo: "https://miamioh.edu/miami-brand/_files/images/system/identity/logo-horizontal-stacked.png" 
+    footer: "Project funded by the Ohio BWC through their [Worker Safety Innovation Center](https://info.bwc.ohio.gov/for-employers/safety-services/workplace-safety-innovation-center/wsic-overview)"
+    
+    title-slide-attributes:
+      data-background-color: "#c3142d"
+      data-background-image: pres_qr_code.png
+      data-background-size: 10%
+      data-background-position: 99% 95%
+    
+    touch: true
+    controls: true
+    center: false
+---
+
+
+
+## Meeting Goals
+
+- **Review and approve** Meeting 09 minutes and action items   
+
+- **Update** the team on **BWC Deliverables** and **BWC Requirements.** 
+
+- **Technical updates**:  
+  
+  + Progress on rag evaluation activities.  
+  + Progress on the digital twin developments.
+
+- **Industry Partner Collaboration:** Updates from MeetKai and MaxByte   
+
+- **Consultant Updates**  
+
+- **Risk mitigation/log** and further updates. 
+
+```{r options}
+#| include: false
+
+reticulate::use_condaenv("sight", required = TRUE)
+
+# setting miamired color and ggplot2 theme for all plots
+miamired = "#c3142d"
+
+ggplot2::theme_set(
+  ggplot2::theme_bw() +
+  ggplot2::theme(
+    plot.title = ggplot2::element_text(hjust = 0.5, size = 14, face = "bold"),
+    plot.subtitle = ggtext::element_markdown(size = 12, color = "black"),
+    legend.position='none',
+    panel.grid.major = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(fill ="#C3142D"),
+    strip.text = ggplot2::element_text(color = "white", size = 8, face = "bold"),
+    panel.spacing = ggplot2::unit(1, "lines"),
+    # bold x-ticks, yticks and the axis labels
+    axis.text = ggplot2::element_text(face = "bold", color = "black"),
+    axis.title = ggplot2::element_text(face = "bold", color = "black"),
+    plot.caption = ggtext::element_markdown(size = 8, color = "black")
+  ) 
+  )
+```
+
+# Review Action Items from Previous Meeting and Approve Minutes  {.inverse .center}
+
+Fadel M. Megahed
+
+
+## Review of Action Items and Approval of Meeting Minutes
+
+{{< pdf meeting09_minutes.pdf width=100% height=600 >}}
+
+
+## Attendance Sign as Required By BWC
+
+::: {.columns}
+
+::: {.column width="60%"}
+
+- **Use your full name** (first and last) when joining the Zoom call — even if you're in a shared conference room.  
+
+- This helps us log attendance accurately for BWC reporting.  
+
+- If you're in a conference room:  
+  - Only **one computer** should have audio enabled.  
+  - All **other devices** must be **muted** (microphone **and** speaker).  
+
+:::
+
+::: {.column width="40%"}
+
+<br><br>
+```{python attendance_qr}
+#| echo: false
+#| output: hide
+#| fig-align: center
+#| cache: true
+#| out-width: "100%"
+#| fig-cap: "Scan QR code if you are not on Zoom."
+
+import qrcode
+import matplotlib.pyplot as plt
+
+url = "https://miamioh.zoom.us/j/87563617657?pwd%3DviB8cWMcSRpYBzWHVafGPf1yCetdJ3.1%26jst%3D2&sa=D&source=calendar&ust=1754468940568351&usg=AOvVaw3f2aSQpGrlTGsQYxrl7TLR"
+img = qrcode.make(url)
+
+# Display without extraneous output
+plt.imshow(img, cmap="gray")
+_ = plt.axis("off")  # suppress output
+plt.tight_layout()
+plt.show()
+
+```
+
+:::
+:::
+
+
+# Administrative Updates {.center .inverse}
+
+Fadel Megahed
+
+## Deliverables Submitted so Far
+
+<br>
+
+![](../../figs/sight_deliverables_progress_nov_21_2025.png){width='100%' fig-align='center' fig-alt='Deliverables status.'}
+
+::: {style="text-align:center; font-size: 0.7em"}
+A screenshot of the deliverables tab from the Ohio BWC/WSIC online portal.
+:::
+
+
+## IRB Update
+
+{{< pdf 02415r_approval_memo.pdf width=100% height=600 >}}
+
+
+
+# MU Project Team Updates {.center .inverse}
+
+Fadel Megahed, Arthur Carvalho, and Michael Wise
+
+## RAG Evaluation Pipeline Overview
+
+> We evaluated **24 RAG pipelines** to understand how: (a) retrieval method, (b) model size, and (c) retrieval depth influence accuracy, latency, and cost.
+
+<div style="margin:1em 0em; font-size:0.7em;">
+<table>
+  <tr>
+    <th style="width:25%;">Parameter</th>
+    <th style="width:75%;">Values</th>
+  </tr>
+  <tr>
+    <td><strong>Approaches (6)</strong></td>
+    <td>`openai_keyword`, `openai_semantic`, `lc_bm25`, `graph_eager`, `graph_mmr`, `vanilla`</td>
+  </tr>
+  <tr>
+    <td><strong>Models (2)</strong></td>
+    <td>`gpt-5-mini-2025-08-07`, `gpt-5-nano-2025-08-07`</td>
+  </tr>
+  <tr>
+    <td><strong>Top-k Values</strong></td>
+    <td>3, 7</td>
+  </tr>
+  <tr>
+    <td><strong>Max Tokens</strong></td>
+    <td>5000</td>
+  </tr>
+  <tr>
+    <td><strong>Effort Level</strong></td>
+    <td>Low</td>
+  </tr>
+  <tr>
+    <td><strong>System Prompts</strong></td>
+    <td>1</td>
+  </tr>
+</table>
+</div>
+
+> **Our Benchmark Q&A used:** 60 expert-validated UR5 Cobot safety questions.
+
+
+## RAG Automated Evaluation: Accuracy, Latency, Cost
+
+::::{.columns}
+:::{.column width='45%' style='font-size:0.78em;'}
+- **Accuracy:**  
+  + `OpenAI Keyword` and `OpenAI Semantic` retrieval RAG-based approaches 
+  + **86.66%** `gpt-5-mini` + `OpenAI Keyword` + `top-k=7` 
+
+- **Latency:**  
+  + `gpt-5-nano` produced faster responses (≈9.5 s) compared to `gpt-5-mini` (≈12 s).  
+  + Retrieval approach mattered:  
+    * **Fastest:** `BM25` (~6 s)  
+    * **Slowest:** `Graph Eager/MMR` (≈15 s)  
+    * `OpenAI Keyword` and `OpenAI Semantic` sat in the **middle** (≈9–10 s)  
+
+- **Cost:**  
+  + Cost differences across retrieval approaches are statistically significant but **practically small (fractions of a cent)**
+:::
+
+:::{.column width='53%' style='font-size:0.65em; text-align:center;'}
+<br>
+![](../../figs/time_cost_correctness.png)
+
+Comparison of the performance of our 24 RAG pipelines across correctness (A), generation time, i.e., latency (B), and cost (C).
+:::
+::::
+
+
+## Human Evaluation and Final Pipeline Selection
+
+::::{.columns}
+:::{.column width='60%' style='margin:1em 0em; font-size:0.7em;'}
+
+### Human Expert Review
+
+- Blind eval of responses from top-2 RAG pipelines.
+- Eleven human evaluators reviewed 10 randomly selected questions.
+- For each question, they selected which generated answer was closer to the gold reference.
+
+### Results
+
+- `OpenAI Keyword` preferred in **41%** of comparisons.
+- `OpenAI Semantic` preferred in **26%** of comparisons.
+- **33%** of evaluations were ties.
+
+### Final Selection
+
+- `gpt-5-mini-2025-08-07` + `OpenAI Keyword` + `top-k=7` as it is **most accuracte** with **acceptable latency** (~ 10 s) and **cost** (~ $0.005 per query).
+:::
+
+:::{.column width='38%' style='font-size:0.65em; text-align:center;'}
+![](../../figs/qualtrics.png){width="85%"}
+
+:::
+::::
+
+
+## Submitted Paper to NAMRC and Publicly Available at ArXiv
+
+```{r}
+#| echo: false
+
+knitr::include_url("https://arxiv.org/pdf/2511.11847", height='610px')
+```
+
+## RAG/Chatbot Next Steps
+
+<div class="flourish-embed flourish-gantt" data-src="visualisation/26092910"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/26092910/thumbnail" width="100%" alt="gantt visualization" /></noscript></div>
+
+
+## Sneak Peak: Computer Vision and Digital Twins for Safety 4.0
+
+{{< pdf namrc54_safety40.pdf width=100% height=600 >}}
+
+## Michael Wise Updates on MS Thesis Research Directions
+
+- Michael Wise will provide a 10-minute overview of his MS Thesis research directions.
+
+
+# Industry Partner Updates {.inverse .center}
+
+## MeetKai's Milling Machine Module Demo
+
+::::{.columns}
+:::{.column width='60%' style='margin:1em 0em;'}
+
+### Module Objectives
+
+1. **Learn** about the **range of motion of the work bench**  
+
+1. Get familiar with **which levers control which axes** of the bench and **spindle movement**  
+
+1. Try to **match the milling head as close as possible to the target**, without touching the milling head to the work bench
+
+:::
+
+:::{.column width='38%' style='font-size:0.65em; text-align:center;'}
+<br>
+![](../../figs/milling_machine.png)
+:::
+::::
+
+
+## MeetKai's Milling Machine Module Demo: Video
+
+<iframe src="https://drive.google.com/file/d/14gFwSk-OzmVcSO_QY9o0LCMbg53nPTE_/preview" width="100%" height="600" allow="autoplay"></iframe>
+
+
+## MeetKai's PPE Module Demo
+
+::::{.columns}
+:::{.column width='60%' style='margin:1em 0em;'}
+
+### Module Objectives
+
+1. **Identify** required **PPE** and **dangerous personal items**
+
+1. **Mix and match different pieces of clothing and PPE** on a mannequin
+
+1. **Receive grade based on how many required items are missing and how many dangerous items were included**
+
+:::
+
+:::{.column width='38%' style='font-size:0.65em; text-align:center;'}
+![](../../figs/safety_goggles.jpg)
+:::
+::::
+
+
+## MeetKai's PPE Module Demo: Video
+
+<iframe src="https://drive.google.com/file/d/1USE5-qmTLe_gvWZOQlUXYi5bit8GPNHH/preview" width="100%" height="600" allow="autoplay"></iframe>
+
+
+## Requests from MU Team and SIGHT Industry Partners
+
+- MeetKai would love your feedback on the demos.   
+
+- Please complete [this short Google Form](https://forms.gle/sgqZgZUQdy1FcHhw6).   
+  + It should take about **15 to 20 minutes**.  
+  + Please try to complete it by **close of business on Monday Nov 24, 2025.**
+
+- Before we move on, we also want to capture any quick reactions from the room. **What stood out to you? What should MeetKai refine?**  
+  + If you have immediate thoughts, feel free to jump in:  
+    - Jason, Vick, Ram, Harish, Lora
+    - Mayyas, Ibrahim, Reza, Michael 
+    - Arthur, Jay, Austin, Ryan, and Amanda  
+    - Discovery Center  
+    - *(Anyone else is also welcome to share.)*
+
+
+
+## MeetKai Deliverables Table
+
+<table style="border-collapse: collapse; width: 100%; font-size: 18px;">
+  <thead>
+    <tr style="background-color: #f2f2f2;">
+      <th style="border: 1px solid #ccc; padding: 8px; text-align: left;">
+        Description and Justification
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Pre-processing: Collaborative planning, data, &amp; image collection. Processing &amp; digitizing for various environments.
+      </td>
+    </tr>
+    <tr style="background-color: #fafafa;">
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        AI Model Generation: RAG &amp; Image Recognition
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Integrate “Speech-Speech” AI Training
+      </td>
+    </tr>
+    <tr style="background-color: #fafafa;">
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Develop and Gamify: Interactive, scalable, web-based VR training system
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Provide high quality 3D Environmental and Equipment Models
+      </td>
+    </tr>
+    <tr style="background-color: #fafafa;">
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Integrate real-world industrial hazard models into VR scenarios
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Tracking and Analytics: Provide a robust set
+      </td>
+    </tr>
+    <tr style="background-color: #fafafa;">
+      <td style="border: 1px solid #ccc; padding: 8px;">
+        Support: Pilot testing and system refinement
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+## MaxByte Progress
+
+- Ram will provide an update on MaxByte's progress.
+
+- MaxByte will discuss:  
+  + Progress being made in the AM Hub.  
+  + Updates on the digitalization and AR development progress. 
+
+
+## MaxByte Delivery Table
+
+<table style="border-collapse: collapse; width: 100%; font-size: 18px;"> <thead> <tr style="background-color: #f2f2f2;"> <th style="border: 1px solid #ccc; padding: 8px; text-align: left; width: 25%;"> Milestone </th> <th style="border: 1px solid #ccc; padding: 8px; text-align: left;"> Deliverables </th> </tr> </thead> <tbody>
+<!-- Q1 - M1 -->
+<tr>
+  <td style="border: 1px solid #ccc; padding: 8px;">
+    Q1 - M1  
+    <br> Initial Documentation & Infra
+  </td>
+  <td style="border: 1px solid #ccc; padding: 8px;">
+    • Machine assessment and requirement gathering  
+    • M2M OT-IT Integration Server configuration & software installation  
+    • Server configuration & software installation  
+    • Kepware license management  
+  </td>
+</tr>
+
+<!-- Q2 - M2 -->
+<tr style="background-color: #fafafa;">
+  <td style="border: 1px solid #ccc; padding: 8px;">
+    Q2 - M2  
+    <br> Visibility
+  </td>
+  <td style="border: 1px solid #ccc; padding: 8px;">
+    • EDGE Gateway / Custom Script development and deployment  
+    • Energy Kit installation & configuration  
+    • Sensor integration for condition monitoring  
+    • Application development, configuration, customization, migration & maintenance  
+    • Pallet truck integration with industrial autonomous vehicle platform  
+  </td>
+</tr>
+
+</tbody> </table>
+
+
+# Discussion {.inverse .center}
+
+## Key Deliverables and Deadlines
+
+### BWC Deliverables
+
+- **January 9, 2026 — DO2.4:** Submit copies of the November/December Project Team Meeting documents.  
+- **January 9, 2026 — DO7.2:** Submit the completed *Quarterly Progress Report (Q2)* via OIA, following the required template.  
+
+<br>
+
+### Technical Task Due Dates
+
+- **Dec 2025:** Develop RAG model  
+- **Jan 2026:** Create gamified training modules  
+- **Feb 2026:** Develop gamified engine  
+- **Mar 2026:**  Integrate analytics framework with VR modules, and Finalize 3D equipment renders
+
+
+
+## Updates to Risk and Risk Log
+
+Based on our conversation, Arthur can update the risk log with any further updates.  
