@@ -1,0 +1,257 @@
+---
+title: "SIGHT: Safety Immersion and Gamified Hazard Training for Industry 5.0"
+subtitle: "Meeting 12: Updates on RAG API, Digital Twins and Feedback on VR Development"
+author: 
+  - name : Fadel Megahed
+    email: fmegahed@miamioh.edu
+    affiliation: PI
+  - name: Arthur Carvalho
+    email: carvalag@miamioh.edu
+    affiliation: Co-PI
+  - name: Mohammad Mayyas
+    email: mayyasm@miamioh.edu
+    affiliation: Co-PI
+  - name: Jay Shan
+    email: jayshan@miamioh.edu
+    affiliation: Co-PI
+date: "Jan 09, 2026"
+date-format: "MMMM DD, YYYY"
+format:
+  revealjs:
+    theme: [default, ../../style_files/mu_theme.scss]
+    slide-number: true
+    chalkboard: true
+    countdown: true
+    pdfexport: true
+    
+    toc: false
+    toc-depth: 1
+    logo: "https://miamioh.edu/miami-brand/_files/images/system/identity/logo-horizontal-stacked.png" 
+    footer: "Project funded by the Ohio BWC through their [Worker Safety Innovation Center](https://info.bwc.ohio.gov/for-employers/safety-services/workplace-safety-innovation-center/wsic-overview)"
+    
+    title-slide-attributes:
+      data-background-color: "#c3142d"
+      data-background-image: pres_qr_code.png
+      data-background-size: 10%
+      data-background-position: 99% 95%
+    
+    touch: true
+    controls: true
+    center: false
+---
+
+
+
+## Meeting Goals
+
+- **Review and approve** Meeting 11 minutes and action items   
+
+- **Update** the team on **BWC Deliverables** and **BWC Requirements.** 
+
+- **Technical updates**:  
+  
+  + Progress on API activities.  
+  + Progress on the AM Hub relocation and IIoT sensor integration.
+
+- **Industry Partner Collaboration:** Updates from MeetKai and MaxByte   
+
+- **Consultant Updates**  
+
+- **Risk mitigation/log** and further updates. 
+
+```{r options}
+#| include: false
+
+reticulate::use_condaenv("sight", required = TRUE)
+
+# setting miamired color and ggplot2 theme for all plots
+miamired = "#c3142d"
+
+ggplot2::theme_set(
+  ggplot2::theme_bw() +
+  ggplot2::theme(
+    plot.title = ggplot2::element_text(hjust = 0.5, size = 14, face = "bold"),
+    plot.subtitle = ggtext::element_markdown(size = 12, color = "black"),
+    legend.position='none',
+    panel.grid.major = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(fill ="#C3142D"),
+    strip.text = ggplot2::element_text(color = "white", size = 8, face = "bold"),
+    panel.spacing = ggplot2::unit(1, "lines"),
+    # bold x-ticks, yticks and the axis labels
+    axis.text = ggplot2::element_text(face = "bold", color = "black"),
+    axis.title = ggplot2::element_text(face = "bold", color = "black"),
+    plot.caption = ggtext::element_markdown(size = 8, color = "black")
+  ) 
+  )
+```
+
+# Review Action Items from Previous Meeting and Approve Minutes  {.inverse .center}
+
+Fadel M. Megahed
+
+
+## Review of Action Items and Approval of Meeting Minutes
+
+{{< pdf meeting11_minutes.pdf width=100% height=600 >}}
+
+
+## Attendance Sign as Required By BWC
+
+::: {.columns}
+
+::: {.column width="60%"}
+
+- **Use your full name** (first and last) when joining the Zoom call — even if you're in a shared conference room.  
+
+- This helps us log attendance accurately for BWC reporting.  
+
+- If you're in a conference room:  
+  - Only **one computer** should have audio enabled.  
+  - All **other devices** must be **muted** (microphone **and** speaker).  
+
+:::
+
+::: {.column width="40%"}
+
+<br><br>
+```{python attendance_qr}
+#| echo: false
+#| output: hide
+#| fig-align: center
+#| cache: true
+#| out-width: "100%"
+#| fig-cap: "Scan QR code if you are not on Zoom (i.e., in a conference room and not logged in on zoom)."
+
+import qrcode
+import matplotlib.pyplot as plt
+
+url = "https://miamioh.zoom.us/j/84057529393?pwd=IU6JQthYGgDfRGdZ0r1d0Xxf9iIpON.1"
+img = qrcode.make(url)
+
+# Display without extraneous output
+plt.imshow(img, cmap="gray")
+_ = plt.axis("off")  # suppress output
+plt.tight_layout()
+plt.show()
+
+```
+
+:::
+:::
+
+
+# Administrative Updates {.center .inverse}
+
+Fadel Megahed
+
+## Deliverables Submitted so Far
+
+<br>
+
+![](../../figs/sight_deliverables_progress_jan_09_2026.png){width='100%' fig-align='center' fig-alt='Deliverables status.'}
+
+::: {style="text-align:center; font-size: 0.7em"}
+A screenshot of the status of submitted deliverables tab from the Ohio BWC/WSIC online portal.
+:::
+
+
+## Upcoming Deliverables
+
+<br>
+
+![](../../figs/sight_upcoming_deliverables_jan_09_2026.png){width='100%' fig-align='center' fig-alt='Deliverables status.'}
+
+::: {style="text-align:center; font-size: 0.7em"}
+A screenshot of the upcoming deliverables tab from the Ohio BWC/WSIC online portal.
+:::
+
+
+## Upcoming Posterboard for the OSC 2026 Congress
+
+**Digital File Submission Requirements:**  
+
+  - **Guidelines:**  
+     + 48”x36”; &emsp; Horizontal; &emsp; Large font size (> 28 pt)
+     + Itemize highlights/major points of the project (can be from project abstract)
+     + Use minimal text; include graphics and photos
+     + Leave out any information subject to intellectual property, etc.
+  - **File Format:** A PDF file is recommended to ensure formatting and print quality.
+  - **Naming Convention:** [PI Name] – OSC26 Poster Submission.
+ 
+We should submit this on **Jan 30, 2026**. For the SIGHT leadership team, please: 
+
+  - [Register (Free)](https://www.ohiosafetycongress.com/register.cfm) and refer to the [OSC26® Website](https://www.ohiosafetycongress.com/index.cfm) for more details.
+ 
+
+
+
+
+
+
+# MU Project Team Updates {.center .inverse}
+
+Arthur Carvalho, and Michael Wise
+
+## Updates on the API Front for our RAG Chatbot
+
+<br>
+
+### Status: Live on Google Cloud
+* **Base URL:** [sight-1424...run.app](https://sight-142484475712.us-east5.run.app/) (Scalable Architecture)
+* **Integration:** Endpoints are live for **MeetKai** and **MaxBytes** VR/AR solutions.
+* **Documentation:** Interactive Swagger UI available at the `/docs` endpoint.
+
+<br>
+
+### Configuration & Security
+* **Dynamic Variables:** `GET /info` returns updatable environment variables.
+    * *Redirect available:* [sites.miamioh.edu/sight/api](https://sites.miamioh.edu/sight/api)
+* **Safety:** `OPENAI_API_KEY` and `OPENAI_VECTOR_STORE_ID` are hidden from response.
+* **Permissions:** Project Owners configured (Arthur, Fadel, Austin, Ryan).
+
+
+
+## Additional Research Questions and Hypotheses to be Examined
+
+{{< pdf arthur_plan.pdf width=100% height=600 >}}
+
+
+
+## AM Hub Updates
+
+- Progress on the reallocation to the AM Hub and the [AM Hub's Grand Opening](https://www.miamialum.org/s/916/22/Interior.aspx?sid=916&gid=1&pgid=23604&content_id=37189)
+
+- Updates on installed sensors, data acquistion and valiation 
+
+
+![](../../figs/installed_sensors_and_digital_twin_progress.png){width='100%' fig-align='center' fig-alt='Installed sensors in the lab'}
+
+<p style="text-align: center;">Digital twin foundations established in Q2, including sensor-based data acquisition for legacy and CNC machines and a virtual work cell for collaborative robot monitoring and training.</p>
+
+# Industry Partner Updates {.inverse .center}
+
+## MeetKai's Updates
+
+MeetKai will share their screen for updates and progress on the 3D assets, gamified training environment builds, etc.
+
+## MaxByte's Updates
+
+MaxByte will share their screen for updates and progress on the AR environment, and IIoT sensor integration at the AM Hub.
+
+
+# Discussion {.inverse .center}
+
+## Key Deliverables and Deadlines
+
+### Technical Task Due Dates
+
+- **Dec 2025:** Develop RAG model  
+- **Jan 2026:** Create gamified training modules  
+- **Feb 2026:** Develop gamified engine  
+- **Mar 2026:**  Integrate analytics framework with VR modules, and Finalize 3D equipment renders
+
+
+## Updates to Risk and Risk Log
+
+Based on our conversation, Arthur can update the risk log with any further updates.  
