@@ -209,12 +209,16 @@
   .contact-block .contact-links svg { flex-shrink: 0; }
 
   /* ── DEMO LABEL ── */
-  .demo-label {
-    position: absolute; top: 16px; right: 20px; background: var(--miami-red);
-    color: white; font-family: 'DM Sans', sans-serif; font-size: 11px;
+  /* Demo labels inside sections (hidden, used as data source) */
+  .demo-label { display: none; }
+
+  /* Fixed demo label overlay - right-aligned flush with slide number */
+  .demo-label-fixed {
+    position: fixed; bottom: 72px; right: 12px; background: var(--miami-red);
+    color: white; font-family: 'DM Sans', sans-serif; font-size: 10px;
     font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
-    padding: 6px 16px; border-radius: 6px; z-index: 50;
-    pointer-events: none; opacity: .85;
+    padding: 5px 14px; border-radius: 5px; z-index: 50;
+    pointer-events: none; opacity: .85; display: none;
   }
 
   /* ── LOOM OVERLAY ── */
@@ -239,14 +243,21 @@
   }
 
   /* ── REVEAL UI ── */
+  /* Slide number: bottom-right, raised above progress bar */
   .reveal .slide-number {
-    background: var(--miami-red); color: white; font-family: 'DM Sans', sans-serif;
-    font-size: 16px; font-weight: 600; padding: 6px 14px;
-    border-radius: 14px 0 0 0; right: 0; bottom: 0;
+    background: none; color: var(--miami-corn); font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600; padding: 0;
+    right: 12px; bottom: 12px;
   }
-  .reveal .progress { height: 5px; color: var(--miami-red); }
-  .reveal .controls { color: var(--miami-red); }
-  .reveal .controls button { transform: scale(1.3); }
+  .reveal .progress { height: 4px; color: var(--miami-red); }
+  /* Nav arrows: shrink, horizontally centered with slide number and demo label */
+  .reveal .controls {
+    color: var(--miami-corn);
+    transform: scale(0.6);
+    transform-origin: bottom right;
+    bottom: 20px;
+    right: 12px;
+  }
 </style>
 </head>
 <body>
@@ -451,6 +462,9 @@
   </div>
 </div>
 
+<!-- Fixed demo label (outside Reveal for proper positioning) -->
+<div class="demo-label-fixed" id="demoLabelFixed"></div>
+
 <!-- Loom video overlay (outside Reveal for z-index) -->
 <div class="loom-thumb" id="loomThumb" style="display:none;">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
@@ -518,12 +532,22 @@
     if (e.target === loomOverlay) closeLoom();
   });
 
+  const demoLabelFixed = document.getElementById('demoLabelFixed');
+
   Reveal.on('slidechanged', event => {
     const bg = event.currentSlide.getAttribute('data-background-iframe');
     if (bg) {
       Reveal.configure({ keyboard: { 32:null, 37:null, 38:null, 39:null, 40:null } });
     } else {
       Reveal.configure({ keyboard: true });
+    }
+    // Demo label
+    var label = event.currentSlide.querySelector('.demo-label');
+    if (label) {
+      demoLabelFixed.textContent = label.textContent;
+      demoLabelFixed.style.display = 'block';
+    } else {
+      demoLabelFixed.style.display = 'none';
     }
     // Embeddable videos (overlay)
     if (LOOM_VIDEOS[event.indexh]) {
