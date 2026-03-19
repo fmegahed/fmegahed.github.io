@@ -204,9 +204,11 @@
 </div>
 
 <div class="controls">
-  <button class="step-btn play" id="playBtn" title="Space to play/pause">&#9654; Play</button>
-  <button class="step-btn reset" id="resetBtn">Reset</button>
   <span class="progress-text" id="progressText">0 / 10</span>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:14px">
+    <button class="step-btn play" id="playBtn" title="Space to play/pause">&#9654; Play</button>
+    <button class="step-btn reset" id="resetBtn">Reset</button>
+  </div>
 </div>
 <div class="progress-bar-container">
   <div class="progress-bar-fill" id="progressBar"></div>
@@ -325,7 +327,7 @@
     playBtn.textContent = '⏸ Pause';
     playBtn.classList.add('playing');
     showNext();
-    timer = setInterval(showNext, 2800);
+    timer = setInterval(showNext, 6000);
   }
 
   function stop() {

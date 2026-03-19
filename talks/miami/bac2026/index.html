@@ -65,7 +65,8 @@
     width: 100px; height: 4px; background: var(--miami-red);
     margin: 0 auto 10px; border-radius: 2px;
   }
-  .title-slide .meta { font-size: .6em; color: #999; line-height: 1.7; }
+  .title-slide .meta { font-size: .7em; color: #999; line-height: 1.7; }
+  .title-slide .meta .author-name { font-size: 1.29em; } /* 0.9em effective (0.9/0.7) */
   .title-slide .meta a { color: var(--miami-red); text-decoration: none; }
   .title-slide .meta a:hover { text-decoration: underline; }
   .title-slide .title-bottom {
@@ -118,22 +119,23 @@
 
   /* ── Team photos on interstitial ── */
   .interstitial .team-row {
-    display: flex; gap: 20px; margin-top: 18px; justify-content: center;
+    display: flex; gap: 28px; margin-top: 22px; justify-content: center;
   }
   .interstitial .team-member { text-align: center; }
   .interstitial .team-member img {
-    width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
+    width: 96px; height: 96px; border-radius: 50%; object-fit: cover;
     border: 3px solid var(--miami-red);
   }
   .interstitial .team-member .name {
-    font-size: .42em; font-weight: 600; color: var(--miami-slate); margin-top: 6px;
+    font-size: .75em; font-weight: 600; color: var(--miami-slate); margin-top: 10px;
   }
   .interstitial .team-member .role {
-    font-size: .34em; color: #999;
+    font-size: .7em; color: #999; margin-top: 4px; line-height: 1.5;
   }
   .interstitial .funding {
-    font-size: .38em; color: #999; margin-top: 14px; max-width: 500px; line-height: 1.5;
+    font-size: .75em; color: #999; margin-top: 18px; max-width: 600px; line-height: 1.5;
   }
+  .interstitial .funding .amount { color: var(--miami-corn); font-weight: 700; }
   .interstitial .funding a { color: var(--miami-red); text-decoration: none; }
   .interstitial .funding a:hover { text-decoration: underline; }
 
@@ -273,7 +275,7 @@
         <h1>GenAI at the<br>Farmer School of Business</h1>
         <h2>From Research to Impact</h2>
         <div class="meta">
-          <a href="https://miamioh.edu/fsb/directory/?up=/directory/megahefm" target="_blank">Fadel M. Megahed</a><br>
+          <a class="author-name" href="https://miamioh.edu/fsb/directory/?up=/directory/megahefm" target="_blank">Fadel M. Megahed</a><br>
           Raymond E. Glos Professor in Business · Miami University<br>
           Business Advisory Council · Sarasota, FL · March 19, 2026
         </div>
@@ -366,31 +368,31 @@
       <div class="interstitial">
         <div class="act-label">Part IV</div>
         <h2>Beyond Business<br>Education</h2>
-        <p>SIGHT: Safety Immersion and Gamified Hazard Training for Industry 5.0 Workers</p>
+        <p style="font-size:.75em">SIGHT: Safety Immersion and Gamified Hazard Training for Industry 5.0 Workers</p>
         <div class="team-row">
           <div class="team-member">
             <img src="http://www.fsb.miamioh.edu/fsb/directory/pic/megahefm.jpg" alt="Fadel Megahed">
             <div class="name">Fadel Megahed</div>
-            <div class="role">Professor, ISA · PI</div>
+            <div class="role">Professor, ISA<br>PI</div>
           </div>
           <div class="team-member">
             <img src="http://www.fsb.miamioh.edu/fsb/directory/pic/carvalag.jpg" alt="Arthur Carvalho">
             <div class="name">Arthur Carvalho</div>
-            <div class="role">Assoc. Professor, ISA · Co-PI</div>
+            <div class="role">Assoc. Professor, ISA<br>Co-PI</div>
           </div>
           <div class="team-member">
             <img src="http://www.fsb.miamioh.edu/fsb/directory/pic/shanz3.jpg" alt="Jay Shan">
             <div class="name">Jay Shan</div>
-            <div class="role">Assoc. Professor, ISA · Co-PI</div>
+            <div class="role">Assoc. Professor, ISA<br>Co-PI</div>
           </div>
           <div class="team-member">
             <img src="https://miamioh.edu/regionals/profiles/engineering-technology/_images/mohammad-mayyas.jpeg" alt="Mohammad Mayyas">
             <div class="name">Mohammad Mayyas</div>
-            <div class="role">Professor, Eng. Technology · Co-PI</div>
+            <div class="role">Professor, Eng. Technology<br>Co-PI</div>
           </div>
         </div>
         <div class="funding">
-          $1.5 million project funded by the <a href="https://info.bwc.ohio.gov/for-employers/safety-services/workplace-safety-innovation-center/wsic-overview" target="_blank">Ohio BWC Workplace Safety Innovation Center (WSIC)</a>
+          <span class="amount">$1.5 million</span> project funded by the <a href="https://info.bwc.ohio.gov/for-employers/safety-services/workplace-safety-innovation-center/wsic-overview" target="_blank">Ohio BWC Workplace Safety Innovation Center (WSIC)</a>
         </div>
       </div>
     </section>
@@ -431,7 +433,7 @@
         <h1>GenAI at the<br>Farmer School of Business</h1>
         <h2>From Research to Impact</h2>
         <div class="meta">
-          <a href="https://miamioh.edu/fsb/directory/?up=/directory/megahefm" target="_blank">Fadel M. Megahed</a><br>
+          <a class="author-name" href="https://miamioh.edu/fsb/directory/?up=/directory/megahefm" target="_blank">Fadel M. Megahed</a><br>
           Raymond E. Glos Professor in Business · Miami University<br>
           Business Advisory Council · Sarasota, FL · March 19, 2026
         </div>

@@ -274,9 +274,11 @@
 </div>
 
 <div class="controls">
-  <button class="step-btn play" id="playBtn" title="Space to play/pause">&#9654; Play</button>
-  <button class="step-btn reset" id="resetBtn">Reset</button>
   <span class="progress-text" id="progressText">0 / 5</span>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:14px">
+    <button class="step-btn play" id="playBtn" title="Space to play/pause">&#9654; Play</button>
+    <button class="step-btn reset" id="resetBtn">Reset</button>
+  </div>
 </div>
 
 <div class="flow" id="flow">
@@ -330,23 +332,23 @@
   <!-- STEP 2: AI Analysis -->
   <div class="step-card step-2" data-idx="2">
     <div class="step-number">2</div>
-    <h2>AI Extracts Required Skills</h2>
-    <div class="subtitle">Claude Sonnet 4.5 reads each posting and extracts required skills. OpenAI generates 1,536-dimension embeddings for semantic matching. Faculty review before results reach students.</div>
+    <h2>AI Extracts Skills and Tags Jobs</h2>
+    <div class="subtitle">Every Monday and Thursday, new job postings are processed by AI. Claude Sonnet 4.5 extracts required skills and OpenAI generates embeddings for semantic matching.</div>
     <div class="visual-row">
+      <div class="visual-item">
+        <div class="icon">📅</div>
+        <div class="label">Mon/Thu Schedule</div>
+        <div class="detail">Only new jobs are processed</div>
+      </div>
       <div class="visual-item">
         <div class="icon">🤖</div>
         <div class="label">Claude Sonnet 4.5</div>
         <div class="detail">Skill extraction from postings</div>
       </div>
       <div class="visual-item">
-        <div class="icon">🧠</div>
-        <div class="label">OpenAI Embeddings</div>
-        <div class="detail">text-embedding-3-small (1,536-d)</div>
-      </div>
-      <div class="visual-item">
-        <div class="icon">👨‍🏫</div>
-        <div class="label">Faculty Review Gate</div>
-        <div class="detail">Human approval before publishing</div>
+        <div class="icon">🏷️</div>
+        <div class="label">Job Tagging</div>
+        <div class="detail">Visa sponsorship, internship, experience level</div>
       </div>
     </div>
   </div>
@@ -432,8 +434,8 @@
         <div class="desc">Hybrid matching algorithm</div>
       </div>
       <div class="stat-item">
-        <div class="num">1,536-d</div>
-        <div class="desc">Embedding vectors</div>
+        <div class="num">316</div>
+        <div class="desc">Non-stale jobs available</div>
       </div>
     </div>
   </div>
@@ -480,7 +482,7 @@
     playBtn.textContent = '⏸ Pause';
     playBtn.classList.add('playing');
     showNext();
-    timer = setInterval(showNext, 3200);
+    timer = setInterval(showNext, 15000);
   }
 
   function stop() {
