@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI at the Farmer School of Business</title>
+<title>GenAI at the Farmer School of Business</title>
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Favicon: actual Miami logo (same base64 as cover slide) -->
-<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAAyCAYAAADlaH1uAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAGYktHRAD/AP8A/6C9p5MAAAAHdElNRQfqAxMCMSce1HZSAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDI2LTAzLTE4VDE3OjM2OjI4KzAwOjAwLMRWpQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyNS0xMi0zMFQxNzoyMjowOSswMDowMF18hLwAAAAodEVYdGRhdGU6dGltZXN0YW1wADIwMjYtMDMtMTlUMDI6NDk6MzkrMDA6MDCWKUkWAAAOYklEQVRo3u2be3RVdXbHP79z38kNkISEZxR8dIrCgOIgCliwlAZFJmJiIDI+igqlgiWQUEecRf8oNEBwqK0uFHXhAxARwwoiwREUXaRVxAxTBwUGecQIuSQxyU1y7z33nN0/7qM3jxtCTFh1Vvdav5WTrHPOb/++Z+/v77cfQUQ+kN6ToIgsEBFEhO5I5NnwWCG9K28qEZkCvHnixIlBr7zyCoFAAKUUPSFZWVlMnDjx98BM4Cxw2e+OAXIksKusrOyaffv29YiOIkJiYiLz589nyJAhJ4H7I8j/c21trUydOlWAHhsTJ04Uj8cjIrLGMAx1uZYSud80TbuIvHr69GkZNWpUj+qYm5srTU1NhogsFpHopINF5PMDBw5ISkpKj02mlJI1a9aIiHhE5I7uAiIi95qm6S0oKOhRMIYOHSpHjhwREfmdiCSLCCpGwVzTNF8tKChwrV+/HoAkZSHHmUaKZkPo2kI0FKcNHyW+i+gIV199NaWlpYwaNWq3iOQppRq74joxeg0ASg4ePDh+1qxZ1NTU4FQa2Y7+DLI4MC9DryrDzzv+i/jEBGDVqlU89dRTPwD3Ax8AWGMU2KVp2ruLFi3KKysr46uvvqJJDBzhybv6XRXQKAaVhp9yvYEzZ85QXFzMiy++mGm322cDL0UWHA+UNlY0v6GhYXxRURE1NTUA/JW9L48mDMKJ1iW9FGAi/HtzVRSM2267jXnz5gG8LiL7I7pokQullA9YN2zYsMr8/HxsNhsmsMPn4Y/BZgQwkEuOIIJbWchzpdNHhfDesWMHe/bssQJLgGsvg/d+ASzYunUr+/btC5mLZmeOMx07GsEu6GOEbfuw7mW3PwRoYmIiy5cvJz09/Wvg35VSRsRqtTYKfAk8f//998v06dMB8Jg6W33V+MSkq7xuIIyxurnLkQxAU1MTa9asobq6egSwMFxUbweKiuMu94jIlqefftq9evVqAK63uHjINQCH0rCjuNGaiEu1b2lSQKXp54zhxwIcDTbxZks1QYSBAweya9cuxo0bh8fjISsrK1qHiUh2djabN28mISGBsrIycnNzqa+vx6k0HnEN5FqLEwGus7g6zLEowCsGfww2E0RoEoNNLeepNPxomsbatWvJz8/3ALOAT8PU0B6QGDDSgJ3l5eUTs7KyqK6uxqE0fp14FZn25Gh6r7NqmgpvoZF+s994T1OuN7RbcElJCXPnzqWpKXTmGDRoECUlJYwbN466ujqys7PZv38/EKriPZV4VbSvzOyk/yAyf+T6bb+H3zZ9h4EwfPhwSktLufHGG0vDTYDeWFA6am2a5/V6JxQVFVFdXQ3AJFtfJtn6turp6pSHwoBF+s3mutLpG26HKC0tZefOnQDcdddd5OTkRJ97/PHHo3HP5s2boyQ6ULOT16avTLowf2T8jT2ZsbbQbvXtt9+yfv16dF3PVErNbmsQbXeZMcDCHTt2qD179gDQX7Mxx5mGU2ndOp0ZCD+3uqPVOr/fT3FxMefOncNut5Ofn8/QoUMZO3Ys8+fPB+DYsWPRWo0CssOdA2Y3NBCgr7LygDOdJBXK52/fvp29e/fagHzgmtj7LTFE6lBK/euZM2cmLVq0iPPnz6MBv3INYJo9JYye6tawohhmcVIR9HLR1Dl//jwOh4OpU6cyYMAA7HY7mZmZ3Hrrrei6zooVK/jwww8B+IUtiYUJg3EpC6qb8ytgsMXOD2Lw38EmAoEAZ8+e5Z577klLTExERPYppWTlypWtGndzTNPcXFhY6CouLgZCVbQ8VzqpP6IdIXbnOaSHYpjIwevdd99lwoQJ6LqOUgqr1cru3bvJy8ujsbERBdztSGWMNfFHV+g04DszwDZfNS1iopRi9erVLF++vI5Q4+7vYs8dg0Tks48//lhSU1Nb7feqp9q8O3jXzJkzpbGxMfqvCB6PRyZNmtTuOXpJh4yMDKmoqBAR2Sci/WJ73VfW1dXJtGnTerSXnC70wm/cuDEKyKpVq67o/IDMnj1bmpubgyLyhIhgBSYDj128eJGxY8cycuTIXisTthXTNBERdF1H13VcLhdLliy5YqG+iOB2u6mtrbUMGTJkMfCJEpEyYBr/LwBv/A8dQoVPie3aqQAAAABJRU5ErkJggg==">
+<!-- Favicon: Miami M logo -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
 
 <!-- QR code library -->
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
@@ -65,7 +65,7 @@
     width: 100px; height: 4px; background: var(--miami-red);
     margin: 0 auto 10px; border-radius: 2px;
   }
-  .title-slide .meta { font-size: .55em; color: #999; line-height: 1.7; }
+  .title-slide .meta { font-size: .6em; color: #999; line-height: 1.7; }
   .title-slide .meta a { color: var(--miami-red); text-decoration: none; }
   .title-slide .meta a:hover { text-decoration: underline; }
   .title-slide .title-bottom {
@@ -259,7 +259,7 @@
       <div class="title-slide">
         <img class="logo" src="data:image/png;base64,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" alt="Miami University">
         <div class="divider"></div>
-        <h1>AI at the<br>Farmer School of Business</h1>
+        <h1>GenAI at the<br>Farmer School of Business</h1>
         <h2>From Research to Impact</h2>
         <div class="meta">
           <a href="https://miamioh.edu/fsb/directory/?up=/directory/megahefm" target="_blank">Fadel M. Megahed</a><br>
@@ -298,7 +298,7 @@
       <div class="interstitial">
         <div class="act-label">Part I</div>
         <h2>The AI Landscape</h2>
-        <p>An interactive timeline of 30 pivotal moments, from ChatGPT to today, with FSB milestones highlighted.</p>
+        <p>An interactive timeline of pivotal moments, from ChatGPT to today, with Miami's campus pulse and FSB milestones highlighted.</p>
         <div class="accent-bar"></div>
       </div>
     </section>
@@ -314,7 +314,7 @@
       <div class="interstitial">
         <div class="act-label">Part II</div>
         <h2>From Research<br>to the Classroom</h2>
-        <p>Two AI-powered teaching tools built by faculty and used daily by hundreds of students.</p>
+        <p>Two AI-powered teaching tools built by faculty and used by 200+ students every semester.</p>
         <div class="accent-bar"></div>
       </div>
     </section>
@@ -334,7 +334,7 @@
       <div class="interstitial">
         <div class="act-label">Part III</div>
         <h2>The Changing Workforce</h2>
-        <p>AI is reshaping the job market faster than curricula can adapt, unless we build the right tools.</p>
+        <p>AI is rapidly reshaping the job market, but we are very proactive about monitoring and responding to these changes in our classrooms.</p>
         <div class="accent-bar"></div>
       </div>
     </section>
@@ -355,26 +355,31 @@
       <div class="interstitial">
         <div class="act-label">Part IV</div>
         <h2>Beyond Business<br>Education</h2>
-        <p>The SIGHT project: AI for workplace safety, funded by the Ohio Bureau of Workers' Compensation.</p>
+        <p>SIGHT: Safety Immersion and Gamified Hazard Training for Industry 5.0 Workers</p>
         <div class="team-row">
+          <div class="team-member">
+            <img src="http://www.fsb.miamioh.edu/fsb/directory/pic/megahefm.jpg" alt="Fadel Megahed">
+            <div class="name">Fadel Megahed</div>
+            <div class="role">Professor, ISA · PI</div>
+          </div>
           <div class="team-member">
             <img src="http://www.fsb.miamioh.edu/fsb/directory/pic/carvalag.jpg" alt="Arthur Carvalho">
             <div class="name">Arthur Carvalho</div>
-            <div class="role">Assoc. Professor, ISA</div>
+            <div class="role">Assoc. Professor, ISA · Co-PI</div>
           </div>
           <div class="team-member">
             <img src="http://www.fsb.miamioh.edu/fsb/directory/pic/shanz3.jpg" alt="Jay Shan">
             <div class="name">Jay Shan</div>
-            <div class="role">Asst. Professor, ISA</div>
+            <div class="role">Assoc. Professor, ISA · Co-PI</div>
           </div>
           <div class="team-member">
             <img src="https://miamioh.edu/regionals/profiles/engineering-technology/_images/mohammad-mayyas.jpeg" alt="Mohammad Mayyas">
             <div class="name">Mohammad Mayyas</div>
-            <div class="role">Professor, Eng. Technology</div>
+            <div class="role">Professor, Eng. Technology · Co-PI</div>
           </div>
         </div>
         <div class="funding">
-          Funded by the <a href="https://info.bwc.ohio.gov/for-employers/safety-services/workplace-safety-innovation-center/wsic-overview" target="_blank">Ohio BWC Workplace Safety Innovation Center (WSIC)</a>
+          $1.5 million project funded by the <a href="https://info.bwc.ohio.gov/for-employers/safety-services/workplace-safety-innovation-center/wsic-overview" target="_blank">Ohio BWC Workplace Safety Innovation Center (WSIC)</a>
         </div>
       </div>
     </section>
@@ -404,22 +409,15 @@
       </div>
     </section>
 
-    <!-- SLIDE 16: Miami Liberal Education Mapping -->
-    <section>
-      <div class="skills-slide">
-        <h2>How Miami's Liberal Education Maps to 2030 Skills</h2>
-        <div class="accent-bar"></div>
-        <img class="skills-img" src="2030_skills_miami_map.png" alt="Miami Liberal Education to 2030 Skills Mapping">
-        <div class="source">Mapping of WEF 2030 core skills to Miami Plan foundations. PA = Plan Area, SI = Signature Inquiry, KA = Knowledge in Action.</div>
-      </div>
-    </section>
+    <!-- SLIDE 16: Miami Liberal Education Mapping (interactive) -->
+    <section data-background-iframe="miami_skills_map.html" data-background-interactive></section>
 
     <!-- SLIDE 17: Closing - Thank You + Contact -->
     <section>
       <div class="title-slide">
         <img class="logo" src="data:image/png;base64,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" alt="Miami University">
         <div class="divider"></div>
-        <h1>AI at the<br>Farmer School of Business</h1>
+        <h1>GenAI at the<br>Farmer School of Business</h1>
         <h2>From Research to Impact</h2>
         <div class="meta">
           <a href="https://miamioh.edu/fsb/directory/?up=/directory/megahefm" target="_blank">Fadel M. Megahed</a><br>
@@ -458,6 +456,10 @@
   <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
   <span>Video Walkthrough</span>
 </div>
+<a class="loom-thumb" id="extVideoThumb" style="display:none; text-decoration:none;" target="_blank">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+  <span>Video Walkthrough</span>
+</a>
 <div class="loom-overlay" id="loomOverlay" style="display:none;">
   <div class="loom-player">
     <div id="loomIframeWrap"></div>
@@ -483,7 +485,13 @@
     10: 'https://www.loom.com/embed/0b32ad25c86b41d38803b84e98b4b66c',  // Slide 11: ISACareerBridge
   };
 
+  // Videos that can't be embedded (open in new tab)
+  const EXTERNAL_VIDEOS = {
+    12: 'https://youtu.be/6-p5dA4aQTM?si=_CE1kvVD_hr6DaJ8',  // Slide 13: SIGHT Demo
+  };
+
   const loomThumb = document.getElementById('loomThumb');
+  const extVideoThumb = document.getElementById('extVideoThumb');
   const loomOverlay = document.getElementById('loomOverlay');
   const loomIframeWrap = document.getElementById('loomIframeWrap');
   const loomClose = document.getElementById('loomClose');
@@ -494,7 +502,7 @@
   function openLoom() {
     const url = currentLoomUrl();
     if (!url) return;
-    loomIframeWrap.innerHTML = '<iframe src="' + url + '" frameborder="0" allowfullscreen style="width:100%;height:100%;border-radius:10px;"></iframe>';
+    loomIframeWrap.innerHTML = '<iframe src="' + url + '" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" style="width:100%;height:100%;border-radius:10px;"></iframe>';
     loomOverlay.style.display = 'flex';
     loomThumb.style.display = 'none';
   }
@@ -517,11 +525,19 @@
     } else {
       Reveal.configure({ keyboard: true });
     }
+    // Embeddable videos (overlay)
     if (LOOM_VIDEOS[event.indexh]) {
       loomThumb.style.display = 'flex';
     } else {
       loomThumb.style.display = 'none';
       closeLoom();
+    }
+    // External videos (new tab)
+    if (EXTERNAL_VIDEOS[event.indexh]) {
+      extVideoThumb.href = EXTERNAL_VIDEOS[event.indexh];
+      extVideoThumb.style.display = 'flex';
+    } else {
+      extVideoThumb.style.display = 'none';
     }
   });
 

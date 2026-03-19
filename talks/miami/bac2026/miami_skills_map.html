@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miami Liberal Education Maps to 2030 Skills</title>
+<style>
+ @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+ :root {
+   --red: #C41230;
+   --red-dark: #9B0E26;
+   --slate: #3E5468;
+   --corn: #EFDB72;
+   --bg: #FAF9F7;
+   --text: #1a1a1a;
+   --text-muted: #888;
+   --border: #e8e5e0;
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body {
+   font-family: 'DM Sans', Arial, sans-serif;
+   background: var(--bg);
+   color: var(--text);
+   overflow-x: hidden;
+   min-height: 100vh;
+ }
+
+ .header {
+   background: var(--red);
+   color: white;
+   padding: 14px 40px;
+   display: flex;
+   align-items: center;
+   gap: 20px;
+ }
+ .header h1 {
+   font-family: 'Source Serif 4', Georgia, serif;
+   font-size: 20px;
+   font-weight: 600;
+ }
+ .header-sub {
+   font-size: 10px;
+   opacity: .85;
+   margin-top: 2px;
+   text-transform: uppercase;
+   letter-spacing: 1.5px;
+ }
+
+ .controls {
+   background: white;
+   border-bottom: 1px solid var(--border);
+   padding: 10px 40px;
+   display: flex;
+   align-items: center;
+   gap: 14px;
+   position: sticky;
+   top: 0;
+   z-index: 100;
+   box-shadow: 0 2px 8px rgba(0,0,0,.04);
+   flex-wrap: wrap;
+ }
+ .step-btn {
+   padding: 7px 20px; border: none; border-radius: 6px;
+   font-size: 12px; font-weight: 700; cursor: pointer;
+   transition: all .2s; text-transform: uppercase; letter-spacing: .5px;
+ }
+ .step-btn.play { background: var(--red); color: white; min-width: 90px; }
+ .step-btn.play:hover { background: var(--red-dark); }
+ .step-btn.play.playing { background: var(--slate); }
+ .step-btn.reset { background: #eee; color: #666; }
+ .step-btn.reset:hover { background: #ddd; }
+ .progress-text { font-size: 11px; color: var(--text-muted); min-width: 50px; text-align: center; }
+ .spacebar-hint { font-size: 10px; color: #bbb; margin-left: 6px; }
+ .spacebar-hint kbd {
+   display: inline-block; padding: 1px 6px; border: 1px solid #ddd;
+   border-radius: 3px; background: #f5f5f5; font-family: 'DM Sans', monospace;
+   font-size: 10px; margin: 0 1px;
+ }
+
+ .legend {
+   display: flex; gap: 14px; margin-left: auto; font-size: 11px; color: var(--text-muted);
+   align-items: center; flex-wrap: wrap;
+ }
+ .legend-item { display: flex; align-items: center; gap: 4px; }
+
+ .container {
+   max-width: 1100px;
+   margin: 0 auto;
+   padding: 20px 20px 50px;
+ }
+
+ /* Category rows */
+ .category {
+   margin-bottom: 16px;
+   opacity: 0;
+   transform: translateY(20px);
+   transition: opacity .5s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1);
+ }
+ .category.visible { opacity: 1; transform: translateY(0); }
+ .cat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+ .cat-badge {
+   display: inline-block; padding: 4px 14px; border-radius: 16px;
+   font-size: 12px; font-weight: 700; color: white;
+ }
+ .cat-badge.tech { background: #2a7a5c; }
+ .cat-badge.cognitive { background: #d4820a; }
+ .cat-badge.selfefficacy { background: #6b5ba7; }
+ .cat-badge.ethics { background: #c44b8c; }
+
+ .skills-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+ .skill-card {
+   flex: 1; min-width: 200px; background: white; border-radius: 10px;
+   padding: 14px 16px; border-left: 4px solid var(--slate);
+   box-shadow: 0 1px 8px rgba(0,0,0,.04); cursor: pointer;
+   transition: box-shadow .2s, transform .2s, background .2s;
+ }
+ .skill-card:hover {
+   box-shadow: 0 4px 16px rgba(0,0,0,.12); transform: translateY(-2px);
+ }
+ .skill-card.active {
+   box-shadow: 0 4px 16px rgba(0,0,0,.12);
+   background: #f8f6f3;
+ }
+ .skill-card.tech { border-left-color: #2a7a5c; }
+ .skill-card.cognitive { border-left-color: #d4820a; }
+ .skill-card.selfefficacy { border-left-color: #6b5ba7; }
+ .skill-card.ethics { border-left-color: #c44b8c; }
+
+ .skill-card .skill-name {
+   font-weight: 700; font-size: 13px; margin-bottom: 6px; color: var(--text);
+ }
+ .skill-card .miami-map { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+ .tag {
+   display: inline-block; padding: 1px 8px; border-radius: 10px;
+   font-size: 10px; font-weight: 600; margin-right: 3px; margin-bottom: 2px;
+ }
+ .tag.pa { background: #e8f5e9; color: #2e7d32; }
+ .tag.si { background: #e3f2fd; color: #1565c0; }
+ .tag.ka { background: #fff3e0; color: #e65100; }
+
+ /* Tooltip data is hidden; rendered into the detail panel on click */
+ .skill-card .tooltip { display: none; }
+
+ /* Fixed detail panel */
+ .detail-panel {
+   display: none;
+   position: fixed;
+   top: 0; right: 0; bottom: 0;
+   width: 360px;
+   background: white;
+   border-left: 4px solid var(--red);
+   box-shadow: -8px 0 30px rgba(0,0,0,.12);
+   z-index: 500;
+   overflow-y: auto;
+   padding: 24px 24px 32px;
+   font-size: 12px;
+   color: #555;
+   line-height: 1.7;
+ }
+ .detail-panel.open { display: block; }
+ .detail-panel .dp-close {
+   position: absolute; top: 12px; right: 14px;
+   width: 28px; height: 28px; border-radius: 50%; border: none;
+   background: #f0eeeb; color: #666; font-size: 16px; font-weight: 700;
+   cursor: pointer; display: flex; align-items: center; justify-content: center;
+ }
+ .detail-panel .dp-close:hover { background: #e4e0db; }
+ .detail-panel .dp-skill-name {
+   font-family: 'Source Serif 4', Georgia, serif;
+   font-size: 18px; font-weight: 700; color: var(--text);
+   margin-bottom: 16px; padding-right: 36px;
+ }
+ .detail-panel .tt-section {
+   margin-bottom: 12px; padding-bottom: 12px;
+   border-bottom: 1px solid #f0eeeb;
+ }
+ .detail-panel .tt-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+ .detail-panel .tt-label {
+   font-weight: 700; font-size: 11px; text-transform: uppercase;
+   letter-spacing: .8px; margin-bottom: 4px;
+ }
+ .detail-panel .tt-label.pa-label { color: #2e7d32; }
+ .detail-panel .tt-label.si-label { color: #1565c0; }
+ .detail-panel .tt-label.ka-label { color: #e65100; }
+ .detail-panel a { color: var(--red); text-decoration: none; font-weight: 600; }
+ .detail-panel a:hover { text-decoration: underline; }
+ .detail-panel .dp-hint {
+   font-size: 10px; color: #bbb; margin-top: 16px; text-align: center;
+ }
+
+ .course-pill {
+   display: inline-block; padding: 2px 8px; border-radius: 10px;
+   font-size: 10px; font-weight: 600; margin-right: 3px; margin-bottom: 3px;
+   text-decoration: none;
+ }
+ .course-pill:hover { opacity: .8; }
+ /* Miami Plan (non-FSB) = slate gray */
+ .course-pill.miami { background: #e8e5e0; color: var(--slate); }
+ /* FSB Miami Plan courses = corn/gold */
+ .course-pill.fsb { background: #fdf6d8; color: #8a7100; }
+ /* ISA discipline-specific = blue */
+ .course-pill.isa { background: #dceaf7; color: #1a5276; }
+
+ .detail-panel .course-pill { font-size: 11px; padding: 3px 10px; }
+ .detail-panel .course-desc { font-size: 11px; color: #777; margin-top: 2px; line-height: 1.7; }
+
+ .source {
+   text-align: center; font-size: 11px; color: #bbb; margin-top: 16px;
+ }
+ .source a { color: var(--red); text-decoration: none; }
+ .source a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>How Miami's Liberal Education Maps to 2030 Skills</h1>
+    <div class="header-sub">World Economic Forum Future of Jobs Report 2025</div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="step-btn play" id="playBtn">&#9654; Play</button>
+  <button class="step-btn reset" id="resetBtn">Reset</button>
+  <span class="progress-text" id="progressText">0 / 4</span>
+  <span class="spacebar-hint"><kbd>Space</kbd> play/pause · <kbd>&rarr;</kbd> step forward</span>
+  <div class="legend">
+    <div class="legend-item"><span class="tag pa">PA</span> Perspective Areas</div>
+    <div class="legend-item"><span class="tag si">SI</span> Signature Inquiries</div>
+    <div class="legend-item"><span class="tag ka">KA</span> Knowledge in Action</div>
+    <span style="color:#ccc;margin:0 4px;">|</span>
+    <div class="legend-item"><span class="course-pill miami" style="margin:0">MU</span> Miami Plan</div>
+    <div class="legend-item"><span class="course-pill fsb" style="margin:0">FSB</span> FSB in Miami Plan</div>
+    <div class="legend-item"><span class="course-pill isa" style="margin:0">ISA</span> ISA Discipline</div>
+  </div>
+</div>
+
+<div class="container" id="container">
+
+  <!-- Category 1: Technology Skills -->
+  <div class="category" data-idx="1">
+    <div class="cat-header"><span class="cat-badge tech">Technology Skills</span></div>
+    <div class="skills-row">
+      <div class="skill-card tech">
+        <div class="skill-name">AI & Big Data</div>
+        <div class="miami-map">
+          <span class="tag si">SI3</span> Technology, Info, Society
+          <span class="tag ka">KA</span> Capstone
+        </div>
+        <div style="margin-top:6px">
+          <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/cse/" target="_blank">CSE 163</a>
+          <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/eco/" target="_blank">ECO 311</a>
+          <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 414</a>
+          <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 491</a>
+        </div>
+        <div class="tooltip"><div class="tooltip-inner">
+          <div class="tt-section">
+            <div class="tt-label si-label">SI3: Technology, Information, and Society</div>
+            <div class="course-desc">
+              <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/cse/" target="_blank">CSE 163</a> Intro to Computing w/ Python
+            </div>
+          </div>
+          <div class="tt-section">
+            <div class="tt-label pa-label">PA1C: Advanced Writing</div>
+            <div class="course-desc">
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/eco/" target="_blank">ECO 311</a> Examining Economic Data and Models
+            </div>
+          </div>
+          <div class="tt-section">
+            <div class="tt-label isa-label">ISA Discipline</div>
+            <div class="course-desc">
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 414</a> Managing Big Data<br>
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 491</a> Intro to Data Mining
+            </div>
+          </div>
+        </div></div>
+      </div>
+      <div class="skill-card tech">
+        <div class="skill-name">Technological Literacy</div>
+        <div class="miami-map">
+          <span class="tag pa">PA2</span> Science & Society
+        </div>
+        <div style="margin-top:6px">
+          <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/sta/" target="_blank">STA 261</a>
+          <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/eco/" target="_blank">ECO 201</a>
+          <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 235</a>
+        </div>
+        <div class="tooltip"><div class="tooltip-inner">
+          <div class="tt-section">
+            <div class="tt-label pa-label">PA2A: Social Sciences (6 hrs)</div>
+            <div class="course-desc">
+              <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/sta/" target="_blank">STA 261</a> Statistics<br>
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/eco/" target="_blank">ECO 201</a> Principles of Microeconomics<br>
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/eco/" target="_blank">ECO 202</a> Principles of Macroeconomics
+            </div>
+          </div>
+          <div class="tt-section">
+            <div class="tt-label isa-label">ISA Discipline</div>
+            <div class="course-desc">
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 235</a> IT and the Intelligent Enterprise
+            </div>
+          </div>
+        </div></div>
+      </div>
+      <div class="skill-card tech">
+        <div class="skill-name">Networks & Cyber Security</div>
+        <div class="miami-map">
+          <span class="tag si">SI3</span> Technology, Info, Society
+        </div>
+        <div style="margin-top:6px">
+          <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/cse/" target="_blank">CSE 262</a>
+          <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 301</a>
+          <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 419</a>
+        </div>
+        <div class="tooltip"><div class="tooltip-inner">
+          <div class="tt-section">
+            <div class="tt-label si-label">SI3: Technology, Information, and Society</div>
+            <div class="course-desc">
+              <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/cse/" target="_blank">CSE 262</a> Tech, Ethics, and Global Society
+            </div>
+          </div>
+          <div class="tt-section">
+            <div class="tt-label isa-label">ISA Discipline</div>
+            <div class="course-desc">
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 301</a> Data Communications & Security<br>
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 405</a> Information Security<br>
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 419</a> Data Driven Security
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category 2: Cognitive Skills -->
+  <div class="category" data-idx="2">
+    <div class="cat-header"><span class="cat-badge cognitive">Cognitive Skills</span></div>
+    <div class="skills-row">
+      <div class="skill-card cognitive">
+        <div class="skill-name">Creative Thinking</div>
+        <div class="miami-map">
+          <span class="tag pa">PA3</span> Arts & Humanities
+          <span class="tag si">SI4</span> Creativity & Design
+        </div>
+        <div style="margin-top:6px">
+          <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/art/" target="_blank">ART 151</a>
+          <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/bus/" target="_blank">BUS 284</a>
+          <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 401</a>
+        </div>
+        <div class="tooltip"><div class="tooltip-inner">
+          <div class="tt-section">
+            <div class="tt-label pa-label">PA3: Arts and Humanities (6 hrs)</div>
+            <div class="course-desc">
+              <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/art/" target="_blank">ART 151</a> Foundations in Art (PA3A)
+            </div>
+          </div>
+          <div class="tt-section">
+            <div class="tt-label pa-label">PA1C: Advanced Writing</div>
+            <div class="course-desc">
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/bus/" target="_blank">BUS 284</a> Professional Communication for Business
+            </div>
+          </div>
+          <div class="tt-section">
+            <div class="tt-label isa-label">ISA Discipline</div>
+            <div class="course-desc">
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 401</a> BI and Data Visualization
+            </div>
+          </div>
+        </div></div>
+      </div>
+      <div class="skill-card cognitive">
+        <div class="skill-name">Analytical Thinking</div>
+        <div class="miami-map">
+          <span class="tag pa">PA1A</span> Math & Formal Reasoning
+        </div>
+        <div style="margin-top:6px">
+          <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/mth/" target="_blank">MTH 151</a>
+          <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 125</a>
+          <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 391</a>
+        </div>
+        <div class="tooltip"><div class="tooltip-inner">
+          <div class="tt-section">
+            <div class="tt-label pa-label">PA1A: Mathematics and Formal Reasoning (3 hrs)</div>
+            <div class="course-desc">
+              <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/mth/" target="_blank">MTH 151</a> Calculus I<br>
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 125</a> Intro to Business Statistics
+            </div>
+          </div>
+          <div class="tt-section">
+            <div class="tt-label isa-label">ISA Discipline</div>
+            <div class="course-desc">
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 225</a> Principles of Business Analytics<br>
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 391</a> Applied Regression Analysis
+            </div>
+          </div>
+        </div></div>
+      </div>
+      <div class="skill-card cognitive">
+        <div class="skill-name">Systems Thinking</div>
+        <div class="miami-map">
+          <span class="tag pa">PA4</span> Global Citizenship
+        </div>
+        <div style="margin-top:6px">
+          <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/geo/" target="_blank">GEO 201</a>
+          <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/mgt/" target="_blank">MGT 304</a>
+          <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 321</a>
+        </div>
+        <div class="tooltip"><div class="tooltip-inner">
+          <div class="tt-section">
+            <div class="tt-label pa-label">PA4B: Intercultural Consciousness</div>
+            <div class="course-desc">
+              <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/geo/" target="_blank">GEO 201</a> Global Perspectives (PA4C)<br>
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/mgt/" target="_blank">MGT 304</a> Diversity & Cross-Cultural Mgmt
+            </div>
+          </div>
+          <div class="tt-section">
+            <div class="tt-label isa-label">ISA Discipline</div>
+            <div class="course-desc">
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 303</a> Enterprise Systems<br>
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 321</a> Optimization in Business Analytics
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category 3: Self-Efficacy -->
+  <div class="category" data-idx="3">
+    <div class="cat-header"><span class="cat-badge selfefficacy">Self-Efficacy</span></div>
+    <div class="skills-row">
+      <div class="skill-card selfefficacy">
+        <div class="skill-name">Curiosity & Lifelong Learning</div>
+        <div class="miami-map">
+          <span class="tag pa">PA4</span> Global Citizenship
+          <span class="tag ka">KA</span> Experiential
+        </div>
+        <div style="margin-top:6px">
+          <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/ids/" target="_blank">IDS 159</a>
+          <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/bus/" target="_blank">BUS 420</a>
+          <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 340</a>
+        </div>
+        <div class="tooltip"><div class="tooltip-inner">
+          <div class="tt-section">
+            <div class="tt-label pa-label">PA4B: Intercultural Consciousness</div>
+            <div class="course-desc">
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/bus/" target="_blank">BUS 420</a> FSB International Studies
+            </div>
+          </div>
+          <div class="tt-section">
+            <div class="tt-label ka-label">KA: Experiential Learning</div>
+            <div class="course-desc">
+              <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/ids/" target="_blank">IDS 159</a> Interdisciplinary Studies<br>
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 340</a> Internship
+            </div>
+          </div>
+        </div></div>
+      </div>
+      <div class="skill-card selfefficacy">
+        <div class="skill-name">Motivation & Self Awareness</div>
+        <div class="miami-map">
+          <span class="tag ka">KA</span> Senior Capstone
+        </div>
+        <div style="margin-top:6px">
+          <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/mgt/" target="_blank">MGT 495</a>
+          <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/fin/" target="_blank">FIN 485</a>
+          <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 495</a>
+        </div>
+        <div class="tooltip"><div class="tooltip-inner">
+          <div class="tt-section">
+            <div class="tt-label ka-label">KA: Senior Capstone (3 hrs)</div>
+            <div class="course-desc">
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/acc/" target="_blank">ACC 495</a> Accounting Analysis<br>
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/fin/" target="_blank">FIN 485</a> Integrative Finance<br>
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/mgt/" target="_blank">MGT 495</a> Executive Decision Making<br>
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/mkt/" target="_blank">MKT 495</a> Strategy Works
+            </div>
+          </div>
+          <div class="tt-section">
+            <div class="tt-label isa-label">ISA Capstones</div>
+            <div class="course-desc">
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 495</a> Managing the Intelligent Enterprise<br>
+              <a class="course-pill isa" href="https://bulletin.miamioh.edu/courses-instruction/isa/" target="_blank">ISA 496</a> Business Analytics Practicum
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category 4: Ethics -->
+  <div class="category" data-idx="4">
+    <div class="cat-header"><span class="cat-badge ethics">Ethics</span></div>
+    <div class="skills-row">
+      <div class="skill-card ethics">
+        <div class="skill-name">Resilience, Flexibility & Agility</div>
+        <div class="miami-map">
+          <span class="tag si">SI1</span> Sustainability & Resilience
+          <span class="tag ka">KA</span> Experiential
+        </div>
+        <div style="margin-top:6px">
+          <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/ens/" target="_blank">ENS 340</a>
+          <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/bus/" target="_blank">BUS 217</a>
+          <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/esp/" target="_blank">ESP 401</a>
+        </div>
+        <div class="tooltip"><div class="tooltip-inner">
+          <div class="tt-section">
+            <div class="tt-label si-label">SI1: Sustainability and Resilience</div>
+            <div class="course-desc">
+              <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/ens/" target="_blank">ENS 340</a> Sustainability Practicum<br>
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/bus/" target="_blank">BUS 217</a> Sustainable Business Solutions
+            </div>
+          </div>
+          <div class="tt-section">
+            <div class="tt-label ka-label">KA: Experiential Learning</div>
+            <div class="course-desc">
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/esp/" target="_blank">ESP 401</a> Entrepreneurship: New Ventures<br>
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/esp/" target="_blank">ESP 461</a> Entrepreneurial Consulting
+            </div>
+          </div>
+        </div></div>
+      </div>
+      <div class="skill-card ethics">
+        <div class="skill-name">Environmental Stewardship</div>
+        <div class="miami-map">
+          <span class="tag pa">PA2B</span> Natural Sciences
+          <span class="tag pa">PA4C</span> Global Inquiry
+        </div>
+        <div style="margin-top:6px">
+          <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/glg/" target="_blank">GLG 111</a>
+          <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/eco/" target="_blank">ECO 356</a>
+          <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/eco/" target="_blank">ECO 131</a>
+        </div>
+        <div class="tooltip"><div class="tooltip-inner">
+          <div class="tt-section">
+            <div class="tt-label pa-label">PA2B: Natural Sciences (6 hrs, incl. lab)</div>
+            <div class="course-desc">
+              <a class="course-pill miami" href="https://bulletin.miamioh.edu/courses-instruction/glg/" target="_blank">GLG 111</a> Geology of Natural Hazards
+            </div>
+          </div>
+          <div class="tt-section">
+            <div class="tt-label pa-label">PA4C: Global Inquiry</div>
+            <div class="course-desc">
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/eco/" target="_blank">ECO 356</a> Poverty & Income Distribution
+            </div>
+          </div>
+          <div class="tt-section">
+            <div class="tt-label si-label">SI2: Power, Justice, and Social Change</div>
+            <div class="course-desc">
+              <a class="course-pill fsb" href="https://bulletin.miamioh.edu/courses-instruction/eco/" target="_blank">ECO 131</a> Equality, Poverty, and Opportunity
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="source">
+  Mapping of WEF 2030 core skills to <a href="https://miamioh.edu/liberal-ed/" target="_blank">Miami Plan</a> foundations.
+  Source: <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/" target="_blank">WEF Future of Jobs Report 2025</a>, Figure 8.
+</div>
+
+<!-- Detail panel (fixed right sidebar, click to open) -->
+<div class="detail-panel" id="detailPanel">
+  <button class="dp-close" id="dpClose">&times;</button>
+  <div class="dp-skill-name" id="dpSkillName"></div>
+  <div id="dpContent"></div>
+  <div class="dp-hint">Click another card or press Esc to close</div>
+</div>
+
+<script>
+(function() {
+  const cats = document.querySelectorAll('[data-idx]');
+  const total = cats.length;
+  const playBtn = document.getElementById('playBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const progressText = document.getElementById('progressText');
+
+  let shown = 0;
+  let playing = false;
+  let timer = null;
+
+  function updateUI() {
+    progressText.textContent = shown + ' / ' + total;
+  }
+
+  function showNext() {
+    if (shown >= total) { stop(); return; }
+    cats[shown].classList.add('visible');
+    cats[shown].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    shown++;
+    updateUI();
+    if (shown >= total) stop();
+  }
+
+  function play() {
+    if (shown >= total) resetAll();
+    playing = true;
+    playBtn.textContent = '\u23F8 Pause';
+    playBtn.classList.add('playing');
+    showNext();
+    timer = setInterval(showNext, 2200);
+  }
+
+  function stop() {
+    playing = false;
+    playBtn.textContent = '\u25B6 Play';
+    playBtn.classList.remove('playing');
+    clearInterval(timer);
+    timer = null;
+  }
+
+  function resetAll() {
+    stop();
+    shown = 0;
+    cats.forEach(c => c.classList.remove('visible'));
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  playBtn.addEventListener('click', () => { playing ? stop() : play(); });
+  resetBtn.addEventListener('click', resetAll);
+
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space') { e.preventDefault(); playing ? stop() : play(); }
+    if (e.code === 'ArrowRight' && !playing) { e.preventDefault(); showNext(); }
+  });
+
+  updateUI();
+
+  // Detail panel logic (click to open, Esc to close)
+  const panel = document.getElementById('detailPanel');
+  const dpSkillName = document.getElementById('dpSkillName');
+  const dpContent = document.getElementById('dpContent');
+  const dpClose = document.getElementById('dpClose');
+  let activeCard = null;
+
+  function openPanel(card) {
+    if (activeCard) activeCard.classList.remove('active');
+    activeCard = card;
+    card.classList.add('active');
+    dpSkillName.textContent = card.querySelector('.skill-name').textContent;
+    var tooltipInner = card.querySelector('.tooltip-inner');
+    dpContent.innerHTML = tooltipInner ? tooltipInner.innerHTML : '';
+    panel.classList.add('open');
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    if (activeCard) activeCard.classList.remove('active');
+    activeCard = null;
+  }
+
+  document.querySelectorAll('.skill-card').forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      if (e.target.tagName === 'A') return; // let links work
+      e.stopPropagation();
+      if (activeCard === card) { closePanel(); }
+      else { openPanel(card); }
+    });
+  });
+
+  dpClose.addEventListener('click', closePanel);
+  document.addEventListener('keydown', function(e) {
+    if (e.code === 'Escape') closePanel();
+  });
+})();
+</script>
+</body>
+</html>
