@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISACareerBridge — How It Works</title>
+<style>
+ @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+ :root {
+   --red: #C41230;
+   --red-dark: #9B0E26;
+   --slate: #3E5468;
+   --slate-light: #5a7a94;
+   --corn: #EFDB72;
+   --bg: #FAF9F7;
+   --text: #1a1a1a;
+   --text-muted: #888;
+   --border: #e8e5e0;
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+
+ body {
+   font-family: 'DM Sans', Arial, sans-serif;
+   background: var(--bg);
+   color: var(--text);
+   overflow-x: hidden;
+   min-height: 100vh;
+ }
+
+ /* ── Header ── */
+ .header {
+   background: var(--red);
+   color: white;
+   padding: 16px 40px;
+   display: flex;
+   align-items: center;
+   gap: 20px;
+ }
+ .header h1 {
+   font-family: 'Source Serif 4', Georgia, serif;
+   font-size: 22px;
+   font-weight: 600;
+ }
+ .header-sub {
+   font-size: 11px;
+   opacity: .85;
+   margin-top: 2px;
+   text-transform: uppercase;
+   letter-spacing: 1.5px;
+ }
+
+ /* ── Controls ── */
+ .controls {
+   background: white;
+   border-bottom: 1px solid var(--border);
+   padding: 12px 40px;
+   display: flex;
+   align-items: center;
+   gap: 14px;
+   position: sticky;
+   top: 0;
+   z-index: 100;
+   box-shadow: 0 2px 8px rgba(0,0,0,.04);
+ }
+ .step-btn {
+   padding: 8px 22px;
+   border: none;
+   border-radius: 6px;
+   font-size: 13px;
+   font-weight: 700;
+   cursor: pointer;
+   transition: all .2s;
+   text-transform: uppercase;
+   letter-spacing: .5px;
+ }
+ .step-btn.play { background: var(--red); color: white; min-width: 100px; }
+ .step-btn.play:hover { background: var(--red-dark); }
+ .step-btn.play.playing { background: var(--slate); }
+ .step-btn.reset { background: #eee; color: #666; }
+ .step-btn.reset:hover { background: #ddd; }
+ .progress-text { font-size: 12px; color: var(--text-muted); min-width: 55px; text-align: center; }
+
+ /* ── Flow Container ── */
+ .flow {
+   max-width: 1000px;
+   margin: 0 auto;
+   padding: 50px 30px 80px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 0;
+ }
+
+ /* ── Step Cards ── */
+ .step-card {
+   width: 100%;
+   max-width: 760px;
+   background: white;
+   border-radius: 16px;
+   padding: 36px 40px;
+   box-shadow: 0 4px 20px rgba(0,0,0,.06);
+   opacity: 0;
+   transform: translateY(40px) scale(.96);
+   transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+   position: relative;
+   border-left: 6px solid var(--slate);
+ }
+ .step-card.visible {
+   opacity: 1;
+   transform: translateY(0) scale(1);
+ }
+ .step-card.step-1 { border-left-color: var(--slate); }
+ .step-card.step-2 { border-left-color: var(--red); }
+ .step-card.step-3 { border-left-color: var(--corn); }
+ .step-card.step-4 { border-left-color: #2ecc71; }
+
+ .step-number {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   width: 38px;
+   height: 38px;
+   border-radius: 50%;
+   background: var(--slate);
+   color: white;
+   font-size: 16px;
+   font-weight: 700;
+   margin-bottom: 16px;
+ }
+ .step-card.step-1 .step-number { background: var(--slate); }
+ .step-card.step-2 .step-number { background: var(--red); }
+ .step-card.step-3 .step-number { background: #c5a800; }
+ .step-card.step-4 .step-number { background: #2ecc71; }
+
+ .step-card h2 {
+   font-family: 'Source Serif 4', Georgia, serif;
+   font-size: 26px;
+   font-weight: 700;
+   color: var(--text);
+   margin-bottom: 8px;
+ }
+ .step-card .subtitle {
+   font-size: 15px;
+   color: var(--text-muted);
+   margin-bottom: 20px;
+   line-height: 1.5;
+ }
+
+ /* ── Visual elements inside cards ── */
+ .visual-row {
+   display: flex;
+   gap: 16px;
+   flex-wrap: wrap;
+   margin-top: 8px;
+ }
+ .visual-item {
+   flex: 1;
+   min-width: 140px;
+   background: var(--bg);
+   border-radius: 10px;
+   padding: 18px 16px;
+   text-align: center;
+   border: 1px solid var(--border);
+ }
+ .visual-item .icon {
+   font-size: 32px;
+   margin-bottom: 8px;
+ }
+ .visual-item .label {
+   font-size: 13px;
+   font-weight: 600;
+   color: var(--text);
+   line-height: 1.4;
+ }
+ .visual-item .detail {
+   font-size: 11px;
+   color: var(--text-muted);
+   margin-top: 4px;
+ }
+
+ /* ── Arrow connector ── */
+ .arrow-connector {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 8px 0;
+   opacity: 0;
+   transition: opacity .5s;
+ }
+ .arrow-connector.visible { opacity: 1; }
+ .arrow-connector .arrow-line {
+   width: 3px;
+   height: 36px;
+   background: linear-gradient(180deg, var(--border), var(--slate));
+   border-radius: 2px;
+ }
+ .arrow-connector .arrow-head {
+   width: 0;
+   height: 0;
+   border-left: 8px solid transparent;
+   border-right: 8px solid transparent;
+   border-top: 10px solid var(--slate);
+ }
+
+ /* ── Summary ── */
+ .summary-card {
+   width: 100%;
+   max-width: 760px;
+   background: var(--slate);
+   color: white;
+   border-radius: 16px;
+   padding: 36px 40px;
+   text-align: center;
+   opacity: 0;
+   transform: translateY(40px);
+   transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+   box-shadow: 0 4px 20px rgba(0,0,0,.12);
+ }
+ .summary-card.visible {
+   opacity: 1;
+   transform: translateY(0);
+ }
+ .summary-card h2 {
+   font-family: 'Source Serif 4', Georgia, serif;
+   font-size: 24px;
+   font-weight: 700;
+   margin-bottom: 12px;
+ }
+ .summary-card p {
+   font-size: 15px;
+   opacity: .9;
+   line-height: 1.6;
+   max-width: 600px;
+   margin: 0 auto;
+ }
+ .stat-row {
+   display: flex;
+   justify-content: center;
+   gap: 40px;
+   margin-top: 20px;
+   flex-wrap: wrap;
+ }
+ .stat-item {
+   text-align: center;
+ }
+ .stat-item .num {
+   font-size: 32px;
+   font-weight: 700;
+   color: var(--corn);
+ }
+ .stat-item .desc {
+   font-size: 12px;
+   opacity: .8;
+   margin-top: 2px;
+ }
+
+ @media (max-width: 700px) {
+   .step-card, .summary-card { padding: 24px 20px; }
+   .step-card h2 { font-size: 20px; }
+   .visual-row { flex-direction: column; }
+ }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>ISACareerBridge  - How It Works</h1>
+    <div class="header-sub">From job postings to student-ready skill maps</div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="step-btn play" id="playBtn" title="Space to play/pause">&#9654; Play</button>
+  <button class="step-btn reset" id="resetBtn">Reset</button>
+  <span class="progress-text" id="progressText">0 / 5</span>
+</div>
+
+<div class="flow" id="flow">
+
+  <!-- STEP 1: Ingest -->
+  <div class="step-card step-1" data-idx="1">
+    <div class="step-number">1</div>
+    <h2>Ingest Real Job Postings</h2>
+    <div class="subtitle">We pull real job listings from 6 APIs, filtered for roles relevant to ISA students across 58 search queries.</div>
+    <div class="visual-row">
+      <div class="visual-item">
+        <div class="icon">🏛️</div>
+        <div class="label">USAJobs</div>
+        <div class="detail">Government positions</div>
+      </div>
+      <div class="visual-item">
+        <div class="icon">🔗</div>
+        <div class="label">JSearch (RapidAPI)</div>
+        <div class="detail">Aggregates LinkedIn &amp; more</div>
+      </div>
+      <div class="visual-item">
+        <div class="icon">🌐</div>
+        <div class="label">RemoteOK</div>
+        <div class="detail">Remote-focused roles</div>
+      </div>
+    </div>
+    <div class="visual-row" style="margin-top:12px">
+      <div class="visual-item">
+        <div class="icon">💼</div>
+        <div class="label">The Muse</div>
+        <div class="detail">6 business categories</div>
+      </div>
+      <div class="visual-item">
+        <div class="icon">📊</div>
+        <div class="label">Adzuna</div>
+        <div class="detail">Job market data</div>
+      </div>
+      <div class="visual-item">
+        <div class="icon">🌍</div>
+        <div class="label">Arbeitnow</div>
+        <div class="detail">US-filtered listings</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-connector" data-arrow="1">
+    <div class="arrow-line"></div>
+    <div class="arrow-head"></div>
+  </div>
+
+  <!-- STEP 2: AI Analysis -->
+  <div class="step-card step-2" data-idx="2">
+    <div class="step-number">2</div>
+    <h2>AI Extracts Required Skills</h2>
+    <div class="subtitle">Claude Sonnet 4.5 reads each posting and extracts required skills. OpenAI generates 1,536-dimension embeddings for semantic matching. Faculty review before results reach students.</div>
+    <div class="visual-row">
+      <div class="visual-item">
+        <div class="icon">🤖</div>
+        <div class="label">Claude Sonnet 4.5</div>
+        <div class="detail">Skill extraction from postings</div>
+      </div>
+      <div class="visual-item">
+        <div class="icon">🧠</div>
+        <div class="label">OpenAI Embeddings</div>
+        <div class="detail">text-embedding-3-small (1,536-d)</div>
+      </div>
+      <div class="visual-item">
+        <div class="icon">👨‍🏫</div>
+        <div class="label">Faculty Review Gate</div>
+        <div class="detail">Human approval before publishing</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-connector" data-arrow="2">
+    <div class="arrow-line"></div>
+    <div class="arrow-head"></div>
+  </div>
+
+  <!-- STEP 3: Smart Matching -->
+  <div class="step-card step-3" data-idx="3">
+    <div class="step-number">3</div>
+    <h2>Smart Matching to Curriculum</h2>
+    <div class="subtitle">A hybrid algorithm (60% skill overlap + 40% semantic similarity) connects job requirements to specific courses and topics in our curriculum.</div>
+    <div class="visual-row">
+      <div class="visual-item">
+        <div class="icon">📋</div>
+        <div class="label">Skill Overlap</div>
+        <div class="detail">60% weight — direct matches</div>
+      </div>
+      <div class="visual-item">
+        <div class="icon">🔮</div>
+        <div class="label">Semantic Similarity</div>
+        <div class="detail">40% weight — AI-powered</div>
+      </div>
+      <div class="visual-item">
+        <div class="icon">🎯</div>
+        <div class="label">Course Alignment</div>
+        <div class="detail">Maps to specific topics</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-connector" data-arrow="3">
+    <div class="arrow-line"></div>
+    <div class="arrow-head"></div>
+  </div>
+
+  <!-- STEP 4: Student Impact -->
+  <div class="step-card step-4" data-idx="4">
+    <div class="step-number">4</div>
+    <h2>Students Build Job-Ready Portfolios</h2>
+    <div class="subtitle">Students see exactly which skills employers want, how their coursework maps to real jobs, and where to focus their effort.</div>
+    <div class="visual-row">
+      <div class="visual-item">
+        <div class="icon">🎓</div>
+        <div class="label">Personalized Dashboard</div>
+        <div class="detail">Skills tracked per student</div>
+      </div>
+      <div class="visual-item">
+        <div class="icon">💼</div>
+        <div class="label">Job-Linked Projects</div>
+        <div class="detail">Portfolio tied to real demand</div>
+      </div>
+      <div class="visual-item">
+        <div class="icon">📈</div>
+        <div class="label">Gap Analysis</div>
+        <div class="detail">Know what to learn next</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-connector" data-arrow="4">
+    <div class="arrow-line"></div>
+    <div class="arrow-head"></div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary-card" data-idx="5">
+    <h2>From Job Market to Classroom  - Powered by AI</h2>
+    <p>ISACareerBridge closes the loop between what employers need and what students learn.</p>
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="num">6</div>
+        <div class="desc">Job-board APIs</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">26</div>
+        <div class="desc">Database tables</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">60/40</div>
+        <div class="desc">Hybrid matching algorithm</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">1,536-d</div>
+        <div class="desc">Embedding vectors</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  const steps = document.querySelectorAll('[data-idx]');
+  const arrows = document.querySelectorAll('[data-arrow]');
+  const total = steps.length;
+  const playBtn = document.getElementById('playBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const progressText = document.getElementById('progressText');
+
+  let shown = 0;
+  let playing = false;
+  let timer = null;
+
+  function updateUI() {
+    progressText.textContent = shown + ' / ' + total;
+  }
+
+  function showNext() {
+    if (shown >= total) { stop(); return; }
+    // Show arrow before step (if exists)
+    if (shown > 0) {
+      const arrow = document.querySelector('[data-arrow="' + shown + '"]');
+      if (arrow) arrow.classList.add('visible');
+    }
+    // Small delay then show step
+    setTimeout(() => {
+      steps[shown].classList.add('visible');
+      steps[shown].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      shown++;
+      updateUI();
+      if (shown >= total) stop();
+    }, shown > 0 ? 300 : 0);
+  }
+
+  function play() {
+    if (shown >= total) { resetAll(); }
+    playing = true;
+    playBtn.textContent = '⏸ Pause';
+    playBtn.classList.add('playing');
+    showNext();
+    timer = setInterval(showNext, 3200);
+  }
+
+  function stop() {
+    playing = false;
+    playBtn.textContent = '▶ Play';
+    playBtn.classList.remove('playing');
+    clearInterval(timer);
+    timer = null;
+  }
+
+  function resetAll() {
+    stop();
+    shown = 0;
+    steps.forEach(s => s.classList.remove('visible'));
+    arrows.forEach(a => a.classList.remove('visible'));
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  playBtn.addEventListener('click', () => { playing ? stop() : play(); });
+  resetBtn.addEventListener('click', resetAll);
+
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space') { e.preventDefault(); playing ? stop() : play(); }
+    if (e.code === 'ArrowRight' && !playing) { e.preventDefault(); showNext(); }
+  });
+
+  updateUI();
+})();
+</script>
+</body>
+</html>

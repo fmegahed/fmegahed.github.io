@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI &amp; The Changing Workforce</title>
+<style>
+ @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+ :root {
+   --red: #C41230;
+   --red-dark: #9B0E26;
+   --slate: #3E5468;
+   --corn: #EFDB72;
+   --bg: #FAF9F7;
+   --text: #1a1a1a;
+   --text-muted: #888;
+   --border: #e8e5e0;
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+
+ body {
+   font-family: 'DM Sans', Arial, sans-serif;
+   background: var(--bg);
+   color: var(--text);
+   overflow-x: hidden;
+   min-height: 100vh;
+ }
+
+ /* ── Header ── */
+ .header {
+   background: var(--red);
+   color: white;
+   padding: 16px 40px;
+   display: flex;
+   align-items: center;
+   gap: 20px;
+ }
+ .header h1 {
+   font-family: 'Source Serif 4', Georgia, serif;
+   font-size: 22px;
+   font-weight: 600;
+ }
+ .header-sub {
+   font-size: 11px;
+   opacity: .85;
+   margin-top: 2px;
+   text-transform: uppercase;
+   letter-spacing: 1.5px;
+ }
+
+ /* ── Controls ── */
+ .controls {
+   background: white;
+   border-bottom: 1px solid var(--border);
+   padding: 12px 40px;
+   display: flex;
+   align-items: center;
+   gap: 14px;
+   position: sticky;
+   top: 0;
+   z-index: 100;
+   box-shadow: 0 2px 8px rgba(0,0,0,.04);
+ }
+ .step-btn {
+   padding: 8px 22px;
+   border: none;
+   border-radius: 6px;
+   font-size: 13px;
+   font-weight: 700;
+   cursor: pointer;
+   transition: all .2s;
+   text-transform: uppercase;
+   letter-spacing: .5px;
+ }
+ .step-btn.play { background: var(--red); color: white; min-width: 100px; }
+ .step-btn.play:hover { background: var(--red-dark); }
+ .step-btn.play.playing { background: var(--slate); }
+ .step-btn.reset { background: #eee; color: #666; }
+ .step-btn.reset:hover { background: #ddd; }
+ .progress-text { font-size: 12px; color: var(--text-muted); min-width: 55px; text-align: center; }
+ .progress-bar-container { height: 3px; background: var(--border); }
+ .progress-bar-fill { height: 100%; background: var(--red); width: 0%; transition: width .4s ease; }
+
+ /* ── Headline Wall ── */
+ .wall {
+   max-width: 1100px;
+   margin: 0 auto;
+   padding: 40px 30px 80px;
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 24px;
+ }
+
+ .headline-card {
+   background: white;
+   border-radius: 10px;
+   padding: 28px 30px;
+   border-left: 5px solid var(--slate);
+   box-shadow: 0 2px 12px rgba(0,0,0,.05);
+   opacity: 0;
+   transform: translateY(30px) scale(.97);
+   transition: opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1);
+   position: relative;
+ }
+ .headline-card.visible {
+   opacity: 1;
+   transform: translateY(0) scale(1);
+ }
+ .headline-card.red-accent { border-left-color: var(--red); }
+ .headline-card.corn-accent { border-left-color: var(--corn); }
+
+ .headline-card .source-badge {
+   display: inline-block;
+   font-size: 10px;
+   font-weight: 700;
+   text-transform: uppercase;
+   letter-spacing: 1.2px;
+   color: var(--slate);
+   background: #f0eeeb;
+   padding: 3px 10px;
+   border-radius: 10px;
+   margin-bottom: 12px;
+ }
+ .headline-card h2 {
+   font-family: 'Source Serif 4', Georgia, serif;
+   font-size: 20px;
+   font-weight: 700;
+   line-height: 1.35;
+   color: var(--text);
+   margin-bottom: 10px;
+ }
+ .headline-card .meta {
+   font-size: 12px;
+   color: var(--text-muted);
+ }
+ .headline-card .meta a {
+   color: var(--red);
+   text-decoration: none;
+ }
+ .headline-card .meta a:hover { text-decoration: underline; }
+
+ .headline-card .stat {
+   margin-top: 12px;
+   font-size: 13px;
+   color: var(--slate);
+   font-weight: 600;
+   line-height: 1.5;
+ }
+
+ /* ── Full-width card ── */
+ .headline-card.full-width {
+   grid-column: 1 / -1;
+ }
+
+ /* ── Summary bar ── */
+ .summary-bar {
+   grid-column: 1 / -1;
+   background: var(--slate);
+   color: white;
+   border-radius: 10px;
+   padding: 28px 34px;
+   text-align: center;
+   opacity: 0;
+   transform: translateY(30px);
+   transition: opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1);
+   border-left: 5px solid var(--corn);
+ }
+ .summary-bar.visible {
+   opacity: 1;
+   transform: translateY(0);
+ }
+ .summary-bar h2 {
+   font-family: 'Source Serif 4', Georgia, serif;
+   font-size: 22px;
+   font-weight: 700;
+   margin-bottom: 8px;
+ }
+ .summary-bar p {
+   font-size: 15px;
+   opacity: .9;
+   max-width: 700px;
+   margin: 0 auto;
+   line-height: 1.6;
+ }
+
+ /* ── Responsive ── */
+ @media (max-width: 800px) {
+   .wall { grid-template-columns: 1fr; padding: 20px 16px 60px; }
+   .headline-card h2 { font-size: 17px; }
+ }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>AI &amp; The Changing Workforce</h1>
+    <div class="header-sub">Real headlines &middot; Real urgency &middot; Real opportunity</div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="step-btn play" id="playBtn" title="Space to play/pause">&#9654; Play</button>
+  <button class="step-btn reset" id="resetBtn">Reset</button>
+  <span class="progress-text" id="progressText">0 / 10</span>
+</div>
+<div class="progress-bar-container">
+  <div class="progress-bar-fill" id="progressBar"></div>
+</div>
+
+<div class="wall" id="wall">
+
+  <!-- 1: Jan 7, 2025 -->
+  <div class="headline-card red-accent full-width" data-idx="1">
+    <span class="source-badge">World Economic Forum</span>
+    <h2>41% of Employers Worldwide Intend to Reduce Their Workforce Due to AI Automation in the Next 5 Years</h2>
+    <div class="meta">January 7, 2025 &middot; <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/" target="_blank">Read &rarr;</a></div>
+    <div class="stat">But also: 170M new jobs projected by 2030  - net gain of 78M positions</div>
+  </div>
+
+  <!-- 2: Sep 22, 2025 -->
+  <div class="headline-card" data-idx="2">
+    <span class="source-badge">HR Dive</span>
+    <h2>Nearly 4 in 10 Companies Will Replace Workers with AI by 2026</h2>
+    <div class="meta">September 22, 2025 &middot; <a href="https://www.hrdive.com/news/companies-will-replace-workers-with-ai-by-2026/760729/" target="_blank">Read &rarr;</a></div>
+  </div>
+
+  <!-- 3: Nov 14, 2025 -->
+  <div class="headline-card red-accent" data-idx="3">
+    <span class="source-badge">CNBC</span>
+    <h2>AI Will Impact Jobs in 2026, Say 89% of HR Leaders</h2>
+    <div class="meta">November 14, 2025 &middot; <a href="https://www.cnbc.com/2025/11/14/ai-to-impact-89percent-of-jobs-next-year-cnbc-survey-finds.html" target="_blank">Read &rarr;</a></div>
+    <div class="stat">CNBC Workforce Survey of senior HR executives</div>
+  </div>
+
+  <!-- 4: Dec 28, 2025 -->
+  <div class="headline-card corn-accent" data-idx="4">
+    <span class="source-badge">Fortune</span>
+    <h2>&lsquo;Godfather of AI&rsquo; Geoffrey Hinton Predicts AI Will &lsquo;Replace Many Other Jobs&rsquo; in 2026</h2>
+    <div class="meta">December 28, 2025 &middot; <a href="https://fortune.com/2025/12/28/geoffrey-hinton-godfather-of-ai-2026-prediction-human-worker-replacement/" target="_blank">Read &rarr;</a></div>
+  </div>
+
+  <!-- 5: Dec 31, 2025 -->
+  <div class="headline-card" data-idx="5">
+    <span class="source-badge">TechCrunch</span>
+    <h2>Investors Predict AI Is Coming for Labor in 2026</h2>
+    <div class="meta">December 31, 2025 &middot; <a href="https://techcrunch.com/2025/12/31/investors-predict-ai-is-coming-for-labor-in-2026/" target="_blank">Read &rarr;</a></div>
+    <div class="stat">VC consensus: 2026 is the inflection year for AI-driven workforce change</div>
+  </div>
+
+  <!-- 6: Jan 6, 2026 -->
+  <div class="headline-card red-accent" data-idx="6">
+    <span class="source-badge">Federal Reserve Bank of Dallas</span>
+    <h2>Young Workers' Employment Drops in Occupations with High AI Exposure</h2>
+    <div class="meta">January 6, 2026 &middot; <a href="https://www.dallasfed.org/research/economics/2026/0106" target="_blank">Read &rarr;</a></div>
+    <div class="stat">Unemployment among 20&ndash;30 year-olds in tech-exposed roles up ~3 percentage points since early 2025</div>
+  </div>
+
+  <!-- 7: Jan 29, 2026 -->
+  <div class="headline-card" data-idx="7">
+    <span class="source-badge">Harvard Business Review</span>
+    <h2>Companies Are Laying Off Workers Because of AI's Potential  - Not Its Performance</h2>
+    <div class="meta">January 29, 2026 &middot; <a href="https://hbr.org/2026/01/companies-are-laying-off-workers-because-of-ais-potential-not-its-performance" target="_blank">Read &rarr;</a></div>
+  </div>
+
+  <!-- 8: Feb 27, 2026 -->
+  <div class="headline-card corn-accent" data-idx="8">
+    <span class="source-badge">CBS News</span>
+    <h2>More Companies Are Pointing to AI as They Lay Off Employees</h2>
+    <div class="meta">February 27, 2026 &middot; <a href="https://www.cbsnews.com/news/ai-layoffs-2026-artificial-intelligence-amazon-pinterest/" target="_blank">Read &rarr;</a></div>
+    <div class="stat">1.2M+ job cuts announced in 2025  - the most since 2020</div>
+  </div>
+
+  <!-- 9: Mar 18, 2026 -->
+  <div class="headline-card red-accent" data-idx="9">
+    <span class="source-badge">Fortune</span>
+    <h2>66% of CEOs Are Freezing Hiring While Betting Billions on AI</h2>
+    <div class="meta">March 18, 2026 &middot; <a href="https://fortune.com/2026/03/18/corporate-america-ai-hiring-freeze-workforce-architecture/" target="_blank">Read &rarr;</a></div>
+    <div class="stat">Survey of 350+ CEOs managing $19T in assets  - published yesterday</div>
+  </div>
+
+  <!-- 10: Summary -->
+  <div class="summary-bar" data-idx="10">
+    <h2>The question isn't whether AI will reshape work  - it's whether our graduates are ready.</h2>
+    <p>At the Farmer School of Business, we're building the tools to make sure they are.</p>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  const cards = document.querySelectorAll('[data-idx]');
+  const total = cards.length;
+  const playBtn = document.getElementById('playBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const progressText = document.getElementById('progressText');
+  const progressBar = document.getElementById('progressBar');
+
+  let shown = 0;
+  let playing = false;
+  let timer = null;
+
+  function updateUI() {
+    progressText.textContent = shown + ' / ' + total;
+    progressBar.style.width = (shown / total * 100) + '%';
+  }
+
+  function showNext() {
+    if (shown >= total) { stop(); return; }
+    cards[shown].classList.add('visible');
+    shown++;
+    updateUI();
+    // Scroll into view
+    cards[shown - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (shown >= total) stop();
+  }
+
+  function play() {
+    if (shown >= total) { resetAll(); }
+    playing = true;
+    playBtn.textContent = '⏸ Pause';
+    playBtn.classList.add('playing');
+    showNext();
+    timer = setInterval(showNext, 2800);
+  }
+
+  function stop() {
+    playing = false;
+    playBtn.textContent = '▶ Play';
+    playBtn.classList.remove('playing');
+    clearInterval(timer);
+    timer = null;
+  }
+
+  function resetAll() {
+    stop();
+    shown = 0;
+    cards.forEach(c => c.classList.remove('visible'));
+    updateUI();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  playBtn.addEventListener('click', () => { playing ? stop() : play(); });
+  resetBtn.addEventListener('click', resetAll);
+
+  // Keyboard: Space = play/pause, Right = step forward
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space') { e.preventDefault(); playing ? stop() : play(); }
+    if (e.code === 'ArrowRight' && !playing) { e.preventDefault(); showNext(); }
+  });
+
+  updateUI();
+})();
+</script>
+</body>
+</html>
