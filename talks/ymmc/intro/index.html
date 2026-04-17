@@ -603,6 +603,20 @@
     pointer-events: none; opacity: .85; display: none;
   }
 
+  /* External-video fallback thumb (ref_deck pattern, floating bottom-left) */
+  .video-fallback {
+    position: fixed; bottom: 20px; left: 20px; background: var(--miami-red);
+    color: white; font-family: 'DM Sans', sans-serif; font-size: 12px;
+    font-weight: 700; padding: 10px 16px; border-radius: 8px; cursor: pointer;
+    z-index: 50; display: none; align-items: center; gap: 8px;
+    text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,.25);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .video-fallback:hover {
+    transform: scale(1.05); box-shadow: 0 6px 20px rgba(0,0,0,.35);
+  }
+  .video-fallback svg { flex-shrink: 0; }
+
   /* ── REVEAL UI ── */
   .reveal .slide-number {
     background: none; color: var(--miami-corn); font-family: 'DM Sans', sans-serif;
@@ -731,7 +745,7 @@
 
     <!-- SLIDE 6: Two-Way Digital Twin (YouTube split + commentary) -->
     <section>
-      <div class="demo-label">Live Demo &mdash; Two-Way Digital Twin</div>
+      <div class="demo-label">Example digital twin video from our SIGHT project</div>
       <div class="twin-slide">
         <div class="twin-video">
           <iframe src="https://www.youtube.com/embed/NbrHcfBa_VY?start=82&autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1"
@@ -1105,6 +1119,12 @@
 <!-- Fixed demo label (outside Reveal for proper positioning) -->
 <div class="demo-label-fixed" id="demoLabelFixed"></div>
 
+<!-- Video fallback button (shown on slides with an EXTERNAL_VIDEOS entry) -->
+<a class="video-fallback" id="videoFallback" target="_blank" rel="noopener">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+  <span id="videoFallbackLabel">Video walkthrough</span>
+</a>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.js"></script>
 <script>
   Reveal.initialize({
@@ -1122,6 +1142,17 @@
   const archCaption = document.getElementById('archCaption');
   const teamStack = document.getElementById('teamStack');
   const teamFinale = document.getElementById('teamFinale');
+  const videoFallback = document.getElementById('videoFallback');
+  const videoFallbackLabel = document.getElementById('videoFallbackLabel');
+
+  // Videos that can be opened in a new tab as a fallback (slide index → URL + label).
+  // Keyed by 0-based horizontal slide index.
+  const EXTERNAL_VIDEOS = {
+    4: {  // Slide 5 — Web VR Training (if live iframe can't reach)
+      url: 'https://youtu.be/6-p5dA4aQTM?si=_CE1kvVD_hr6DaJ8',
+      label: 'SIGHT walkthrough video'
+    }
+  };
 
   const ARCH_CAPTIONS = {
     1: '<b>Layer 1 &mdash; Build the Data Foundation.</b> <i>Lead: Yousif &middot; Support: Mayyas, <span class="nh">Broshear</span>.</i> Connect CURE to YMMC\'s existing process history, energy meters, inspection records, maintenance logs, and enterprise constraints. Mayyas and YMMC engineers define the controllable levers and process constraints that bound the feasible decision space.',
@@ -1193,6 +1224,16 @@
     // Reset architecture / team active states when leaving
     if (!event.currentSlide.querySelector('#archFlow')) setArchStep(0);
     if (!event.currentSlide.querySelector('#teamStack')) setTeamStep(0);
+
+    // External video fallback
+    const ext = EXTERNAL_VIDEOS[event.indexh];
+    if (ext) {
+      videoFallback.href = ext.url;
+      videoFallbackLabel.textContent = ext.label;
+      videoFallback.style.display = 'flex';
+    } else {
+      videoFallback.style.display = 'none';
+    }
   });
 
   // QR codes
