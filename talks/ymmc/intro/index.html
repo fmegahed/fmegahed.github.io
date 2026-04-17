@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CURE — A Cognitive Digital Twin for YMMC</title>
+
+<!-- Google Fonts: Source Serif 4 (headings) + DM Sans (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600;1,8..60,700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<!-- QR code library -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<!-- Inline favicon (small C mark) -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23C41230'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='22' font-weight='700' fill='%23fff' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
+
+<!-- Reveal.js 5.2.1 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.css">
+
+<style>
+  :root {
+    --r-background-color: #FAF9F7;
+    --r-main-color: #1a1a1a;
+    --r-heading-color: #C41230;
+    --r-link-color: #C41230;
+    --miami-red: #C41230;
+    --miami-red-dark: #9B0E26;
+    --miami-slate: #3E5468;
+    --miami-corn: #EFDB72;
+    --miami-bg: #FAF9F7;
+    --miami-gray: #9aa3ad;
+    --miami-cream: #FFF8E5;
+  }
+
+  .reveal { font-family: 'DM Sans', Arial, sans-serif; font-size: 1.35em; }
+  .reveal h1, .reveal h2, .reveal h3 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    text-transform: none; letter-spacing: normal;
+  }
+
+  /* Inline highlight for named people (Jason / Belize) */
+  .nh { color: var(--miami-red); font-weight: 700; }
+
+  /* Force all sections to use full height with less padding */
+  .reveal .slides section { padding: 12px 20px !important; }
+
+  /* Full-bleed iframes */
+  .reveal .slide-background iframe {
+    width: 100vw !important; height: 100vh !important;
+    max-width: none !important; max-height: none !important; border: none;
+  }
+
+  /* ── TITLE SLIDE ── */
+  .title-slide {
+    display: flex !important; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; height: 100%; padding: 10px 40px;
+  }
+  .title-slide h1 {
+    font-size: 3.6em; font-weight: 700; color: var(--miami-red);
+    line-height: 1.05; margin-bottom: 4px; letter-spacing: 2px;
+  }
+  .title-slide .acronym-expand {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.1em; color: var(--miami-slate);
+    margin: 2px 0 14px; letter-spacing: .2px;
+  }
+  .title-slide .acronym-expand .k {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--miami-red);
+  }
+  .title-slide .divider {
+    width: 100px; height: 4px; background: var(--miami-red);
+    margin: 8px auto 14px; border-radius: 2px;
+  }
+  .title-slide h2 {
+    font-size: 1.4em; font-weight: 400; color: var(--miami-slate);
+    margin-bottom: 14px; letter-spacing: .5px;
+  }
+  .title-slide .meta { font-size: .72em; color: #666; line-height: 1.8; }
+  .title-slide .meta .author-name { font-size: 1.18em; color: var(--miami-slate); font-weight: 600; }
+  .title-slide .meta a { color: var(--miami-red); text-decoration: none; }
+  .title-slide .meta a:hover { text-decoration: underline; }
+  .title-slide .title-bottom {
+    display: flex; align-items: center; justify-content: center;
+    gap: 28px; margin-top: 16px;
+  }
+  .title-slide .qr-wrap { text-align: center; }
+  .title-slide .qr-wrap canvas, .title-slide .qr-wrap img {
+    border: 3px solid var(--miami-red); border-radius: 6px;
+  }
+  .title-slide .qr-label { font-size: .4em; color: #999; margin-top: 4px; }
+  .title-slide .contact-links {
+    display: flex; flex-direction: column; gap: 5px; text-align: left;
+  }
+  .title-slide .contact-links a {
+    display: flex; align-items: center; gap: 8px; font-size: .45em;
+    color: var(--miami-slate); text-decoration: none; padding: 4px 12px;
+    border-radius: 6px; background: #f0eeeb; transition: background .2s;
+  }
+  .title-slide .contact-links a:hover { background: #e4e0db; }
+  .title-slide .contact-links svg { flex-shrink: 0; }
+  .title-slide .nav-hint {
+    font-size: .36em; color: #bbb; letter-spacing: .5px; margin-top: 10px;
+  }
+  .title-slide .nav-hint kbd {
+    display: inline-block; padding: 1px 5px; border: 1px solid #ddd;
+    border-radius: 3px; background: #f5f5f5; font-family: 'DM Sans', monospace;
+    font-size: .95em; margin: 0 1px;
+  }
+
+  /* ── INTERSTITIAL SLIDES ── */
+  .interstitial {
+    display: flex !important; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; height: 100%;
+  }
+  .interstitial .act-label {
+    font-family: 'DM Sans', sans-serif; font-size: .65em; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 4px; color: var(--miami-slate);
+    opacity: .6; margin-bottom: 14px;
+  }
+  .interstitial h2 {
+    font-size: 2.6em; font-weight: 700; color: var(--miami-red);
+    line-height: 1.2; margin-bottom: 14px;
+  }
+  .interstitial p { font-size: .7em; color: #888; max-width: 640px; line-height: 1.7; }
+  .interstitial .accent-bar {
+    width: 80px; height: 4px; background: var(--miami-corn);
+    margin: 16px auto 0; border-radius: 2px;
+  }
+  .interstitial h2 em {
+    font-style: italic;
+    background: linear-gradient(180deg, transparent 62%, var(--miami-corn) 62%, var(--miami-corn) 92%, transparent 92%);
+    padding: 0 4px;
+  }
+
+  /* ── JOURNEY TIMELINE (slide 4) ── */
+  .journey-row {
+    display: flex; gap: 10px; align-items: stretch;
+    justify-content: center; margin: 18px auto 12px; max-width: 1200px;
+  }
+  .journey-step {
+    flex: 1; background: #fff; border: 1px solid #ececec; border-radius: 8px;
+    padding: 14px 16px; text-align: left; box-shadow: 0 2px 10px rgba(0,0,0,.04);
+  }
+  .journey-step .when {
+    font-family: 'DM Sans', sans-serif; font-size: .55em; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px; color: var(--miami-red);
+    margin-bottom: 6px;
+  }
+  .journey-step p { font-size: .55em; color: #444; line-height: 1.55; margin: 0; max-width: none; }
+  .journey-step a { color: var(--miami-red); text-decoration: none; border-bottom: 1px dotted var(--miami-red); }
+  .journey-arrow {
+    display: flex; align-items: center; color: var(--miami-corn);
+    font-size: 1.5em; font-weight: 700;
+  }
+  .journey-footer {
+    font-size: .55em; color: #888; font-style: italic;
+    max-width: 640px; margin: 10px auto 0;
+  }
+
+  /* ── CLOSING / CONTENT SLIDE ── */
+  .closing-slide {
+    display: flex !important; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; height: 100%; padding: 10px 20px;
+  }
+  .closing-slide h2 {
+    font-size: 2.2em; font-weight: 700; color: var(--miami-red);
+    line-height: 1.2; margin-bottom: 6px;
+  }
+  .closing-slide .accent-bar {
+    width: 80px; height: 4px; background: var(--miami-corn);
+    margin: 0 auto 18px; border-radius: 2px;
+  }
+  .closing-slide ul {
+    list-style: none; padding: 0; margin: 0 auto 16px; max-width: 820px; text-align: left;
+  }
+  .closing-slide ul li {
+    font-size: .78em; line-height: 1.65; padding-left: 24px; position: relative; color: #2a2a2a;
+    margin-bottom: 18px;
+  }
+  .closing-slide ul li::before {
+    content: '\2022'; position: absolute; left: 0; color: var(--miami-red); font-weight: 700;
+  }
+  .closing-slide ul.sub {
+    margin-top: 8px; margin-bottom: 0;
+  }
+  .closing-slide ul.sub li {
+    font-size: .82em; margin-bottom: 6px; line-height: 1.5;
+    padding-left: 18px; color: #444;
+  }
+  .closing-slide ul.sub li::before {
+    content: '\2013'; color: var(--miami-corn); font-weight: 700;
+  }
+  .closing-slide .source {
+    font-size: .35em; color: #aaa; margin-top: 8px;
+  }
+  .closing-slide .source a { color: var(--miami-red); text-decoration: none; }
+  .closing-slide .source a:hover { text-decoration: underline; }
+
+  /* ── Team hosts (slide 3) ── */
+  .hosts-slide h2 {
+    font-size: 1.8em; color: var(--miami-red); margin-bottom: 6px;
+  }
+  .hosts-slide .accent-bar {
+    width: 80px; height: 4px; background: var(--miami-corn);
+    margin: 0 auto 22px; border-radius: 2px;
+  }
+  .hosts-row {
+    display: flex; gap: 80px; justify-content: center; margin-top: 4px;
+  }
+  .host-card { text-align: center; }
+  .host-card img {
+    width: 180px; height: 180px; border-radius: 50%; object-fit: cover;
+    border: 4px solid var(--miami-red);
+    box-shadow: 0 4px 14px rgba(0,0,0,.08);
+  }
+  .host-card .name {
+    font-family: 'Source Serif 4', Georgia, serif; font-size: .85em;
+    color: var(--miami-slate); margin-top: 14px; font-style: italic;
+  }
+  .host-card .affil {
+    font-size: .55em; color: #666; margin-top: 4px;
+  }
+  .host-card .expertise {
+    font-size: .55em; color: var(--miami-red); font-weight: 600; margin-top: 8px;
+  }
+  .hosts-footnote {
+    font-size: .48em; color: #999; font-style: italic; margin-top: 24px;
+  }
+  .hosts-slide {
+    display: flex !important; flex-direction: column; align-items: center;
+    justify-content: center; height: 100%; padding: 30px 20px;
+  }
+
+  /* ── Two-way twin slide (slide 6) ── */
+  .twin-slide {
+    display: flex; gap: 28px; min-height: 84vh;
+    padding: 18px 20px !important; align-items: stretch;
+  }
+  .twin-video {
+    flex: 0 0 58%; border-radius: 10px; overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
+    background: #000;
+    aspect-ratio: 16 / 9; align-self: center;
+  }
+  .twin-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .twin-caption {
+    flex: 1; display: flex; flex-direction: column;
+    justify-content: center; padding: 10px 6px 10px 8px;
+    gap: 26px; text-align: left;
+  }
+  .twin-block .label {
+    font-family: 'DM Sans', sans-serif; font-size: .48em; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 3px; color: var(--miami-red);
+    margin-bottom: 6px;
+  }
+  .twin-block .body {
+    font-family: 'Source Serif 4', Georgia, serif; font-size: .62em;
+    color: #333; line-height: 1.55;
+  }
+  .twin-block ul {
+    list-style: none; padding: 0; margin: 0;
+  }
+  .twin-block ul li {
+    font-size: .56em; color: #333; line-height: 1.6;
+    padding-left: 18px; position: relative; margin-bottom: 4px;
+  }
+  .twin-block ul li::before {
+    content: '\2022'; position: absolute; left: 0;
+    color: var(--miami-red); font-weight: 700;
+  }
+  .twin-credit {
+    font-size: .38em; color: #999; font-style: italic; margin-top: 10px;
+  }
+
+  /* ── Architecture flow (slide 8) ── */
+  .arch-slide {
+    display: flex !important; flex-direction: column; align-items: center;
+    justify-content: center; min-height: 84vh; padding: 20px 18px !important;
+  }
+  .arch-slide h2 {
+    font-size: 1.6em; color: var(--miami-red); margin-bottom: 4px;
+  }
+  .arch-slide .accent-bar {
+    width: 80px; height: 4px; background: var(--miami-corn);
+    margin: 0 auto 28px; border-radius: 2px;
+  }
+  .arch-loops-top, .arch-loops-bottom {
+    width: 100%; max-width: 1240px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'DM Sans', sans-serif; font-size: .42em;
+    color: #999; font-style: italic; padding: 0 8%;
+  }
+  .arch-loops-top { margin-bottom: 6px; }
+  .arch-loops-bottom { margin-top: 6px; }
+  .arch-loops-top .reject {
+    color: var(--miami-red); font-weight: 700;
+    letter-spacing: .5px; margin: 0 auto;
+  }
+  .arch-loops-bottom .feedback {
+    color: var(--miami-slate); font-weight: 600;
+    letter-spacing: .5px; margin: 0 auto;
+  }
+  .arch-flow {
+    display: flex; align-items: stretch; gap: 6px; width: 100%;
+    max-width: 1240px; position: relative;
+  }
+  .arch-node {
+    flex: 1; background: #fff; border: 1.5px solid var(--miami-red);
+    border-radius: 8px; padding: 14px 10px; text-align: center;
+    min-height: 170px; display: flex; flex-direction: column;
+    justify-content: center; opacity: .35; transition: opacity .45s, transform .45s;
+    position: relative;
+  }
+  .arch-node .layer-tag {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--miami-red); color: #fff;
+    font-family: 'DM Sans', sans-serif; font-size: .38em; font-weight: 700;
+    padding: 3px 10px; border-radius: 10px;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .arch-node.external {
+    background: var(--miami-cream); border-color: var(--miami-gray);
+    opacity: .55; /* external nodes always somewhat visible */
+  }
+  .arch-node.external .layer-tag { display: none; }
+  .arch-node .icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 42px; height: 42px; margin: 0 auto 8px;
+    color: var(--miami-slate);
+  }
+  .arch-node.gate .icon { color: var(--miami-red); }
+  .arch-node .icon svg { width: 30px; height: 30px; }
+  .arch-node .title {
+    font-family: 'DM Sans', sans-serif; font-size: .5em; font-weight: 700;
+    color: #222; line-height: 1.3; margin-bottom: 6px;
+  }
+  .arch-node .desc {
+    font-size: .4em; color: #555; line-height: 1.45;
+  }
+  .arch-node.gate {
+    border-width: 3px; box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 4px var(--miami-red);
+  }
+  .arch-arrow {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--miami-slate); font-size: 1.4em; font-weight: 700;
+    flex: 0 0 18px; opacity: .6;
+  }
+  /* Dim/brighten states */
+  .arch-flow[data-active="1"] .arch-node[data-layer="1"],
+  .arch-flow[data-active="2"] .arch-node[data-layer="2"],
+  .arch-flow[data-active="3"] .arch-node[data-layer="3"],
+  .arch-flow[data-active="4"] .arch-node[data-layer="4"] {
+    opacity: 1; transform: translateY(-2px);
+  }
+  .arch-flow[data-active="5"] .arch-node {
+    opacity: 1;
+  }
+  .arch-flow[data-active="5"] .arch-node.external { opacity: .9; }
+
+  .arch-caption {
+    width: 100%; max-width: 1180px; margin: 22px auto 0;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: .6em; color: #333; line-height: 1.6;
+    min-height: 64px; text-align: left; padding: 12px 22px;
+    background: #fff; border-left: 4px solid var(--miami-red);
+    border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,.04);
+  }
+  .arch-caption b { color: var(--miami-red); }
+  .arch-caption i { color: #666; }
+  .arch-caption .none {
+    color: #999; font-style: italic; text-align: center;
+    display: block; border-left: 0;
+  }
+  .arch-caption.idle {
+    border-left: 0; box-shadow: none; background: transparent; text-align: center;
+  }
+  .arch-source {
+    font-size: .32em; color: #aaa; margin-top: 10px; font-style: italic;
+  }
+
+  /* ── Gantt (slide 9) ── */
+  .gantt-slide {
+    display: flex !important; flex-direction: column; align-items: center;
+    justify-content: center; height: 100%; padding: 20px 18px !important;
+  }
+  .gantt-slide h2 {
+    font-size: 1.6em; color: var(--miami-red); margin-bottom: 4px;
+  }
+  .gantt-slide .accent-bar {
+    width: 80px; height: 4px; background: var(--miami-corn);
+    margin: 0 auto 18px; border-radius: 2px;
+  }
+  .gantt {
+    width: 100%; max-width: 1180px;
+    border: 1px solid #d8dee5; border-radius: 6px; overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .gantt-row {
+    display: grid;
+    grid-template-columns: 260px repeat(9, 1fr);
+    border-top: 1px solid #e6eaef;
+  }
+  .gantt-row:first-child { border-top: 0; }
+  .gantt-row.head {
+    background: #eef1f5; font-weight: 700; color: #222; font-size: .48em;
+  }
+  .gantt-row.head .cell {
+    padding: 8px 6px; text-align: center; border-left: 1px solid #dde2e8;
+  }
+  .gantt-row.head .label { padding-left: 14px; text-align: left; border-left: 0; }
+  .gantt-row .label {
+    padding: 10px 12px; font-size: .48em; color: #222;
+    font-weight: 600; border-left: 0;
+  }
+  .gantt-row .track {
+    grid-column: 2 / -1; position: relative; height: 32px;
+    background: repeating-linear-gradient(
+      90deg,
+      #fff, #fff calc(100%/9 - 1px),
+      #e6eaef calc(100%/9 - 1px), #e6eaef calc(100%/9)
+    );
+  }
+  .gantt-bar {
+    position: absolute; top: 6px; bottom: 6px;
+    border-radius: 3px; display: flex; align-items: center;
+    justify-content: flex-end; padding-right: 4px;
+  }
+  .gantt-bar.red { background: var(--miami-red); }
+  .gantt-bar.corn { background: var(--miami-corn); }
+  .gantt-bar .dot {
+    width: 10px; height: 10px; background: #111;
+    border: 1px solid #666;
+    transform: rotate(45deg);
+    margin-right: -1px;
+  }
+  .gantt-legend {
+    font-size: .42em; color: #777; margin-top: 10px; font-style: italic;
+  }
+
+  /* ── Team slide (slide 10) ── */
+  .team-slide {
+    display: flex !important; flex-direction: column; align-items: center;
+    justify-content: flex-start; height: 100%; padding: 18px 20px !important;
+  }
+  .team-slide h2 {
+    font-size: 1.6em; color: var(--miami-red); margin-bottom: 4px;
+  }
+  .team-slide .accent-bar {
+    width: 80px; height: 4px; background: var(--miami-corn);
+    margin: 0 auto 14px; border-radius: 2px;
+  }
+  .team-stack {
+    width: 100%; max-width: 1180px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .team-layer {
+    background: #fff; border: 1px solid #e5e8ec; border-radius: 10px;
+    padding: 10px 14px;
+    opacity: .22; transition: opacity .4s;
+  }
+  .team-stack[data-active="1"] .team-layer[data-t="1"],
+  .team-stack[data-active="2"] .team-layer[data-t="1"],
+  .team-stack[data-active="2"] .team-layer[data-t="2"],
+  .team-stack[data-active="3"] .team-layer[data-t="1"],
+  .team-stack[data-active="3"] .team-layer[data-t="2"],
+  .team-stack[data-active="3"] .team-layer[data-t="3"],
+  .team-stack[data-active="4"] .team-layer,
+  .team-stack[data-active="5"] .team-layer { opacity: 1; }
+
+  .team-layer .header {
+    font-family: 'DM Sans', sans-serif; font-size: .48em; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--miami-red);
+    margin-bottom: 8px;
+  }
+  .team-layer .tagline {
+    font-size: .58em; color: #555; font-style: italic;
+  }
+  .team-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 10px 14px; margin-top: 8px;
+  }
+  .team-grid.solo { grid-template-columns: 1fr; justify-items: start; }
+  .team-person { display: flex; align-items: center; gap: 12px; }
+  .team-person img {
+    width: 62px; height: 62px; border-radius: 50%; object-fit: cover;
+    border: 2.5px solid var(--miami-red);
+    flex: 0 0 62px;
+  }
+  .team-person .who .name {
+    font-family: 'DM Sans', sans-serif; font-size: .52em; font-weight: 700;
+    color: #222; line-height: 1.2;
+  }
+  .team-person .who .expertise {
+    font-size: .46em; color: #555; line-height: 1.35; margin-top: 3px;
+  }
+  .team-person.wide img { width: 74px; height: 74px; flex: 0 0 74px; }
+  .team-person.wide .who .name { font-size: .58em; }
+  .team-person.wide .who .expertise { font-size: .5em; max-width: 820px; }
+
+  .team-ymmc {
+    display: flex; align-items: center; gap: 16px; padding: 4px 0;
+  }
+  .team-ymmc .logo-tile {
+    font-family: 'Source Serif 4', Georgia, serif; font-size: 1.2em;
+    font-weight: 700; color: #fff; background: var(--miami-slate);
+    padding: 12px 24px; border-radius: 8px; letter-spacing: 2px;
+  }
+  .team-ymmc .ymmc-svg {
+    height: 46px; width: auto; flex: 0 0 auto;
+  }
+  .team-ymmc .tag {
+    font-size: .6em; color: #333; line-height: 1.45;
+  }
+
+  .team-finale {
+    margin-top: 12px;
+    text-align: center;
+    opacity: 0; transition: opacity .4s;
+    font-family: 'DM Sans', sans-serif; font-size: .68em; color: #2a2a2a;
+  }
+  .team-stack[data-active="5"] ~ .team-finale,
+  .team-slide[data-final="1"] .team-finale { opacity: 1; }
+  .team-finale .dollar {
+    color: var(--miami-red); font-weight: 700;
+    background: var(--miami-corn); padding: 3px 10px; border-radius: 4px;
+  }
+
+  /* ── Partner slide (slide 11) ── */
+  .partner-slide {
+    display: flex !important; flex-direction: column; align-items: center;
+    justify-content: center; height: 100%; padding: 20px !important;
+  }
+  .partner-slide h2 {
+    font-size: 1.8em; color: var(--miami-red); margin-bottom: 4px;
+  }
+  .partner-slide .accent-bar {
+    width: 80px; height: 4px; background: var(--miami-corn);
+    margin: 0 auto 20px; border-radius: 2px;
+  }
+  .partner-cols {
+    display: flex; gap: 28px; width: 100%; max-width: 1100px; align-items: stretch;
+  }
+  .partner-col {
+    flex: 1; background: #fff; border: 1px solid #e5e8ec; border-radius: 10px;
+    padding: 20px 26px; box-shadow: 0 3px 10px rgba(0,0,0,.04);
+    text-align: left;
+  }
+  .partner-col .header {
+    font-family: 'DM Sans', sans-serif; font-size: .58em; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--miami-red);
+  }
+  .partner-col .subheader {
+    font-size: .48em; color: #888; margin-top: 4px; margin-bottom: 18px;
+    text-transform: uppercase; letter-spacing: 1.5px;
+  }
+  .partner-col ul { list-style: none; padding: 0; margin: 0; }
+  .partner-col ul li {
+    font-size: .7em; color: #2a2a2a; line-height: 1.55;
+    padding-left: 22px; position: relative; margin-bottom: 14px;
+  }
+  .partner-col ul li::before {
+    content: '\2022'; position: absolute; left: 0; color: var(--miami-red); font-weight: 700;
+  }
+  .partner-footer {
+    font-size: .58em; color: #666; margin-top: 22px; text-align: center;
+    font-style: italic; max-width: 900px;
+  }
+  .partner-footer a { color: var(--miami-red); text-decoration: none; font-weight: 600; }
+  .partner-footer a:hover { text-decoration: underline; }
+
+  /* ── Thank You slide (slide 12) — adds next-steps block ── */
+  .thanks-slide .nextsteps {
+    display: flex; flex-direction: column; align-items: flex-start;
+    gap: 6px; margin: 10px auto 4px;
+    max-width: 580px; text-align: left;
+    font-size: .6em; color: #333;
+  }
+  .thanks-slide .nextsteps .line {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .thanks-slide .nextsteps .diamond {
+    width: 9px; height: 9px; background: var(--miami-corn);
+    transform: rotate(45deg);
+    flex: 0 0 9px;
+  }
+  .thanks-slide .nextsteps .when {
+    font-weight: 700; color: var(--miami-red);
+    font-family: 'DM Sans', sans-serif; min-width: 145px;
+  }
+
+  /* ── DEMO LABEL ── */
+  .demo-label { display: none; }
+  .demo-label-fixed {
+    position: fixed; bottom: 72px; right: 12px; background: var(--miami-red);
+    color: white; font-family: 'DM Sans', sans-serif; font-size: 10px;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+    padding: 5px 14px; border-radius: 5px; z-index: 50;
+    pointer-events: none; opacity: .85; display: none;
+  }
+
+  /* ── REVEAL UI ── */
+  .reveal .slide-number {
+    background: none; color: var(--miami-corn); font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600; padding: 0;
+    right: 12px; bottom: 12px;
+  }
+  .reveal .progress { height: 4px; color: var(--miami-red); }
+  .reveal .controls {
+    color: var(--miami-corn);
+    transform: scale(0.6);
+    transform-origin: bottom right;
+    bottom: 20px; right: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- SLIDE 1: Title -->
+    <section>
+      <div class="title-slide">
+        <h1>CURE</h1>
+        <div class="acronym-expand">
+          <span class="k">C</span>ognitive-twin with <span class="k">U</span>ncertainty-validated <span class="k">R</span>easoning for <span class="k">E</span>nergy optimization
+        </div>
+        <div class="divider"></div>
+        <h2>Physics-Informed AI for Paint-Shop Energy,<br>Quality, and Reliability</h2>
+        <div class="meta">
+          <span class="author-name">Fadel M. Megahed, PhD</span> · Miami University<br>
+          <span class="author-name">Hongyue Sun, PhD</span> · University of Georgia<br>
+          YMMC · April 17, 2026
+        </div>
+        <div class="title-bottom">
+          <div class="qr-wrap">
+            <div id="qrcode"></div>
+            <div class="qr-label">Scan for slides</div>
+          </div>
+          <div class="contact-links">
+            <a href="mailto:fmegahed@miamioh.edu" target="_blank">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3E5468" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+              fmegahed@miamioh.edu
+            </a>
+            <a href="mailto:hongyuesun@uga.edu" target="_blank">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3E5468" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+              hongyuesun@uga.edu
+            </a>
+          </div>
+        </div>
+        <div class="nav-hint">
+          <kbd>&larr;</kbd> <kbd>&rarr;</kbd> arrows · <kbd>Space</kbd> advance · <kbd>F</kbd> fullscreen · <kbd>Esc</kbd> overview
+          · Demo slides: <kbd>N</kbd> / <kbd>P</kbd> / <kbd>PgDn</kbd> / <kbd>PgUp</kbd>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: Vision interstitial (Act I) -->
+    <section>
+      <div class="interstitial">
+        <div class="act-label">The Vision</div>
+        <h2>Predict Energy, Quality, and Downtime<br><em>Before</em> the Line Drifts.</h2>
+        <p>A human-in-the-loop cognitive twin, co-built with YMMC, funded by DOE Genesis.</p>
+        <div class="accent-bar"></div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: Your Guests Today -->
+    <section>
+      <div class="hosts-slide">
+        <h2>Your Guests Today</h2>
+        <div class="accent-bar"></div>
+        <div class="hosts-row">
+          <div class="host-card">
+            <img src="pics/megahefm.jpg" alt="Fadel M. Megahed">
+            <div class="name">Fadel M. Megahed, PhD</div>
+            <div class="affil">Miami University</div>
+            <div class="expertise">Applied AI and Data Analytics</div>
+          </div>
+          <div class="host-card">
+            <img src="pics/sun.jpg" alt="Hongyue Sun">
+            <div class="name">Hongyue Sun, PhD</div>
+            <div class="affil">University of Georgia</div>
+            <div class="expertise">Statistical Modeling and Quality Engineering</div>
+          </div>
+        </div>
+        <div class="hosts-footnote">Both PhDs in Industrial Engineering, Virginia Tech.</div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: How We Got Here (interstitial + journey timeline) -->
+    <section>
+      <div class="interstitial" style="justify-content:flex-start; padding-top:8vh;">
+        <div class="act-label">How We Got Here</div>
+        <h2>From a News Headline to a Proposal.</h2>
+        <div class="accent-bar"></div>
+        <div class="journey-row">
+          <div class="journey-step">
+            <div class="when">Jul 2025</div>
+            <p>Miami receives a $1.5M grant for AI-powered manufacturing safety training. <a href="https://miamioh.edu/news/2025/07/miami-university-receives-1.5m-grant-for-ai-powered-manufacturing-safety-training-project.html" target="_blank">news&nbsp;&rarr;</a></p>
+          </div>
+          <div class="journey-arrow">&rarr;</div>
+          <div class="journey-step">
+            <div class="when">Aug / Sep 2025</div>
+            <p><span class="nh">Jason Broshear</span> visits Miami's AM Hub and volunteers as an advisor to the SIGHT project.</p>
+          </div>
+          <div class="journey-arrow">&rarr;</div>
+          <div class="journey-step">
+            <div class="when">Early 2026</div>
+            <p><span class="nh">Belize Ellison</span> and Fadel Megahed discuss energy forecasting as a potential project for ISA 444.</p>
+          </div>
+          <div class="journey-arrow">&rarr;</div>
+          <div class="journey-step">
+            <div class="when">Mar 2026</div>
+            <p>DOE Genesis Mission announced; team assembled; proposal drafted to fit YMMC's paint-shop ambitions.</p>
+          </div>
+        </div>
+        <div class="journey-footer">Thank you, <span class="nh">Jason Broshear</span> and <span class="nh">Belize Ellison</span>, for setting this in motion.</div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: Web VR Training (iframe) -->
+    <section data-background-iframe="https://mou-virtual-demo.mkms.io/" data-background-interactive>
+      <div class="demo-label">Live Demo &mdash; Web VR Training</div>
+    </section>
+
+    <!-- SLIDE 6: Two-Way Digital Twin (YouTube split + commentary) -->
+    <section>
+      <div class="demo-label">Live Demo &mdash; Two-Way Digital Twin</div>
+      <div class="twin-slide">
+        <div class="twin-video">
+          <iframe src="https://www.youtube.com/embed/NbrHcfBa_VY?start=82&autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1"
+                  title="CURE Digital Twin"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen></iframe>
+        </div>
+        <div class="twin-caption">
+          <div class="twin-block">
+            <div class="label">Two-Way Structure</div>
+            <div class="body">
+              Operators command through the dashboard · AI can interrupt on safety events · machines stream their state back in real time.
+            </div>
+          </div>
+          <div class="twin-block">
+            <div class="label">What Makes It Work</div>
+            <ul>
+              <li>100 Hz real-time data acquisition (10 ms cadence)</li>
+              <li>Computer-vision safety zones with dynamic margins</li>
+              <li>Hand-gesture pause / resume commands</li>
+            </ul>
+          </div>
+          <div class="twin-credit">Led by <a href="https://www.linkedin.com/in/ibrahim-yousif-8444691b6" target="_blank" style="color:var(--miami-red); text-decoration:none; border-bottom:1px dotted var(--miami-red);">Dr. Ibrahim Yousif</a> (Miami University).</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: A Problem DOE Wants Solved — and So Does YMMC -->
+    <section>
+      <div class="closing-slide">
+        <h2>A Problem DOE Wants Solved &mdash; and So Does YMMC</h2>
+        <div class="accent-bar"></div>
+        <ul>
+          <li>Phase I of DOE Genesis demands quantitative proof that physics-informed AI + digital twins move the needle on discovery, prediction, and control.</li>
+          <li>Genesis <b>Challenge Area 1D</b> maps directly to YMMC:
+            <ul class="sub">
+              <li>Physics-informed AI methods and digital twins for industrial processes.</li>
+              <li>Advanced controls for energy-intensive, cross-sector production &mdash; e.g., coatings.</li>
+            </ul>
+          </li>
+          <li>DOE strongly encourages industrial partners on proposal teams &mdash; matching the baseline-energy prediction questions you and <span class="nh">Belize</span> raised with us.</li>
+        </ul>
+        <div class="source">
+          Source: <a href="https://science.osti.gov/-/media/grants/pdf/foas/2026/DE-FOA-0003612-000001.pdf" target="_blank">DOE-FOA-0003612</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: The CURE Architecture -->
+    <section>
+      <div class="arch-slide">
+        <h2>The CURE Architecture</h2>
+        <div class="accent-bar"></div>
+
+        <div class="arch-loops-top">
+          <div class="reject">&#x21B0; Rejected &rarr; back to Layer 2</div>
+        </div>
+
+        <div class="arch-flow" id="archFlow" data-active="0">
+          <div class="arch-node external">
+            <div class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l5 3V9l5 3V9l5 3v9z"/><path d="M3 21h18"/><rect x="7" y="15" width="2" height="3"/><rect x="12" y="15" width="2" height="3"/><rect x="17" y="15" width="2" height="3"/></svg>
+            </div>
+            <div class="title">YMMC</div>
+            <div class="desc">Painting line<br>Production data</div>
+          </div>
+          <div class="arch-arrow">&rarr;</div>
+          <div class="arch-node" data-layer="1">
+            <div class="layer-tag">Layer 1</div>
+            <div class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4 3 9 3s9-1.34 9-3v-6"/></svg>
+            </div>
+            <div class="title">Data Acquisition<br>&amp; Integration</div>
+            <div class="desc">Temperatures, line speeds, energy, quality, health</div>
+          </div>
+          <div class="arch-arrow">&rarr;</div>
+          <div class="arch-node" data-layer="2">
+            <div class="layer-tag">Layer 2</div>
+            <div class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v1a3 3 0 0 0-3 3 3 3 0 0 0 .5 5.5A3 3 0 0 0 9 18a3 3 0 0 0 6 0 3 3 0 0 0 2.5-3.5 3 3 0 0 0 .5-5.5 3 3 0 0 0-3-3V5a3 3 0 0 0-3-3z"/><path d="M12 8v13"/></svg>
+            </div>
+            <div class="title">Agentic Reasoning<br>+ Equipment Health</div>
+            <div class="desc">Physics-informed models, candidate interventions</div>
+          </div>
+          <div class="arch-arrow">&rarr;</div>
+          <div class="arch-node gate" data-layer="3">
+            <div class="layer-tag">Layer 3</div>
+            <div class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <div class="title">Intervention<br>Validation Gate</div>
+            <div class="desc">Enterprise constraints, confidence intervals</div>
+          </div>
+          <div class="arch-arrow">&rarr;</div>
+          <div class="arch-node" data-layer="4">
+            <div class="layer-tag">Layer 4</div>
+            <div class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 17l3-4 3 3 4-6"/></svg>
+            </div>
+            <div class="title">Operator<br>Decision Support</div>
+            <div class="desc">Dashboard, what-if, human-in-the-loop</div>
+          </div>
+          <div class="arch-arrow">&rarr;</div>
+          <div class="arch-node external">
+            <div class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+            </div>
+            <div class="title">Operator</div>
+            <div class="desc">Approve / override</div>
+          </div>
+        </div>
+
+        <div class="arch-loops-bottom">
+          <div class="feedback">&#x21B3; Operator feedback &rarr; back to Layer 1</div>
+        </div>
+
+        <div class="arch-caption" id="archCaption">
+          <span class="none">Press &rarr; to walk through the four layers.</span>
+        </div>
+
+        <!-- Invisible fragments drive the data-active state -->
+        <span class="fragment arch-step" data-arch-step="1"></span>
+        <span class="fragment arch-step" data-arch-step="2"></span>
+        <span class="fragment arch-step" data-arch-step="3"></span>
+        <span class="fragment arch-step" data-arch-step="4"></span>
+        <span class="fragment arch-step" data-arch-step="5"></span>
+
+        <div class="arch-source">Architecture adapted from CURE proposal, Fig.&nbsp;2.</div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: Phase I Gantt -->
+    <section>
+      <div class="gantt-slide">
+        <h2>Phase I: 9 Months, 8 Milestones</h2>
+        <div class="accent-bar"></div>
+        <div class="gantt">
+          <div class="gantt-row head">
+            <div class="cell label">Phase I Milestones</div>
+            <div class="cell">Jul 26</div>
+            <div class="cell">Aug 26</div>
+            <div class="cell">Sep 26</div>
+            <div class="cell">Oct 26</div>
+            <div class="cell">Nov 26</div>
+            <div class="cell">Dec 26</div>
+            <div class="cell">Jan 27</div>
+            <div class="cell">Feb 27</div>
+            <div class="cell">Mar 27</div>
+          </div>
+
+          <!-- M1: Jul 2026 -->
+          <div class="gantt-row">
+            <div class="label">M1: Kickoff</div>
+            <div class="track">
+              <div class="gantt-bar red" style="left:0.6%; width:10.3%;"><span class="dot"></span></div>
+            </div>
+          </div>
+          <!-- M2: Aug 2026 -->
+          <div class="gantt-row">
+            <div class="label">M2: Data pipeline</div>
+            <div class="track">
+              <div class="gantt-bar corn" style="left:11.7%; width:10.3%;"><span class="dot"></span></div>
+            </div>
+          </div>
+          <!-- M3: Aug-Sep 2026 -->
+          <div class="gantt-row">
+            <div class="label">M3: State, physics, health models</div>
+            <div class="track">
+              <div class="gantt-bar red" style="left:11.7%; width:21.4%;"><span class="dot"></span></div>
+            </div>
+          </div>
+          <!-- M4: Sep-Oct 2026 -->
+          <div class="gantt-row">
+            <div class="label">M4: Advisory action generation</div>
+            <div class="track">
+              <div class="gantt-bar corn" style="left:22.8%; width:21.4%;"><span class="dot"></span></div>
+            </div>
+          </div>
+          <!-- M5: Oct-Nov 2026 -->
+          <div class="gantt-row">
+            <div class="label">M5: UQ validation gate</div>
+            <div class="track">
+              <div class="gantt-bar red" style="left:33.9%; width:21.4%;"><span class="dot"></span></div>
+            </div>
+          </div>
+          <!-- M6: Dec 2026 -->
+          <div class="gantt-row">
+            <div class="label">M6: Prototype &amp; dashboard</div>
+            <div class="track">
+              <div class="gantt-bar corn" style="left:56.1%; width:10.3%;"><span class="dot"></span></div>
+            </div>
+          </div>
+          <!-- M7: Jan-Feb 2027 -->
+          <div class="gantt-row">
+            <div class="label">M7: Integrated evaluation</div>
+            <div class="track">
+              <div class="gantt-bar red" style="left:67.2%; width:21.4%;"><span class="dot"></span></div>
+            </div>
+          </div>
+          <!-- M8: Mar 2027 -->
+          <div class="gantt-row">
+            <div class="label">M8: Final demo package</div>
+            <div class="track">
+              <div class="gantt-bar corn" style="left:89.5%; width:9%;"><span class="dot"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="gantt-legend">Bars denote planned activity windows &middot; diamonds denote milestone completion targets.</div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: The CURE Team -->
+    <section>
+      <div class="team-slide" id="teamSlide">
+        <h2>The CURE Team</h2>
+        <div class="accent-bar"></div>
+        <div class="team-stack" id="teamStack" data-active="0">
+          <!-- Layer 1: YMMC -->
+          <div class="team-layer" data-t="1">
+            <div class="header">YMMC</div>
+            <div class="team-ymmc">
+              <img src="pics/yamaha-logo.svg" alt="Yamaha Motor Manufacturing Corporation" class="ymmc-svg">
+              <div class="tag">Industry partner &middot; data owner &middot; production site</div>
+            </div>
+          </div>
+          <!-- Layer 2: Miami University -->
+          <div class="team-layer" data-t="2">
+            <div class="header">Miami University</div>
+            <div class="team-grid">
+              <div class="team-person">
+                <img src="pics/megahefm.jpg" alt="Fadel Megahed">
+                <div class="who"><div class="name">Fadel Megahed</div><div class="expertise">Applied AI &amp; Data Analytics</div></div>
+              </div>
+              <div class="team-person">
+                <img src="pics/carvalag.jpg" alt="Arthur Carvalho">
+                <div class="who"><div class="name">Arthur Carvalho</div><div class="expertise">GenAI, blockchain, databases</div></div>
+              </div>
+              <div class="team-person">
+                <img src="pics/clayton-cooper.jpg" alt="Clayton Cooper">
+                <div class="who"><div class="name">Clayton Cooper</div><div class="expertise">Digital twin, physics-informed ML</div></div>
+              </div>
+              <div class="team-person">
+                <img src="pics/mayyas.jpg" alt="Mohammad Mayyas">
+                <div class="who"><div class="name">Mohammad Mayyas</div><div class="expertise">Engineering technology</div></div>
+              </div>
+              <div class="team-person">
+                <img src="pics/surero.jpg" alt="Ozge Surer">
+                <div class="who"><div class="name">Ozge Surer</div><div class="expertise">Computer experiments &amp; UQ</div></div>
+              </div>
+              <div class="team-person">
+                <img src="pics/yousif.jpg" alt="Ibrahim Yousif">
+                <div class="who"><div class="name">Ibrahim Yousif</div><div class="expertise">Computer vision, autonomous mfg</div></div>
+              </div>
+              <div class="team-person">
+                <img src="pics/sharifm.jpg" alt="Mani Sharifi">
+                <div class="who"><div class="name">Mani Sharifi</div><div class="expertise">Optimization, maintenance, reliability</div></div>
+              </div>
+              <div class="team-person">
+                <img src="pics/meenakshi-200.jpg" alt="Meena Narayan">
+                <div class="who"><div class="name">Meena Narayan</div><div class="expertise">Robotics</div></div>
+              </div>
+            </div>
+          </div>
+          <!-- Layer 3: UGA -->
+          <div class="team-layer" data-t="3">
+            <div class="header">University of Georgia</div>
+            <div class="team-grid solo">
+              <div class="team-person wide">
+                <img src="pics/sun.jpg" alt="Hongyue Sun">
+                <div class="who"><div class="name">Hongyue Sun</div><div class="expertise">Statistical modeling &amp; quality engineering</div></div>
+              </div>
+            </div>
+          </div>
+          <!-- Layer 4: SRNL -->
+          <div class="team-layer" data-t="4">
+            <div class="header">Savannah River National Lab</div>
+            <div class="team-grid solo">
+              <div class="team-person wide">
+                <img src="pics/hovsapian.jpg" alt="Rob Hovsapian">
+                <div class="who">
+                  <div class="name">Rob Hovsapian</div>
+                  <div class="expertise">Energy systems &amp; manufacturing scale-up &middot; Research Advisor, National Renewable Energy Laboratory (NREL) &middot; previously Idaho National Laboratory (INL), Office of Naval Research (ONR) / Electric Ship Research and Development Consortium (ESRDC), General Dynamics, TRW, Northrop Grumman</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-finale" id="teamFinale">
+          <span class="dollar">&asymp; $120k subaward to YMMC</span> &middot; DOE Genesis Mission (FY 2026)
+        </div>
+
+        <!-- Invisible fragments drive the team reveal state -->
+        <span class="fragment team-step" data-team-step="1"></span>
+        <span class="fragment team-step" data-team-step="2"></span>
+        <span class="fragment team-step" data-team-step="3"></span>
+        <span class="fragment team-step" data-team-step="4"></span>
+        <span class="fragment team-step" data-team-step="5"></span>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: How We Partner from Here -->
+    <section>
+      <div class="partner-slide">
+        <h2>How We Partner from Here</h2>
+        <div class="accent-bar"></div>
+        <div class="partner-cols">
+          <div class="partner-col">
+            <div class="header">If CURE Is Funded</div>
+            <div class="subheader">data partnership</div>
+            <ul>
+              <li>Energy management (baseline, metering cadence).</li>
+              <li>Maintenance and quality records.</li>
+              <li>Production scheduling data.</li>
+            </ul>
+          </div>
+          <div class="partner-col">
+            <div class="header">For the Proposal</div>
+            <div class="subheader">by Mon, Apr 20</div>
+            <ul>
+              <li>One signed Letter of Commitment (1-pg template ready).</li>
+              <li>Short biosketch + current &amp; pending for <span class="nh">Jason</span> (via SciENcv &mdash; we'll help).</li>
+              <li>Facilities blurb, site address, budget inputs.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="partner-footer">
+          Examples, templates, and a one-page checklist are in our
+          <a href="https://drive.google.com/drive/folders/12qt1RS2IYd7EQ3FBlYBCMlAAI3CEEXZ3?usp=sharing" target="_blank">shared Google Drive folder &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 12: Thank You -->
+    <section>
+      <div class="title-slide thanks-slide">
+        <h1 style="letter-spacing:normal; font-size:3.2em;">Thank You</h1>
+        <div class="divider"></div>
+        <div class="nextsteps">
+          <div class="line"><span class="diamond"></span><span class="when">Mon, Apr 20, 2026</span> &rarr; full proposal to SRNL.</div>
+          <div class="line"><span class="diamond"></span><span class="when">Tue, Apr 28, 2026</span> &rarr; DOE Genesis agency deadline.</div>
+        </div>
+        <div class="accent-bar" style="width:80px;height:4px;background:var(--miami-corn);margin:18px auto 14px;border-radius:2px;"></div>
+        <div class="title-bottom">
+          <div class="qr-wrap">
+            <div id="qrcode2"></div>
+            <div class="qr-label">Scan to reopen this deck</div>
+          </div>
+          <div class="contact-links">
+            <a href="mailto:fmegahed@miamioh.edu" target="_blank">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3E5468" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+              fmegahed@miamioh.edu
+            </a>
+            <a href="mailto:hongyuesun@uga.edu" target="_blank">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3E5468" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+              hongyuesun@uga.edu
+            </a>
+          </div>
+        </div>
+        <div class="nav-hint">
+          <kbd>&larr;</kbd> <kbd>&rarr;</kbd> arrows or <kbd>Space</kbd> to navigate
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- Fixed demo label (outside Reveal for proper positioning) -->
+<div class="demo-label-fixed" id="demoLabelFixed"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true, history: true, keyboard: true, touch: true,
+    width: '100%', height: '100%', margin: 0,
+    minScale: 1, maxScale: 1, center: true,
+    transition: 'fade', transitionSpeed: 'default', backgroundTransition: 'fade',
+    controls: true, controlsLayout: 'bottom-right',
+    progress: true, slideNumber: 'c/t',
+    preloadIframes: true, autoSlide: 0, disableLayout: false,
+  });
+
+  const demoLabelFixed = document.getElementById('demoLabelFixed');
+  const archFlow = document.getElementById('archFlow');
+  const archCaption = document.getElementById('archCaption');
+  const teamStack = document.getElementById('teamStack');
+  const teamFinale = document.getElementById('teamFinale');
+
+  const ARCH_CAPTIONS = {
+    1: '<b>Layer 1 &mdash; Build the Data Foundation.</b> <i>Lead: Yousif &middot; Support: Mayyas, <span class="nh">Broshear</span>.</i> Connect CURE to YMMC\'s existing process history, energy meters, inspection records, maintenance logs, and enterprise constraints. Mayyas and YMMC engineers define the controllable levers and process constraints that bound the feasible decision space.',
+    2: '<b>Layer 2 &mdash; Physics-Informed Cognitive Reasoner.</b> <i>Lead: Carvalho, Sun, Cooper &middot; Support: Sharifi, Mayyas.</i> An agentic LLM queries physics-informed models (Arrhenius cure kinetics, convective heat transfer) to propose candidate interventions. Offline RL jointly optimizes energy, quality, and health on historical YMMC trajectories. PIML-driven health models for heating elements, spray nozzles, bearings. <i>Advisory mode in Phase I; autonomous actuation deferred to Phase II.</i>',
+    3: '<b>Layer 3 &mdash; Uncertainty-Validation Gate.</b> <i>Lead: S&uuml;rer &middot; Support: Sun, <span class="nh">Broshear</span>.</i> A candidate is approved only if Pr(c<sub>i</sub> &le; 0) &ge; 1&minus;&delta; for every operational constraint, under sensing noise and model mismatch. Decision-aware active learning balances expected performance against feasibility uncertainty. <b>No recommendation passes without validated confidence.</b>',
+    4: '<b>Layer 4 &mdash; Operator-Facing Decision Support.</b> <i>Lead: Carvalho, Megahed.</i> A web dashboard displays process state, proposed changes, uncertainty bands, and what-if comparisons. YMMC engineers and operators can override, producing the feedback needed to evaluate trust and usefulness. CURE is transferable &mdash; process-specific physics swaps out; reasoner, gate, and dashboard stay.',
+    5: '<b>The full stack.</b> YMMC data &rarr; physics-informed reasoning &rarr; uncertainty-validated gate &rarr; operator decision support &rarr; feedback loop. Months 1&ndash;6 de-risk the core; Months 7&ndash;9 evaluate AI advantage and prepare Phase II.'
+  };
+
+  function setArchStep(step) {
+    if (!archFlow) return;
+    archFlow.setAttribute('data-active', step);
+    if (ARCH_CAPTIONS[step]) {
+      archCaption.innerHTML = ARCH_CAPTIONS[step];
+      archCaption.classList.remove('idle');
+    } else {
+      archCaption.innerHTML = '<span class="none">Press &rarr; to walk through the four layers.</span>';
+      archCaption.classList.add('idle');
+    }
+  }
+
+  function setTeamStep(step) {
+    if (!teamStack) return;
+    teamStack.setAttribute('data-active', step);
+    if (step >= 5) {
+      teamFinale.style.opacity = '1';
+    } else {
+      teamFinale.style.opacity = '0';
+    }
+  }
+
+  Reveal.on('fragmentshown', event => {
+    const frag = event.fragment;
+    const archStep = frag.getAttribute('data-arch-step');
+    if (archStep) setArchStep(parseInt(archStep, 10));
+    const teamStep = frag.getAttribute('data-team-step');
+    if (teamStep) setTeamStep(parseInt(teamStep, 10));
+  });
+
+  Reveal.on('fragmenthidden', event => {
+    const frag = event.fragment;
+    const archStep = frag.getAttribute('data-arch-step');
+    if (archStep) {
+      const step = parseInt(archStep, 10);
+      setArchStep(step - 1);
+    }
+    const teamStep = frag.getAttribute('data-team-step');
+    if (teamStep) {
+      const step = parseInt(teamStep, 10);
+      setTeamStep(step - 1);
+    }
+  });
+
+  Reveal.on('slidechanged', event => {
+    const bg = event.currentSlide.getAttribute('data-background-iframe');
+    if (bg) {
+      Reveal.configure({ keyboard: { 32: null, 37: null, 38: null, 39: null, 40: null } });
+    } else {
+      Reveal.configure({ keyboard: true });
+    }
+    // Demo label
+    const label = event.currentSlide.querySelector('.demo-label');
+    if (label) {
+      demoLabelFixed.textContent = label.textContent;
+      demoLabelFixed.style.display = 'block';
+    } else {
+      demoLabelFixed.style.display = 'none';
+    }
+    // Reset architecture / team active states when leaving
+    if (!event.currentSlide.querySelector('#archFlow')) setArchStep(0);
+    if (!event.currentSlide.querySelector('#teamStack')) setTeamStep(0);
+  });
+
+  // QR codes
+  function renderQR(elId, url, size) {
+    const qr = qrcode(0, 'M');
+    qr.addData(url);
+    qr.make();
+    const el = document.getElementById(elId);
+    if (el) el.innerHTML = qr.createImgTag(size, 0);
+  }
+  const qrUrl = 'https://fmegahed.github.io/talks/ymmc/intro/';
+  renderQR('qrcode', qrUrl, 4);
+  renderQR('qrcode2', qrUrl, 4);
+</script>
+</body>
+</html>
