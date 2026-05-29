@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MU × WVU × UB Collaboration Avenues</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600;1,8..60,700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23C3142D'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='22' font-weight='700' fill='%23fff' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.css">
+
+<style>
+  :root {
+    --r-background-color: #FAF9F7;
+    --r-main-color: #1a1a1a;
+    --r-heading-color: #C3142D;
+    --r-link-color: #C3142D;
+    --miami-red: #C3142D;
+    --miami-red-dark: #9B0E26;
+    --miami-slate: #3E5468;
+    --miami-corn: #EFDB72;
+    --miami-bg: #FAF9F7;
+    --miami-gray: #9aa3ad;
+    --miami-cream: #FFF8E5;
+    --wvu-blue: #002855;
+    --wvu-gold: #EAAA00;
+    --ub-blue: #005BBB;
+  }
+  .reveal { font-family: 'DM Sans', Arial, sans-serif; font-size: 1.35em; }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Source Serif 4', Georgia, serif; text-transform: none; letter-spacing: normal; }
+  .reveal a { color: var(--miami-red); }
+  .nh { color: var(--miami-red); font-weight: 700; }
+  .reveal .slides section { padding: 12px 20px !important; }
+  .reveal .slide-background iframe { width: 100vw !important; height: 100vh !important; max-width: none !important; max-height: none !important; border: none; }
+
+  .title-slide { display: flex !important; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; padding: 10px 40px; }
+  .title-slide h1 { font-size: 2.6em; font-weight: 700; color: var(--miami-red); line-height: 1.05; margin-bottom: 8px; letter-spacing: 1px; }
+  .title-slide .tri-mark { display: flex; align-items: center; justify-content: center; gap: 14px; font-family: 'Source Serif 4', Georgia, serif; font-size: 1.0em; color: var(--miami-slate); margin: -4px 0 14px; letter-spacing: 1px; font-weight: 600; }
+  .title-slide .tri-mark .mu { color: var(--miami-red); }
+  .title-slide .tri-mark .wvu { color: var(--wvu-blue); }
+  .title-slide .tri-mark .ub { color: var(--ub-blue); }
+  .title-slide .tri-mark .x { color: #bbb; font-weight: 400; }
+  .title-slide .divider { width: 110px; height: 4px; background: var(--miami-red); margin: 8px auto 14px; border-radius: 2px; }
+  .title-slide h2 { font-size: 1.18em; font-weight: 400; color: var(--miami-slate); margin-bottom: 14px; letter-spacing: .5px; font-style: italic; }
+  .title-slide .meta { font-size: .68em; color: #666; line-height: 1.7; }
+  .title-slide .meta .author-name { font-size: 1.18em; color: var(--miami-slate); font-weight: 600; }
+  .title-slide .meta a { color: var(--miami-red); text-decoration: none; }
+  .title-slide .audience { margin-top: 10px; font-size: .58em; color: var(--wvu-blue); font-weight: 600; letter-spacing: .3px; }
+  .title-slide .audience .lab { color: var(--miami-red); }
+  .title-slide .title-bottom { display: flex; align-items: center; justify-content: center; gap: 28px; margin-top: 16px; }
+  .title-slide .qr-wrap { text-align: center; }
+  .title-slide .qr-wrap canvas, .title-slide .qr-wrap img { border: 3px solid var(--miami-red); border-radius: 6px; }
+  .title-slide .qr-label { font-size: .4em; color: #999; margin-top: 4px; }
+  .title-slide .contact-links { display: flex; flex-direction: column; gap: 5px; text-align: left; }
+  .title-slide .contact-links a { display: flex; align-items: center; gap: 8px; font-size: .45em; color: var(--miami-slate); text-decoration: none; padding: 4px 12px; border-radius: 6px; background: #f0eeeb; transition: background .2s; }
+  .title-slide .contact-links a:hover { background: #e4e0db; }
+  .title-slide .nav-hint { font-size: .36em; color: #bbb; letter-spacing: .5px; margin-top: 10px; }
+  .title-slide .nav-hint kbd { display: inline-block; padding: 1px 5px; border: 1px solid #ddd; border-radius: 3px; background: #f5f5f5; font-family: 'DM Sans', monospace; font-size: .95em; margin: 0 1px; }
+  .title-slide .funder { margin-top: 8px; font-size: .42em; color: #888; font-style: italic; }
+
+  .section-head h2 { font-size: 1.6em; color: var(--miami-red); margin: 0 0 4px; text-align: center; }
+  .section-head .accent-bar { width: 80px; height: 4px; background: var(--miami-corn); margin: 0 auto 16px; border-radius: 2px; }
+  .section-head .subhead { text-align: center; font-size: .55em; color: #666; font-style: italic; margin-top: -6px; margin-bottom: 14px; }
+
+  .interstitial { display: flex !important; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; }
+  .interstitial .act-label { font-family: 'DM Sans', sans-serif; font-size: .65em; font-weight: 700; text-transform: uppercase; letter-spacing: 4px; color: var(--miami-slate); opacity: .6; margin-bottom: 14px; }
+  .interstitial h2 { font-size: 2.2em; font-weight: 700; color: var(--miami-red); line-height: 1.2; margin-bottom: 12px; }
+  .interstitial p { font-size: .62em; color: #555; max-width: 780px; line-height: 1.7; }
+  .interstitial .accent-bar { width: 80px; height: 4px; background: var(--miami-corn); margin: 16px auto 0; border-radius: 2px; }
+  .interstitial h2 em { font-style: italic; background: linear-gradient(180deg, transparent 62%, var(--miami-corn) 62%, var(--miami-corn) 92%, transparent 92%); padding: 0 4px; }
+
+  .team-slide { display: flex !important; flex-direction: column; align-items: center; justify-content: flex-start; height: 100%; padding: 14px 16px; }
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 22px; max-width: 1200px; width: 100%; }
+  .team-card { background: #fff; border: 1px solid #ececec; border-radius: 10px; padding: 12px 14px; box-shadow: 0 2px 8px rgba(0,0,0,.04); display: flex; gap: 12px; align-items: flex-start; }
+  .team-card img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--miami-red); flex: 0 0 80px; }
+  .team-card.ub img { border-color: var(--ub-blue); }
+  .team-card .body { flex: 1; }
+  .team-card .name { font-family: 'Source Serif 4', Georgia, serif; font-size: .68em; font-weight: 700; color: #1a1a1a; line-height: 1.2; }
+  .team-card .role { font-size: .42em; color: var(--miami-red); font-weight: 600; margin-top: 2px; line-height: 1.3; }
+  .team-card.ub .role { color: var(--ub-blue); }
+  .team-card .affil { font-size: .4em; color: #666; line-height: 1.3; margin-top: 2px; font-style: italic; }
+  .team-card .expertise { font-size: .42em; color: #333; line-height: 1.5; margin-top: 6px; }
+  .team-card .tag { display: inline-block; font-family: 'DM Sans', sans-serif; font-size: .36em; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #fff; background: var(--miami-red); padding: 1px 7px; border-radius: 8px; margin-top: 6px; }
+  .team-card.ub .tag { background: var(--ub-blue); }
+  .team-card .tag.alt { background: var(--miami-slate); }
+  .team-foot { margin-top: 14px; font-size: .48em; color: #777; font-style: italic; text-align: center; max-width: 980px; }
+
+  .content-slide { display: flex !important; flex-direction: column; height: 100%; padding: 14px 24px; }
+  .content-slide ul { list-style: none; padding: 0; margin: 8px auto 4px; max-width: 1080px; text-align: left; }
+  .content-slide ul li { font-size: .58em; line-height: 1.55; padding-left: 22px; position: relative; color: #2a2a2a; margin-bottom: 8px; }
+  .content-slide ul li::before { content: '\2022'; position: absolute; left: 0; color: var(--miami-red); font-weight: 700; }
+  .content-slide ul li b { color: var(--miami-red); }
+  .content-slide ul.sub { margin-top: 4px; margin-bottom: 0; }
+  .content-slide ul.sub li { font-size: .82em; margin-bottom: 4px; line-height: 1.5; padding-left: 18px; color: #444; }
+  .content-slide ul.sub li::before { content: '\2013'; color: var(--miami-corn); font-weight: 700; }
+  .content-slide .footnote { font-size: .38em; color: #888; font-style: italic; max-width: 1080px; margin: 12px auto 0; text-align: left; border-top: 1px dashed #ddd; padding-top: 8px; }
+  .content-slide .footnote a { color: var(--miami-red); }
+
+  .stat-row { display: flex; gap: 14px; justify-content: center; max-width: 1080px; margin: 6px auto 10px; }
+  .stat-box { flex: 1; background: #fff; border-left: 4px solid var(--miami-red); border-radius: 4px; padding: 12px 16px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+  .stat-box .n { font-family: 'Source Serif 4', Georgia, serif; font-size: 1.4em; color: var(--miami-red); font-weight: 700; line-height: 1; }
+  .stat-box .lbl { font-size: .42em; color: #444; line-height: 1.45; margin-top: 6px; }
+
+  .sight-innov { display: flex; gap: 18px; max-width: 1100px; margin: 0 auto; }
+  .sight-innov .col { flex: 1; background: #fff; border: 1px solid #ececec; border-radius: 10px; padding: 14px 16px; box-shadow: 0 2px 10px rgba(0,0,0,.04); }
+  .sight-innov .col .badge { display: inline-block; font-family: 'DM Sans', sans-serif; font-size: .4em; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #fff; background: var(--miami-red); padding: 2px 10px; border-radius: 10px; margin-bottom: 8px; }
+  .sight-innov .col h3 { font-size: .8em; color: var(--miami-red); margin: 0 0 6px; }
+  .sight-innov .col p { font-size: .5em; color: #2a2a2a; line-height: 1.6; margin: 0; }
+  .sight-outcomes { max-width: 1080px; margin: 14px auto 0; background: var(--miami-cream); border-left: 4px solid var(--miami-corn); border-radius: 4px; padding: 12px 18px; }
+  .sight-outcomes .lbl { font-family: 'DM Sans', sans-serif; font-size: .42em; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #876a00; margin-bottom: 6px; }
+  .sight-outcomes ul { list-style: none; padding: 0; margin: 0; }
+  .sight-outcomes ul li { font-size: .5em; color: #2a2a2a; line-height: 1.5; padding-left: 18px; position: relative; margin-bottom: 4px; }
+  .sight-outcomes ul li::before { content: '\2713'; position: absolute; left: 0; color: var(--miami-red); font-weight: 700; }
+
+  .methods-img { max-height: 60vh; width: auto; max-width: 100%; }
+  .methods-caption { margin-top: 12px; font-size: .52em; color: #555; max-width: 980px; text-align: center; line-height: 1.5; font-style: italic; margin-left: auto; margin-right: auto; }
+
+  .twin-slide { display: flex; gap: 28px; min-height: 84vh; padding: 16px 22px !important; align-items: stretch; }
+  .twin-video { flex: 0 0 58%; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,.12); background: #000; aspect-ratio: 16 / 9; align-self: center; }
+  .twin-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .twin-caption { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 10px 6px 10px 8px; gap: 22px; text-align: left; }
+  .twin-block .label { font-family: 'DM Sans', sans-serif; font-size: .46em; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--miami-red); margin-bottom: 6px; }
+  .twin-block .body { font-family: 'Source Serif 4', Georgia, serif; font-size: .58em; color: #333; line-height: 1.55; }
+  .twin-block ul { list-style: none; padding: 0; margin: 0; }
+  .twin-block ul li { font-size: .52em; color: #333; line-height: 1.55; padding-left: 18px; position: relative; margin-bottom: 4px; }
+  .twin-block ul li::before { content: '\2022'; position: absolute; left: 0; color: var(--miami-red); font-weight: 700; }
+  .twin-credit { font-size: .38em; color: #999; font-style: italic; margin-top: 8px; }
+  .twin-credit a { color: var(--miami-red); text-decoration: none; border-bottom: 1px dotted var(--miami-red); }
+
+  .arch-slide { display: flex !important; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 16px 16px !important; }
+  .arch-flow { display: flex; align-items: stretch; gap: 6px; width: 100%; max-width: 1240px; }
+  .arch-node { flex: 1; background: #fff; border: 1.5px solid var(--miami-red); border-radius: 8px; padding: 12px 8px; text-align: center; min-height: 140px; display: flex; flex-direction: column; justify-content: center; position: relative; }
+  .arch-node .layer-tag { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--miami-red); color: #fff; font-family: 'DM Sans', sans-serif; font-size: .34em; font-weight: 700; padding: 2px 9px; border-radius: 10px; letter-spacing: 1px; text-transform: uppercase; }
+  .arch-node.external { background: var(--miami-cream); border-color: var(--miami-gray); }
+  .arch-node.external .layer-tag { display: none; }
+  .arch-node.gate { border-width: 3px; box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 4px var(--miami-red); }
+  .arch-node .title { font-family: 'DM Sans', sans-serif; font-size: .44em; font-weight: 700; color: #222; line-height: 1.3; margin-bottom: 5px; }
+  .arch-node .desc { font-size: .36em; color: #555; line-height: 1.4; }
+  .arch-arrow { display: flex; align-items: center; justify-content: center; color: var(--miami-slate); font-size: 1.2em; font-weight: 700; flex: 0 0 14px; opacity: .6; }
+  .arch-caption { width: 100%; max-width: 1180px; margin: 20px auto 0; font-family: 'Source Serif 4', Georgia, serif; font-size: .54em; color: #333; line-height: 1.55; text-align: left; padding: 10px 18px; background: #fff; border-left: 4px solid var(--miami-red); border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,.04); }
+  .arch-caption b { color: var(--miami-red); }
+  .arch-caption i { color: #666; }
+  .arch-source { font-size: .32em; color: #aaa; margin-top: 10px; font-style: italic; }
+
+  .demo-label { display: none; }
+  .demo-label-fixed { position: fixed; bottom: 72px; right: 12px; background: var(--miami-red); color: white; font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 5px 14px; border-radius: 5px; z-index: 50; pointer-events: none; opacity: .85; display: none; }
+  .video-fallback { position: fixed; bottom: 20px; left: 20px; background: var(--miami-red); color: white; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; padding: 10px 16px; border-radius: 8px; cursor: pointer; z-index: 50; display: none; align-items: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,.25); transition: transform .2s, box-shadow .2s; }
+  .video-fallback:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(0,0,0,.35); }
+  .video-fallback svg { flex-shrink: 0; }
+
+  .prop-slide { display: flex !important; flex-direction: column; height: 100%; padding: 16px 22px; }
+  .prop-body { display: flex; gap: 22px; max-width: 1200px; margin: 0 auto; width: 100%; align-items: stretch; }
+  .prop-main { flex: 1; background: #fff; border: 1px solid #ececec; border-radius: 10px; padding: 16px 20px; box-shadow: 0 2px 12px rgba(0,0,0,.04); }
+  .prop-main .ribbon { display: inline-block; font-family: 'DM Sans', sans-serif; font-size: .42em; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #fff; background: var(--miami-red); padding: 3px 12px; border-radius: 10px; margin-bottom: 10px; }
+  .prop-main h3 { font-size: .9em; color: var(--miami-red); margin: 0 0 6px; font-family: 'Source Serif 4', Georgia, serif; }
+  .prop-main .sub { font-size: .5em; color: #666; font-style: italic; margin-bottom: 12px; }
+  .prop-main ul { list-style: none; padding: 0; margin: 0; }
+  .prop-main ul li { font-size: .5em; color: #2a2a2a; line-height: 1.55; padding-left: 18px; position: relative; margin-bottom: 8px; }
+  .prop-main ul li::before { content: '\25B8'; position: absolute; left: 0; color: var(--miami-corn); font-weight: 700; font-size: .85em; }
+  .prop-main ul li b { color: var(--miami-red); }
+  .prop-side { flex: 0 0 280px; display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+  .prop-stat { background: #fff; border-left: 4px solid var(--miami-slate); border-radius: 4px; padding: 12px 16px; box-shadow: 0 2px 10px rgba(0,0,0,.04); }
+  .prop-stat .lbl { font-family: 'DM Sans', sans-serif; font-size: .35em; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #666; margin-bottom: 6px; }
+  .prop-stat .val { font-family: 'Source Serif 4', Georgia, serif; font-size: .8em; color: var(--miami-red); font-weight: 700; line-height: 1.2; }
+  .prop-fit { max-width: 1200px; margin: 14px auto 0; background: var(--miami-cream); border-left: 4px solid var(--miami-corn); border-radius: 4px; padding: 12px 18px; }
+  .prop-fit .lbl { font-family: 'DM Sans', sans-serif; font-size: .4em; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #876a00; margin-bottom: 4px; }
+  .prop-fit .body { font-size: .5em; color: #2a2a2a; line-height: 1.55; }
+  .prop-fit .body b { color: var(--miami-red); }
+
+  .thanks-slide .nextsteps { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin: 10px auto 4px; max-width: 620px; text-align: left; font-size: .55em; color: #333; }
+  .thanks-slide .nextsteps .line { display: flex; align-items: center; gap: 10px; }
+  .thanks-slide .nextsteps .diamond { width: 9px; height: 9px; background: var(--miami-corn); transform: rotate(45deg); flex: 0 0 9px; }
+  .thanks-slide .nextsteps .when { font-weight: 700; color: var(--miami-red); font-family: 'DM Sans', sans-serif; min-width: 160px; }
+
+  .reveal .slide-number { background: none; color: var(--miami-corn); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; padding: 0; right: 12px; bottom: 12px; }
+  .reveal .progress { height: 4px; color: var(--miami-red); }
+  .reveal .controls { color: var(--miami-corn); transform: scale(0.6); transform-origin: bottom right; bottom: 20px; right: 12px; }
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section><div class="title-slide">
+  <h1>Collaboration Avenues</h1>
+  <div class="tri-mark"><span class="mu">MU</span><span class="x">×</span><span class="wvu">WVU</span><span class="x">×</span><span class="ub">UB</span></div>
+  <div class="divider"></div>
+  <h2>An Introduction on our Ongoing Research</h2>
+  <div class="meta">
+    <span class="author-name">The SIGHT Team</span><br>
+    Miami University<br>
+    Point of contact: Ibrahim Yousif · <a href="mailto:yousifi@miamioh.edu">yousifi@miamioh.edu</a>
+  </div>
+  <div class="audience">For <span class="lab">Dr. JuHyeong Ryu</span> &amp; the HCIS Lab · West Virginia University</div>
+  <div class="title-bottom">
+    <div class="qr-wrap"><div id="qrcode"></div><div class="qr-label">Scan for slides</div></div>
+    <div class="contact-links">
+      <a href="https://sites.miamioh.edu/sight/" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3E5468" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg> sites.miamioh.edu/sight</a>
+      <a href="https://miamioh.edu/fsb/academics/isa/" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3E5468" stroke-width="2"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-7h6v7"/></svg> ISA · Farmer School of Business</a>
+    </div>
+  </div>
+  <div class="funder">SIGHT funded by the Ohio BWC · Worker Safety Innovation Center</div>
+  <div class="nav-hint"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> arrows · <kbd>Space</kbd> advance · <kbd>F</kbd> fullscreen · <kbd>Esc</kbd> overview</div>
+</div></section>
+
+<section><div class="team-slide">
+  <div class="section-head"><h2>The SIGHT Team</h2><div class="accent-bar"></div><div class="subhead">A multidisciplinary team across business analytics, engineering, and human factors</div></div>
+  <div class="team-grid">
+    <div class="team-card"><img src="pics/megahefm.jpg" alt="Fadel Megahed"><div class="body">
+      <div class="name">Fadel Megahed, PhD</div><div class="role">Principal Investigator</div>
+      <div class="affil">Raymond E. Glos Professor · ISA · Farmer School of Business · Miami</div>
+      <div class="expertise">AI applications in occupational safety; statistical learning; quality &amp; reliability.</div>
+      <div class="tag">PI</div></div></div>
+    <div class="team-card"><img src="pics/carvalag.jpg" alt="Arthur Carvalho"><div class="body">
+      <div class="name">Arthur Carvalho, PhD</div><div class="role">Co-Principal Investigator</div>
+      <div class="affil">Paliwal Innovation Chair · ISA · Farmer School of Business · Miami</div>
+      <div class="expertise">Generative AI, decision analysis, and blockchain.</div>
+      <div class="tag">Co-PI</div></div></div>
+    <div class="team-card"><img src="pics/mayyas.jpg" alt="Mohammad Mayyas"><div class="body">
+      <div class="name">Mohammad Mayyas, PhD</div><div class="role">Co-Principal Investigator</div>
+      <div class="affil">Chair &amp; Professor · Engineering Technology · Miami</div>
+      <div class="expertise">Advanced manufacturing, automation, robotics, and material handling.</div>
+      <div class="tag">Co-PI</div></div></div>
+    <div class="team-card"><img src="pics/jay.jpg" alt="Jay Shan"><div class="body">
+      <div class="name">Jay Shan, PhD</div><div class="role">Co-Principal Investigator</div>
+      <div class="affil">Associate Professor · ISA · Farmer School of Business · Miami</div>
+      <div class="expertise">Data management and applied AI in business.</div>
+      <div class="tag">Co-PI</div></div></div>
+    <div class="team-card"><img src="pics/yousif.jpg" alt="Ibrahim Yousif"><div class="body">
+      <div class="name">Ibrahim Yousif, PhD</div><div class="role">Postdoctoral Researcher</div>
+      <div class="affil">Engineering Technology · Miami</div>
+      <div class="expertise">Computer vision, autonomous manufacturing, real-time digital twins.</div>
+      <div class="tag alt">Postdoc</div></div></div>
+    <div class="team-card ub"><img src="pics/lora.jpg" alt="Lora Cavuoto"><div class="body">
+      <div class="name">Lora Cavuoto, PhD</div><div class="role">Collaborator</div>
+      <div class="affil">Professor · Industrial &amp; Systems Engineering · University at Buffalo (SUNY)</div>
+      <div class="expertise">Wearable sensors, surgical ergonomics, fatigue and exposure assessment.</div>
+      <div class="tag">UB</div></div></div>
+  </div>
+  <div class="team-foot">Assembled around <b>SIGHT — Safety Immersion &amp; Gamified Hazard Training for Industry 5.0</b>, a $1.5M Ohio BWC award.</div>
+</div></section>
+
+<section><div class="content-slide">
+  <div class="section-head"><h2>Ohio's Manufacturing Industry: Employment and GDP</h2><div class="accent-bar"></div></div>
+  <div style="text-align:center; margin-top:6px;">
+    <img src="figs/ohio_manf_employ_gdp.png" alt="Ohio top 10 manufacturing employment and GDP" style="max-height:62vh; max-width:92%; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,.06);">
+  </div>
+  <p style="text-align:center; font-size:.6em; color:#333; margin-top:14px; max-width:1080px; margin-left:auto; margin-right:auto;">Ohio ranks <b style="color:var(--miami-red)">third nationally</b> in both manufacturing employment (&gt;688K jobs) and manufacturing GDP, despite being the seventh most populous state.</p>
+  <div class="footnote">Data: FRED · Built by the SIGHT team using R / tidyquant.</div>
+</div></section>
+
+<section><div class="content-slide">
+  <div class="section-head"><h2>Ohio's Manufacturing Industry: Safety Issues</h2><div class="accent-bar"></div></div>
+  <div class="stat-row">
+    <div class="stat-box"><div class="n">2&frasl;3</div><div class="lbl">Of Ohio's workers covered by OHBWC workers'-comp insurance (2007–2017)</div></div>
+    <div class="stat-box"><div class="n">$1.635B</div><div class="lbl">Total benefits paid by OHBWC in FY 2017 alone</div></div>
+    <div class="stat-box"><div class="n">31,703</div><div class="lbl">Lost-time claims caused by contact with objects &amp; equipment</div></div>
+  </div>
+  <ul>
+    <li>OHBWC (established 1912) is the <b>largest state-run workers'-compensation system in the U.S.</b></li>
+    <li>In Ohio's manufacturing sector, <b>contact with objects / equipment</b> accounts for:
+      <ul class="sub">
+        <li><b>34.85%</b> of the sector's lost-time (LT) claims.</li>
+        <li><b>57.11%</b> of the sector's total claims (lost-time + medical-only).</li>
+      </ul>
+    </li>
+    <li>LT claims = 8 or more days away from work; MO claims = medical care only or ≤ 7 days away.</li>
+  </ul>
+  <div class="footnote">Source: Bunting et al., <i>J Safety Res.</i> 2021 (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9026720/" target="_blank">open access</a>) · OH Auditor of State <a href="https://ohioauditor.gov/Auditsearch/Reports/2024/Ohio_BWC_2024-Franklin_FINAL.pdf" target="_blank">FY24 BWC report</a>.</div>
+</div></section>
+
+<section><div class="content-slide">
+  <div class="section-head"><h2>Ohio's Manufacturing Industry: Safety Issues — Root Causes</h2><div class="accent-bar"></div></div>
+  <ul>
+    <li><b>Standardized machine guarding checklists</b> are encouraged to identify hazards and system deficiencies, especially in metal-working and similar industries.</li>
+    <li><b>Temporary workers have higher injury rates</b> involving contact with objects &amp; equipment because of:
+      <ul class="sub">
+        <li>Less safety training relative to permanent staff.</li>
+        <li>Shorter job tenure and less familiarity with site-specific hazards.</li>
+      </ul>
+    </li>
+    <li><b>Recognized interventions</b> with documented evidence:
+      <ul class="sub">
+        <li>Machine guarding and safety saws.</li>
+        <li>PPE programs — safety glasses, gloves, and awareness campaigns.</li>
+        <li>NIOSH guidance on Hazardous Energy Control (Lockout/Tagout).</li>
+      </ul>
+    </li>
+    <li>Yet training itself remains <b>static, generic, and one-shot</b> at onboarding — a clear opening for adaptive, immersive approaches.</li>
+  </ul>
+  <div class="footnote">Sources: Bunting <i>JSR</i> 2021 · Smith <i>AJIM</i> 2017 · Lombardi <i>AJIM</i> 2014 · NIOSH <a href="https://www.cdc.gov/niosh/manufacturing/hazardous-energy-control/index.html" target="_blank">Hazardous Energy Control Resource Guide</a>.</div>
+</div></section>
+
+<section><div class="content-slide">
+  <div class="section-head"><h2>Proposing SIGHT: Safety Immersion &amp; Gamified Hazard Training</h2><div class="accent-bar"></div><div class="subhead">Two innovations on top of static, generic, one-shot training</div></div>
+  <div class="sight-innov">
+    <div class="col"><span class="badge">Innovation 1</span><h3>Dynamic VR Training</h3><p>Gamified, repeatable training modules that use <b>generative AI</b> to adapt scenarios, hazards, and feedback to each trainee's skill level and to real production conditions.</p></div>
+    <div class="col"><span class="badge">Innovation 2</span><h3>AR Coaching on the Floor</h3><p>Real-time, <b>IoT-enhanced augmented-reality</b> guidance for safety and productivity — using speech interfaces, vision, and live sensor data on the shop floor.</p></div>
+  </div>
+  <div class="sight-outcomes"><div class="lbl">Targeted outcomes</div>
+    <ul>
+      <li>Personalized, immersive hazard recognition and response.</li>
+      <li>Fewer cuts, lacerations, and crush incidents — the dominant LT-claim categories in OH.</li>
+      <li>A stronger empirical link between safety and productivity.</li>
+      <li>A scalable solution for manufacturers of <i>all sizes</i> across Ohio — not just our partner sites.</li>
+    </ul>
+  </div>
+</div></section>
+
+<section><div class="content-slide" style="justify-content:flex-start;">
+  <div class="section-head"><h2>From Vision to Reality: Our Five-Phased Approach</h2><div class="accent-bar"></div></div>
+  <div style="display:flex; justify-content:center; margin-top:6px;"><img class="methods-img" src="figs/methods.png" alt="SIGHT five-phase methodology"></div>
+  <div class="methods-caption">Five phases — from baseline assessment and content design, through VR/AR prototyping and pilot deployment, to evaluation and dissemination across Ohio manufacturers.</div>
+</div></section>
+
+<section data-background-iframe="https://mou-virtual-demo.mkms.io/" data-background-interactive>
+  <div class="demo-label">Live Demo — SIGHT VR Training Platform</div>
+</section>
+
+<section>
+  <div class="demo-label">SIGHT real-time digital twin — led by Dr. Ibrahim Yousif</div>
+  <div class="twin-slide">
+    <div class="twin-video">
+      <iframe src="https://www.youtube.com/embed/NbrHcfBa_VY?start=82&autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1" title="SIGHT Digital Twin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <div class="twin-caption">
+      <div class="twin-block"><div class="label">Two-Way Digital Twin</div><div class="body">Operators command through a dashboard · the AI can interrupt on safety events · machines stream their state back in real time.</div></div>
+      <div class="twin-block"><div class="label">What Makes It Work</div><ul>
+        <li>100 Hz real-time data acquisition (10 ms cadence).</li>
+        <li>Computer-vision safety zones with dynamic margins.</li>
+        <li>Hand-gesture pause / resume commands during operation.</li>
+      </ul></div>
+      <div class="twin-credit">Led by <a href="https://www.linkedin.com/in/ibrahim-yousif-8444691b6" target="_blank">Dr. Ibrahim Yousif</a> (Miami). Natural complement to <span class="nh">HCIS Lab</span> work on MoCap and wearables.</div>
+    </div>
+  </div>
+</section>
+
+<section><div class="interstitial">
+  <div class="act-label">Other Projects · 1–3</div>
+  <h2>Applied AI in Production at <em>Miami</em>.</h2>
+  <p>Three faculty-built, student-facing AI tools running today at the Farmer School of Business. Demonstrating that our team can take research prototypes all the way to deployed software used by hundreds of students each semester.</p>
+  <div class="accent-bar"></div>
+</div></section>
+
+<section data-background-iframe="https://chatisa.fsb.miamioh.edu" data-background-interactive>
+  <div class="demo-label">Live Demo · 1 of 3 — ChatISA (multi-model classroom AI assistant)</div>
+</section>
+
+<section data-background-iframe="https://miamioh.edu/fsb/chatbot/" data-background-interactive>
+  <div class="demo-label">Live Demo · 2 of 3 — Chat FSB Advising (RAG over advising knowledge base)</div>
+</section>
+
+<section data-background-iframe="https://isacareerbridge.fsb.miamioh.edu/" data-background-interactive>
+  <div class="demo-label">Live Demo · 3 of 3 — ISACareerBridge (AI-supported job &amp; internship matching)</div>
+</section>
+
+<section><div class="interstitial">
+  <div class="act-label">Under Review · Proposal</div>
+  <h2>CURE — <em>Cognitive Twin</em><br>for Paint-Shop Energy.</h2>
+  <p>A physics-informed AI proposal under review at the <b>DOE Genesis Mission</b> with Yamaha Motor Manufacturing, the University of Georgia, and Savannah River National Lab. Same digital-twin spine as SIGHT — new objectives: energy, quality, reliability.</p>
+  <div class="accent-bar"></div>
+</div></section>
+
+<section><div class="arch-slide">
+  <div class="section-head"><h2>The CURE Architecture</h2><div class="accent-bar"></div></div>
+  <div class="arch-flow">
+    <div class="arch-node external"><div class="title">YMMC</div><div class="desc">Painting line · production data</div></div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node"><div class="layer-tag">Layer 1</div><div class="title">Data Acquisition<br>&amp; Integration</div><div class="desc">Temperatures, line speeds, energy, quality, health</div></div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node"><div class="layer-tag">Layer 2</div><div class="title">Agentic Reasoning<br>+ Equipment Health</div><div class="desc">Physics-informed models, candidate interventions</div></div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node gate"><div class="layer-tag">Layer 3</div><div class="title">Intervention<br>Validation Gate</div><div class="desc">Enterprise constraints, confidence intervals</div></div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node"><div class="layer-tag">Layer 4</div><div class="title">Operator<br>Decision Support</div><div class="desc">Dashboard, what-if, human-in-the-loop</div></div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node external"><div class="title">Operator</div><div class="desc">Approve / override</div></div>
+  </div>
+  <div class="arch-caption"><b>Four layers from sensor to operator.</b> Physics-informed models propose actions; an uncertainty-validation gate blocks any recommendation without verified confidence; the operator stays in the loop on a dashboard with what-if comparisons. <i>HCIS opportunity: the operator-state channel — fatigue, workload, ergonomic risk — could enter at Layer 2.</i></div>
+  <div class="arch-source">Adapted from the CURE proposal, Fig. 2.</div>
+</div></section>
+
+<section><div class="prop-slide">
+  <div class="section-head"><h2>Targeting · NSF IDSS (NSF 26-509) — Category II</h2><div class="accent-bar"></div><div class="subhead">AI + Predictive Maintenance — transitioning an OEM-anchored pilot data service to national scale</div></div>
+  <div class="prop-body">
+    <div class="prop-main"><span class="ribbon">NSF 26-509 · Cat II</span><h3>Our planned Category II project</h3><div class="sub">An OEM-anchored, multi-company predictive-maintenance data service</div>
+      <ul>
+        <li><b>Industry partner (OEM)</b> contributes <b>operational and sensor data across multiple manufacturing companies</b> in their installed base — a uniquely broad fleet view.</li>
+        <li>AI methods focus on <b>predictive maintenance</b>: cross-company failure-mode learning, remaining-useful-life estimation, and anomaly detection at scale.</li>
+        <li>Category II is the right fit — we are <b>transitioning a regional / pilot data system to national-scale operational quality</b>, not building from scratch.</li>
+        <li>Outputs are <b>open data services + reference AI models</b> that downstream research groups (including HCIS, UB) can build on.</li>
+      </ul>
+    </div>
+    <div class="prop-side">
+      <div class="prop-stat"><div class="lbl">Solicitation</div><div class="val">NSF 26-509</div></div>
+      <div class="prop-stat"><div class="lbl">Category</div><div class="val">Category II</div></div>
+      <div class="prop-stat"><div class="lbl">Next Cat II deadline</div><div class="val">Jul 28, 2026<br><span style="font-size:.55em; color:#666;">Annual · 4th Tue of July</span></div></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="prop-slide">
+  <div class="section-head"><h2>Targeting · Ohio BWC / WSIC Track 3 — SIGHT Commercialization</h2><div class="accent-bar"></div><div class="subhead">Continuation of SIGHT toward a deployable, commercial-ready prototype</div></div>
+  <div class="prop-body">
+    <div class="prop-main"><span class="ribbon">BWC · WSIC · Track 3</span><h3>SIGHT Phase II — Commercialization</h3><div class="sub">Direct continuation of the current SIGHT award</div>
+      <ul>
+        <li>Builds directly on the current SIGHT award — moves the project from research prototype to <b>commercial-ready product</b>.</li>
+        <li>Phase II deliverable is a <b>deployable prototype</b> of the SIGHT VR + AR + digital-twin stack, hardened for field use at Ohio manufacturers.</li>
+        <li>Targets a <b>commercialization pathway</b> — licensing, spinout, or sustained partner deployment — beyond the original WSIC research scope.</li>
+        <li>Continues the existing industry-partner network from SIGHT Phase I (YMMC, MaxByte, MeetKai) into deployment partnerships.</li>
+      </ul>
+    </div>
+    <div class="prop-side">
+      <div class="prop-stat"><div class="lbl">Expected ask</div><div class="val">~ $2M total</div></div>
+      <div class="prop-stat"><div class="lbl">Distribution</div><div class="val">FY28 + FY29</div></div>
+      <div class="prop-stat"><div class="lbl">Status</div><div class="val">In planning<br><span style="font-size:.55em; color:#666;">Target: next WSIC cycle</span></div></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="title-slide thanks-slide">
+  <h1 style="letter-spacing:normal; font-size:2.8em;">Thank You</h1>
+  <div class="tri-mark"><span class="mu">MU</span><span class="x">×</span><span class="wvu">WVU</span><span class="x">×</span><span class="ub">UB</span></div>
+  <div class="divider"></div>
+  <div class="title-bottom">
+    <div class="qr-wrap"><div id="qrcode2"></div><div class="qr-label">Scan to reopen this deck</div></div>
+    <div class="contact-links">
+      <a href="mailto:yousifi@miamioh.edu" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3E5468" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg> Ibrahim Yousif · yousifi@miamioh.edu</a>
+      <a href="mailto:fmegahed@miamioh.edu" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3E5468" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg> Fadel Megahed · fmegahed@miamioh.edu</a>
+      <a href="https://sites.miamioh.edu/sight/" target="_blank"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3E5468" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg> sites.miamioh.edu/sight</a>
+    </div>
+  </div>
+  <div class="nav-hint"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> arrows or <kbd>Space</kbd> to navigate</div>
+</div></section>
+
+</div></div>
+
+<div class="demo-label-fixed" id="demoLabelFixed"></div>
+
+<a class="video-fallback" id="videoFallback" target="_blank" rel="noopener">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+  <span id="videoFallbackLabel">Video walkthrough</span>
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true, history: true, keyboard: true, touch: true,
+    width: '100%', height: '100%', margin: 0,
+    minScale: 1, maxScale: 1, center: true,
+    transition: 'fade', transitionSpeed: 'default', backgroundTransition: 'fade',
+    controls: true, controlsLayout: 'bottom-right',
+    progress: true, slideNumber: 'c/t',
+    preloadIframes: true, autoSlide: 0, disableLayout: false,
+  });
+  const demoLabelFixed = document.getElementById('demoLabelFixed');
+  const videoFallback = document.getElementById('videoFallback');
+  const videoFallbackLabel = document.getElementById('videoFallbackLabel');
+  const EXTERNAL_VIDEOS = {
+    7: { url: 'https://youtu.be/6-p5dA4aQTM?si=_CE1kvVD_hr6DaJ8', label: 'SIGHT walkthrough video' }
+  };
+  Reveal.on('slidechanged', event => {
+    const bg = event.currentSlide.getAttribute('data-background-iframe');
+    if (bg) {
+      Reveal.configure({ keyboard: { 32: null, 37: null, 38: null, 39: null, 40: null } });
+    } else {
+      Reveal.configure({ keyboard: true });
+    }
+    const label = event.currentSlide.querySelector('.demo-label');
+    if (label) { demoLabelFixed.textContent = label.textContent; demoLabelFixed.style.display = 'block'; }
+    else { demoLabelFixed.style.display = 'none'; }
+    const ext = EXTERNAL_VIDEOS[event.indexh];
+    if (ext) { videoFallback.href = ext.url; videoFallbackLabel.textContent = ext.label; videoFallback.style.display = 'flex'; }
+    else { videoFallback.style.display = 'none'; }
+  });
+  function renderQR(elId, url, size) {
+    const qr = qrcode(0, 'M'); qr.addData(url); qr.make();
+    const el = document.getElementById(elId);
+    if (el) el.innerHTML = qr.createImgTag(size, 0);
+  }
+  const qrUrl = 'https://fmegahed.github.io/talks/wvu_intro/index.html';
+  renderQR('qrcode', qrUrl, 4);
+  renderQR('qrcode2', qrUrl, 4);
+</script>
+</body>
+</html>
