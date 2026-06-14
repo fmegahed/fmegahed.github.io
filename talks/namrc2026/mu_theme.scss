@@ -1,0 +1,185 @@
+/*-- scss:defaults --*/
+// Miami University reveal.js theme for the NAMRC 54 deck.
+
+$miamired:   #c3142d;
+$miamidark:  #8a0e20;
+$ink:        #1b1b1b;
+$muted:      #70685c;
+$lightgray:  #9a9488;
+$linkblue:   #1a66c9;
+$bg:         #faf9f7;
+$panel:      #edece2;
+$line:       #ccc9b8;
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+
+$font-family-sans-serif: "Libre Franklin", -apple-system, "Segoe UI", Roboto, sans-serif !default;
+$presentation-heading-font: "Libre Franklin", sans-serif !default;
+$presentation-font-size-root: 30px !default;
+
+$body-bg: $bg !default;
+$body-color: $ink !default;
+$link-color: $linkblue !default;
+$link-color-hover: darken($linkblue, 10%) !default;
+$selection-bg: rgba($miamired, 0.25) !default;
+
+$presentation-heading-color: $miamired !default;
+$presentation-heading-font-weight: 700 !default;
+
+/*-- scss:rules --*/
+
+.reveal {
+  h1, h2, h3, h4 { letter-spacing: -0.01em; }
+  h2 { border-bottom: 2px solid $miamired; padding-bottom: 0.2em; margin-bottom: 0.5em; white-space: nowrap; }
+  a { text-decoration: none; border-bottom: 1px solid rgba($linkblue, 0.4); color: $linkblue; }
+  // Bold text always Miami red (matches slide titles)
+  strong, b { color: $miamired; }
+}
+
+// ---- Section dividers: ## / # Title {.inverse .center} ----
+.reveal section.inverse,
+.reveal .slide.inverse { background-color: $miamired; }
+.reveal section.inverse,
+.reveal .inverse { color: #ffffff; }
+.reveal section.inverse h1,
+.reveal section.inverse h2,
+.reveal section.inverse h3,
+.reveal .inverse h1, .reveal .inverse h2, .reveal .inverse h3 { color: #ffffff; border-bottom: none; }
+.reveal section.inverse strong, .reveal .inverse strong { color: #ffffff; }
+.reveal section.inverse a, .reveal .inverse a { color: #cfe0ff; border-bottom-color: rgba(255,255,255,0.5); }
+
+// ---- Footnotes / source references (light gray) ----
+.reveal .footnote {
+  font-size: 0.46em;
+  color: $lightgray;
+  border-top: 1px solid $line;
+  margin-top: 0.5em;
+  padding-top: 0.3em;
+  line-height: 1.35;
+}
+.reveal .footnote a { color: $linkblue; }
+.reveal .inverse .footnote, #title-slide .footnote { color: #f0e3e6; border-top-color: rgba(255,255,255,0.3); }
+.reveal .inverse .footnote a, #title-slide .footnote a { color: #cfe0ff; }
+.reveal .small-text { font-size: 0.75em; color: $muted; }
+.reveal .small-text.center { text-align: center; }
+
+.reveal .v-center-container { display: flex; justify-content: center; align-items: center; height: 90%; }
+
+// ---- Stat cards: big NUMBER + label (for real figures) ----
+.reveal .statgrid { display: flex; gap: 0.6em; justify-content: center; margin: 0.4em 0; }
+.reveal .stat { background: $panel; border-left: 5px solid $miamired; border-radius: 6px; padding: 0.5em 0.8em; text-align: center; flex: 1; }
+.reveal .stat .sicon { display: block; font-size: 1.4em; line-height: 1; margin-bottom: 0.1em; }
+.reveal .stat .num { display: block; color: $miamired; font-weight: 700; font-size: 1.5em; line-height: 1.1; }
+.reveal .stat .num a { color: $miamired; border: none; }
+.reveal .stat .lab { display: block; color: $muted; font-size: 0.6em; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2em; }
+
+// ---- Category cards: icon + regular-size title + text ----
+.reveal .cardgrid { display: flex; gap: 0.6em; justify-content: center; margin: 0.5em 0; }
+.reveal .card { background: $panel; border-top: 4px solid $miamired; border-radius: 6px; padding: 0.6em 0.8em; flex: 1; }
+.reveal .card .icon { font-size: 1.6em; line-height: 1; }
+.reveal .card .ctitle { display: block; font-weight: 700; color: $miamired; font-size: 1em; margin: 0.15em 0 0.2em 0; }
+.reveal .card .ctext { display: block; font-size: 0.8em; color: $ink; }
+.reveal .card a { font-size: 0.8em; }
+
+// ---- Six-phase grid (with subtasks) ----
+.reveal .phasegrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.45em; margin-top: 0.3em; }
+.reveal .phase { background: #ffffff; border: 1px solid $line; border-top: 4px solid $miamired; border-radius: 6px; padding: 0.4em 0.6em; font-size: 0.56em; }
+.reveal .phase .pnum { color: $miamired; font-weight: 700; font-size: 1.05em; }
+.reveal .phase .ptitle { font-weight: 600; display: block; margin: 0.05em 0 0.15em 0; }
+.reveal .phase ul { margin: 0 0 0 0.9em; padding: 0; }
+.reveal .phase li { margin-bottom: 0.05em; }
+
+// ---- Source-category cards (Phase 1) ----
+.reveal .srcgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5em; }
+.reveal .srccard { background: $panel; border-left: 4px solid $miamired; border-radius: 6px; padding: 0.4em 0.7em; font-size: 0.66em; }
+.reveal .srccard .srchead { display: block; color: $miamired; margin: 0 0 0.15em 0; font-size: 1em; font-weight: 700; }
+
+// Vertical stack version (recreates the Phase 1 sources figure in HTML)
+.reveal .srcstack { display: flex; flex-direction: column; gap: 0.35em; max-width: 66%; margin: 0.4em auto 0; }
+.reveal .srcstack .srccard { background: #ffffff; border: 1px solid $line; border-left: 5px solid $miamired; border-radius: 7px; padding: 0.3em 0.8em; font-size: 0.6em; line-height: 1.4; }
+.reveal .srcstack .srchead { display: block; color: $miamired; font-weight: 700; font-size: 1.1em; margin-bottom: 0.05em; }
+
+// ---- Partner logos ----
+.reveal .partnergrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6em; margin-top: 0.3em; }
+.reveal .partner { background: #ffffff; border: 1px solid $line; border-radius: 8px; padding: 0.5em; text-align: center; }
+.reveal .partner img { height: 70px; object-fit: contain; margin-bottom: 0.2em; }
+.reveal .partner .pname { display: block; font-weight: 700; color: $miamired; font-size: 0.62em; }
+.reveal .partner .prole { display: block; color: $ink; font-size: 0.5em; line-height: 1.3; }
+.reveal .partner.tech img { height: 46px; }
+
+// ---- Example Q&A block ----
+.reveal .qa { font-size: 0.7em; }
+.reveal .qa .q { background: $panel; border-radius: 6px; padding: 0.4em 0.7em; margin-bottom: 0.3em; }
+.reveal .qa .a { background: rgba($miamired, 0.06); border-left: 4px solid $miamired; border-radius: 6px; padding: 0.4em 0.7em; }
+
+.reveal ul { margin-left: 0.4em; }
+.reveal li { margin-bottom: 0.25em; }
+
+// Add breathing room between Quarto columns (prevents text overlap)
+.reveal .columns { gap: 0 4%; }
+
+// Factorial-design visual (Phase 5)
+.reveal .factorial { display: flex; align-items: center; justify-content: center; gap: 0.5em; margin: 0.5em 0; }
+.reveal .factorial .fx { background: $panel; border-top: 4px solid $miamired; border-radius: 6px; padding: 0.5em 0.7em; text-align: center; min-width: 0; }
+.reveal .factorial .op { font-size: 1.5em; color: $miamired; font-weight: 700; }
+.reveal .factorial .fxk { display: block; font-weight: 700; color: $miamired; font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.04em; }
+.reveal .factorial .fxn { display: block; font-size: 1.5em; font-weight: 700; color: $ink; }
+.reveal .factorial .fxd { display: block; font-size: 0.58em; color: $muted; }
+.reveal .factorial .result { background: $miamired; color: #fff; border-radius: 6px; padding: 0.6em 1em; text-align: center; }
+.reveal .factorial .result .fxn { color: #fff; }
+.reveal .factorial .result .fxk { color: #ffd7dd; }
+
+// Try-it-live row with QR (VR slide)
+.reveal .trylive { display: flex; align-items: center; justify-content: center; gap: 1.2em; margin-top: 0.4em; flex-wrap: wrap; }
+.reveal .trylive p { margin: 0; display: flex; align-items: center; justify-content: center; gap: 1.2em; }
+.reveal .trylive img { width: 120px; display: inline-block; margin: 0; }
+
+// Retrieval flowchart (Phase 2) — HTML/CSS for consistent colors
+.reveal .flow { display: flex; align-items: center; justify-content: center; gap: 0.45em; margin: 0.6em 0; }
+.reveal .flow .fnode { background: $panel; border: 1px solid $line; border-top: 4px solid $miamired; border-radius: 6px; padding: 0.5em 0.7em; text-align: center; font-weight: 700; color: $ink; font-size: 0.78em; max-width: 5.5em; }
+.reveal .flow .fnode.router { background: $miamired; color: #fff; border-color: $miamired; }
+.reveal .flow .fnode.answer { background: #fff; }
+.reveal .flow .farrow { color: $miamired; font-size: 1.5em; font-weight: 700; }
+.reveal .flow .fstack { display: flex; flex-direction: column; gap: 0.35em; }
+.reveal .flow .fbox { background: $panel; border-left: 4px solid $miamired; border-radius: 6px; padding: 0.3em 0.6em; font-size: 0.64em; line-height: 1.35; text-align: left; }
+.reveal .flow .fbox b { color: $miamired; }
+
+// Reminder / note callout
+.reveal .note { background: rgba($miamired, 0.06); border-left: 4px solid $miamired; border-radius: 6px; padding: 0.4em 0.85em; font-size: 0.78em; margin-top: 0.55em; }
+
+// Embedded survey iframe (Phase 6 how-we-evaluated)
+.reveal iframe.survey { width: 100%; height: 430px; border: 1px solid $line; border-radius: 6px; background: #fff; }
+
+// Full-width media
+.reveal .fullimg img { width: 86%; display: block; margin: 0.3em auto 0; }
+
+// ================= Title slide =================
+#title-slide .title { color: #ffffff; font-size: 1.45em; line-height: 1.15; }
+#title-slide .subtitle { color: #ffe8ec; font-weight: 500; line-height: 1.3; }
+#title-slide .subtitle strong, #title-slide strong { color: #ffffff; }
+#title-slide .subtitle a, #title-slide a { color: #cfe0ff; }
+#title-slide .date { color: #ffe8ec; font-size: 0.62em; margin-top: 0.8em; }
+
+// Authors: 3 per row, names sized like the "Presented by" line, no affiliations
+#title-slide .quarto-title-authors {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 0.25em 0.5em !important;
+  justify-items: center;
+  max-width: 58%;
+  margin: 0.5em auto 0;
+}
+#title-slide .quarto-title-author { flex: none !important; max-width: none !important; width: auto !important; text-align: center; }
+#title-slide .quarto-title-author-name { color: #ffffff; font-size: 0.62em; font-weight: 600; }
+#title-slide .quarto-title-affiliation,
+#title-slide .affiliation { display: none; }
+
+// Two QR codes on the cover (left = paper, right = slides, raised to clear the logo)
+.reveal #title-slide .cover-qr { position: absolute; width: 118px; z-index: 6; bottom: 13%; }
+.reveal #title-slide .cover-qr.left  { left: 2%; }
+.reveal #title-slide .cover-qr.right { right: 2%; }
+
+// Footer + slide number
+.reveal .footer { color: $lightgray; font-size: 0.4em; }
+.reveal .footer a { color: $linkblue; }
+.reveal .slide-number { color: $miamired; }
