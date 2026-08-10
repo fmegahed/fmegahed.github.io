@@ -1,0 +1,498 @@
+/*-- scss:defaults --*/
+// Miami University reveal.js theme for the NAMRC 54 deck.
+
+$miamired:   #c3142d;
+$miamidark:  #8a0e20;
+$ink:        #1b1b1b;
+$muted:      #70685c;
+$lightgray:  #9a9488;
+$linkblue:   #1a66c9;
+$bg:         #faf9f7;
+$panel:      #edece2;
+$line:       #ccc9b8;
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+
+$font-family-sans-serif: "Libre Franklin", -apple-system, "Segoe UI", Roboto, sans-serif !default;
+$presentation-heading-font: "Libre Franklin", sans-serif !default;
+$presentation-font-size-root: 30px !default;
+
+$body-bg: $bg !default;
+$body-color: $ink !default;
+$link-color: $linkblue !default;
+$link-color-hover: darken($linkblue, 10%) !default;
+$selection-bg: rgba($miamired, 0.25) !default;
+
+$presentation-heading-color: $miamired !default;
+$presentation-heading-font-weight: 700 !default;
+
+/*-- scss:rules --*/
+
+.reveal {
+  h1, h2, h3, h4 { letter-spacing: -0.01em; }
+  h2 { border-bottom: 2px solid $miamired; padding-bottom: 0.2em; margin-bottom: 0.5em; white-space: nowrap; }
+  a { text-decoration: none; border-bottom: 1px solid rgba($linkblue, 0.4); color: $linkblue; }
+  // Bold text always Miami red (matches slide titles)
+  strong, b { color: $miamired; }
+}
+
+// ---- Section dividers: ## / # Title {.inverse .center} ----
+.reveal section.inverse,
+.reveal .slide.inverse { background-color: $miamired; }
+.reveal section.inverse,
+.reveal .inverse { color: #ffffff; }
+.reveal section.inverse h1,
+.reveal section.inverse h2,
+.reveal section.inverse h3,
+.reveal .inverse h1, .reveal .inverse h2, .reveal .inverse h3 { color: #ffffff; border-bottom: none; }
+.reveal section.inverse strong, .reveal .inverse strong { color: #ffffff; }
+.reveal section.inverse a, .reveal .inverse a { color: #cfe0ff; border-bottom-color: rgba(255,255,255,0.5); }
+
+// ---- Footnotes / source references (light gray) ----
+.reveal .footnote {
+  font-size: 0.46em;
+  color: $lightgray;
+  border-top: 1px solid $line;
+  margin-top: 0.5em;
+  padding-top: 0.3em;
+  line-height: 1.35;
+}
+.reveal .footnote a { color: $linkblue; }
+.reveal .inverse .footnote, #title-slide .footnote { color: #f0e3e6; border-top-color: rgba(255,255,255,0.3); }
+.reveal .inverse .footnote a, #title-slide .footnote a { color: #cfe0ff; }
+.reveal .small-text { font-size: 0.75em; color: $muted; }
+.reveal .small-text.center { text-align: center; }
+
+.reveal .v-center-container { display: flex; justify-content: center; align-items: center; height: 90%; }
+
+// ---- Stat cards: big NUMBER + label (for real figures) ----
+.reveal .statgrid { display: flex; gap: 0.6em; justify-content: center; margin: 0.4em 0; }
+.reveal .stat { background: $panel; border-left: 5px solid $miamired; border-radius: 6px; padding: 0.5em 0.8em; text-align: center; flex: 1; }
+.reveal .stat .sicon { display: block; font-size: 1.4em; line-height: 1; margin-bottom: 0.1em; }
+.reveal .stat .num { display: block; color: $miamired; font-weight: 700; font-size: 1.5em; line-height: 1.1; }
+.reveal .stat .num a { color: $miamired; border: none; }
+.reveal .stat .lab { display: block; color: $muted; font-size: 0.6em; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2em; }
+
+// ---- Category cards: icon + regular-size title + text ----
+.reveal .cardgrid { display: flex; gap: 0.6em; justify-content: center; margin: 0.5em 0; }
+.reveal .card { background: $panel; border-top: 4px solid $miamired; border-radius: 6px; padding: 0.6em 0.8em; flex: 1; }
+.reveal .card .icon { font-size: 1.6em; line-height: 1; }
+.reveal .card .ctitle { display: block; font-weight: 700; color: $miamired; font-size: 1em; margin: 0.15em 0 0.2em 0; }
+.reveal .card .ctext { display: block; font-size: 0.8em; color: $ink; }
+.reveal .card a { font-size: 0.8em; }
+
+// ---- Six-phase grid (with subtasks) ----
+.reveal .phasegrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.45em; margin-top: 0.3em; }
+.reveal .phase { background: #ffffff; border: 1px solid $line; border-top: 4px solid $miamired; border-radius: 6px; padding: 0.4em 0.6em; font-size: 0.68em; }
+.reveal .phase .pnum { color: $miamired; font-weight: 700; font-size: 1.05em; }
+.reveal .phase .ptitle { font-weight: 600; display: block; margin: 0.05em 0 0.15em 0; }
+.reveal .phase ul { margin: 0 0 0 0.9em; padding: 0; }
+.reveal .phase li { margin-bottom: 0.05em; }
+
+// ---- Source-category cards (Phase 1) ----
+.reveal .srcgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5em; }
+.reveal .srccard { background: $panel; border-left: 4px solid $miamired; border-radius: 6px; padding: 0.4em 0.7em; font-size: 0.66em; }
+.reveal .srccard .srchead { display: block; color: $miamired; margin: 0 0 0.15em 0; font-size: 1em; font-weight: 700; }
+
+// Vertical stack version (recreates the Phase 1 sources figure in HTML)
+.reveal .srcstack { display: flex; flex-direction: column; gap: 0.35em; max-width: 66%; margin: 0.4em auto 0; }
+.reveal .srcstack .srccard { background: #ffffff; border: 1px solid $line; border-left: 5px solid $miamired; border-radius: 7px; padding: 0.3em 0.8em; font-size: 0.6em; line-height: 1.4; }
+.reveal .srcstack .srchead { display: block; color: $miamired; font-weight: 700; font-size: 1.1em; margin-bottom: 0.05em; }
+
+// ---- Partner logos ----
+.reveal .partnergrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6em; margin-top: 0.3em; }
+.reveal .partner { background: #ffffff; border: 1px solid $line; border-radius: 8px; padding: 0.5em; text-align: center; }
+.reveal .partner img { height: 70px; object-fit: contain; margin-bottom: 0.2em; }
+.reveal .partner .pname { display: block; font-weight: 700; color: $miamired; font-size: 0.62em; }
+.reveal .partner .prole { display: block; color: $ink; font-size: 0.5em; line-height: 1.3; }
+.reveal .partner.tech img { height: 46px; }
+
+// ---- Example Q&A block ----
+.reveal .qa { font-size: 0.7em; }
+.reveal .qa .q { background: $panel; border-radius: 6px; padding: 0.4em 0.7em; margin-bottom: 0.3em; }
+.reveal .qa .a { background: rgba($miamired, 0.06); border-left: 4px solid $miamired; border-radius: 6px; padding: 0.4em 0.7em; }
+
+.reveal ul { margin-left: 0.4em; }
+.reveal li { margin-bottom: 0.25em; }
+
+// Add breathing room between Quarto columns (prevents text overlap)
+.reveal .columns { gap: 0 4%; }
+
+// Factorial-design visual (Phase 5)
+.reveal .factorial { display: flex; align-items: center; justify-content: center; gap: 0.5em; margin: 0.5em 0; }
+.reveal .factorial .fx { background: $panel; border-top: 4px solid $miamired; border-radius: 6px; padding: 0.5em 0.7em; text-align: center; min-width: 0; }
+.reveal .factorial .op { font-size: 1.5em; color: $miamired; font-weight: 700; }
+.reveal .factorial .fxk { display: block; font-weight: 700; color: $miamired; font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.04em; }
+.reveal .factorial .fxn { display: block; font-size: 1.5em; font-weight: 700; color: $ink; }
+.reveal .factorial .fxd { display: block; font-size: 0.58em; color: $muted; }
+.reveal .factorial .result { background: $miamired; color: #fff; border-radius: 6px; padding: 0.6em 1em; text-align: center; }
+.reveal .factorial .result .fxn { color: #fff; }
+.reveal .factorial .result .fxk { color: #ffd7dd; }
+
+// Try-it-live row with QR (VR slide)
+.reveal .trylive { display: flex; align-items: center; justify-content: center; gap: 1.2em; margin-top: 0.4em; flex-wrap: wrap; }
+.reveal .trylive p { margin: 0; display: flex; align-items: center; justify-content: center; gap: 1.2em; }
+.reveal .trylive img { width: 120px; display: inline-block; margin: 0; }
+
+// Retrieval flowchart (Phase 2) — HTML/CSS for consistent colors
+.reveal .flow { display: flex; align-items: center; justify-content: center; gap: 0.45em; margin: 0.6em 0; }
+.reveal .flow .fnode { background: $panel; border: 1px solid $line; border-top: 4px solid $miamired; border-radius: 6px; padding: 0.5em 0.7em; text-align: center; font-weight: 700; color: $ink; font-size: 0.78em; max-width: 5.5em; }
+.reveal .flow .fnode.router { background: $miamired; color: #fff; border-color: $miamired; }
+.reveal .flow .fnode.answer { background: #fff; }
+.reveal .flow .farrow { color: $miamired; font-size: 1.5em; font-weight: 700; }
+.reveal .flow .fstack { display: flex; flex-direction: column; gap: 0.35em; }
+.reveal .flow .fbox { background: $panel; border-left: 4px solid $miamired; border-radius: 6px; padding: 0.3em 0.6em; font-size: 0.64em; line-height: 1.35; text-align: left; }
+.reveal .flow .fbox b { color: $miamired; }
+
+// Reminder / note callout
+.reveal .note { background: rgba($miamired, 0.06); border-left: 4px solid $miamired; border-radius: 6px; padding: 0.4em 0.85em; font-size: 0.78em; margin-top: 0.55em; }
+
+// Embedded survey iframe (Phase 6 how-we-evaluated)
+.reveal iframe.survey { width: 100%; height: 430px; border: 1px solid $line; border-radius: 6px; background: #fff; }
+
+// Full-width media
+.reveal .fullimg img { width: 86%; display: block; margin: 0.3em auto 0; }
+
+// ================= Title slide =================
+#title-slide .title { color: #ffffff; font-size: 1.45em; line-height: 1.15; }
+#title-slide .subtitle { color: #ffe8ec; font-weight: 500; line-height: 1.3; }
+#title-slide .subtitle strong, #title-slide strong { color: #ffffff; }
+#title-slide .subtitle a, #title-slide a { color: #cfe0ff; }
+#title-slide .date { color: #ffe8ec; font-size: 0.62em; margin-top: 0.8em; }
+
+// Authors: 3 per row, names sized like the "Presented by" line, no affiliations
+#title-slide .quarto-title-authors {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 0.3em 0.6em !important;
+  justify-items: center;
+  max-width: 78%;
+  margin: 0.5em auto 0;
+}
+#title-slide .quarto-title-author-name { white-space: nowrap; }
+#title-slide .quarto-title-author { flex: none !important; max-width: none !important; width: auto !important; text-align: center; }
+#title-slide .quarto-title-author-name { color: #ffffff; font-size: 0.62em; font-weight: 600; }
+#title-slide .quarto-title-affiliation,
+#title-slide .affiliation { color: #ffd7dd; font-size: 0.42em; line-height: 1.25; margin-top: 0.1em; }
+
+// Two QR codes on the cover (left = paper, right = slides, raised to clear the logo)
+.reveal #title-slide .cover-qr { position: absolute; width: 118px; z-index: 6; bottom: 13%; }
+.reveal #title-slide .cover-qr.left  { left: 2%; }
+.reveal #title-slide .cover-qr.right { right: 2%; }
+
+// Footer + slide number
+.reveal .footer { color: $lightgray; font-size: 0.4em; }
+.reveal .footer a { color: $linkblue; }
+.reveal .slide-number { color: $miamired; }
+
+// ================= TRIAGE deck additions =================
+
+// ---- Terminal mock (Claude Code /goal) ----
+.reveal .terminal {
+  background: #1e1e1e; border-radius: 10px; max-width: 88%; margin: 0.5em auto 0.3em;
+  box-shadow: 0 8px 26px rgba(0,0,0,0.35); overflow: hidden; text-align: left;
+}
+.reveal .terminal .tbar {
+  background: #323232; padding: 0.28em 0.6em; display: flex; align-items: center; gap: 0.35em;
+}
+.reveal .terminal .tbar .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.reveal .terminal .tbar .dot.r { background: #ff5f57; }
+.reveal .terminal .tbar .dot.y { background: #febc2e; }
+.reveal .terminal .tbar .dot.g { background: #28c840; }
+.reveal .terminal .tbar .ttitle { color: #b8b8b8; font-size: 0.5em; margin-left: 0.5em; font-family: "SFMono-Regular", Consolas, "Courier New", monospace; }
+.reveal .terminal .tbody {
+  padding: 0.55em 0.9em 0.7em; font-family: "SFMono-Regular", Consolas, "Courier New", monospace;
+  font-size: 0.58em; line-height: 1.55; color: #d8d8d8;
+}
+.reveal .terminal .tbody p { margin: 0 0 0.15em 0; }
+.reveal .terminal .tprompt { color: #61d6ad; font-weight: 600; }
+.reveal .terminal .tcmd { color: #ffffff; font-weight: 600; }
+.reveal .terminal .tdim { color: #8a8a8a; }
+.reveal .terminal .tok { color: #28c840; }
+.reveal .terminal .tstar { color: #ffbd2e; }
+.reveal .terminal .tbody b, .reveal .terminal .tbody strong { color: #ffd75e; }
+
+// ---- Press clipping cards ----
+.reveal .clipgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5em; margin: 0.4em 0; }
+.reveal .clip {
+  background: #ffffff; border: 1px solid $line; border-radius: 8px; padding: 0.45em 0.7em;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.07); text-align: left;
+}
+.reveal .clip .outlet {
+  display: block; font-weight: 700; font-size: 0.5em; text-transform: uppercase;
+  letter-spacing: 0.14em; color: $muted; margin-bottom: 0.15em;
+}
+.reveal .clip .headline { display: block; font-family: "Lora", Georgia, serif; font-weight: 500; font-size: 0.62em; line-height: 1.3; }
+.reveal .clip .headline a { color: $linkblue; border-bottom: 1px solid rgba($linkblue, 0.35); }
+.reveal .clip .cdate { display: block; font-size: 0.44em; color: $lightgray; margin-top: 0.2em; }
+
+// ---- Social quote card ----
+.reveal .quotecard {
+  background: #ffffff; border: 1px solid $line; border-left: 6px solid $miamired; border-radius: 10px;
+  padding: 0.55em 0.95em; max-width: 82%; margin: 0.45em auto; text-align: left;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+.reveal .quotecard .qtext { font-family: "Lora", Georgia, serif; font-size: 0.82em; font-style: italic; line-height: 1.4; color: $ink; }
+.reveal .quotecard .qwho { display: block; font-size: 0.55em; color: $muted; margin-top: 0.3em; }
+.reveal .quotecard .qwho b, .reveal .quotecard .qwho strong { color: $miamired; }
+
+// ---- Team layered reveal (adapted from ymmc deck) ----
+.reveal .team-layer { margin-bottom: 0.55em; }
+.reveal .team-layer .theader {
+  font-weight: 700; color: $miamired; font-size: 0.72em; text-transform: uppercase;
+  letter-spacing: 0.08em; border-bottom: 1px solid $line; margin-bottom: 0.3em; padding-bottom: 0.1em;
+}
+.reveal .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.45em 0.7em; }
+.reveal .team-grid.solo { grid-template-columns: 1fr; justify-items: start; }
+.reveal .team-person { display: flex; align-items: center; gap: 0.45em; text-align: left; }
+.reveal .team-person img {
+  width: 74px; height: 74px; border-radius: 50%; object-fit: cover; margin: 0;
+  border: 3px solid $panel; box-shadow: 0 2px 8px rgba(0,0,0,0.15); flex: 0 0 74px;
+}
+.reveal .team-person .tname { display: block; font-weight: 700; font-size: 0.6em; color: $ink; line-height: 1.2; }
+.reveal .team-person .texp { display: block; font-size: 0.5em; color: $muted; line-height: 1.25; }
+.reveal .team-finale {
+  background: rgba($miamired, 0.06); border-left: 4px solid $miamired; border-radius: 6px;
+  padding: 0.4em 0.85em; font-size: 0.78em; margin-top: 0.55em;
+}
+
+// ---- Bare-goal vs DOE-protocol contrast grid (equal-height rows) ----
+.reveal .contrastgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5em 0.9em; margin: 0.45em 0; font-size: 0.78em; }
+.reveal .contrastgrid .q { background: $panel; border-radius: 6px; padding: 0.45em 0.75em; }
+.reveal .contrastgrid .a { background: rgba($miamired, 0.06); border-left: 4px solid $miamired; border-radius: 6px; padding: 0.45em 0.75em; }
+.reveal .contrastgrid b { color: $miamired; }
+
+// ---- Wide flow nodes (three-round story) ----
+.reveal .flow.wide { align-items: stretch; }
+.reveal .flow.wide .fnode { max-width: none; flex: 1; font-weight: 400; font-size: 0.6em; line-height: 1.4; padding: 0.6em 0.7em; display: flex; flex-direction: column; justify-content: center; }
+.reveal .flow.wide .farrow { align-self: center; }
+.reveal .flow .fsub { display: block; color: $muted; font-size: 0.85em; margin-top: 0.25em; }
+.reveal .flow .fnum { display: block; color: $miamired; font-weight: 700; font-size: 1.25em; margin-top: 0.3em; }
+.reveal .flow.wide .fnode.router .fsub { color: #ffd7dd; }
+.reveal .flow.wide .fnode.router em { font-style: italic; }
+
+// ---- UGA logo, bottom-left (mirrors the Miami slide-logo bottom-right) ----
+img.uga-logo { position: fixed; bottom: 18px; left: 74px; height: 36px; z-index: 30; }
+
+// ================= Rebuild additions (Subsections 1–2) =================
+
+// ---- Era stack: nested-expansion GenAI timeline (Slide 2) ----
+.reveal .era-wrap { position: relative; width: 880px; height: 470px; margin: 0.55em auto 0; }
+.reveal .era-frame { position: absolute; border: 2px solid $line; border-radius: 14px; }
+.reveal .era-frame .elabel {
+  position: absolute; top: -0.72em; left: 16px; background: $bg; padding: 0 10px;
+  font-weight: 700; font-size: 0.55em; color: $miamired; letter-spacing: 0.07em;
+}
+.reveal .era-frame .emicro {
+  position: absolute; top: -0.62em; right: 16px; background: $bg; padding: 0 10px;
+  font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.4em; color: $muted;
+}
+.reveal .era-frame .edots {
+  position: absolute; bottom: -0.6em; left: 50%; transform: translateX(-50%);
+  background: $bg; padding: 0 10px; font-size: 0.42em; color: $ink; white-space: nowrap;
+}
+.reveal .era-frame .edots .dot { color: $miamired; }
+.reveal .era-frame.f-prompt  { left: 230px; top: 165px; width: 420px; height: 140px; }
+.reveal .era-frame.f-agents  { left: 155px; top: 110px; width: 570px; height: 242px; }
+.reveal .era-frame.f-context { left:  62px; top:  55px; width: 756px; height: 330px; }
+.reveal .era-frame.f-q {
+  left: 0; top: 0; width: 876px; height: 462px;
+  border-style: dashed; border-color: $miamired; animation: qpulse 2.2s ease-in-out infinite;
+}
+.reveal .era-frame.f-q .elabel { font-size: 0.8em; }
+@keyframes qpulse { 50% { box-shadow: 0 0 0 7px rgba($miamired, 0.10); } }
+.reveal .era-chip {
+  position: absolute; left: 50%; top: 235px; transform: translate(-50%, -50%);
+  background: $panel; border-left: 5px solid $miamired; border-radius: 8px;
+  padding: 0.4em 0.9em; text-align: center;
+}
+.reveal .era-chip .cname { display: block; font-weight: 700; font-size: 0.6em; color: $ink; }
+.reveal .era-chip .cmicro { display: block; font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.42em; color: $muted; margin-top: 0.15em; }
+.reveal .era-ar {
+  position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%);
+  background: #ffffff; border: 1px solid $line; border-left: 5px solid $miamired;
+  border-radius: 8px; padding: 0.35em 0.85em; font-size: 0.46em; text-align: center;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08); white-space: nowrap;
+}
+.reveal .era-ar b { color: $miamired; }
+.reveal .era-ar .armicro { display: block; font-family: "SFMono-Regular", Consolas, monospace; color: $muted; margin-top: 0.1em; }
+.reveal .era-overlay {
+  position: absolute; inset: -24px -10px -10px; z-index: 6; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0.5em;
+  background: rgba($bg, 0.92); border-radius: 14px;
+}
+.reveal .era-overlay div { text-align: center; }
+.reveal .era-overlay .wordline { font-size: 1.3em; font-weight: 800; color: $miamired; letter-spacing: -0.01em; }
+.reveal .era-overlay .wordline .q { display: inline-block; animation: qpulse 2.2s ease-in-out infinite; border: 2px dashed $miamired; border-radius: 8px; padding: 0 0.3em; }
+.reveal .era-overlay .capline { font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.5em; color: $muted; }
+
+// Compact terminal + tight-title utilities
+.reveal .terminal.sm { max-width: 100%; }
+.reveal .terminal.sm .tbody { font-size: 0.47em; line-height: 1.5; }
+.reveal section.tight h2 { font-size: 1.3em; }
+
+// ---- Discovery Loop slide (Slide 3) ----
+.reveal .ghostrow { text-align: center; font-size: 0.46em; color: $lightgray; font-family: "Lora", Georgia, serif; line-height: 1.5; }
+.reveal .ghostrow .gsrc { font-family: "Libre Franklin", sans-serif; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.82em; }
+.reveal .ghostrow a { color: rgba($linkblue, 0.75); border-bottom: 1px dotted rgba($linkblue, 0.4); }
+.reveal .dl-name { text-align: center; font-size: 1.55em; font-weight: 800; color: $miamired; letter-spacing: 0.01em; margin: 0.15em 0 0; }
+.reveal .dl-founders { text-align: center; font-size: 0.62em; color: $ink; margin: 0.1em 0 0.35em; }
+.reveal .dl-founders .who { font-weight: 700; }
+.reveal .dl-nae {
+  background: rgba($miamired, 0.06); border-left: 4px solid $miamired; border-radius: 6px;
+  padding: 0.4em 0.9em; font-size: 0.7em; max-width: 88%; margin: 0.4em auto 0;
+  text-align: center;
+}
+.reveal .dl-signals { display: flex; justify-content: space-between; gap: 1em; margin-top: 0.6em; }
+.reveal .dl-signal { font-size: 0.5em; color: $muted; max-width: 46%; }
+.reveal .dl-signal b { color: $ink; font-size: 1.25em; }
+.reveal .dl-signal.right { text-align: right; }
+
+// ---- Loop-stage flow: wide one-line nodes (Slide 4 bottom strip) ----
+.reveal .flow.files { align-items: stretch; margin: 0.3em 0 0; }
+.reveal .flow.files .fnode {
+  max-width: none; flex: 1; padding: 0.32em 0.5em; line-height: 1.25;
+  display: flex; flex-direction: column; justify-content: center; font-size: 0.7em;
+}
+.reveal .flow.files .fnode .ffile {
+  font-family: "SFMono-Regular", Consolas, monospace; font-weight: 400;
+  font-size: 0.72em; color: $muted; display: block; margin-top: 0.1em; white-space: nowrap;
+}
+.reveal .flow.files .fnode.router .ffile { color: #ffd7dd; }
+.reveal .flow .fnode.router b, .reveal .flow .fnode.router strong { color: #ffffff; }
+.reveal .flow.files .farrow { align-self: center; }
+
+// ---- Market ticker chip (Discovery Loop slide) ----
+.reveal .ticker {
+  display: inline-flex; align-items: baseline; gap: 0.5em;
+  background: #101418; border-radius: 8px; padding: 0.4em 0.9em;
+  font-family: "SFMono-Regular", Consolas, monospace;
+}
+.reveal .ticker .tsym { color: #ffffff; font-weight: 700; font-size: 0.7em; letter-spacing: 0.05em; }
+.reveal .ticker .tchg { color: #ff4d4d; font-weight: 700; font-size: 0.7em; }
+.reveal .ticker .tdate { color: #8a8a8a; font-size: 0.5em; }
+
+// ---- Corn-yellow NAE aim block ----
+.reveal .dl-nae.corn {
+  background: #fdf6d8; border-left: 5px solid #e3b505; color: $ink;
+}
+.reveal .dl-nae.corn strong, .reveal .dl-nae.corn b { color: #8a6d00; }
+
+// ---- Pitch-deck slide row (Discovery Loop) ----
+.reveal .pitchrow { margin: 0.25em 0 0; }
+.reveal .pitchrow p { display: flex; justify-content: center; gap: 0.55em; margin: 0; }
+.reveal .pitchrow a { border-bottom: none; flex: 1; max-width: 32.5%; }
+.reveal .pitchrow img {
+  width: 100%; margin: 0; border: 1px solid $line; border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12); background: #fff;
+}
+.reveal .dl-founders a { color: $linkblue; border-bottom: 1px solid rgba($linkblue, 0.4); font-weight: 700; }
+
+// ---- Provenance chips (reasoning slide) ----
+.reveal .provrow { display: flex; align-items: center; justify-content: center; gap: 0.5em; margin: 0.1em 0 0.4em; }
+.reveal .provrow .pchip {
+  background: #1e1e1e; color: #d8d8d8; border-radius: 7px; padding: 0.3em 0.7em;
+  font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.44em;
+}
+.reveal .provrow .pchip .pk { color: #61d6ad; }
+.reveal .provrow .pchip.light { background: $panel; color: $ink; border-left: 4px solid $miamired; }
+.reveal .provrow .parrow { color: $miamired; font-size: 1.1em; font-weight: 700; }
+.reveal .provrow .plabel { font-size: 0.46em; color: $muted; max-width: 220px; text-align: left; line-height: 1.3; }
+
+// ---- TEP system-build slide (full-width SVG) ----
+.reveal .tepsvg .sensor { fill: $linkblue; stroke: #ffffff; stroke-width: 1; }
+.reveal .tepsvg .anno { font-family: "Libre Franklin", sans-serif; font-size: 13px; font-weight: 700; fill: $miamired; }
+.reveal .tepsvg .annosub { font-family: "Libre Franklin", sans-serif; font-size: 11.5px; fill: $muted; font-weight: 400; }
+.reveal .tepsvg .ctrl { stroke: $linkblue; stroke-width: 1.2; stroke-dasharray: 4 3; fill: none; }
+.reveal .fragment.visible .pulsepath {
+  stroke-dasharray: 26 14; animation: dashflow 1.1s linear infinite;
+}
+@keyframes dashflow { to { stroke-dashoffset: -40; } }
+
+// ---- Two-extremes comparison ----
+.reveal .extremes { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8em; margin-top: 0.25em; }
+.reveal .extremes .excol { text-align: center; }
+.reveal .extremes .excol img { width: 100%; margin: 0; border: 1px solid $line; border-radius: 6px; background: #fff; }
+.reveal .extremes .exhead { font-weight: 700; color: $miamired; font-size: 0.62em; margin-bottom: 0.15em; }
+.reveal .extremes .exrow { font-size: 0.5em; color: $ink; margin-top: 0.22em; line-height: 1.35; }
+.reveal .extremes .exrow b { color: $miamired; }
+
+// ---- Hypothesis trajectories (SVG) ----
+.reveal .hyposvg .land { stroke: $line; stroke-width: 1.4; fill: none; }
+.reveal .hyposvg .greedy { stroke: $muted; stroke-width: 2.6; fill: none; }
+.reveal .hyposvg .doe { stroke: $miamired; stroke-width: 2.8; fill: none; }
+.reveal .hyposvg .hlabel { font-family: "Libre Franklin", sans-serif; font-size: 14px; font-weight: 700; }
+.reveal .hyposvg .hsub { font-family: "Libre Franklin", sans-serif; font-size: 12px; font-weight: 400; fill: $muted; }
+
+// ---- Repo tree panel (Slide 4) ----
+.reveal .repotree {
+  background: #ffffff; border: 1px solid $line; border-radius: 8px; padding: 0.5em 0.8em;
+  font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.46em; line-height: 1.6;
+  color: $ink; text-align: left;
+}
+.reveal .repotree .troot { font-weight: 700; }
+.reveal .repotree .thl { background: rgba($miamired, 0.1); border-radius: 4px; padding: 0 4px; font-weight: 700; color: $miamired; }
+.reveal .repotree .tnote { color: $muted; }
+.reveal .repotree .tmut { color: $miamired; }
+
+// ---- Contract bands (Slide 6) ----
+.reveal .contract { display: flex; flex-direction: column; gap: 0.45em; max-width: 92%; margin: 0.4em auto 0; }
+.reveal .contract .cband {
+  display: grid; grid-template-columns: 150px 1fr; align-items: center; gap: 0.8em;
+  background: #ffffff; border: 1px solid $line; border-left: 6px solid $miamired;
+  border-radius: 8px; padding: 0.45em 0.85em; text-align: left;
+}
+.reveal .contract .cband .bkey { font-weight: 800; color: $miamired; font-size: 0.62em; letter-spacing: 0.09em; }
+.reveal .contract .cband .bval { font-size: 0.6em; color: $ink; line-height: 1.45; }
+.reveal .contract .cband .bval code { font-size: 0.92em; }
+.reveal .contract .cband.frozen { border-left-color: $muted; background: $panel; }
+.reveal .contract .cband.frozen .bkey { color: $muted; }
+.reveal .contract .cnot {
+  text-align: center; font-size: 0.62em; color: $muted; padding: 0.3em 0;
+}
+.reveal .contract .cnot s { color: $lightgray; margin: 0 0.35em; }
+.reveal .contract .cnot b { color: $miamired; }
+
+// ---- Reasoning ribbon (Slide 9) ----
+.reveal .ribbon { display: flex; flex-direction: column; gap: 0.4em; max-width: 96%; margin: 0.35em auto 0; }
+.reveal .ribbon .rrow {
+  display: grid; grid-template-columns: 1fr 1.15fr 130px; align-items: center; gap: 0.7em;
+  background: #ffffff; border: 1px solid $line; border-radius: 8px; padding: 0.35em 0.7em; text-align: left;
+}
+.reveal .ribbon .robs { font-size: 0.5em; color: $muted; line-height: 1.35; }
+.reveal .ribbon .rhyp { font-size: 0.52em; color: $ink; font-style: italic; line-height: 1.35; border-left: 3px solid $miamired; padding-left: 0.6em; }
+.reveal .ribbon .rhyp b { color: $miamired; font-style: normal; }
+.reveal .ribbon .rres { font-weight: 800; color: $miamired; font-size: 0.62em; text-align: right; white-space: nowrap; }
+.reveal .ribbon .rres.stop { color: $ink; }
+
+// ---- Fingerprint cards (Slide 10) ----
+.reveal .fpcard {
+  background: #ffffff; border: 1px solid $line; border-left: 5px solid $miamired; border-radius: 8px;
+  padding: 0.35em 0.7em; font-size: 0.52em; text-align: left; margin-bottom: 0.4em; line-height: 1.4;
+}
+.reveal .fpcard .fhead { font-weight: 700; color: $ink; }
+.reveal .fpcard .fmark { float: right; font-weight: 800; font-size: 1.15em; }
+.reveal .fpcard .fmark.ok { color: #1c7c33; }
+.reveal .fpcard .fmark.miss { color: $miamired; }
+.reveal .fpcard code { font-size: 0.9em; }
+.reveal .fpcard.miss { border-left-color: $lightgray; background: $panel; }
+
+// ---- TEP schematic (Slide 5, inline SVG helpers) ----
+.reveal .tepsvg { display: block; margin: 0.2em auto; }
+.reveal .tepsvg .unit { fill: #ffffff; stroke: $line; stroke-width: 1.6; }
+.reveal .tepsvg .unitlabel { font-family: "Libre Franklin", sans-serif; font-size: 13px; font-weight: 600; fill: $ink; text-anchor: middle; }
+.reveal .tepsvg .stream { stroke: $muted; stroke-width: 1.8; fill: none; marker-end: url(#tep-arrow); }
+.reveal .tepsvg .recycle { stroke: $miamired; stroke-width: 2.6; fill: none; marker-end: url(#tep-arrow-red); }
+.reveal .tepsvg .streamlabel { font-family: "Libre Franklin", sans-serif; font-size: 11px; fill: $muted; }
+.reveal .tepsvg .recyclelabel { font-family: "Libre Franklin", sans-serif; font-size: 12px; font-weight: 700; fill: $miamired; }
+
+// ---- Timeline strip ----
+.reveal .timeline { display: flex; align-items: center; justify-content: center; gap: 0.4em; margin: 0.6em 0 0.2em; }
+.reveal .timeline .tstop { background: $panel; border-top: 4px solid $miamired; border-radius: 6px; padding: 0.4em 0.8em; text-align: center; }
+.reveal .timeline .tstop .twhen { display: block; font-weight: 700; color: $miamired; font-size: 0.6em; text-transform: uppercase; letter-spacing: 0.05em; }
+.reveal .timeline .tstop .twhat { display: block; font-size: 0.62em; color: $ink; }
+.reveal .timeline .tarrow { color: $miamired; font-size: 1.4em; font-weight: 700; }
+.reveal .timeline .tstop.hot { background: $miamired; border-top-color: $miamidark; }
+.reveal .timeline .tstop.hot .twhen { color: #ffd7dd; }
+.reveal .timeline .tstop.hot .twhat { color: #ffffff; }
+.reveal .timeline .twhat strong { font-weight: 700; }

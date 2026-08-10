@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/tabby.min.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="Fadel Megahed">
+  <meta name="author" content="Allison Jones-Farmer">
+  <meta name="author" content="Arthur Carvalho">
+  <meta name="author" content="Ibrahim Yousif">
+  <meta name="author" content="Maria Weese">
+  <meta name="author" content="Hongyue Sun">
+  <meta name="dcterms.date" content="2026-08-12">
+  <title>TRIAGE</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-d9f1d90f5d6cb6354725a63822bb09cd.css">
+  <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-color="#c3142d" class="quarto-title-block center">
+  <h1 class="title">TRIAGE</h1>
+  <p class="subtitle"><strong>T</strong>rustworthy <strong>R</strong>un-efficient <strong>I</strong>nvestigation of <strong>A</strong>gentic <strong>G</strong>uided <strong>E</strong>xperiments<br> <span style="font-size:0.62em">A briefing for the NSF Manufacturing Systems Integration (MSI) Program &nbsp;•&nbsp; Presented by <strong>the TRIAGE Team</strong></span></p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Fadel Megahed
+</div>
+        <p class="quarto-title-affiliation">
+            Farmer School of Business, Miami University
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Allison Jones-Farmer
+</div>
+        <p class="quarto-title-affiliation">
+            Farmer School of Business, Miami University
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Arthur Carvalho
+</div>
+        <p class="quarto-title-affiliation">
+            Farmer School of Business, Miami University
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Ibrahim Yousif
+</div>
+        <p class="quarto-title-affiliation">
+            Dept. of Engineering Technology, Miami University
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Maria Weese
+</div>
+        <p class="quarto-title-affiliation">
+            Farmer School of Business, Miami University
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Hongyue Sun
+</div>
+        <p class="quarto-title-affiliation">
+            College of Engineering, University of Georgia
+          </p>
+    </div>
+</div>
+
+  <p class="date">August 12, 2026</p>
+</section>
+<section id="an-opinionated-timeline-of-genai" class="slide level2">
+<h2>An Opinionated Timeline of GenAI</h2>
+<!-- Sources (verified):
+  ChatGPT: https://openai.com/index/chatgpt/ (Nov 30, 2022)
+  Prompt patterns: White et al., arXiv 2302.11382 (Feb 2023); https://developers.openai.com/api/docs/guides/prompt-engineering
+  Agents: https://www.anthropic.com/engineering/building-effective-agents (Dec 2024)
+  Claude Code: https://www.anthropic.com/news/claude-3-7-sonnet (Feb 24, 2025)
+  Context: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents (Sep 29, 2025)
+  OpenClaw: https://docs.openclaw.ai/concepts/agent-loop ; https://github.com/openclaw/openclaw/blob/main/docs/start/lore.md
+  AutoResearch: https://github.com/karpathy/autoresearch (Mar 2026; ships program.md) -->
+<div class="era-wrap">
+<div class="era-chip">
+<span class="cname">ChatGPT · Nov 30, 2022</span><span class="cmicro">human → model → response</span>
+</div>
+<div class="era-frame f-prompt fragment" data-fragment-index="1">
+<span class="elabel">PROMPT · 2023</span><span class="emicro">prompt → model → output</span><span class="edots"><span class="dot">●</span> Prompt Pattern Catalog · Feb 2023</span>
+</div>
+<div class="era-frame f-agents fragment" data-fragment-index="2">
+<span class="elabel">AGENTS · 2023–25</span><span class="emicro">reason → act → observe ↻</span><span class="edots"><span class="dot">●</span> Building Effective Agents · Dec 2024 &nbsp; <span class="dot">●</span> Claude Code · Feb 24, 2025</span>
+</div>
+<div class="era-frame f-context fragment" data-fragment-index="3">
+<span class="elabel">CONTEXT · 2025</span><span class="emicro">context assembly → model → action ↻</span><span class="edots"><span class="dot">●</span> Effective Context Engineering (Anthropic) · Sep 29, 2025 &nbsp; <span class="dot">●</span> OpenClaw · early 2026</span>
+</div>
+<div class="era-frame f-q fragment" data-fragment-index="4">
+<span class="elabel">LOOP · 2026</span>
+</div>
+<div class="era-ar fragment" data-fragment-index="4">
+<b>★ AutoResearch</b> (Karpathy) · Mar 2026 · <b>126 unattended experiments</b> · ships <code>program.md</code><span class="armicro">modify → experiment → measure → keep/discard ↻</span>
+</div>
+<div class="era-overlay fragment" data-fragment-index="5">
+<div class="wordline">
+PROMPT → AGENT → CONTEXT → <span class="q">LOOP</span>
+</div>
+<div class="capline">
+the recurring structure: context → action → observation → evaluation → update ↻
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>An opinionated intellectual history, not a comprehensive one: the claim is that the OBJECT BEING ENGINEERED keeps expanding. Beat 1 (chip, visible at start): ChatGPT makes natural-language interaction with a capable LLM broadly accessible — we begin by effectively programming a model through conversation. Beat 2 (PROMPT frame): 2023, the first engineering object is the instruction itself — examples, constraints, decomposition, roles (White et al.’s prompt-pattern catalog, Feb 2023). Beat 3 (AGENTS frame): models stop producing single responses; they choose actions, invoke tools, observe results (Anthropic’s Building Effective Agents, Dec 2024). Claude Code (Feb 24, 2025) puts the agent inside a real executable environment — inspect, modify, execute, observe, revise. The object becomes the action trajectory. Beat 4 (CONTEXT frame): over long horizons prompts are insufficient; engineers curate what the model sees each step — instructions, tools, files, history, retrievals, memory, state (Anthropic, Sep 29, 2025). OpenClaw makes the persistent runtime visible: sessions, memory, workspaces, skills. Beat 5 (dashed LOOP frame + AutoResearch): Karpathy’s AutoResearch (Mar 2026) makes the iterative optimization explicit — the agent edits train.py, runs 5 minutes, measures val_bpb, keeps or discards; 0.9979→0.9697 over 126 unattended experiments. The human defines the environment, objective, constraints, and evaluation — the artifact becomes the process that generates and selects other artifacts. Note it ships a file named program.md — remember that name. Beat 6 (overlay): prompt → agent → context → LOOP — the loop itself is now the engineered object. The next slide shows how big that idea got. Q&amp;A armor: agentic ideas predate 2023 (ReAct, Oct 2022) — 2023–25 marks mainstreaming; RAG (2020→) is context engineering’s ancestor; reasoning models (o1, Sep 2024) are excluded because they change how the model thinks, not what we engineer around it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="august-5-2026-the-loop-becomes-a-company" class="slide level2 tight">
+<h2>August 5, 2026: The Loop Becomes a Company</h2>
+<div class="ghostrow">
+<p>June–July 2026 · “loop engineering” enters the conversation<br> <a href="https://www.forbes.com/sites/lanceeliot/2026/06/17/loop-engineering-is-fully-making-the-rounds-for-boosting-generative-ai-and-agentic-ai/"><span class="gsrc">Forbes</span>: “Loop Engineering Is Fully Making The Rounds…”</a> · <a href="https://www.businessinsider.com/what-are-loops-ai-engineering-tips-2026-6"><span class="gsrc">Business Insider</span>: “Forget prompt engineering: ‘Loop engineering’ is all the rage now”</a> · <a href="https://www.fastcompany.com/91569569/ai-learning-loops-governance-issue"><span class="gsrc">Fast Company</span>: “Why AI learning loops are a governance issue”</a></p>
+</div>
+<div class="fragment">
+<p class="dl-name">
+DISCOVERY LOOP
+</p>
+<p class="dl-founders">
+<a href="https://scholar.google.com/citations?user=sdcsQb4AAAAJ">Jeff Dean</a> · <a href="https://scholar.google.com/citations?user=0KF6ZC8AAAAJ">Sanjay Ghemawat</a> · <a href="https://scholar.google.com/citations?user=vfT6-XIAAAAJ">Quoc Le</a> · <a href="https://scholar.google.com/citations?user=NkzyCvUAAAAJ">Oriol Vinyals</a> leave Google to automate the research loop
+</p>
+</div>
+<div class="pitchrow fragment">
+<p><a href="https://x.com/JeffDean/status/2085035498222002595/photo/1"><img src="figs/dl/pitch_loop.jpg" alt="Discovery Loop pitch slide: the universal propose, implement and run, evaluate cycle of science and engineering, with the approach of automating the loop"></a> <a href="https://x.com/JeffDean/status/2085035498222002595/photo/2"><img src="figs/dl/pitch_mission.jpg" alt="Discovery Loop pitch slide: mission to automate machine learning, science and engineering, listing the 14 NAE Grand Challenge problems"></a> <a href="https://x.com/JeffDean/status/2085035498222002595/photo/3"><img src="figs/dl/pitch_founders.jpg" alt="Discovery Loop pitch slide: co-founders Jeff Dean, Sanjay Ghemawat, Quoc Le and Oriol Vinyals, with their products, infrastructure, AI research and AI applications contributions"></a></p>
+</div>
+<div class="small-text center" style="font-size:0.44em; margin:0.1em 0 0.2em;">
+<p>Slides from the founders’ own pitch deck, <a href="https://x.com/JeffDean/status/2085035498222002595">shared publicly by Jeff Dean</a> (names above link to their Google Scholar profiles)</p>
+</div>
+<div class="dl-nae corn fragment">
+<p>Explicit aim: accelerate <strong>science and engineering</strong>, toward the <strong>14 NAE Grand Challenges</strong>, a list NSF itself commissioned.</p>
+</div>
+<div class="dl-signals fragment">
+<div class="dl-signal">
+<span class="ticker"><span class="tsym">GOOGL</span><span class="tchg">▼ 4.0%</span><span class="tdate">Aug 5, 2026</span></span><br>amid the departures
+</div>
+<div class="dl-signal right">
+Seed co-led by <b>Radical Ventures · Khosla Ventures</b><br>with Alphabet · Lightspeed · Kleiner Perkins · Doerr Capital
+</div>
+</div>
+<aside class="notes">
+<p>The before → inflection → after story. Before: through June–July the phrase “loop engineering” circulates in Forbes (Lance Eliot, June 17 and June 30), Business Insider (June 20 — Boris Cherny, Claude Code’s creator, saying he no longer writes individual prompts), and Fast Company (the governance angle: “a loop can be wrong and compound”). Inflection, one week ago today: Jeff Dean and Sanjay Ghemawat — 27 years at Google, the pair behind MapReduce, TPUs, TensorFlow — leave with Quoc Le and Oriol Vinyals to found Discovery Loop, a Delaware public benefit corporation whose stated mission is to “automatically solve important problems in machine learning, science, and engineering” by automating the propose→run→evaluate loop of research — starting with ML, then science broadly. For this room: their site names Grand Challenge targets (engineering better medicines, health informatics, economical solar, clean water, securing cyberspace, engineering the tools of scientific discovery) — and the 14 NAE Grand Challenges list was created by a committee convened at NSF’s request (2006; announced Feb 2008). After: the market and the smart money. Alphabet closed down about 4% on Aug 5 (intraday reports ~5%) AMID the news — “amid,” not “because”; and note the irony that Alphabet itself is a founding investor and the cloud partner. Backers per Wilson Sonsini and Radical Ventures: seed co-led by Radical and Khosla; Alphabet, Lightspeed, Kleiner Perkins, and Doerr Capital participating. The three center images are the founders’ OWN pitch-deck slides, shared publicly by Jeff Dean on X (Aug 6, 2026): the universal propose/implement/evaluate cycle with “Our approach: Automate the loop!”; the mission slide listing the majority of the 14 NAE Grand Challenges; and the co-founders slide with their collective contributions (MapReduce, GFS, BigTable, Spanner, TensorFlow, TPUs, Word2Vec, Seq2Seq, NAS, AlphaFold, Gemini). Each founder’s name links to their Google Scholar profile (Dean ~426k citations; Vinyals ~452k; Ghemawat ~173k). Sources: discoveryloop.com; radical.vc/our-investment-in-discovery-loop; wsgr.com launch advisory; nae.edu/grand-challenges; x.com/JeffDean/status/2085035498222002595.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="loop-engineering-applied-to-manufacturing-systems" class="slide level2 tight">
+<h2>Loop Engineering Applied to Manufacturing Systems</h2>
+<div class="small-text" style="margin-bottom:0.2em;">
+<p><strong>Tennessee Eastman Process (TEP)</strong>: the canonical simulated chemical-plant benchmark (<a href="https://doi.org/10.1016/0098-1354(93)80018-I">Downs &amp; Vogel, 1993</a>). 22 fault classes, 53 process variables, evaluation on unseen simulation runs. Our harness; the agent drives.</p>
+</div>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="repotree">
+<p><span class="troot">loop-tep/</span><br> ├── <span class="thl">program.md</span> <span class="tnote">← the loop contract</span><br> ├── config.json <span class="tnote">· frozen</span><br> ├── prepare.py <span class="tnote">· frozen</span><br> ├── <span class="tmut">train.py</span> <span class="tnote">· mutable: the agent edits this</span><br> ├── run_baseline.py <span class="tnote">· trial → log + git commit</span><br> ├── results.tsv <span class="tnote">· append-only log</span><br> ├── reasoning_log.tsv <span class="tnote">· observation → hypothesis</span><br> └── runs/ <span class="tnote">· 874 artifacts</span></p>
+</div>
+<div class="small-text" style="font-size:0.5em; margin-top:0.3em; line-height:1.45;">
+<b>Our adaptation</b> of Karpathy’s autoresearch pattern (his loop tunes LLM training) to manufacturing fault diagnosis. The <code>program.md</code> contract:
+<ul style="margin:0.15em 0 0 1.1em; padding:0;">
+<li>
+<b>Objective:</b> maximize validation macro-F1
+</li>
+<li>
+<b>Frozen evaluation:</b> <code>config.json</code> · <code>prepare.py</code>
+</li>
+<li>
+<b>Mutable surface:</b> <code>train.py</code> only
+</li>
+<li>
+<b>Stopping, informal:</b> “stop when improvements dry up” (exactly the kind of rule DOE makes principled)
+</li>
+</ul>
+</div>
+</div><div class="column" style="width:60%;">
+<div class="terminal sm">
+<div class="tbar">
+<span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="ttitle">claude · loop-tep</span>
+</div>
+<div class="tbody">
+<p>
+<span class="tprompt">&gt;</span> <span class="tcmd">python run_baseline.py</span> –observation “…” –hypothesis “…”
+</p>
+<p>
+<span class="tok">⏺</span> trial_0001&nbsp; minimal · medium&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;macro-F1 <b>0.702</b> <span class="tdim">[baseline · committed]</span>
+</p>
+<p>
+<span class="tstar">✗</span> trial_0002&nbsp; temporal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CRASH <span class="tdim">(stale cache; agent fixes train.py)</span>
+</p>
+<p>
+<span class="tok">⏺</span> trial_0003&nbsp; temporal (roll5+lag1)&nbsp;&nbsp;<b>0.780</b> <span class="tdim">(+0.078)</span>
+</p>
+<p>
+<span class="tok">⏺</span> trial_0004&nbsp; best_quality&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.780 <span class="tdim">(no change: bagging was off)</span>
+</p>
+<p>
+<span class="tstar">✗</span> trial_0005&nbsp; + bag5/stack1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CRASH <span class="tdim">(Windows stacking bug; agent fixes)</span>
+</p>
+<p>
+<span class="tok">⏺</span> trial_0006&nbsp; + bag5/stack1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.788
+</p>
+<p>
+<span class="tok">⏺</span> trial_0007&nbsp; multi-scale (5/20/60)&nbsp;&nbsp;<b>0.836</b> <span class="tdim">(+0.049)</span>
+</p>
+<p>
+<span class="tok">⏺</span> trial_0008&nbsp; + class-balanced&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>0.849</b>
+</p>
+<p>
+<span class="tok">⏺</span> trial_0009&nbsp; extreme · bag8 · GPU&nbsp;&nbsp;&nbsp;<b>0.864</b> <span class="tstar">★ champion</span>
+</p>
+<p>
+<span class="tok">⏺</span> trial_0010&nbsp; + specialist(16,21)&nbsp;&nbsp;&nbsp;&nbsp;0.862 <span class="tdim">(no help → STOP)</span>
+</p>
+<p>
+<span class="tstar">★</span> holdout <span class="tdim">(gated, touched once)</span>&nbsp;&nbsp;&nbsp;&nbsp;<b>0.885</b>
+</p>
+</div>
+</div>
+</div></div>
+<div class="flow files fragment">
+<div class="fnode">
+<b>Context</b><span class="ffile">program.md</span>
+</div>
+<div class="farrow">
+→
+</div>
+<div class="fnode">
+<b>Action</b><span class="ffile">edit train.py</span>
+</div>
+<div class="farrow">
+→
+</div>
+<div class="fnode">
+<b>Evaluation</b><span class="ffile">macro-F1, unseen runs</span>
+</div>
+<div class="farrow">
+→
+</div>
+<div class="fnode router">
+<b>Update</b><span class="ffile">commit + reasoning log</span>
+</div>
+<div class="farrow">
+↻
+</div>
+</div>
+<aside class="notes">
+<p>The loop as a physical, inspectable artifact — a real directory in our repo, not a metaphor. Left: the harness. program.md is the loop contract — the objective (maximize validation macro-F1 over 22 classes), the frozen evaluation (cohort, run-grouped split, seeds, a holdout gated behind an explicit flag), and the mutable surface (train.py only). Credit framing, said precisely: Karpathy’s autoresearch established the pattern — a program.md contract driving an autonomous modify→run→measure→keep/discard loop — but his loop tunes LLM training (nanochat, val_bpb); THIS harness is OUR adaptation of that pattern to a manufacturing system, and to our knowledge the first on a process-monitoring benchmark. One honest gap worth naming out loud: our stopping rule was informal — “stop when improvements dry up.” When do you stop an automated experiment? That is a classical sequential-design question, and it is one of the things DOE-structured guidance makes principled — foreshadowing TRIAGE. Right: the actual ten-trial run, condensed from results.tsv — every line is a real logged trial, every trial one git commit. Two crashes stay in the log as evidence: a stale feature cache and a Windows dynamic-stacking bug; the agent diagnosed both from tracebacks and fixed the mutable file itself. Bottom: the recurring loop annotated by the file that implements each stage. Framing for later: this is the BARE-GOAL CONTROL ARM of TRIAGE — no DOE, no search study — and the next section walks through what it found. Full detail: loop-tep/writeup (available on request).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-tennessee-eastman-experiment" class="slide level2 inverse center">
+<h2>The Tennessee Eastman Experiment</h2>
+<p><strong>An autonomous bare-goal loop on a simulated chemical plant</strong></p>
+<aside class="notes">
+<p>Transition into the evidence section: six slides — the plant, the contract, the data, the run, the reasoning, and the validation.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="why-tennessee-eastman" class="slide level2">
+<h2>Why Tennessee Eastman?</h2>
+<div class="small-text" style="margin-bottom:0;">
+<p>An <strong>integrated production system in miniature</strong>: a realistic plant-wide control problem from a real Eastman Chemical process (<a href="https://doi.org/10.1016/0098-1354(93)80018-I">Downs &amp; Vogel, 1993</a>) that converts <strong>gaseous feeds A, C, D, E</strong> into <strong>liquid products G and H</strong>. The dominant fault-diagnosis testbed since.</p>
+</div>
+<svg class="tepsvg" viewbox="0 0 960 400" width="94%" role="img" aria-label="Animated Tennessee Eastman schematic: five unit operations connected by streams, an instrumentation layer of 53 sensors, closed-loop control, and a fault-propagation pulse around the recycle path.">
+<defs> <marker id="tep-arrow" markerwidth="8" markerheight="8" refx="7" refy="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#70685c"></path></marker> <marker id="tep-arrow-red" markerwidth="8" markerheight="8" refx="7" refy="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#c3142d"></path></marker> </defs> <!-- beat 0 (base): the physical system --> <rect class="unit" x="90" y="180" width="150" height="95" rx="9"></rect><text class="unitlabel" x="165" y="222">Reactor</text><text class="annosub" x="165" y="240" text-anchor="middle">two exothermic reactions</text> <rect class="unit" x="330" y="105" width="140" height="55" rx="9"></rect><text class="unitlabel" x="400" y="137">Condenser</text> <rect class="unit" x="555" y="170" width="160" height="70" rx="9"></rect><text class="unitlabel" x="635" y="200">Vapor / liquid</text><text class="unitlabel" x="635" y="218">separator</text> <rect class="unit" x="555" y="38" width="150" height="46" rx="9"></rect><text class="unitlabel" x="630" y="66">Recycle compressor</text> <rect class="unit" x="555" y="300" width="160" height="70" rx="9"></rect><text class="unitlabel" x="635" y="330">Stripper</text> <path class="stream" d="M14,225 L84,225"></path><text class="streamlabel" x="2" y="196">gaseous feeds</text><text class="streamlabel" x="2" y="211">A · C · D · E</text> <path class="stream" d="M240,205 L285,205 L285,132 L324,132"></path> <path class="stream" d="M470,132 L515,132 L515,195 L549,195"></path> <path class="stream" d="M635,166 L635,90"></path> <path class="recycle" d="M549,61 L165,61 L165,174"></path><text class="recyclelabel" x="300" y="52">recycle</text> <path class="stream" d="M705,61 L780,61"></path><text class="streamlabel" x="786" y="65">purge</text> <path class="stream" d="M635,244 L635,294"></path> <path class="stream" d="M715,335 L780,335"></path><text class="streamlabel" x="786" y="318">liquid products</text><text class="streamlabel" x="786" y="333">G · H</text> <!-- beat 1: instrumentation layer --> <g class="fragment" data-fragment-index="1"> <circle class="sensor" cx="120" cy="176" r="5"></circle><circle class="sensor" cx="205" cy="279" r="5"></circle><circle class="sensor" cx="357" cy="101" r="5"></circle><circle class="sensor" cx="443" cy="164" r="5"></circle><circle class="sensor" cx="583" cy="166" r="5"></circle><circle class="sensor" cx="700" cy="244" r="5"></circle><circle class="sensor" cx="583" cy="374" r="5"></circle><circle class="sensor" cx="712" cy="296" r="5"></circle><circle class="sensor" cx="600" cy="34" r="5"></circle><circle class="sensor" cx="49.5" cy="221" r="5"></circle><circle class="sensor" cx="285" cy="168" r="5"></circle><circle class="sensor" cx="515" cy="163" r="5"></circle> <text class="anno" x="860" y="150" text-anchor="middle">53 variables</text> <text class="annosub" x="860" y="168" text-anchor="middle">41 measured (XMEAS)</text> <text class="annosub" x="860" y="184" text-anchor="middle">12 manipulated (XMV)</text> </g> <!-- beat 2: closed-loop control --> <g class="fragment" data-fragment-index="2"> <path class="ctrl" d="M120,176 C 110,120 160,110 200,140"></path> <path class="ctrl" d="M583,166 C 560,140 545,150 540,170"></path> <path class="ctrl" d="M712,296 C 740,280 740,320 718,330"></path> <text class="anno" x="860" y="240" text-anchor="middle">Closed-loop control</text> <text class="annosub" x="860" y="258" text-anchor="middle">controllers fight every</text> <text class="annosub" x="860" y="274" text-anchor="middle">disturbance, so signatures</text> <text class="annosub" x="860" y="290" text-anchor="middle">are muffled, not missing</text> </g> <!-- beat 3: fault propagation pulse --> <g class="fragment" data-fragment-index="3"> <path class="recycle pulsepath" d="M549,61 L165,61 L165,174"></path> <path class="recycle pulsepath" d="M240,205 L285,205 L285,132 L324,132 M470,132 L515,132 L515,195 L549,195 M635,166 L635,90"></path> <circle cx="165" cy="225" r="14" fill="none" stroke="#c3142d" stroke-width="3"><animate attributename="r" values="8;22;8" dur="1.6s" repeatcount="indefinite"></animate><animate attributename="opacity" values="0.9;0.15;0.9" dur="1.6s" repeatcount="indefinite"></animate></circle> <text class="anno" x="862" y="360" text-anchor="middle">21 fault types</text> <text class="annosub" x="862" y="378" text-anchor="middle">propagate through the</text> <text class="annosub" x="862" y="394" text-anchor="middle">feedback and recycle paths</text> </g>
+</svg>
+<div class="note fragment" data-fragment-index="3" style="margin-top:0.1em; font-size:0.66em;">
+<p>A fault anywhere becomes a signature everywhere: <strong>diagnosis is a systems-integration problem</strong>.</p>
+</div>
+<aside class="notes">
+<p>Built for this audience as a systems story, in four beats. Beat 0: the physical system — five unit operations (two-phase reactor with two exothermic irreversible reactions, condenser, vapor/liquid separator, recycle compressor, stripper), four gas feeds, products G and H, a purge. Beat 1: the instrumentation layer — 53 process variables, 41 measured (XMEAS: temperatures, pressures, levels, flows, compositions) and 12 manipulated (XMV: valve positions). Beat 2: closed-loop control — the plant is open-loop unstable and cannot run without feedback, so every disturbance is actively fought by the controllers; a fault’s signature is muffled, not missing. Beat 3: fault propagation — 21 standard fault types enter as physical disturbances in the running simulation (step changes, random variations, slow drift, sticking valves), and the recycle stream smears each one across the entire plant, which is why no single sensor tells the story. That is the punchline for MSI: diagnosis here is inherently a systems-integration problem — sensing, control, and process physics interacting across units. We use the revised simulator lineage (Bathelt, Ricker &amp; Jelali 2015), whose authors later positioned it explicitly as a “testbed for SPC and DoE methods” (Quality Engineering) — the benchmark itself anticipates TRIAGE’s pairing. Simplified redraw; full P&amp;ID in the writeup.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-experimental-contract" class="slide level2">
+<h2>The Experimental Contract</h2>
+<div class="small-text" style="margin-bottom:0.15em;">
+<p>The agent’s task, stated as the <strong>optimization problem</strong> it is:</p>
+</div>
+<div class="contract">
+<div class="cband fragment">
+<div class="bkey">
+OBJECTIVE
+</div>
+<div class="bval">
+Maximize validation <b>macro-F1</b>: the unweighted mean per-class F1 over all 22 fault classes, so the hard faults count as much as the easy ones.
+</div>
+</div>
+<div class="cband frozen fragment">
+<div class="bkey">
+CONSTRAINTS
+</div>
+<div class="bval">
+The evaluation contract is immutable: cohort construction · run-grouped split · seeds · metric · a holdout gated behind an explicit flag, touched exactly once (<code>config.json</code>, <code>prepare.py</code>). No leakage: features must live within a run.
+</div>
+</div>
+<div class="cband fragment">
+<div class="bkey">
+DECISION VARIABLES
+</div>
+<div class="bval">
+The mutable surface, all via <code>train.py</code>: feature representation (instantaneous vs.&nbsp;temporal vs.&nbsp;multi-scale) · model families · presets · bagging and stacking depth · class weights.
+</div>
+</div>
+<div class="cband fragment">
+<div class="bkey">
+SEARCH POLICY
+</div>
+<div class="bval">
+<b>Greedy, one change per trial:</b> hypothesize → run → read <code>results.tsv</code> → keep only if validation improves. Reasoning logged every run (<code>--observation</code>, <code>--hypothesis</code>).
+</div>
+</div>
+<div class="cnot fragment">
+<s>experimental design</s> · <s>Optuna / search study</s> · <s>screening or main-effects readout</s> &nbsp;·&nbsp; <b>this is the bare-goal control arm.</b>
+</div>
+</div>
+<aside class="notes">
+<p>Framed deliberately in optimization language for this audience: objective, constraints, decision variables, search policy. The objective is macro-F1 (not accuracy) so the rare, hard faults cannot hide behind the easy ones. The constraints are the frozen evaluation contract — cohort, run-grouped split, seeds, and a holdout unlocked by an explicit flag exactly once, after convergence. The decision variables are everything in the one mutable file: representation, model families, ensembling depth, class weights. And the search policy is the interesting part: GREEDY, one change per trial, keep-if-better — a coordinate-descent-like walk through the design space with no design of experiments, no Optuna, no screening, no main-effects estimates. That absence is the point: this is the CONTROL CONDITION the DOE-guided arm of TRIAGE will be measured against. Two more contract details for Q&amp;A: leakage rules (features must be within-row or within-run; never cross-run statistics, never run_id/seq/label), and the reasoning requirement — every trial logs an observation (what the last result showed) and a hypothesis (what this run tests) to reasoning_log.tsv, making the agent’s reasoning itself a logged, evaluable artifact. That instrument matters later: TRIAGE proposes to judge experimental arms partly on the reasoning they record, not only the metric they reach.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-data-21-faults-210-runs" class="slide level2 tight">
+<h2>The Data: 21 Faults, 210 Runs</h2>
+<div class="flow" style="margin:0.1em 0 0.25em; font-size:0.82em;">
+<div class="fnode">
+Simulator<br><span style="font-size:0.68em; font-weight:400; color:#70685c;">closed-loop plant</span>
+</div>
+<div class="farrow">
+→
+</div>
+<div class="fnode">
+Activate IDV(k)<br><span style="font-size:0.68em; font-weight:400; color:#70685c;">one disturbance flag, at t = 10 h</span>
+</div>
+<div class="farrow">
+→
+</div>
+<div class="fnode">
+21 faults × 10 seeded batches<br><span style="font-size:0.68em; font-weight:400; color:#70685c;">= 210 runs · 50 h each</span>
+</div>
+<div class="farrow">
+→
+</div>
+<div class="fnode router">
+Classify all 22 states<br><span style="font-size:0.68em; font-weight:400;">normal + 21 faults · unseen runs only</span>
+</div>
+</div>
+
+<img data-src="figs/tep/fault_grid.png" class="quarto-figure quarto-figure-center r-stretch" style="width:99.0%" alt="Twenty-one small panels, one per Tennessee Eastman fault, each showing the fault's most diagnostic process variable in one real simulation run: gray trace before the 10-hour injection point, colored after, with border colors distinguishing step, random, drift, sticking-valve, and undocumented fault types. Check marks tag the eleven faults whose designed physical cause was recovered in the champion model's top SHAP variables."><aside class="notes">
+<p>What a run is, and what a fault is — in the data itself. Top: generation. The simulated plant runs under closed-loop control; at t = 10 h one disturbance flag IDV(k) is activated — a physical perturbation inside the running simulation, not corrupted data; 21 fault types × 10 independently seeded batches = 210 runs of 50 hours each. Rows before onset are labeled normal from each run’s OWN pre-fault window (so “normal vs fault” cannot be won by a data-format artifact); every 10th sample kept (10-minute cadence); splits are at the level of whole runs (seeds 2026/202607; 38,948 / 10,036 / 12,246 train/val/holdout samples), so evaluation is always on unseen simulations — which is why our honest number lives in the mid-0.8s while much of the literature’s 99% rests on shuffled per-sample splits that leak. Bottom: every fault, in the flesh. The panel variable, in plain language: after training, ask the model “which sensor do you lean on most to recognize this fault?” — that is what each panel shows (formally, the top variable by SHAP attribution on the champion’s features; that machinery stays in these notes, off the slide). This works for EVERY fault, documented or not, because it comes from the model, not the documentation. The panel plots that sensor’s raw value in one real run, gray before onset; the line color after onset encodes the fault MECHANISM, not magnitude. Blue steps are trivially visible; orange random variation is partly absorbed by the controllers; the purple kinetics drift (F13) develops over hours, invisible to any snapshot; red sticking valves (F15, F21) barely move the sensors at all. The ✓ then has a clean meaning: for 11 of the 16 documented faults, the model’s go-to sensor matches the physically perturbed quantity — the model learned the right physics where physics is observable. The “undocumented” faults 16–20 are real disturbances built into the simulator whose cause was never published: their signatures are just as physical (17–20 oscillate dramatically and are easy to diagnose — high F1), but with no published cause there is nothing to check a ✓ against, and fault 16’s near-zero F1 cannot be attributed to a known mechanism. Check marks: for 11 of the 16 documented faults, the champion’s SHAP top-3 recovers the DESIGNED physical cause (Table 4 of the writeup) — the model learned the right mechanism where one is observable, and the misses are exactly the faults whose perturbed quantity is not directly instrumented. Figure generated from the prepared dataset by deck/figs/tep/make_fault_grid.py.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-loops-trajectory" class="slide level2" data-autoslide="8000">
+<h2>The Loop’s Trajectory</h2>
+<div class="r-stack">
+<p><img data-src="figs/tep/frames/frame_0.png" style="width:96.0%"></p>
+<p><img data-src="figs/tep/frames/frame_1.png" class="fragment" style="width:96.0%" data-autoslide="4000"></p>
+<p><img data-src="figs/tep/frames/frame_2.png" class="fragment" style="width:96.0%"></p>
+<p><img data-src="figs/tep/frames/frame_3.png" class="fragment" style="width:96.0%"></p>
+<p><img data-src="figs/tep/frames/frame_4.png" class="fragment" style="width:96.0%" data-autoslide="4000"></p>
+<p><img data-src="figs/tep/frames/frame_5.png" class="fragment" style="width:96.0%"></p>
+<p><img data-src="figs/tep/frames/frame_6.png" class="fragment" style="width:96.0%"></p>
+<p><img data-src="figs/tep/frames/frame_7.png" class="fragment" style="width:96.0%"></p>
+<p><img data-src="figs/tep/frames/frame_8.png" class="fragment" style="width:96.0%"></p>
+</div>
+<div class="fragment" data-autoslide="0" style="height:0; overflow:hidden;">
+
+</div>
+<aside class="notes">
+<p>Numbers to say aloud at the end: 0.702 → 0.864 validation over 10 logged runs, 0.885 on the gated holdout — and the two big jumps are physics, not tuning (temporal +0.078, multi-scale +0.049; all computational knobs together only about +0.03). Watch the run happen: each frame is one real trial — the confusion-matrix diagonal brightens, the macro-F1 counter moves, and the right panel shows the agent’s own “what changed / rationale.” The slide auto-advances (8 s per run, 4 s on the two crash frames; auto-slide-stoppable is off, so the timer keeps running even after key presses; the final fragment halts it). Beats to narrate: run 1 baseline 0.702 on instantaneous readings; run 2 CRASH — stale feature cache, diagnosed from the traceback and fixed; run 3 temporal features jump to 0.780; run 4 stronger preset does nothing (bagging was off — the agent found its own config bug); run 5 CRASH — Windows dynamic-stacking file-lock, fixed in train.py; run 6 bagging +0.008; run 7 multi-scale windows 0.836, the biggest jump — a 50-minute window cannot see a fault that develops over hours; run 8 class-balancing 0.849; run 9 extreme_quality on the GPU, champion 0.864. Afterwards the specialist model for the two hardest faults added nothing (run 10, not shown in the sequence), and the gated holdout — touched exactly once — scored 0.885 (it exceeds validation because the final model refits on train+validation: more data, not leakage). The two crash frames stay in the record deliberately: the loop debugged itself, and the log is honest.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-the-agent-actually-learned" class="slide level2 tight">
+<h2>What the Agent Actually Learned</h2>
+<div class="flow" style="margin:0.15em 0 0.2em;">
+<div class="fnode">
+Observation
+</div>
+<div class="farrow">
+→
+</div>
+<div class="fnode">
+Hypothesis
+</div>
+<div class="farrow">
+→
+</div>
+<div class="fnode">
+Change
+</div>
+<div class="farrow">
+→
+</div>
+<div class="fnode">
+Trial
+</div>
+<div class="farrow">
+→
+</div>
+<div class="fnode router">
+Metric
+</div>
+<div class="farrow">
+↻
+</div>
+</div>
+<div class="provrow">
+<p><span class="pchip"><span class="pk">&gt;</span> python run_baseline.py --observation “…” --hypothesis “…”</span> <span class="parrow">→</span> <span class="pchip light">reasoning_log.tsv · one row per trial · git-committed</span></p>
+</div>
+<div style="text-align:center; font-size:0.46em; color:#70685c; margin:-0.2em 0 0.35em;">
+the rows below are read from that log, written live during the run, not reconstructed
+</div>
+<div class="ribbon">
+<div class="rrow fragment">
+<div class="robs">
+Hard faults show almost no signal in the instantaneous readings.
+</div>
+<div class="rhyp">
+A fault is a trajectory, not an instant: add per-run temporal features.
+</div>
+<div class="rres">
++0.078
+</div>
+</div>
+<div class="rrow fragment">
+<div class="robs">
+A 50-minute window cannot see a fault that develops over hours.
+</div>
+<div class="rhyp">
+Add multi-scale windows (≈50 min · 3.3 h · 10 h) so slow drifts become explicit features.
+</div>
+<div class="rres">
++0.049
+</div>
+</div>
+<div class="rrow fragment">
+<div class="robs">
+Only the rare post-onset faults 16 &amp; 21 stay low.
+</div>
+<div class="rhyp">
+Macro-F1 weights classes equally: upweight the rare classes.
+</div>
+<div class="rres">
++0.013
+</div>
+</div>
+<div class="rrow fragment">
+<div class="robs">
+The hard-fault specialist added nothing; the literature calls 16 &amp; 21 near-undetectable.
+</div>
+<div class="rhyp">
+<b>Stop:</b> the limit is the process, not the model.
+</div>
+<div class="rres stop">
+STOP → 0.885
+</div>
+</div>
+</div>
+<div class="quotecard fragment" style="max-width:70%; margin-top:0.45em;">
+<p><span class="qtext">“In a closed loop, a fault is a trajectory, not a snapshot.”</span> <span class="qwho">the agent’s own logged hypothesis, before run 2</span></p>
+</div>
+<aside class="notes">
+<p>The loop made visible: observation → hypothesis → change → trial → metric, around and around — and these four rows are the real thread from reasoning_log.tsv, not a reconstruction. Row 1: the agent read per-class F1, saw the hard faults flat, and hypothesized that in a closed-loop plant a fault is a trajectory — the single most valuable move of the run (+0.078). Row 2: it then reasoned about timescales — slow drifts need windows measured in hours (+0.049, the biggest jump; fault 15 went 0.13→0.49, fault 9 0.43→0.79). Row 3: metric-shaped reasoning — macro-F1 weights all classes equally, so upweight the rare ones (+0.013). Row 4: it recognized a limit — the specialist extracted nothing, the literature agrees 16 and 21 are near-undetectable, so it stopped and spent its single holdout confirmation: 0.885. The reading: the two large gains came from hypotheses about the PHYSICS; the computational levers (preset, bagging, GPU) each added little; and the loop knew when to stop. The reasoning itself is a logged artifact — –observation and –hypothesis fields on every trial — which is exactly the instrument TRIAGE proposes for judging experimental arms: not only what score they reach, but what reasoning they record along the way.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="run-budgets-across-two-autonomous-experiments" class="slide level2 tight">
+<h2>Run Budgets Across Two Autonomous Experiments</h2>
+<div class="small-text" style="margin-bottom:0.1em;">
+<p>The same harness pattern with two different <code>program.md</code> contracts, on two very different problems. Shown here for the <strong>run-budget contrast</strong>:</p>
+</div>
+<div class="extremes">
+<div class="excol">
+<div class="exhead">
+Tennessee Eastman · manufacturing fault diagnosis
+</div>
+<img src="figs/tep/loop_tep_trajectory.png" alt="Macro-F1 trajectory of the ten-run Tennessee Eastman loop, climbing from 0.702 to 0.864 with two crashes marked">
+<div class="exrow">
+<b>10 runs</b> · macro-F1 0.702 → 0.864 (<b>+0.16</b>) · gains from <b>physics hypotheses</b> · ceiling: process observability
+</div>
+</div>
+<div class="excol">
+<div class="exhead">
+SRTR heart transplant · 10-yr graft-failure prediction
+</div>
+<img src="figs/progress.png" alt="F1 trajectory of the 72-run heart-transplant loop, plateauing near 0.740 before a human nudge unlocks a confirmed 0.7426">
+<div class="exrow">
+<b>72 runs</b> · F1 ≈ 0.740 → 0.7426 (<b>+0.005</b>) · gains from <b>data-representation discovery</b> · ceiling: feature discrimination
+</div>
+</div>
+</div>
+<div class="note fragment" style="font-size:0.66em; margin-top:0.35em;">
+<p>One pattern, wildly different run budgets and gain profiles: <strong>run-efficiency is the scarce resource</strong>.</p>
+</div>
+<aside class="notes">
+<p>Our second, parallel experiment — included not for MSI relevance but for the CONTRAST in experimental economics. Left: TEP — ten runs, +0.16 macro-F1, every large gain a physics hypothesis (temporal, multi-scale), and a ceiling set by process observability (faults 16 and 21 are near-unobservable in closed loop — the decades-old finding; the agent resolved 3 and 9, lifted 15, and stopped where the process, not the model, sets the limit). Right: the SRTR/UNOS heart-transplant registry, 1985–March 2026 — seventy-two runs for +0.005 F1, where the only real gain came from a data-representation discovery (54 miscoded categorical columns) unlocked by a one-sentence human nudge, and the ceiling is the discrimination content of pre-transplant features (an external 0.85 claim was audited and proven unreachable — max F1 at any threshold 0.744). Two extremes: cheap-run/large-gain vs expensive-run/small-gain; hypothesis-rich vs representation-bound. What both share: the run budget is the binding constraint. Ten runs or seventy-two, every run costs compute or time — run-efficiency is exactly what design of experiments was invented to buy. TEP validation detail if asked: SHAP fingerprints recover the designed cause in the top-3 for 11 of 16 documented faults; SHAP, EBM, and gain importance agree; misses are exactly the faults whose perturbed quantity is not instrumented.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-fundamental-hypothesis" class="slide level2 tight">
+<h2>The Fundamental Hypothesis</h2>
+<div style="display:flex; align-items:center; gap:0.9em; margin-bottom:0.05em;">
+<div class="small-text" style="flex:1; margin:0;">
+<p>If science is becoming an automated <b>propose → run → evaluate</b> loop (<a href="https://www.discoveryloop.com/">Discovery Loop’s own words</a>, and <a href="https://x.com/JeffDean/status/2085035498222002595/photo/1">the first slide of their pitch deck</a>, right), then the statistical question is:</p>
+</div>
+<p><a href="https://x.com/JeffDean/status/2085035498222002595/photo/1" style="border-bottom:none; flex:0 0 240px;"><img src="figs/dl/pitch_loop.jpg" alt="Discovery Loop pitch slide showing the universal propose, implement, evaluate cycle with the approach of automating the loop" style="width:240px; margin:0; border:1px solid #ccc9b8; border-radius:6px; box-shadow:0 3px 10px rgba(0,0,0,0.1);"></a></p>
+</div>
+<svg class="hyposvg" viewbox="0 0 940 300" width="78%" style="display:block; margin:0.1em auto;" role="img" aria-label="Two stylized search trajectories over a response surface: a gray greedy one-change-at-a-time path that plateaus at a local maximum, and a red DOE-structured path that screens, estimates effects, and reaches a higher optimum in fewer steps.">
+<path class="land" d="M20,270 C 120,240 180,180 260,185 C 330,190 360,225 430,215 C 520,200 560,90 680,70 C 780,55 860,45 920,40"></path> <g class="fragment" data-fragment-index="1"> <path class="greedy" d="M30,268 L90,255 L110,258 L170,225 L200,228 L250,200 L290,203 L340,198 L390,200 L430,196"></path> <circle cx="430" cy="196" r="7" fill="#70685c"></circle> <text class="hlabel" x="452" y="192" fill="#70685c">greedy loop</text> <text class="hsub" x="452" y="210">one change at a time · plateaus at a local maximum</text> </g> <g class="fragment" data-fragment-index="2"> <path class="doe" d="M30,268 C 100,250 150,235 230,210 C 330,180 430,150 560,110 C 640,88 700,75 760,62"></path> <circle cx="760" cy="62" r="8" fill="#c3142d"></circle> <text class="hlabel" x="440" y="70" fill="#c3142d">DOE-structured loop?</text> <text class="hsub" x="440" y="90">screen → estimate effects → exploit</text> </g>
+</svg>
+<div class="contract" style="max-width:88%;">
+<div class="cband fragment">
+<div class="bkey">
+LEARN FASTER
+</div>
+<div class="bval">
+Reach the <b>same solution in fewer runs</b>: run-efficiency, the scarce resource on the previous slide.
+</div>
+</div>
+<div class="cband fragment">
+<div class="bkey">
+REACH HIGHER
+</div>
+<div class="bval">
+Escape the <b>local maxima</b> that greedy one-change-at-a-time loops settle into: the interactions a factorial design sees and a greedy walk cannot.
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>The synthesis slide — in Discovery Loop’s own propose/run/evaluate vocabulary, because that legitimizes the premise: automated science is arriving whether or not it is statistically well-designed. Our fundamental hypothesis: classical design of experiments, handed to the agent as structured guidance, can make the loop either (a) LEARN FASTER — reach the same solution in fewer runs, which matters because runs are the scarce resource at both extremes we just showed — or (b) REACH BETTER SOLUTIONS — because greedy one-change-at-a-time search provably cannot see interactions (the heart-transplant synergy was exactly this: two changes that each HURT alone and only helped together — invisible to any greedy walk; and TEP’s stopping decision was informal where sequential design gives principled rules). The sketch is deliberately stylized, not data: a greedy path plateauing on a local ridge versus a designed path that screens, estimates effects, and exploits. This is the hypothesis the TRIAGE proposal turns into aims — next section.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="to-be-continued" class="slide level2 inverse center">
+<h2>To Be Continued</h2>
+<p><strong>TRIAGE aims · the heart-transplant arm · MSI fit · the ask</strong></p>
+<!-- TEMP closing slide — replaced when Subsections 3+ are agreed. -->
+<aside class="notes">
+<p>Placeholder end-slide while Subsections 3+ are designed.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="https://miamioh.edu/miami-brand/_files/images/system/identity/logo-horizontal-stacked.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>TRIAGE · Miami University &amp; University of Georgia · Briefing for NSF MSI</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="index_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="index_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="index_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="index_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="index_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="index_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="index_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="index_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: false,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <img src="figs/uga_logo.png" class="uga-logo" alt="University of Georgia">
+    <script>
+    window.addEventListener('load', function () {
+      if (!window.Reveal) return;
+      var img = document.querySelector('img.uga-logo');
+      if (!img) return;
+      var update = function () {
+        var s = Reveal.getCurrentSlide();
+        var onRed = s && (s.id === 'title-slide' || s.classList.contains('inverse'));
+        img.style.display = onRed ? 'none' : '';
+      };
+      Reveal.on('slidechanged', update);
+      Reveal.on('ready', update);
+      update();
+    });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

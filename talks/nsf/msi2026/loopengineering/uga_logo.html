@@ -1,0 +1,16 @@
+<img src="figs/uga_logo.png" class="uga-logo" alt="University of Georgia" />
+<script>
+window.addEventListener('load', function () {
+  if (!window.Reveal) return;
+  var img = document.querySelector('img.uga-logo');
+  if (!img) return;
+  var update = function () {
+    var s = Reveal.getCurrentSlide();
+    var onRed = s && (s.id === 'title-slide' || s.classList.contains('inverse'));
+    img.style.display = onRed ? 'none' : '';
+  };
+  Reveal.on('slidechanged', update);
+  Reveal.on('ready', update);
+  update();
+});
+</script>
