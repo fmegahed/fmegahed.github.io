@@ -486,6 +486,45 @@ img.uga-logo { position: fixed; bottom: 18px; left: 74px; height: 36px; z-index:
 .reveal .tepsvg .streamlabel { font-family: "Libre Franklin", sans-serif; font-size: 11px; fill: $muted; }
 .reveal .tepsvg .recyclelabel { font-family: "Libre Franklin", sans-serif; font-size: 12px; font-weight: 700; fill: $miamired; }
 
+// ---- Two-arm study design (S13) ----
+.reveal .arms { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7em; margin: 0.35em 0; }
+.reveal .arm { background: #ffffff; border: 1px solid $line; border-radius: 8px; padding: 0.5em 0.8em; text-align: left; }
+.reveal .arm .ahead { font-weight: 800; font-size: 0.66em; letter-spacing: 0.05em; }
+.reveal .arm .atag { display: block; font-size: 0.48em; color: $muted; margin-top: 0.05em; }
+.reveal .arm .asteps { margin: 0.4em 0 0.1em; font-size: 0.56em; line-height: 1.6; color: $ink; }
+.reveal .arm .asteps .astep { display: block; padding-left: 0.9em; text-indent: -0.9em; }
+.reveal .arm .asteps .astep::before { content: "→ "; font-weight: 700; }
+.reveal .arm.a, .reveal .arm.b { border-top: 5px solid $miamired; }
+.reveal .arm.a .ahead, .reveal .arm.b .ahead { color: $miamired; }
+.reveal .arm.a .asteps .astep::before, .reveal .arm.b .asteps .astep::before { color: $miamired; }
+
+// ---- Kin-award cards (MSI portfolio slide) ----
+.reveal .kingrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4em; margin: 0.25em 0; }
+.reveal .kincard {
+  background: #ffffff; border: 1px solid $line; border-left: 5px solid $miamired;
+  border-radius: 8px; padding: 0.28em 0.7em; text-align: left;
+}
+.reveal .kincard .knum {
+  display: inline-block; font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.44em; background: $panel; border-radius: 4px; padding: 0.1em 0.5em;
+  color: $ink; margin-right: 0.4em;
+}
+.reveal .kincard .knum a { color: $linkblue; border-bottom: none; }
+.reveal .kincard .kdate { font-size: 0.44em; color: $lightgray; }
+.reveal .kincard .ktitle { display: block; font-weight: 700; font-size: 0.56em; color: $ink; line-height: 1.3; margin: 0.15em 0 0.1em; }
+.reveal .kincard .ktie { display: block; font-size: 0.5em; color: $muted; line-height: 1.35; }
+.reveal .kincard .ktie b { color: $miamired; }
+
+// ---- Heard / asking columns (ask slide) ----
+.reveal .heardgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8em; margin: 0.3em 0; }
+.reveal .heardcol { background: #ffffff; border: 1px solid $line; border-radius: 8px; padding: 0.45em 0.8em; text-align: left; }
+.reveal .heardcol .hhead { font-weight: 800; color: $miamired; font-size: 0.62em; letter-spacing: 0.05em; margin-bottom: 0.25em; display: block; }
+.reveal .heardcol ul { margin: 0 0 0 1em; padding: 0; font-size: 0.56em; line-height: 1.5; }
+.reveal .heardcol li { margin-bottom: 0.3em; }
+.reveal .heardcol .hcheck { color: #1c7c33; font-weight: 800; }
+.reveal .heardcol.taken { border-top: 5px solid #1c7c33; }
+.reveal .heardcol.asking { border-top: 5px solid $miamired; }
+
 // ---- Timeline strip ----
 .reveal .timeline { display: flex; align-items: center; justify-content: center; gap: 0.4em; margin: 0.6em 0 0.2em; }
 .reveal .timeline .tstop { background: $panel; border-top: 4px solid $miamired; border-radius: 6px; padding: 0.4em 0.8em; text-align: center; }

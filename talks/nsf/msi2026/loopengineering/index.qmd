@@ -4,7 +4,7 @@ subtitle: |
   **T**rustworthy **R**un-efficient **I**nvestigation of **A**gentic **G**uided **E**xperiments<br>
   <span style="font-size:0.62em">A briefing for the NSF Manufacturing Systems Integration (MSI) Program &nbsp;•&nbsp; Presented by **the TRIAGE Team**</span>
 author:
-  - name: Fadel Megahed
+  - name: Fadel M. Megahed
     affiliations:
       - name: Farmer School of Business, Miami University
   - name: Allison Jones-Farmer
@@ -78,6 +78,8 @@ June–July 2026 · "loop engineering" enters the conversation<br>
 [<span class="gsrc">Forbes</span>: "Loop Engineering Is Fully Making The Rounds…"](https://www.forbes.com/sites/lanceeliot/2026/06/17/loop-engineering-is-fully-making-the-rounds-for-boosting-generative-ai-and-agentic-ai/) · [<span class="gsrc">Business Insider</span>: "Forget prompt engineering: 'Loop engineering' is all the rage now"](https://www.businessinsider.com/what-are-loops-ai-engineering-tips-2026-6) · [<span class="gsrc">Fast Company</span>: "Why AI learning loops are a governance issue"](https://www.fastcompany.com/91569569/ai-learning-loops-governance-issue)
 :::
 
+<br>
+
 ::: {.fragment}
 <p class="dl-name">DISCOVERY LOOP</p>
 <p class="dl-founders">[Jeff Dean](https://scholar.google.com/citations?user=sdcsQb4AAAAJ) · [Sanjay Ghemawat](https://scholar.google.com/citations?user=0KF6ZC8AAAAJ) · [Quoc Le](https://scholar.google.com/citations?user=vfT6-XIAAAAJ) · [Oriol Vinyals](https://scholar.google.com/citations?user=NkzyCvUAAAAJ) leave Google to automate the research loop</p>
@@ -94,7 +96,7 @@ Slides from the founders' own pitch deck, [shared publicly by Jeff Dean](https:/
 :::
 
 ::: {.dl-nae .corn .fragment}
-Explicit aim: accelerate **science and engineering**, toward the **14 NAE Grand Challenges**, a list NSF itself commissioned.
+**Explicit aim:** Accelerate **science and engineering**, toward the [14 NAE Grand Challenges](https://www.nae.edu/20782/grand-challenges-project).
 :::
 
 ::: {.dl-signals .fragment}
@@ -109,7 +111,7 @@ The before → inflection → after story. Before: through June–July the phras
 ## Loop Engineering Applied to Manufacturing Systems {.tight}
 
 ::: {.small-text style="margin-bottom:0.2em;"}
-**Tennessee Eastman Process (TEP)**: the canonical simulated chemical-plant benchmark ([Downs & Vogel, 1993](https://doi.org/10.1016/0098-1354(93)80018-I)). 22 fault classes, 53 process variables, evaluation on unseen simulation runs. Our harness; the agent drives.
+**Tennessee Eastman Process (TEP)**: the canonical simulated chemical-plant benchmark ([Downs & Vogel, 1993](https://doi.org/10.1016/0098-1354(93)80018-I)). 53 process variables (41 measurements and 12 manipulatable valves) and 22 fault classes (normal and 21 faults). Our harness drives the fault detection/diagnosis, and we evaluate on unseen simulation runs.
 :::
 
 ::: columns
@@ -182,7 +184,7 @@ Transition into the evidence section: six slides — the plant, the contract, th
 ## Why Tennessee Eastman?
 
 ::: {.small-text style="margin-bottom:0;"}
-An **integrated production system in miniature**: a realistic plant-wide control problem from a real Eastman Chemical process ([Downs & Vogel, 1993](https://doi.org/10.1016/0098-1354(93)80018-I)) that converts **gaseous feeds A, C, D, E** into **liquid products G and H**. The dominant fault-diagnosis testbed since.
+An **integrated production system in miniature**: a realistic plant-wide control problem from a real Eastman Chemical process ([Downs & Vogel, 1993](https://doi.org/10.1016/0098-1354(93)80018-I)) that converts **gaseous feeds A, C, D, E** into **liquid products G and H**. Since 1993, it has remained a popular fault-diagnosis testbed.
 :::
 
 <svg class="tepsvg" viewBox="0 0 960 400" width="94%" role="img" aria-label="Animated Tennessee Eastman schematic: five unit operations connected by streams, an instrumentation layer of 53 sensors, closed-loop control, and a fault-propagation pulse around the recycle path.">
@@ -233,7 +235,7 @@ An **integrated production system in miniature**: a realistic plant-wide control
 </svg>
 
 ::: {.note .fragment fragment-index="3" style="margin-top:0.1em; font-size:0.66em;"}
-A fault anywhere becomes a signature everywhere: **diagnosis is a systems-integration problem**.
+**Diagnosis is a systems-integration problem,** where a fault can impact multiple systems and/or variables.
 :::
 
 ::: notes
@@ -249,7 +251,7 @@ The agent's task, stated as the **optimization problem** it is:
 <div class="contract">
 <div class="cband fragment">
 <div class="bkey">OBJECTIVE</div>
-<div class="bval">Maximize validation <b>macro-F1</b>: the unweighted mean per-class F1 over all 22 fault classes, so the hard faults count as much as the easy ones.</div>
+<div class="bval">Maximize validation <b>macro-F1</b> across all 22 fault classes, giving hard and easy classes equal weight.</div>
 </div>
 <div class="cband frozen fragment">
 <div class="bkey">CONSTRAINTS</div>
@@ -407,13 +409,15 @@ If science is becoming an automated <b>propose → run → evaluate</b> loop (<a
 <a href="https://x.com/JeffDean/status/2085035498222002595/photo/1" style="border-bottom:none; flex:0 0 240px;"><img src="figs/dl/pitch_loop.jpg" alt="Discovery Loop pitch slide showing the universal propose, implement, evaluate cycle with the approach of automating the loop" style="width:240px; margin:0; border:1px solid #ccc9b8; border-radius:6px; box-shadow:0 3px 10px rgba(0,0,0,0.1);"></a>
 </div>
 
-<svg class="hyposvg" viewBox="0 0 940 300" width="78%" style="display:block; margin:0.1em auto;" role="img" aria-label="Two stylized search trajectories over a response surface: a gray greedy one-change-at-a-time path that plateaus at a local maximum, and a red DOE-structured path that screens, estimates effects, and reaches a higher optimum in fewer steps.">
+<svg class="hyposvg" viewBox="0 0 940 300" width="54%" style="display:block; margin:0 auto;" role="img" aria-label="Two stylized search trajectories over a response surface: a gray greedy one-change-at-a-time path that plateaus at a local maximum and keeps spending runs along the flat, and a red DOE-structured path that screens, estimates effects, and reaches a higher optimum in fewer steps.">
 <path class="land" d="M20,270 C 120,240 180,180 260,185 C 330,190 360,225 430,215 C 520,200 560,90 680,70 C 780,55 860,45 920,40"/>
 <g class="fragment" data-fragment-index="1">
 <path class="greedy" d="M30,268 L90,255 L110,258 L170,225 L200,228 L250,200 L290,203 L340,198 L390,200 L430,196"/>
 <circle cx="430" cy="196" r="7" fill="#70685c"/>
-<text class="hlabel" x="452" y="192" fill="#70685c">greedy loop</text>
-<text class="hsub" x="452" y="210">one change at a time · plateaus at a local maximum</text>
+<path class="greedy" style="stroke-dasharray:5 6; opacity:0.55;" d="M437,196 L700,193"/>
+<text class="hlabel" x="452" y="160" fill="#70685c">greedy loop</text>
+<text class="hsub" x="452" y="178">one change at a time · plateaus at a local maximum</text>
+<text class="hsub" x="706" y="199">runs spent past the plateau</text>
 </g>
 <g class="fragment" data-fragment-index="2">
 <path class="doe" d="M30,268 C 100,250 150,235 230,210 C 330,180 430,150 560,110 C 640,88 700,75 760,62"/>
@@ -423,27 +427,218 @@ If science is becoming an automated <b>propose → run → evaluate</b> loop (<a
 </g>
 </svg>
 
-::: {.contract style="max-width:88%;"}
-<div class="cband fragment">
+::: {.contract style="max-width:92%; gap:0.32em;"}
+<div class="cband fragment" style="padding:0.32em 0.85em;">
 <div class="bkey">LEARN FASTER</div>
 <div class="bval">Reach the <b>same solution in fewer runs</b>: run-efficiency, the scarce resource on the previous slide.</div>
 </div>
-<div class="cband fragment">
+<div class="cband fragment" style="padding:0.32em 0.85em;">
 <div class="bkey">REACH HIGHER</div>
 <div class="bval">Escape the <b>local maxima</b> that greedy one-change-at-a-time loops settle into: the interactions a factorial design sees and a greedy walk cannot.</div>
+</div>
+<div class="cband fragment" style="padding:0.32em 0.85em;">
+<div class="bkey">KNOW WHEN TO STOP</div>
+<div class="bval">End the search on <b>evidence, not intuition</b>: the heart-transplant loop spent <b>72 runs for +0.005</b>. Sequential stopping rules make "done" a calculation, not a feeling.</div>
 </div>
 :::
 
 ::: notes
-The synthesis slide — in Discovery Loop's own propose/run/evaluate vocabulary, because that legitimizes the premise: automated science is arriving whether or not it is statistically well-designed. Our fundamental hypothesis: classical design of experiments, handed to the agent as structured guidance, can make the loop either (a) LEARN FASTER — reach the same solution in fewer runs, which matters because runs are the scarce resource at both extremes we just showed — or (b) REACH BETTER SOLUTIONS — because greedy one-change-at-a-time search provably cannot see interactions (the heart-transplant synergy was exactly this: two changes that each HURT alone and only helped together — invisible to any greedy walk; and TEP's stopping decision was informal where sequential design gives principled rules). The sketch is deliberately stylized, not data: a greedy path plateauing on a local ridge versus a designed path that screens, estimates effects, and exploits. This is the hypothesis the TRIAGE proposal turns into aims — next section.
+The synthesis slide — in Discovery Loop's own propose/run/evaluate vocabulary, because that legitimizes the premise: automated science is arriving whether or not it is statistically well-designed. Our fundamental hypothesis has three parts, each with a century of statistics behind it. (a) LEARN FASTER: reach the same solution in fewer runs — runs are the scarce resource at both extremes we just showed. (b) REACH HIGHER: greedy one-change-at-a-time search provably cannot see interactions; the heart-transplant synergy was exactly this — two changes that each hurt alone and only helped together, invisible to any greedy walk, visible to a factorial design. (c) KNOW WHEN TO STOP: the heart-transplant loop spent 72 runs for +0.005 — its later rounds bought practically nothing — and TEP's stop rule was the informal "stop when improvements dry up"; sequential analysis (Wald's sequential tests; the group-sequential and futility rules that govern clinical trials) makes stopping a calculation, and the loop's own 0.744-ceiling audit was in fact a futility argument, made ad hoc — TRIAGE makes it by design. The dashed gray tail in the sketch is that third hypothesis: runs spent past the plateau. The sketch is stylized, not data. This is the hypothesis the TRIAGE proposal turns into aims — next section.
 :::
 
-## To Be Continued {.inverse .center}
+## The TRIAGE Proposal {.inverse .center}
 
-**TRIAGE aims · the heart-transplant arm · MSI fit · the ask**
-
-<!-- TEMP closing slide — replaced when Subsections 3+ are agreed. -->
+**From two pilot loops to a research program**
 
 ::: notes
-Placeholder end-slide while Subsections 3+ are designed.
+Final section: the study design that turns the hypothesis into an experiment, the three aims, where it sits in the MSI portfolio, and what we are asking today.
+:::
+
+## The Study Design: Two Arms, One Contract {.tight}
+
+<div class="contract" style="max-width:92%;">
+<div class="cband frozen" style="grid-template-columns:190px 1fr;">
+<div class="bkey">SHARED CONTRACT</div>
+<div class="bval">One frozen <code>program.md</code> per problem: objective · evaluation · mutable surface. The arms differ in exactly one thing: the <b>guidance</b>.</div>
+</div>
+</div>
+
+<div class="arms">
+<div class="arm a fragment">
+<span class="ahead">ARM A · BARE GOAL (control)</span>
+<span class="atag">the run you just watched</span>
+<div class="asteps">
+<span class="astep">form <b>one hypothesis</b></span>
+<span class="astep">change <b>one thing</b> · run a trial</span>
+<span class="astep">keep only if the metric <b>improves</b></span>
+<span class="astep">stop when improvements dry up (<b>informal</b>)</span>
+</div>
+</div>
+<div class="arm b fragment">
+<span class="ahead">ARM B · DOE-GUIDED (treatment)</span>
+<span class="atag">classical and modern experimental design as structured guidance</span>
+<div class="asteps">
+<span class="astep">screen factors and optimize <b>in one designed batch</b> (OMARS designs)</span>
+<span class="astep">estimate main effects <b>independently</b>, plus interactions and curvature</span>
+<span class="astep">allocate follow-up runs <b>adaptively</b> (multi-armed bandits)</span>
+<span class="astep">stop by a <b>principled sequential rule</b> (best-arm identification)</span>
+</div>
+</div>
+</div>
+
+<div class="contract fragment" style="max-width:92%;">
+<div class="cband" style="grid-template-columns:190px 1fr;">
+<div class="bkey">MEASURED</div>
+<div class="bval"><b>Runs</b> to reach a given solution · <b>quality</b> of the final solution · <b>transferable knowledge</b>, read from the logged reasoning and tested by warm-starting new problems.</div>
+</div>
+</div>
+
+::: footnote
+OMARS designs combine factor screening and response-surface optimization in a single experiment ([Goos, *WIREs Computational Statistics*, 2025](https://doi.org/10.1002/wics.70018)); multi-armed bandits provide adaptive run allocation and stopping with statistical guarantees ([Slivkins, *Introduction to Multi-Armed Bandits*, 2019](https://arxiv.org/abs/1904.07272)).
+:::
+
+::: notes
+The experiment ON the loops. Same agent, same harness, same frozen evaluation contract; the arms differ only in the guidance section of program.md. Arm A is exactly what you watched: one hypothesis, one change, keep-if-better, informal stopping. Arm B hands the agent both classical AND modern experimental design, and the two named instruments are chosen deliberately. OMARS designs (orthogonal minimally aliased response surface designs; Goos's 2025 WIREs review) bridge definitive screening designs and classical response-surface designs: one designed batch estimates all main effects independently WHILE detecting two-factor interactions and curvature, collapsing the traditional two-step screen-then-optimize sequence into a single experiment — which is precisely the learn-faster hypothesis (fewer runs to the same knowledge), and the interaction/curvature detection is the reach-higher hypothesis (the effects a greedy walk cannot see; the heart-transplant synergy was exactly such an interaction). Multi-armed bandits (Slivkins's textbook treatment) are the sequential complement: where OMARS structures the batch, bandits structure the sequence — adaptive allocation concentrates the remaining run budget on promising configurations instead of spreading it evenly, and best-arm identification provides stopping criteria with statistical guarantees, which is the know-when-to-stop hypothesis made operational (fixing both TEP's informal stop and the heart loop's 72-runs-for-+0.005). We measure three things, deliberately understated in a single band: run-efficiency, solution quality, and transferable knowledge — the last read from the logged reasoning you saw and tested by warm-starting new problems. The TEP section was, deliberately, Arm A's dry run: the control condition already exists and this deck is its lab notebook.
+:::
+
+## Three Aims {.tight}
+
+::: phasegrid
+::: {.phase .fragment}
+[Aim 1]{.pnum}[Within-problem gains]{.ptitle}
+
+- Bare-goal vs. DOE-guided on **simulations with known ground truth**
+- Domains: process monitoring (TEP), predictive maintenance, production optimization
+- Evidence in hand: the **TEP control arm you just saw**
+:::
+::: {.phase .fragment}
+[Aim 2]{.pnum}[Transferable knowledge]{.ptitle}
+
+- **Warm-start** vs. cold-start agents on new problems
+- Compare agent-reported effects to **true simulated effects**
+- Instrument in hand: the **logged reasoning thread**
+:::
+::: {.phase .fragment}
+[Aim 3]{.pnum}[Sim-to-real]{.ptitle}
+
+- One **physical manufacturing task** (3-D bin packing, robotic assembly)
+- First honest step at the **sim-to-real gap** for agentic experimentation
+:::
+:::
+
+::: {.note .fragment}
+Everything ships as **open community infrastructure**: harnesses, `program.md` templates, and benchmarks others can run.
+:::
+
+::: notes
+The aims, each anchored to something already shown. Aim 1: in simulation we know the true effects, so we can score whether DOE guidance improved the agent's INFERENCES, not just its final metric; the TEP bare-goal run is the control condition, already logged, committed, and written up. Aim 2 is the question black-box tuners cannot even pose: does the knowledge the loop accumulates transfer? We compare warm-started to cold-started agents and compare the effects the agent REPORTS to the effects we BUILT into the simulators; the reasoning log you saw is the measurement instrument. Aim 3 takes the approach to one physical task, deliberately scoped as a first step at the sim-to-real gap. And everything releases openly, which is both broader impact and MSI's generalizable-principles criterion.
+:::
+
+## Where TRIAGE Sits in the MSI Portfolio {.tight}
+
+<div class="kingrid">
+<div class="kincard fragment">
+<span class="knum"><a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2627331">NSF 2627331</a></span><span class="kdate">starts 9/2026</span>
+<span class="ktitle">Collaborative Sequential Experimentation for Bio-Additive Manufacturing Systems</span>
+<span class="ktie">Costly trials + sequential experimental design: the portfolio's nearest neighbor to <b>DOE in the loop</b>.</span>
+</div>
+<div class="kincard fragment">
+<span class="knum"><a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2618912">NSF 2618912</a></span><span class="kdate">starts 9/2026</span>
+<span class="ktitle">Self-Learning Digital Twins for Robotic Remanufacturing under Uncertainty</span>
+<span class="ktie"><b>Loops that learn</b> on digital twins of manufacturing systems.</span>
+</div>
+<div class="kincard fragment">
+<span class="knum"><a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2517645">NSF 2517645</a></span><span class="kdate">started 9/2025</span>
+<span class="ktitle">Improving Zero-Shot Learning of Manufacturing Anomalies by Leveraging Textual Sources</span>
+<span class="ktie"><b>Language models meet fault detection</b>, the TEP problem's close kin.</span>
+</div>
+<div class="kincard fragment">
+<span class="knum"><a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2627490">NSF 2627490</a></span><span class="kdate">starts 1/2027</span>
+<span class="ktitle">Trustworthy Model Adaptation for Manufacturing Process Certification under Corrupted Data</span>
+<span class="ktie"><b>Trustworthiness of manufacturing AI</b>, the T in TRIAGE.</span>
+</div>
+</div>
+
+::: {.quotecard .fragment style="max-width:92%; margin:0.3em auto 0.2em; padding:0.3em 0.9em; font-size:0.84em;"}
+<span class="qtext" style="font-weight:700;">"…manufacturing systems that are data-driven, adaptive, and capable of <b style="font-style:normal;">continuous self-improvement</b>" · "those decisions must be <b style="font-style:normal;">explainable and auditable</b>"</span>
+<span class="qwho">[Terpenny & Wei, *AI-Driven Smart Manufacturing*, Digital Engineering, 2026](https://doi.org/10.1016/j.dte.2026.100128) — the loop is the self-improvement; the logged, audited reasoning is the explainability</span>
+:::
+
+::: {.note .fragment style="font-size:0.6em; margin-top:0.2em; padding:0.3em 0.85em;"}
+**No current award makes the agentic experiment loop itself the object of statistical design.** TRIAGE examines this new frontier.
+:::
+
+::: notes
+The quote is from the program director's own recent editorial with Yupeng Wei in Digital Engineering (June 2026), "AI-Driven Smart Manufacturing" — its conclusion calls for manufacturing systems "capable of continuous self-improvement," and its ethics section insists that when algorithms set process parameters or maintenance schedules, "those decisions must be explainable and auditable." TRIAGE answers both calls directly: the loop IS continuous self-improvement made statistical, and the logged reasoning thread plus the 0.85-claim audit are exactly the explainable-and-auditable discipline the editorial demands. The editorial also names the trustworthiness/black-box challenge and workforce readiness as the field's key hurdles — both worth echoing verbally. We read the program's current portfolio. Four funded awards are close kin, and we mean that as a feature: sequential experimentation for bio-additive manufacturing is the nearest neighbor (costly trials, designed sequences); the self-learning digital twin awards are loops that learn; the zero-shot anomaly award brings language models to fault detection; and the newest award in the portfolio is about trustworthy manufacturing AI. TRIAGE complements rather than duplicates: every one of those projects treats the AI or the twin as the object; none makes the experiment loop itself the object of statistical design, which is precisely our contribution. Portfolio context for calibration (verbal only): about fifty active research awards, single-institution awards typically $200k to $690k with most $250k to $600k, collaborative pairs totaling roughly $450k to $550k. We would also welcome an introduction to the sequential-experimentation team if you see synergy.
+:::
+
+## What We Heard, and What We Are Asking {.tight}
+
+<div class="heardgrid">
+<div class="heardcol taken fragment">
+<span class="hhead">YOUR GUIDANCE, TAKEN</span>
+<ul>
+<li><span class="hcheck">✓</span> We are developing a <b>full proposal to MSI</b>, per your recommendation</li>
+<li><span class="hcheck">✓</span> Timed to the cycle: <b>reviewed now, funded after the next budget</b></li>
+<li><span class="hcheck">✓</span> A six-person, two-institution team <b>sized for a full award</b>, with an <b>industry advisory board</b>: Aurora Insights · YMMC · EY · Porsche Ventures</li>
+</ul>
+</div>
+<div class="heardcol asking fragment">
+<span class="hhead">TODAY'S QUESTIONS</span>
+<ul>
+<li>Are the three aims <b>right-sized</b> for a standard MSI award?</li>
+<li><b>Timeliness:</b> the field moves in weeks; review plus award runs many months. Beyond our advisory board keeping the work industry-current, how would you advise us to <b>protect currentness</b> through the cycle?</li>
+<li>Are there <b>DCLs or other non-standard mechanisms</b> with a quicker turnaround than a standard submission that we should watch?</li>
+</ul>
+</div>
+</div>
+
+::: timeline
+<div class="tstop"><span class="twhen">Aug 12, 2026</span><span class="twhat">This briefing</span></div>
+<div class="tarrow">&rarr;</div>
+<div class="tstop"><span class="twhen">Fall 2026</span><span class="twhat">Full proposal to MSI</span></div>
+<div class="tarrow">&rarr;</div>
+<div class="tstop"><span class="twhen">Review cycle</span><span class="twhat">Panel review</span></div>
+<div class="tarrow">&rarr;</div>
+<div class="tstop"><span class="twhen">Post-budget</span><span class="twhat">Award window</span></div>
+:::
+
+::: notes
+Framed to show her email was read carefully. Left: guidance taken — full MSI proposal (we are not pursuing the small exploratory mechanism she declined; if it comes up, her own portfolio shows the shift: the last such award started October 2024); we understand the fiscal-year reality that proposals are reviewed now and funding follows the next budget, likely October, and our fall submission fits that cadence; and the team is sized for a full award AND extended by an industry advisory board — professionals from Aurora Insights, YMMC (Yamaha Motor Manufacturing), EY, and Porsche Ventures have agreed to advisory roles, which keeps our problems, benchmarks, and priorities industry-current. Right, the three questions. One: scope calibration against the portfolio norms (verbal: single-institution typically $250–600k, collaborative pairs ≈$500k; we are thinking a standard-size request with the UGA subaward). Two, the timeliness worry, phrased as a question rather than a complaint: this deck's opening slide is about a company founded ONE WEEK before this meeting, and the loop-engineering discourse itself is eight weeks old; a normal review-plus-award cycle is many months on top of the post-budget funding reality she named, so we genuinely want her advice on protecting currentness — the advisory board is our own mitigation (it continuously refreshes what "current" means from the industry side), and we ask what else she recommends. Three: are there Dear Colleague Letters, supplements, workshop mechanisms, or other non-standard vehicles with faster turnaround that we should watch — asked as a genuine question about what exists, not a request to bypass review. Backup questions if time allows: which aim she expects to resonate most in panel review; single-with-subaward versus collaborative submissions; portfolio coordination, especially with the sequential-experimentation bio-AM team. Leave most of the meeting time on this slide.
+:::
+
+## Thank You {.tight}
+
+**TRIAGE** · Trustworthy Run-efficient Investigation of Agentic Guided Experiments
+
+::: columns
+::: {.column width="58%"}
+- **Contact:** [fmegahed@miamioh.edu](mailto:fmegahed@miamioh.edu)
+- **This deck:** <a href="https://fmegahed.github.io/talks/nsf/msi2026/loopengineering/" style="font-size:0.82em; word-break:break-all;">fmegahed.github.io/talks/nsf/msi2026/loopengineering</a>
+- **Writeups on request:** the TEP experiment and the heart-transplant experiment
+- **Next:** full proposal to MSI · fall 2026
+- **Team:**
+
+<ul style="display:grid; grid-template-rows:repeat(3, auto); grid-auto-flow:column; gap:0.12em 2.6em; justify-content:start; font-size:0.8em; margin:0.1em 0 0 2.2em; padding:0;">
+<li><a href="https://scholar.google.com/citations?user=6CTlKGMAAAAJ">Fadel Megahed</a></li>
+<li><a href="https://scholar.google.com/citations?user=egqSi4sAAAAJ">Allison Jones-Farmer</a></li>
+<li><a href="https://scholar.google.com/citations?user=lWLdqsAAAAAJ">Arthur Carvalho</a></li>
+<li><a href="https://scholar.google.com/citations?user=XtuMDGYAAAAJ">Ibrahim Yousif</a></li>
+<li><a href="https://scholar.google.com/citations?user=WXIZS38AAAAJ">Maria Weese</a></li>
+<li><a href="https://scholar.google.com/citations?user=IOX-e6wAAAAJ">Hongyue Sun</a></li>
+</ul>
+:::
+::: {.column width="4%"}
+:::
+::: {.column width="38%"}
+![](figs/deck_qr.png){width="60%" fig-align="center" fig-alt="QR code linking to this deck online"}
+
+::: {.small-text .center style="font-size:0.5em;"}
+Miami University · University of Georgia
+:::
+:::
+:::
+
+::: notes
+Close by thanking her for the earlier guidance and for the meeting itself, restate the fall submission plan, and offer both writeups as follow-up material. The deck stays online at the printed link and QR so it can be forwarded within NSF.
 :::
