@@ -486,6 +486,33 @@ img.uga-logo { position: fixed; bottom: 18px; left: 74px; height: 36px; z-index:
 .reveal .tepsvg .streamlabel { font-family: "Libre Franklin", sans-serif; font-size: 11px; fill: $muted; }
 .reveal .tepsvg .recyclelabel { font-family: "Libre Franklin", sans-serif; font-size: 12px; font-weight: 700; fill: $miamired; }
 
+// ---- Manufacturing evolution stages (From Automation to Intelligence) ----
+.reveal .evorow { display: flex; align-items: stretch; justify-content: center; gap: 0.35em; margin: 0.6em 0 0.3em; }
+.reveal .evostage {
+  background: #ffffff; border: 1px solid $line; border-top: 5px solid $miamired;
+  border-radius: 8px; padding: 0.45em 0.6em 0.5em; flex: 1; max-width: 24%;
+  text-align: left; display: flex; flex-direction: column;
+}
+.reveal .evostage .eimg {
+  width: 100%; height: 88px; object-fit: cover; border-radius: 5px;
+  margin: 0 0 0.35em; display: block; border: 1px solid $line;
+}
+.reveal .evostage .ehead { font-weight: 800; color: $miamired; font-size: 0.56em; letter-spacing: 0.06em; }
+.reveal .evostage .eyears { display: block; font-size: 0.44em; color: $lightgray; margin: 0.05em 0 0.25em; }
+.reveal .evostage .etech { font-size: 0.52em; color: $ink; line-height: 1.5; flex: 1; }
+.reveal .evostage .etech ul { margin: 0 0 0 1.1em; padding: 0; }
+.reveal .evostage .etech li { margin-bottom: 0.1em; }
+.reveal .evostage .elimit {
+  font-size: 0.47em; color: $miamired; line-height: 1.35; font-style: italic;
+  border-top: 1px solid $line; margin-top: 0.4em; padding-top: 0.3em;
+}
+.reveal .evostage.open {
+  border: 2px dashed $miamired; border-top-width: 2px;
+  animation: qpulse 2.2s ease-in-out infinite;
+}
+.reveal .evostage.open .elimit { font-style: normal; font-weight: 600; }
+.reveal .evoarrow { align-self: center; color: $miamired; font-size: 1.3em; font-weight: 700; }
+
 // ---- Two-arm study design (S13) ----
 .reveal .arms { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7em; margin: 0.35em 0; }
 .reveal .arm { background: #ffffff; border: 1px solid $line; border-radius: 8px; padding: 0.5em 0.8em; text-align: left; }

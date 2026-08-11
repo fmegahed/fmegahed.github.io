@@ -43,6 +43,61 @@ format:
     center: false
 ---
 
+## From Automation to Intelligence
+
+<div class="evorow">
+<div class="evostage fragment" data-fragment-index="1">
+<img class="eimg" src="figs/cnc.png" alt="The team's Haas CNC lathe with its control panel and instrumentation cabinet">
+<span class="ehead">AUTOMATION</span>
+<span class="eyears">1950s–1990s</span>
+<div class="etech"><ul><li>CNC machining</li><li>industrial robots</li><li>PLCs</li></ul></div>
+<div class="elimit">rigid: deviations demand manual intervention</div>
+</div>
+<div class="evoarrow fragment" data-fragment-index="2">&rarr;</div>
+<div class="evostage fragment" data-fragment-index="2">
+<video class="eimg" src="figs/evo/evo_digital.mp4" autoplay muted loop playsinline aria-label="The team's SIGHT platform: IIoT dashboards and digital twins across three generations of industrial machines"></video>
+<span class="ehead">DIGITAL INTEGRATION</span>
+<span class="eyears">1990s–2010s</span>
+<div class="etech"><ul><li>ERP</li><li>MES</li><li>IIoT sensing plant-wide</li></ul></div>
+<div class="elimit">coordinated and data-rich, but not self-optimizing</div>
+</div>
+<div class="evoarrow fragment" data-fragment-index="3">&rarr;</div>
+<div class="evostage fragment" data-fragment-index="3">
+<video class="eimg" src="figs/evo/evo_ai.mp4" autoplay muted loop playsinline aria-label="Digital twin of the team's autonomous manufacturing cell in operation"></video>
+<span class="ehead">AI-DRIVEN</span>
+<span class="eyears">2010s–today</span>
+<div class="etech"><ul><li>predictive maintenance</li><li>vision-based quality control</li><li>digital twins</li></ul></div>
+<div class="elimit">models analyze, predict, recommend; humans still run the improvement cycle</div>
+</div>
+<div class="evoarrow fragment" data-fragment-index="4">&rarr;</div>
+<div class="evostage open fragment" data-fragment-index="4">
+<img class="eimg" src="figs/evo/evo_selfimproving.png" alt="A rising step line from 0.702 to 0.864: the improvement trajectory of an autonomous experiment loop" style="object-fit:contain; background:#fff;">
+<span class="ehead">SELF-IMPROVING</span>
+<span class="eyears">proposed · near future</span>
+<div class="etech"><ul><li>agents that experiment on the production system itself</li></ul></div>
+<div class="elimit">the improvement cycle itself becomes the automated object</div>
+</div>
+</div>
+
+::: {.note .fragment fragment-index="5" style="margin-top:0.3em; padding:0.3em 0.85em;"}
+Each wave automated the **running** of production. The wave arriving now automates its **improvement**, and improvement is an **experimentation problem**.
+:::
+
+::: footnote
+Periodization follows [Terpenny & Wei, *AI-Driven Smart Manufacturing*, Digital Engineering, 2026](https://doi.org/10.1016/j.dte.2026.100128), §1 "From automation to intelligence."
+<span style="display:block; margin-top:0.4em;">All visuals are from the team's own past and ongoing projects:</span>
+<ul style="columns:2; column-gap:2.5em; margin:0.1em 0 0 1.2em; padding:0;">
+<li>The T1 Haas CNC lathe at <a href="https://miamioh.edu/campuses-and-locations/advanced-manufacturing-workforce-and-innovation-hub.html">Miami's Advanced Manufacturing (AM) Hub</a></li>
+<li>Facility-wide digital integration at the AM Hub</li>
+<li>A digital twin of an autonomous manufacturing cell (prior work, Ibrahim Yousif)</li>
+<li>Our proposed self-improvement loop for manufacturing systems</li>
+</ul>
+:::
+
+::: notes
+Deliberately opens in the program director's own domain, and the title is the section heading of her own editorial: the deck's periodization follows Terpenny & Wei's "From automation to intelligence" (Digital Engineering, June 2026), which is worth saying aloud. Stage 1: the early digital era — CNC machining, industrial robotics, PLCs — the foundation of large-scale production, but rigid: when the process deviates, a person intervenes. Stage 2: digital integration — ERP and MES platforms plus plant-wide sensing improve coordination and create massive data streams, but as the editorial puts it, they remain "limited in enabling self-optimization." Stage 3: AI enters — predictive maintenance, vision-based quality control, digital twins; in the editorial's words, production systems become "active agents capable of analyzing data, identifying inefficiencies, and recommending corrective actions in real time." But note the ceiling: the models analyze and recommend, while the improvement cycle — deciding what to try next on the process, running it, evaluating it — is still human-run. Stage 4, the dashed open frame: agents that run that improvement cycle themselves, experimenting on the production system. That is where manufacturing is heading, it is the "continuous self-improvement" the same editorial calls for in its conclusion (quoted later in this deck), and it raises the question this deck answers: improvement-by-experiment is a statistics problem. Handoff to the next slide: where did agents capable of experimenting even come from? That story starts in late 2022.
+:::
+
 ## An Opinionated Timeline of GenAI
 
 <!-- Sources (verified):
@@ -68,7 +123,7 @@ format:
 </div>
 
 ::: notes
-An opinionated intellectual history, not a comprehensive one: the claim is that the OBJECT BEING ENGINEERED keeps expanding. Beat 1 (chip, visible at start): ChatGPT makes natural-language interaction with a capable LLM broadly accessible — we begin by effectively programming a model through conversation. Beat 2 (PROMPT frame): 2023, the first engineering object is the instruction itself — examples, constraints, decomposition, roles (White et al.'s prompt-pattern catalog, Feb 2023). Beat 3 (AGENTS frame): models stop producing single responses; they choose actions, invoke tools, observe results (Anthropic's Building Effective Agents, Dec 2024). Claude Code (Feb 24, 2025) puts the agent inside a real executable environment — inspect, modify, execute, observe, revise. The object becomes the action trajectory. Beat 4 (CONTEXT frame): over long horizons prompts are insufficient; engineers curate what the model sees each step — instructions, tools, files, history, retrievals, memory, state (Anthropic, Sep 29, 2025). OpenClaw makes the persistent runtime visible: sessions, memory, workspaces, skills. Beat 5 (dashed LOOP frame + AutoResearch): Karpathy's AutoResearch (Mar 2026) makes the iterative optimization explicit — the agent edits train.py, runs 5 minutes, measures val_bpb, keeps or discards; 0.9979→0.9697 over 126 unattended experiments. The human defines the environment, objective, constraints, and evaluation — the artifact becomes the process that generates and selects other artifacts. Note it ships a file named program.md — remember that name. Beat 6 (overlay): prompt → agent → context → LOOP — the loop itself is now the engineered object. The next slide shows how big that idea got. Q&A armor: agentic ideas predate 2023 (ReAct, Oct 2022) — 2023–25 marks mainstreaming; RAG (2020→) is context engineering's ancestor; reasoning models (o1, Sep 2024) are excluded because they change how the model thinks, not what we engineer around it.
+The previous slide asked where agents that can experiment came from — this is that story. An opinionated intellectual history, not a comprehensive one: the claim is that the OBJECT BEING ENGINEERED keeps expanding. Beat 1 (chip, visible at start): ChatGPT makes natural-language interaction with a capable LLM broadly accessible — we begin by effectively programming a model through conversation. Beat 2 (PROMPT frame): 2023, the first engineering object is the instruction itself — examples, constraints, decomposition, roles (White et al.'s prompt-pattern catalog, Feb 2023). Beat 3 (AGENTS frame): models stop producing single responses; they choose actions, invoke tools, observe results (Anthropic's Building Effective Agents, Dec 2024). Claude Code (Feb 24, 2025) puts the agent inside a real executable environment — inspect, modify, execute, observe, revise. The object becomes the action trajectory. Beat 4 (CONTEXT frame): over long horizons prompts are insufficient; engineers curate what the model sees each step — instructions, tools, files, history, retrievals, memory, state (Anthropic, Sep 29, 2025). OpenClaw makes the persistent runtime visible: sessions, memory, workspaces, skills. Beat 5 (dashed LOOP frame + AutoResearch): Karpathy's AutoResearch (Mar 2026) makes the iterative optimization explicit — the agent edits train.py, runs 5 minutes, measures val_bpb, keeps or discards; 0.9979→0.9697 over 126 unattended experiments. The human defines the environment, objective, constraints, and evaluation — the artifact becomes the process that generates and selects other artifacts. Note it ships a file named program.md — remember that name. Beat 6 (overlay): prompt → agent → context → LOOP — the loop itself is now the engineered object. The next slide shows how big that idea got. Q&A armor: agentic ideas predate 2023 (ReAct, Oct 2022) — 2023–25 marks mainstreaming; RAG (2020→) is context engineering's ancestor; reasoning models (o1, Sep 2024) are excluded because they change how the model thinks, not what we engineer around it.
 :::
 
 ## August 5, 2026: The Loop Becomes a Company {.tight}
