@@ -58,8 +58,8 @@ format:
 <video class="eimg" src="figs/evo/evo_digital.mp4" autoplay muted loop playsinline aria-label="The team's SIGHT platform: IIoT dashboards and digital twins across three generations of industrial machines"></video>
 <span class="ehead">DIGITAL INTEGRATION</span>
 <span class="eyears">1990s–2010s</span>
-<div class="etech"><ul><li>ERP</li><li>MES</li><li>IIoT sensing plant-wide</li></ul></div>
-<div class="elimit">coordinated and data-rich, but not self-optimizing</div>
+<div class="etech"><ul><li>ERP</li><li>MES</li><li>IIoT/CPS</li></ul></div>
+<div class="elimit">permits connectivity, interoperability, and data integration</div>
 </div>
 <div class="evoarrow fragment" data-fragment-index="3">&rarr;</div>
 <div class="evostage fragment" data-fragment-index="3">
@@ -67,20 +67,20 @@ format:
 <span class="ehead">AI-DRIVEN</span>
 <span class="eyears">2010s–today</span>
 <div class="etech"><ul><li>predictive maintenance</li><li>vision-based quality control</li><li>digital twins</li></ul></div>
-<div class="elimit">models analyze, predict, recommend; humans still run the improvement cycle</div>
+<div class="elimit">models analyze, predict, recommend; improvement experiments and decisions made by humans</div>
 </div>
 <div class="evoarrow fragment" data-fragment-index="4">&rarr;</div>
 <div class="evostage open fragment" data-fragment-index="4">
 <img class="eimg" src="figs/evo/evo_selfimproving.png" alt="A rising step line from 0.702 to 0.864: the improvement trajectory of an autonomous experiment loop" style="object-fit:contain; background:#fff;">
 <span class="ehead">SELF-IMPROVING</span>
 <span class="eyears">proposed · near future</span>
-<div class="etech"><ul><li>agents that experiment on the production system itself</li></ul></div>
+<div class="etech"><ul><li>agents that run the improvement loop, with guidance ranging from a bare goal to a full DOE protocol</li></ul></div>
 <div class="elimit">the improvement cycle itself becomes the automated object</div>
 </div>
 </div>
 
 ::: {.note .fragment fragment-index="5" style="margin-top:0.3em; padding:0.3em 0.85em;"}
-Each wave automated the **running** of production. The wave arriving now automates its **improvement**, and improvement is an **experimentation problem**.
+Earlier waves automated how **production runs**. The wave arriving now automates its **improvement**, and improvement is an **experimentation problem**.
 :::
 
 ::: footnote
@@ -115,7 +115,7 @@ Deliberately opens in the program director's own domain, and the title is the se
 <div class="era-frame f-agents fragment" data-fragment-index="2"><span class="elabel">AGENTS · 2023–25</span><span class="emicro">reason → act → observe ↻</span><span class="edots"><span class="dot">●</span> Building Effective Agents · Dec 2024 &nbsp; <span class="dot">●</span> Claude Code · Feb 24, 2025</span></div>
 <div class="era-frame f-context fragment" data-fragment-index="3"><span class="elabel">CONTEXT · 2025</span><span class="emicro">context assembly → model → action ↻</span><span class="edots"><span class="dot">●</span> Effective Context Engineering (Anthropic) · Sep 29, 2025 &nbsp; <span class="dot">●</span> OpenClaw · early 2026</span></div>
 <div class="era-frame f-q fragment" data-fragment-index="4"><span class="elabel">LOOP · 2026</span></div>
-<div class="era-ar fragment" data-fragment-index="4"><b>★ AutoResearch</b> (Karpathy) · Mar 2026 · <b>126 unattended experiments</b> · ships <code>program.md</code><span class="armicro">modify → experiment → measure → keep/discard ↻</span></div>
+<div class="era-ar fragment" data-fragment-index="4"><b>★ AutoResearch</b> (Karpathy) · Mar 2026 · <b>83 unattended experiments (15 kept)</b> · ships <code>program.md</code><span class="armicro">modify → experiment → measure → keep/discard ↻</span></div>
 <div class="era-overlay fragment" data-fragment-index="5">
 <div class="wordline">PROMPT → AGENT → CONTEXT → <span class="q">LOOP</span></div>
 <div class="capline">the recurring structure: context → action → observation → evaluation → update ↻</div>
