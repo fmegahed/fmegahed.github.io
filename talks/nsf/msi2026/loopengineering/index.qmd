@@ -58,7 +58,7 @@ format:
 <video class="eimg" src="figs/evo/evo_digital.mp4" autoplay muted loop playsinline aria-label="The team's SIGHT platform: IIoT dashboards and digital twins across three generations of industrial machines"></video>
 <span class="ehead">DIGITAL INTEGRATION</span>
 <span class="eyears">1990s–2010s</span>
-<div class="etech"><ul><li>ERP</li><li>MES</li><li>IIoT/CPS</li></ul></div>
+<div class="etech"><ul><li>ERP</li><li>MES</li><li>IIoT</li><li>CPS</li></ul></div>
 <div class="elimit">permits connectivity, interoperability, and data integration</div>
 </div>
 <div class="evoarrow fragment" data-fragment-index="3">&rarr;</div>
