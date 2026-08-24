@@ -1,0 +1,16 @@
+<script>
+// xaringanExtra-style editable note areas: contenteditable divs whose content
+// persists in the browser's localStorage, keyed by data-key.
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.can-edit').forEach(function (el) {
+    var key = 'isa381-class01-' + (el.dataset.key || 'notes');
+    try {
+      var saved = localStorage.getItem(key);
+      if (saved) el.innerHTML = saved;
+    } catch (e) { /* storage unavailable (private mode); still editable, not persisted */ }
+    el.addEventListener('input', function () {
+      try { localStorage.setItem(key, el.innerHTML); } catch (e) {}
+    });
+  });
+});
+</script>
