@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where Does It Live? | ISA 381</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --red:#c3142d; --dark:#8a0e20; --ink:#1b1b1b; --muted:#70685c; --gray:#9a9488; --bg:#faf9f7; --panel:#edece2; --line:#ccc9b8; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Libre Franklin", -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width:760px; margin:0 auto; padding:14px 14px 40px; }
+  header { display:flex; align-items:baseline; justify-content:space-between; border-bottom:2px solid var(--red); padding-bottom:6px; margin-bottom:10px; }
+  header h1 { margin:0; font-size:20px; color:var(--red); }
+  header .meta { font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums; }
+  .intro { font-size:14px; line-height:1.45; color:var(--muted); margin:0 0 10px; }
+  .items { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; min-height:52px; }
+  .item { background:#fff; border:1.5px solid var(--line); border-radius:8px; padding:8px 12px; font-size:14px; line-height:1.3; cursor:pointer; user-select:none; touch-action:manipulation; }
+  .item.sel { border-color:var(--red); background:rgba(195,20,45,0.07); box-shadow:0 0 0 3px rgba(195,20,45,0.15); }
+  .item.shake { animation:shake 0.35s; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+  .bins { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+  @media (max-width:480px) { .bins { grid-template-columns:repeat(2, 1fr); } }
+  .bin { background:var(--panel); border:1.5px solid var(--line); border-top:4px solid var(--red); border-radius:8px; padding:8px 10px; min-height:110px; cursor:pointer; }
+  .bin.armed { border-color:var(--red); background:#fff; }
+  .bin h2 { margin:0 0 6px; font-size:14px; color:var(--red); }
+  .bin .in { font-size:12px; color:var(--ink); line-height:1.35; padding:3px 0; border-top:1px dashed var(--line); }
+  .msg { margin:10px 0 0; min-height:44px; font-size:14px; line-height:1.4; padding:8px 12px; border-radius:6px; background:#fff; border:1px solid var(--line); border-left:4px solid var(--gray); }
+  .msg.bad { border-left-color:var(--red); background:#fdeef0; }
+  .msg.good { border-left-color:#0f8a5f; background:#eef8f2; }
+  .msg b { color:var(--red); }
+  .msg.good b { color:#0f8a5f; }
+  .result { display:none; background:#fff; border:1px solid var(--line); border-radius:8px; padding:14px 16px; margin-top:12px; }
+  .result .big { font-size:34px; font-weight:700; color:var(--red); line-height:1; }
+  .result .lab { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; }
+  .result .row { display:flex; gap:28px; margin-bottom:10px; }
+  .result ul { margin:6px 0 0 18px; padding:0; font-size:13px; line-height:1.4; }
+  .btn { background:var(--red); color:#fff; border:none; border-radius:6px; padding:8px 16px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; margin-top:10px; }
+  footer { margin-top:18px; font-size:11px; color:var(--gray); line-height:1.4; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><h1>Where Does It Live?</h1><div class="meta"><span id="left">12</span> left &middot; <span id="clock">0:00</span></div></header>
+  <p class="intro">Tap an item, then tap the bin it belongs in. The clock starts at your first tap. Terms follow Gaddis, <i>Starting Out with Python</i>, Chapter 1.</p>
+  <div class="items" id="items"></div>
+  <div class="msg" id="msg" style="margin:0 0 10px;">Pick an item to begin.</div>
+  <div class="bins" id="bins"></div>
+  <div class="result" id="result"></div>
+  <footer>ISA 381, class 02. Built for the Farmer School of Business, Miami University.</footer>
+</div>
+<script>
+(function () {
+  const BINS = [
+    { id:"cpu",     name:"CPU" },
+    { id:"ram",     name:"Main memory (RAM)" },
+    { id:"storage", name:"Secondary storage" },
+    { id:"input",   name:"Input device" },
+    { id:"output",  name:"Output device" },
+    { id:"software",name:"Software" }
+  ];
+  const ITEMS = [
+    { t:"The chip that adds 1200 + 950", a:"cpu", why:"Arithmetic is performed by the central processing unit; that is what it is built for." },
+    { t:"The list monthly_sales, while your program runs", a:"ram", why:"A running program and the data it is using live in main memory." },
+    { t:"Your notebook file, saved in Google Drive", a:"storage", why:"Anything that must survive a power-off or restart lives in secondary storage." },
+    { t:"The keyboard you type code on", a:"input", why:"An input device collects data from a person: keyboard, mouse, touchscreen, scanner, camera." },
+    { t:"The screen showing 1083.33", a:"output", why:"An output device presents what the computer produced; a display is the most common one." },
+    { t:"Chrome", a:"software", why:"A web browser is application software: a program that makes the computer useful for everyday tasks." },
+    { t:"Linux, running on Google's server", a:"software", why:"An operating system is system software; it controls the hardware. It is not itself hardware." },
+    { t:"A USB flash drive", a:"storage", why:"Flash memory is a portable kind of secondary storage: no moving parts, keeps data without power." },
+    { t:"A printer", a:"output", why:"A printer formats and presents output on paper." },
+    { t:"The values that vanished when the Colab runtime restarted", a:"ram", why:"Main memory is volatile: its contents are erased when the machine restarts or loses power." },
+    { t:"The Python interpreter", a:"software", why:"The interpreter is a program (a software development tool), not a piece of hardware." },
+    { t:"Working out what the bits 0010 1011 mean", a:"cpu", why:"That is the decode step of the CPU's fetch-decode-execute cycle." }
+  ];
+  let order = ITEMS.map((_, i) => i);
+  for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+  let sel = null, start = null, tick = null, wrong = {}, done = 0, firstTry = 0;
+  const itemsEl = document.getElementById("items"), binsEl = document.getElementById("bins"), msg = document.getElementById("msg");
+
+  BINS.forEach(b => {
+    const d = document.createElement("div"); d.className = "bin"; d.dataset.id = b.id;
+    d.innerHTML = "<h2>" + b.name + "</h2>";
+    d.addEventListener("click", () => drop(b.id, d));
+    binsEl.appendChild(d);
+  });
+  order.forEach(i => {
+    const it = ITEMS[i], d = document.createElement("div"); d.className = "item"; d.textContent = it.t; d.dataset.i = i;
+    d.addEventListener("click", () => {
+      if (!start) { start = Date.now(); tick = setInterval(clock, 250); }
+      document.querySelectorAll(".item").forEach(x => x.classList.remove("sel"));
+      if (sel === d) { sel = null; arm(false); msg.className = "msg"; msg.textContent = "Pick an item to begin."; return; }
+      sel = d; d.classList.add("sel"); arm(true);
+      msg.className = "msg"; msg.textContent = "Now tap the bin where this belongs.";
+    });
+    itemsEl.appendChild(d);
+  });
+  function arm(on) { document.querySelectorAll(".bin").forEach(b => b.classList.toggle("armed", on)); }
+  function clock() { const s = Math.floor((Date.now() - start) / 1000); document.getElementById("clock").textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
+  function drop(binId, binEl) {
+    if (!sel) { msg.className = "msg"; msg.textContent = "Tap an item first, then a bin."; return; }
+    const it = ITEMS[+sel.dataset.i];
+    if (it.a === binId) {
+      if (!wrong[sel.dataset.i]) firstTry++;
+      done++;
+      const row = document.createElement("div"); row.className = "in"; row.textContent = it.t; binEl.appendChild(row);
+      sel.remove(); sel = null; arm(false);
+      document.getElementById("left").textContent = 12 - done;
+      msg.className = "msg good"; msg.innerHTML = "<b>Right.</b> " + it.why;
+      if (done === ITEMS.length) finish();
+    } else {
+      wrong[sel.dataset.i] = (wrong[sel.dataset.i] || 0) + 1;
+      sel.classList.add("shake"); setTimeout(() => sel && sel.classList.remove("shake"), 400);
+      const bname = BINS.find(b => b.id === binId).name;
+      msg.className = "msg bad"; msg.innerHTML = "<b>Not " + bname + ".</b> " + it.why + " Try again.";
+    }
+  }
+  function finish() {
+    clearInterval(tick); clock();
+    const secs = Math.round((Date.now() - start) / 1000);
+    const missed = Object.keys(wrong).map(i => ITEMS[+i]);
+    const r = document.getElementById("result");
+    r.style.display = "block";
+    r.innerHTML =
+      "<div class='row'><div><div class='big'>" + Math.floor(secs / 60) + ":" + String(secs % 60).padStart(2, "0") + "</div><div class='lab'>time</div></div>" +
+      "<div><div class='big'>" + firstTry + "/12</div><div class='lab'>right on first try</div></div></div>" +
+      (missed.length ? "<div style='font-size:13px;'><b>Worth a second look:</b><ul>" + missed.map(m => "<li>" + m.t + ": " + m.why + "</li>").join("") + "</ul></div>"
+                     : "<div style='font-size:13px;'>Every item placed correctly on the first try.</div>") +
+      "<button class='btn' onclick='location.reload()'>Play again (new order)</button>";
+    msg.className = "msg good"; msg.innerHTML = "<b>Done.</b> Keep this screen open for the debrief.";
+    r.scrollIntoView({ behavior: "smooth" });
+  }
+})();
+</script>
+</body>
+</html>

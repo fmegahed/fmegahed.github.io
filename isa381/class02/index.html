@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/tabby.min.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-dfa48a90d809c806c7ea2d5aecd9fc66.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/quarto-contrib/countdown-0.6.0/countdown.js"></script>
+<link href="index_files/libs/quarto-contrib/countdown-0.6.0/countdown.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.29">
+
+  <title>ISA 381: Business Programming</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-80273a516187d7ad54aff0dfe6bfdce5.css">
+  <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="index_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-color="#c3142d" class="quarto-title-block center">
+  <h1 class="title">ISA 381: Business Programming</h1>
+  <p class="subtitle"><span style="font-size:1.08em; font-weight:600; letter-spacing:-0.01em;">02: What Happens When You Press Run</span> <br><span style="display:inline-block; width:76px; height:3px; background:rgba(255,255,255,0.55); border-radius:2px; margin:22px 0 20px;"></span><br> <span style="font-size:0.72em; font-weight:700; color:#ffffff;">Fadel M. Megahed</span><br> <span style="font-size:0.5em; color:#f3c6cd;">Subbing in for Dr.&nbsp;Maliha Alam</span><br><br> <span style="font-size:0.46em; letter-spacing:0.14em; text-transform:uppercase; color:#ffe8ec;">Fall 2026 &nbsp;·&nbsp; Farmer School of Business</span></p>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section id="kahoot-last-class-in-three-questions" class="slide level2">
+<h2>Kahoot: Last Class in Three Questions</h2>
+<div class="join">
+  <div class="jbig">
+    <span class="u">kahoot.it</span>
+    <span class="p">Enter the game PIN on the screen.<br>Three questions, 20 seconds each.<br>Nickname: your first name.</span>
+  </div>
+  <div class="jlist">
+    <b>What the three questions cover</b> (all from last class):
+    <ol>
+      <li>The two words that describe what kind of language Python is.</li>
+      <li>The East vs. West exercise: why the two answers disagreed.</li>
+      <li>What Google Colab actually is.</li>
+    </ol>
+    <div class="rules">This is a non-graded activity meant to capture how much information you retained from Monday's class.</div>
+  </div>
+</div>
+</section>
+<section id="recap-key-terms-from-last-class" class="slide level2">
+<h2>Recap: Key Terms From Last Class</h2>
+<div class="gloss gloss2">
+  <div class="t">Python</div>
+  <div class="d">A high-level, interpreted, open-source programming language, created by Guido van Rossum and first released in 1991.</div>
+  <div class="t">Jupyter Notebook</div>
+  <div class="d">A document that mixes live code, explanatory text, and the code's output in one place.</div>
+
+  <div class="t">High-level</div>
+  <div class="d">You write near-English; the language deals with the details of the chip underneath. (Today: what those details are.)</div>
+  <div class="t">Google Colab</div>
+  <div class="d">A hosted Jupyter Notebook: Python in your browser, nothing to install, running on a Google server.</div>
+
+  <div class="t">Interpreted</div>
+  <div class="d">Your code runs the moment you press Run, one statement at a time. (Today: what the interpreter does.)</div>
+  <div class="t">pandas</div>
+  <div class="d">Python's commonly used library for data analysis and for extracting data from different file formats. <code>df.groupby("region")</code> computed both East-vs-West answers.</div>
+
+  <div class="t">Syntax</div>
+  <div class="d">The rules a statement must follow to be understood. Break one and nothing runs. (Today: a syntax error, on purpose.)</div>
+  <div class="t">Open-source</div>
+  <div class="d">Free for anyone to use and build on, which is why tools like pandas exist at all.</div>
+</div>
+<div class="note insight" style="margin-top:0.7em;">
+<p><strong>Insight:</strong> AI-generated outputs must be verified, and in some cases the AI may ask you to pick from two or more choices. For example, “which region had the higher average order value?” had two defensible answers, and telling them apart took reading a few lines of Python.</p>
+</div>
+</section>
+<section id="learning-objectives-for-todays-class" class="slide level2">
+<h2>Learning Objectives for Today’s Class</h2>
+<p>By the end of today’s class, you should be able to:</p>
+<ul>
+<li><p>Name the major <strong>hardware</strong> components of a computer (CPU, main memory, secondary storage, input and output devices) and the two categories of <strong>software</strong>.</p></li>
+<li><p>Explain how computers store data as <strong>bits</strong> and <strong>bytes</strong>.</p></li>
+<li><p>Trace the <strong>fetch-decode-execute cycle</strong> through a small machine-language program.</p></li>
+<li><p>Distinguish <strong>machine language</strong>, <strong>low-level</strong>, and <strong>high-level</strong> languages, and a <strong>compiler</strong> from an <strong>interpreter</strong>.</p></li>
+<li><p>Identify <strong>keywords</strong>, <strong>operators</strong>, <strong>statements</strong>, and <strong>syntax errors</strong> in Python source code.</p></li>
+</ul>
+</section>
+<section id="the-journey-of-one-line-of-code" class="slide level2">
+<h2>The Journey of One Line of Code</h2>
+<p>Last class you pressed Run on this line and <code>1083.33</code> appeared. Today follows the half-second in between.</p>
+<div class="tnb"><span class="v">avg</span> <span class="o">=</span> <span class="f">sum</span>(<span class="v">monthly_sales</span>) <span class="o">/</span> <span class="f">len</span>(<span class="v">monthly_sales</span>)</div>
+<div class="journey">
+  <div class="jn"><span class="n">1</span><span class="l">Your browser</span><span class="s">Chrome, on your laptop</span><span class="hl fragment" data-fragment-index="1"></span></div>
+  <div class="ja">→</div>
+  <div class="jn"><span class="n">2</span><span class="l">Google's server</span><span class="s">a machine you never see</span><span class="hl fragment" data-fragment-index="2"></span></div>
+  <div class="ja">→</div>
+  <div class="jn"><span class="n">3</span><span class="l">The interpreter</span><span class="s">Python, the program</span><span class="hl fragment" data-fragment-index="3"></span></div>
+  <div class="ja">→</div>
+  <div class="jn"><span class="n">4</span><span class="l">CPU and memory</span><span class="s">fetch, decode, execute</span><span class="hl fragment" data-fragment-index="4"></span></div>
+  <div class="ja">→</div>
+  <div class="jn"><span class="n">5</span><span class="l">Back to your screen</span><span class="s">1083.33</span><span class="hl fragment" data-fragment-index="5"></span></div>
+</div>
+<div class="capstack">
+  <div class="cap fragment fade-out" data-fragment-index="1">Press the right arrow key to walk through the five stops. Each one is a section of Gaddis, Chapter 1.</div>
+  <div class="cap fragment current-visible" data-fragment-index="1"><b>1. Your browser.</b> You typed on a keyboard (an <b>input device</b>) into Chrome (<b>application software</b>). When you press Run, Colab sends the text of the cell, your <b>source code</b>, over the internet to Google.</div>
+  <div class="cap fragment current-visible" data-fragment-index="2"><b>2. Google's server.</b> Colab gives your notebook a virtual machine of its own, with a <b>CPU</b>, <b>main memory</b>, and <b>secondary storage</b>, running Linux (an <b>operating system</b>).</div>
+  <div class="cap fragment current-visible" data-fragment-index="3"><b>3. The interpreter.</b> A program on that machine reads your code, checks its <b>syntax</b>, and translates it into the tiny instructions the CPU understands, one line at a time.</div>
+  <div class="cap fragment current-visible" data-fragment-index="4"><b>4. CPU and memory.</b> Your code, now a list of instructions, and your data (1200, 950, 1100) sit in main memory. The CPU <b>fetches</b> the next instruction, <b>decodes</b> it, and <b>executes</b> it, working through each function call and each line in turn. This is the stop where time goes: instant for an average, minutes or hours for a large analysis.</div>
+  <div class="cap fragment current-visible" data-fragment-index="5"><b>5. Back to your screen.</b> The result travels back and Chrome draws it below the cell on your display, an <b>output device</b>.</div>
+</div>
+<div class="footnote">
+<p>Colab runs your code “in a virtual machine private to your account,” per Google’s <a href="https://research.google.com/colaboratory/faq.html">Colab FAQ</a>. The bold terms are the Chapter 1 vocabulary we cover today.</p>
+</div>
+</section>
+<section>
+<section id="hardware-and-software" class="title-slide slide level1 inverse center">
+<h1>Hardware and Software</h1>
+
+</section>
+<section id="inside-the-machine" class="slide level2">
+<h2>Inside the Machine</h2>
+<p><strong>Hardware</strong>: the physical devices that make up a computer. Right arrow steps through them.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="machine" style="width:510px;">
+  <svg viewbox="0 0 510 470">
+    <defs>
+      <marker id="ah" viewbox="0 0 10 10" refx="9" refy="5" markerwidth="7" markerheight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9a9488"></path></marker>
+    </defs>
+    <line x1="255" y1="96" x2="255" y2="178" marker-start="url(#ah)" marker-end="url(#ah)"></line>
+    <line x1="255" y1="290" x2="255" y2="372" marker-start="url(#ah)" marker-end="url(#ah)"></line>
+    <line x1="150" y1="234" x2="160" y2="234" marker-end="url(#ah)"></line>
+    <line x1="350" y1="234" x2="360" y2="234" marker-end="url(#ah)"></line>
+  </svg>
+  <div class="mb" style="left:150px; top:14px; width:210px; height:82px;">Main memory<small>RAM: the program and its data, while it runs</small><span class="hl fragment" data-fragment-index="2"></span></div>
+  <div class="mb cpu" style="left:160px; top:178px; width:190px; height:112px; padding-top:24px;">CPU<small>runs the program</small><span class="hl fragment" data-fragment-index="1"></span></div>
+  <div class="mb" style="left:150px; top:372px; width:210px; height:82px;">Secondary storage<small>disk, SSD, flash: keeps data for years</small><span class="hl fragment" data-fragment-index="3"></span></div>
+  <div class="mb" style="left:2px; top:172px; width:148px; height:124px;">Input devices<small>keyboard, mouse, camera</small><span class="hl fragment" data-fragment-index="4"></span></div>
+  <div class="mb" style="left:360px; top:172px; width:148px; height:124px;">Output devices<small>display, printer, speakers</small><span class="hl fragment" data-fragment-index="5"></span></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="defs">
+  <div class="df fragment" data-fragment-index="1"><b>Central processing unit (CPU):</b> the part that actually runs programs; nothing runs without it. Once room-sized, now a <b>microprocessor</b> on a small chip.</div>
+  <div class="df fragment" data-fragment-index="2"><b>Main memory (RAM):</b> holds the program while it runs, plus the data it is using. Fast for the CPU to reach, but <b>volatile</b>: erased when the power goes off.</div>
+  <div class="df fragment" data-fragment-index="3"><b>Secondary storage:</b> keeps data for long periods. Programs live here and are <b>loaded into main memory</b> to run. <b>Disk drives</b> (magnetic, spinning), <b>solid-state drives</b> (no moving parts, faster), <b>flash memory</b> (portable).</div>
+  <div class="df fragment" data-fragment-index="4"><b>Input devices</b> collect data from people and other devices. A disk drive counts when it loads a program into memory.</div>
+  <div class="df fragment" data-fragment-index="5"><b>Output devices</b> present what the computer produces: text, images, audio. A disk drive counts when data is saved to it.</div>
+</div>
+</div></div>
+</section>
+<section id="where-does-your-program-live" class="slide level2">
+<h2>Where Does Your Program Live?</h2>
+<p>Follow the class01 notebook through four moments. The pattern, from Gaddis: programs are <strong>stored</strong> in secondary storage and <strong>copied into main memory</strong> each time they run.</p>
+<div class="moments">
+  <div class="mo"><div class="mh">1. Saved</div><span class="tag sto">Secondary storage</span><br>Your notebook file sits in Google Drive. Close the laptop, come back next week: still there.</div>
+  <div class="mo"><div class="mh">2. Press Run</div><span class="tag ram">Main memory</span><br>The interpreter and your cell are copied into the server's RAM. The list <code>monthly_sales</code> now exists, in memory, as the program runs.</div>
+  <div class="mo"><div class="mh">3. Runtime restarts</div><span class="tag ram">Main memory, erased</span><br>Colab reclaims the machine after a while, or you restart it. Everything in RAM is gone: ask for <code>monthly_sales</code> and Python answers <code>NameError</code>.</div>
+  <div class="mo"><div class="mh">4. Still saved</div><span class="tag sto">Secondary storage</span><br>The notebook file was never touched. Re-run the cells and the list is rebuilt from the saved source code.</div>
+</div>
+<div class="gloss" style="margin-top:0.7em;">
+<div class="t">
+Volatile
+</div>
+<div class="d">
+Main memory needs power to hold its contents; temporary by design, and fast (the CPU reaches it directly).
+</div>
+<div class="t last">
+Persistent
+</div>
+<div class="d last">
+Secondary storage keeps data with the power off: magnetic disk drives, solid-state drives (SSD), and portable flash memory such as USB drives.
+</div>
+</div>
+<div class="footnote">
+<p>You will trigger moment 3 yourself in today’s Colab activity. Colab’s virtual machines have limited lifetimes and are recycled when idle, per the <a href="https://research.google.com/colaboratory/faq.html">Colab FAQ</a>.</p>
+</div>
+</section>
+<section id="software-two-categories-one-run-button" class="slide level2">
+<h2>Software: Two Categories, One Run Button</h2>
+<p>Everything the computer does is controlled by <strong>software</strong>, in two categories per Gaddis. Each layer below played a part in your Run.</p>
+<div class="stack">
+  <div class="h">Category</div><div class="h">Typical examples</div><div class="h">In the journey of your Run</div>
+
+  <div class="grp">Application software: programs that make the computer useful for everyday tasks</div>
+  <div class="cat">Applications</div>
+  <div>Word processors, spreadsheets, email, games, web browsers</div>
+  <div class="ex"><b>Chrome</b>, where you typed the cell and pressed Run</div>
+
+  <div class="grp">System software: programs that control and manage the basic operations of the computer</div>
+  <div class="cat">Operating system<small>controls the hardware</small></div>
+  <div>Windows, macOS on your laptop; Android, iOS on your phone</div>
+  <div class="ex"><b>Linux</b> on Google's virtual machine, managing its CPU, memory, and storage</div>
+  <div class="cat">Utility programs<small>a specific task that enhances operation or safeguards data</small></div>
+  <div>Backup tools, disk cleanup, antivirus</div>
+  <div class="ex">The <b>autosave</b> that keeps writing your notebook back to Drive</div>
+  <div class="cat">Software development tools<small>create, modify, test programs</small></div>
+  <div>Code editors, interpreters, compilers, debuggers</div>
+  <div class="ex"><b>Jupyter / Colab</b> and the <b>Python interpreter</b> itself</div>
+</div>
+<div class="footnote">
+<p>Categories and definitions follow Gaddis, <em>Starting Out with Python</em>, Chapter 1 (Hardware and Software).</p>
+</div>
+</section>
+<section id="game-where-does-it-live" class="slide level2 smaller">
+<h2>Game: Where Does It Live?</h2>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Play</a></li><li><a href="#tabset-1-2">On Screen</a></li><li><a href="#tabset-1-3">Poll</a></li><li><a href="#tabset-1-4">Debrief</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<div class="qrblock">
+  <div style="font-size:1.05em; line-height:1.55;">
+    Play it in the next tab (<b>On Screen</b>) or open it in its own browser tab at <a href="https://fmegahed.github.io/isa381/class02/where_does_it_live.html" target="_blank">fmegahed.github.io/isa381/class02/where_does_it_live.html</a>.<br><br>
+    <b>Twelve items, six bins.</b> Tap an item, then tap the bin it belongs to: CPU, main memory, secondary storage, input device, output device, or software. The clock starts on your first tap; a wrong bin costs you the explanation and a retry.<br><br>
+    When you finish, keep the results screen open. We will compare times and the items that tripped people up.
+  </div>
+</div>
+<div class="binrow">
+  <div>CPU</div><div>Main memory</div><div>Secondary storage</div><div>Input device</div><div>Output device</div><div>Software</div>
+</div>
+</div>
+<div id="tabset-1-2">
+<iframe src="where_does_it_live.html" style="width:100%; height:520px; border:1px solid #ccc9b8; border-radius:8px; background:#ffffff;">
+</iframe>
+</div>
+<div id="tabset-1-3">
+<div style="position: relative; padding-bottom: 48%; padding-top: 35px; height: 0; overflow: hidden;"><iframe sandbox="allow-popups allow-scripts allow-same-origin allow-presentation" allowfullscreen="true" allowtransparency="true" frameborder="0" height="315" src="https://www.mentimeter.com/app/presentation/al186hutwca82y6669wfm742995yxiap/embed" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" width="420"></iframe></div>
+</div>
+<div id="tabset-1-4">
+<p>Which items were hardest to place, and why? (Common ones: the interpreter is <em>software</em>, a USB drive is <em>secondary storage</em>, the values that vanished on restart were in <em>main memory</em>.)</p>
+<div class="can-edit" data-key="game-debrief" contenteditable="true">Notes from our class discussion (click to edit; use Chrome as your browser to keep your edits).</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="how-computers-store-data" class="title-slide slide level1 inverse center">
+<h1>How Computers Store Data</h1>
+
+</section>
+<section id="bits-and-bytes" class="slide level2">
+<h2>Bits and Bytes</h2>
+<p>All data in a computer is stored as sequences of 0s and 1s. A <strong>bit</strong> (“binary digit”) holds one of two values: off or on, 0 or 1. A <strong>byte</strong> is eight bits, enough to store one letter or a small number. Click the bits.</p>
+<div class="byte" id="byte"></div>
+<div class="byte-pv"><span>128</span><span>64</span><span>32</span><span>16</span><span>8</span><span>4</span><span>2</span><span>1</span></div>
+<div class="byte-out">
+  <div class="bo"><span class="v" id="byte-bin">00000000</span><span class="k">binary</span></div>
+  <div class="bo"><span class="v" id="byte-dec">0</span><span class="k">decimal</span></div>
+  <div class="bo"><span class="v" id="byte-chr">&nbsp;</span><span class="k">character (ASCII)</span></div>
+</div>
+<div class="btnrow">
+  <button class="btn" onclick="byteSet(72)">Set to 72 (the letter H)</button>
+  <button class="btn" onclick="byteSet(77)">Set to 77 (the letter M)</button>
+  <button class="btn" onclick="byteSet(255)">All on (255)</button>
+  <button class="btn" onclick="byteSet(0)">Clear</button>
+</div>
+<script>
+(function () {
+  const el = document.getElementById("byte");
+  const bits = [];
+  for (let i = 7; i >= 0; i--) {
+    const b = document.createElement("div");
+    b.className = "bit"; b.textContent = "0"; b.dataset.w = 1 << i;
+    b.addEventListener("click", () => { b.classList.toggle("on"); b.textContent = b.classList.contains("on") ? "1" : "0"; update(); });
+    el.appendChild(b); bits.push(b);
+  }
+  function update() {
+    let v = 0, s = "";
+    bits.forEach(b => { const on = b.classList.contains("on"); v += on ? +b.dataset.w : 0; s += on ? "1" : "0"; });
+    document.getElementById("byte-bin").textContent = s;
+    document.getElementById("byte-dec").textContent = v;
+    const c = document.getElementById("byte-chr");
+    if (v >= 33 && v <= 126) { c.textContent = String.fromCharCode(v); }
+    else if (v === 32) { c.textContent = "space"; }
+    else if (v < 32 || v === 127) { c.textContent = "control code"; }
+    else { c.textContent = "beyond ASCII"; }
+  }
+  window.byteSet = function (v) {
+    bits.forEach(b => { const on = (v & +b.dataset.w) !== 0; b.classList.toggle("on", on); b.textContent = on ? "1" : "0"; });
+    update();
+  };
+  update();
+})();
+</script>
+<div class="footnote">
+<p>Place values double from right to left, so eight bits can represent 2<sup>8</sup> = 256 different values (0 to 255). The character column uses ASCII, the code that assigns a number to each English letter, digit, and symbol. ASCII only defines 0 to 127: values 0 to 31 are “control codes” (tab, new line), and 128 to 255 are left to other encodings, which is why 255 shows “beyond ASCII”.</p>
+</div>
+</section>
+<section id="everything-is-bytes" class="slide level2">
+<h2>Everything Is Bytes</h2>
+<p>A <strong>byte</strong> is eight bits, so it holds one of 256 values. Text, numbers, images, and programs are all stored the same way: as bytes.</p>
+<div class="bpanels">
+  <div class="bp"><div class="bh">Text</div>Each character gets a number (ASCII), stored as one byte. <b>Hi</b> is two bytes:
+    <div class="bitlab"><span>H = 72</span><div class="bitrow"><span class="off">0</span><span class="on">1</span><span class="off">0</span><span class="off">0</span><span class="on">1</span><span class="off">0</span><span class="off">0</span><span class="off">0</span></div></div>
+    <div class="bitlab"><span>i = 105</span><div class="bitrow"><span class="off">0</span><span class="on">1</span><span class="on">1</span><span class="off">0</span><span class="on">1</span><span class="off">0</span><span class="off">0</span><span class="on">1</span></div></div>
+    <div style="margin-top:8px;">ASCII covers English only; <b>Unicode</b> extends the idea to every alphabet, using more bytes per character when needed.</div></div>
+  <div class="bp"><div class="bh">Numbers</div>Whole numbers use the same place values, with more bits. <b>1200</b> needs eleven:
+    <div class="bitrow" style="margin-top:8px;"><span class="on">1</span><span class="off">0</span><span class="off">0</span><span class="on">1</span><span class="off">0</span><span class="on">1</span><span class="on">1</span><span class="off">0</span><span class="off">0</span><span class="off">0</span><span class="off">0</span></div>
+    <div class="pvrow"><span>1024</span><span>512</span><span>256</span><span>128</span><span>64</span><span>32</span><span>16</span><span>8</span><span>4</span><span>2</span><span>1</span></div>
+    <div style="margin-top:8px;">1024 + 128 + 32 + 16 = 1200. Negative numbers and decimals such as 1083.33 use extra encoding rules; the storage is still bits.</div></div>
+  <div class="bp"><div class="bh">Images</div>A grid of pixels; each pixel's color is three bytes: red, green, blue.
+    <div class="pixwrap">
+      <div class="pix">
+        <i style="background:#c3142d"></i><i style="background:#d94a5e"></i><i style="background:#edece2"></i><i style="background:#9a9488"></i><i style="background:#1a66c9"></i>
+        <i style="background:#f3c6cd"></i><i class="sel" style="background:#c3142d"></i><i style="background:#c3142d"></i><i style="background:#70685c"></i><i style="background:#ffe8ec"></i>
+        <i style="background:#8a0e20"></i><i style="background:#c3142d"></i><i style="background:#faf9f7"></i><i style="background:#1b1b1b"></i><i style="background:#ccc9b8"></i>
+      </div>
+      <div class="rgb">
+        <div>Miami red <code>#c3142d</code></div>
+        <div class="bar"><span>R</span><i style="width:76%; background:#d54e53"></i><b>195</b></div>
+        <div class="bar"><span>G</span><i style="width:8%; background:#b9ca4a"></i><b>20</b></div>
+        <div class="bar"><span>B</span><i style="width:18%; background:#7aa6da"></i><b>45</b></div>
+      </div>
+    </div>
+    <div style="margin-top:6px;">A 12-megapixel photo is about 36 million bytes before compression.</div></div>
+</div>
+<div class="sizes">
+  <div class="sz"><b>112 bytes</b>orders.csv from last class: four rows of East and West data (896 bits).</div>
+  <div class="sz"><b>57,239 bytes</b>Last class's slide deck (index.html): about 57 kilobytes (a thousand bytes each).</div>
+  <div class="sz"><b>2,248,018 bytes</b>The job market explorer page with 1,437 postings: about 2.2 megabytes (a million bytes each).</div>
+</div>
+</section>
+<section id="poll-bits-and-bytes-check" class="slide level2">
+<h2>Poll: Bits and Bytes Check</h2>
+<div style="position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;"><iframe sandbox="allow-popups allow-scripts allow-same-origin allow-presentation" allowfullscreen="true" allowtransparency="true" frameborder="0" height="315" src="https://www.mentimeter.com/app/presentation/al186hutwca82y6669wfm742995yxiap/embed" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" width="420"></iframe></div>
+<div class="footnote">
+<p>Answers for the presenter: 256; about 18 million (2,248,018 bytes × 8 = 17,984,144 bits).</p>
+</div>
+</section></section>
+<section>
+<section id="how-a-program-works" class="title-slide slide level1 inverse center">
+<h1>How a Program Works</h1>
+
+</section>
+<section id="machine-language-and-the-instruction-set" class="slide level2">
+<h2>Machine Language and the Instruction Set</h2>
+<p>A CPU performs <strong>simple operations</strong> on data (read, add, subtract, multiply, divide, store) and understands only <strong>machine language</strong>: binary instructions from its <strong>instruction set</strong>. Each brand of CPU has its own set.</p>
+<div class="columns">
+<div class="column" style="width:44%;">
+<div style="font-size:0.8em; color:#70685c;">
+<p>What you wrote:</p>
+</div>
+<div class="bigcode" style="margin-top:0.4em; font-size:1.2em;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>total <span class="op">=</span> <span class="dv">1200</span> <span class="op">+</span> <span class="dv">950</span> <span class="op">+</span> <span class="dv">1150</span></span>
+<span id="cb1-2"><a href=""></a>avg <span class="op">=</span> total <span class="op">/</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="font-size:0.74em; line-height:1.45; margin-top:0.9em;">
+<p>Two statements for you. For the CPU, a <strong>sequence of tiny instructions</strong>, each one a pattern of bits. Meaningful work always takes many of them.</p>
+</div>
+</div><div class="column" style="width:56%;">
+<div style="font-size:0.8em; color:#70685c;">
+<p>What the CPU sees (our simplified teaching machine):</p>
+</div>
+<table class="prog caption-top" style="width:100%; margin-top:0.4em; font-size:0.62em;">
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Address</th>
+<th data-quarto-table-cell-role="th">Bits in memory</th>
+<th data-quarto-table-cell-role="th">Meaning</th>
+</tr>
+<tr class="even">
+<td>00</td>
+<td>0001 1010</td>
+<td class="mn">LOAD the value at address 10</td>
+</tr>
+<tr class="odd">
+<td>01</td>
+<td>0010 1011</td>
+<td class="mn">ADD the value at address 11</td>
+</tr>
+<tr class="even">
+<td>02</td>
+<td>0010 1100</td>
+<td class="mn">ADD the value at address 12</td>
+</tr>
+<tr class="odd">
+<td>03</td>
+<td>0101 1101</td>
+<td class="mn">DIVIDE by the value at address 13</td>
+</tr>
+<tr class="even">
+<td>04</td>
+<td>0110 1110</td>
+<td class="mn">STORE the result at address 14</td>
+</tr>
+<tr class="odd">
+<td>05</td>
+<td>0000 0000</td>
+<td class="mn">HALT</td>
+</tr>
+</tbody>
+</table>
+<div style="font-size:0.64em; color:#70685c; line-height:1.4; margin-top:0.5em;">
+<p>First four bits: <strong>which operation</strong> (0001 = LOAD, 0010 = ADD, 0101 = DIVIDE, 0110 = STORE). Last four bits: <strong>which address</strong> in main memory. The data (1200, 950, 1150, 3) sits at addresses 10 to 13, also as bits.</p>
+</div>
+</div></div>
+<div class="footnote">
+<p>A simplified teaching machine, not a real chip’s instruction set; x86 and Arm use the same idea with far more operations and longer instructions.</p>
+</div>
+</section>
+<section id="fetch-decode-execute" class="slide level2">
+<h2>Fetch, Decode, Execute</h2>
+<p>The CPU repeats one cycle: <strong>fetch</strong> the next instruction from main memory, <strong>decode</strong> which operation it is, <strong>execute</strong> it. Press <strong>Step</strong> to watch it average three months of sales, one phase at a time.</p>
+<div class="fde">
+  <div>
+    
+<table id="fde-mem" class="mem caption-top">
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Addr</th>
+<th data-quarto-table-cell-role="th">Bits</th>
+<th data-quarto-table-cell-role="th">Meaning</th>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <div class="cpu">
+    <div class="ch">CPU</div>
+    <div class="regs">
+      <div class="reg"><span class="rv" id="fde-pc">00</span><span class="rk">Program counter</span></div>
+      <div class="reg"><span class="rv" id="fde-ir">&nbsp;</span><span class="rk">Instruction register</span></div>
+      <div class="reg"><span class="rv" id="fde-acc">0</span><span class="rk">Accumulator</span></div>
+    </div>
+    <div class="phases"><div class="ph" id="ph-f">Fetch</div><div class="ph" id="ph-d">Decode</div><div class="ph" id="ph-e">Execute</div></div>
+    <div class="narr" id="fde-narr"></div>
+    <div class="btnrow" style="justify-content:flex-start;">
+      <button class="btn primary" id="fde-step">Step</button>
+      <button class="btn" id="fde-run">Run slowly</button>
+      <button class="btn" id="fde-reset">Reset</button>
+    </div>
+    
+<table id="fde-trace" class="mem trace caption-top">
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Cycle</th>
+<th data-quarto-table-cell-role="th">Instruction</th>
+<th data-quarto-table-cell-role="th">Result</th>
+</tr>
+</tbody>
+</table>
+
+  </div>
+</div>
+<script>
+(function () {
+  const INTRO = "Three registers inside the CPU: the <b>program counter</b> holds the address of the next instruction, the <b>instruction register</b> holds the instruction being worked on, and the <b>accumulator</b> is the CPU's one scratch number, where every result lands. Press <b>Step</b>: fetch, then decode, then execute.";
+  const OPS = { "0001": ["LOAD", "copy the value at address {a} into the accumulator"],
+                "0010": ["ADD",  "add the value at address {a} to the accumulator"],
+                "0101": ["DIV",  "divide the accumulator by the value at address {a}"],
+                "0110": ["STORE","copy the accumulator into address {a}"],
+                "0000": ["HALT", "stop"] };
+  const PROG = [["00","0001 1010"],["01","0010 1011"],["02","0010 1100"],["03","0101 1101"],["04","0110 1110"],["05","0000 0000"]];
+  const DATA0 = { 10: 1200, 11: 950, 12: 1150, 13: 3, 14: 0 };
+  const LABEL = { 10: "Jan sales", 11: "Feb sales", 12: "Mar sales", 13: "months", 14: "avg (result)" };
+  let data, pc, ir, acc, phase, halted, timer, cycle;
+  const tbl = document.getElementById("fde-mem");
+  const trace = document.getElementById("fde-trace");
+  function addTrace(instr, result) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = "<td>" + cycle + "</td><td class='mn'>" + instr + "</td><td class='mn'>" + result + "</td>";
+    trace.appendChild(tr);
+  }
+  function decode(bits) { const op = bits.slice(0,4), a = parseInt(bits.slice(5,9), 2); return { op: OPS[op][0], text: OPS[op][1].replace("{a}", a), a: a }; }
+  function render(touch) {
+    tbl.querySelectorAll("tr:not(:first-child)").forEach(r => r.remove());
+    PROG.forEach(([ad, bits], i) => {
+      const d = decode(bits);
+      const tr = document.createElement("tr");
+      if (!halted && pc === i) tr.className = "pc";
+      if (i === PROG.length - 1) tr.classList.add("sep");
+      tr.innerHTML = "<td>" + ad + "</td><td>" + bits + "</td><td class='mn'>" + d.op + (d.op === "HALT" ? "" : " [" + d.a + "]") + "</td>";
+      tbl.appendChild(tr);
+    });
+    Object.keys(data).forEach(k => {
+      const tr = document.createElement("tr");
+      if (touch === +k) tr.className = "touch";
+      tr.innerHTML = "<td>" + k + "</td><td>" + data[k] + "</td><td class='mn'>" + LABEL[k] + "</td>";
+      tbl.appendChild(tr);
+    });
+    document.getElementById("fde-pc").textContent = PROG[Math.min(pc, PROG.length - 1)][0];
+    document.getElementById("fde-ir").textContent = ir || " ";
+    document.getElementById("fde-acc").textContent = acc;
+    ["f","d","e"].forEach((p, i) => document.getElementById("ph-" + p).classList.toggle("on", phase === i));
+  }
+  function narrate(html) { document.getElementById("fde-narr").innerHTML = html; }
+  function reset() {
+    clearInterval(timer); timer = null;
+    document.getElementById("fde-run").textContent = "Run slowly";
+    data = Object.assign({}, DATA0); pc = 0; ir = ""; acc = 0; phase = -1; halted = false; cycle = 0;
+    trace.querySelectorAll("tr:not(:first-child)").forEach(r => r.remove());
+    document.getElementById("fde-step").disabled = false;
+    narrate(INTRO);
+    render();
+  }
+  function step() {
+    if (halted) return;
+    const bits = PROG[pc][1], d = decode(bits);
+    if (phase === -1 || phase === 2) {
+      phase = 0; ir = bits; cycle += 1;
+      narrate("<b>Fetch</b> (cycle " + cycle + "). The program counter says " + PROG[pc][0] + ", so the CPU copies the instruction stored at address " + PROG[pc][0] + " into its instruction register: <code>" + bits + "</code>. It does not know yet what those bits mean.");
+      render();
+    } else if (phase === 0) {
+      phase = 1;
+      narrate("<b>Decode.</b> The first four bits, <code>" + bits.slice(0,4) + "</code>, mean <b>" + d.op + "</b>" + (d.op === "HALT" ? ": stop." : "; the last four, <code>" + bits.slice(5,9) + "</code>, are the number " + d.a + ", an address in main memory. So the order is: " + d.text + "."));
+      render();
+    } else {
+      phase = 2;
+      let touch = null, msg = "", short = "";
+      const before = acc, v = data[d.a];
+      if (d.op === "LOAD") { acc = v; touch = d.a; msg = "the CPU reads " + v + " from address " + d.a + " and puts it in the accumulator. Accumulator: " + acc; short = "acc = " + acc; }
+      else if (d.op === "ADD") { acc += v; touch = d.a; msg = "the CPU reads " + v + " from address " + d.a + " and adds it to the accumulator: " + before + " + " + v + " = " + acc; short = before + " + " + v + " = " + acc; }
+      else if (d.op === "DIV") { acc = Math.round(acc / v); touch = d.a; msg = "the CPU reads " + v + " from address " + d.a + " and divides: " + before + " &divide; " + v + " = " + acc; short = before + " &divide; " + v + " = " + acc; }
+      else if (d.op === "STORE") { data[d.a] = acc; touch = d.a; msg = "the CPU copies the accumulator, " + acc + ", into address " + d.a + ". That memory cell now holds the answer"; short = "address " + d.a + " = " + acc; }
+      else { halted = true; msg = "the program is finished. The result, " + data[14] + ", sits in main memory at address 14, where the interpreter picks it up to show you"; short = "stop"; }
+      addTrace(d.op + (d.op === "HALT" ? "" : " [" + d.a + "]"), short);
+      if (!halted) { pc += 1; narrate("<b>Execute.</b> " + msg + ". The program counter moves on to " + PROG[pc][0] + " and the cycle repeats."); }
+      else { narrate("<b>Execute.</b> HALT: " + msg + ". Six instructions, six fetch-decode-execute cycles, for two lines of Python."); document.getElementById("fde-step").disabled = true; clearInterval(timer); timer = null; document.getElementById("fde-run").textContent = "Run slowly"; }
+      render(touch);
+    }
+  }
+  document.getElementById("fde-step").addEventListener("click", step);
+  document.getElementById("fde-reset").addEventListener("click", reset);
+  document.getElementById("fde-run").addEventListener("click", function () {
+    const btn = document.getElementById("fde-run");
+    if (timer) { clearInterval(timer); timer = null; btn.textContent = "Run slowly"; return; }
+    if (halted) reset();
+    btn.textContent = "Pause";
+    timer = setInterval(function () { step(); if (halted) { clearInterval(timer); timer = null; btn.textContent = "Run slowly"; } }, 2200);
+  });
+  reset();
+})();
+</script>
+<div class="footnote">
+<p>Terms per Gaddis, Chapter 1. The registers are simplified views of a real CPU’s.</p>
+</div>
+</section>
+<section id="exercise-be-the-cpu" class="slide level2 smaller">
+<h2>Exercise: Be the CPU</h2>
+<countdown-timer id="timer-cpu" minutes="04" seconds="00" class="countdown" warn-when="0" update-every="1" play-sound="false" blink-colon="false" start-immediately="false" tabindex="0" style="top: 0;right: 0;--countdown-font-size: 1.3em;--countdown-margin: 0.15em;--countdown-padding: 0.1em 0.5em;--countdown-line-height: 1.1;">
+ </countdown-timer>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">The Program</a></li><li><a href="#tabset-2-2">Answer</a></li><li><a href="#tabset-2-3">Debrief</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
+<p>With your neighbor, <strong>play the CPU</strong> the way the simulator just did: start with the accumulator at 0, take the instructions in order, and write down what the accumulator holds after each one executes. Business story: 50 units in stock, 20 sold, at $3 each.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<table class="prog caption-top" style="width:100%;">
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Addr</th>
+<th data-quarto-table-cell-role="th">Bits</th>
+<th data-quarto-table-cell-role="th">Meaning</th>
+</tr>
+<tr class="even">
+<td>00</td>
+<td>0001 1010</td>
+<td class="mn">LOAD [10]</td>
+</tr>
+<tr class="odd">
+<td>01</td>
+<td>0011 1011</td>
+<td class="mn">SUB [11]</td>
+</tr>
+<tr class="even">
+<td>02</td>
+<td>0100 1100</td>
+<td class="mn">MUL [12]</td>
+</tr>
+<tr class="odd">
+<td>03</td>
+<td>0110 1101</td>
+<td class="mn">STORE [13]</td>
+</tr>
+<tr class="sep even">
+<td>04</td>
+<td>0000 0000</td>
+<td class="mn">HALT</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>50</td>
+<td class="mn">units in stock</td>
+</tr>
+<tr class="even">
+<td>11</td>
+<td>20</td>
+<td class="mn">units sold</td>
+</tr>
+<tr class="odd">
+<td>12</td>
+<td>3</td>
+<td class="mn">price per unit</td>
+</tr>
+<tr class="even">
+<td>13</td>
+<td>0</td>
+<td class="mn">result</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<table class="prog caption-top" style="width:100%;">
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Cycle</th>
+<th data-quarto-table-cell-role="th">Instruction</th>
+<th data-quarto-table-cell-role="th">Accumulator after</th>
+</tr>
+<tr class="even">
+<td>1</td>
+<td class="mn">LOAD [10]</td>
+<td class="blank">&nbsp;</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td class="mn">SUB [11]</td>
+<td class="blank">&nbsp;</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td class="mn">MUL [12]</td>
+<td class="blank">&nbsp;</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td class="mn">STORE [13]</td>
+<td class="blank">&nbsp;</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td class="mn">HALT</td>
+<td class="blank">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<div style="font-size:0.9em; margin-top:0.4em;">
+<p>New operations: <code>0011</code> = SUB (subtract), <code>0100</code> = MUL (multiply). Then answer:</p>
+<ol type="1">
+<li>When the CPU reaches <strong>HALT</strong>, what is stored at <strong>address 13</strong>?</li>
+<li>How many <strong>fetch-decode-execute cycles</strong> ran in total?</li>
+</ol>
+</div>
+</div></div>
+</div>
+<div id="tabset-2-2">
+<details class="ans">
+<summary>Click to reveal the worked answer — the results will be shown and discussed together in class.</summary>
+
+<table class="prog caption-top" style="width:70%;">
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Cycle</th>
+<th data-quarto-table-cell-role="th">Instruction</th>
+<th data-quarto-table-cell-role="th">What the CPU does</th>
+<th data-quarto-table-cell-role="th">Accumulator after</th>
+</tr>
+<tr class="even">
+<td>1</td>
+<td class="mn">LOAD [10]</td>
+<td class="mn">reads 50 from address 10 into the accumulator</td>
+<td>50</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td class="mn">SUB [11]</td>
+<td class="mn">reads 20 from address 11; 50 − 20</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td class="mn">MUL [12]</td>
+<td class="mn">reads 3 from address 12; 30 × 3</td>
+<td>90</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td class="mn">STORE [13]</td>
+<td class="mn">copies 90 into address 13</td>
+<td>90</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td class="mn">HALT</td>
+<td class="mn">stops</td>
+<td>90</td>
+</tr>
+</tbody>
+</table>
+
+<div class="ansq"><b>1. When the CPU reaches HALT, what is stored at address 13?</b><br>
+Address 13 holds <b>90</b>: the remaining stock is worth $90.</div>
+<div class="ansq"><b>2. How many fetch-decode-execute cycles ran in total?</b><br>
+<b>Five cycles.</b> HALT is an instruction too: it has to be fetched and decoded before the CPU knows to stop.</div>
+<div class="ansq">What you did by hand is exactly what the chip does, billions of times faster and without getting bored. Everything a program does, at the bottom, is this loop.</div>
+</details>
+</div>
+<div id="tabset-2-3">
+<div class="can-edit" data-key="cpu-debrief" contenteditable="true">Notes from our class discussion (click to edit; use Chrome as your browser to keep your edits).</div>
+</div>
+</div>
+</div>
+</section>
+<section id="from-python-to-the-machine" class="slide level2">
+<h2>From Python to the Machine</h2>
+<p>Nobody wants to write <code>0001 1010</code>. <strong>Low-level</strong> languages stay close to machine language; <strong>high-level</strong> languages like Python hide the CPU entirely. Something has to translate.</p>
+<div class="duo">
+  <div class="dcol">
+    <div class="dh">Compiler</div>
+    <div class="flow"><div class="fnode">Source code</div><div class="farrow">→</div><div class="fnode router">Compiler</div><div class="farrow">→</div><div class="fnode">Machine-language program</div><div class="farrow">→</div><div class="fnode">CPU</div></div>
+    Translates the <b>whole program</b> into a separate machine-language file first. That file runs later, as many times as you like, without the compiler present. Used by C, C++, Go, and others.
+  </div>
+  <div class="dcol py">
+    <div class="dh">Interpreter (Python)</div>
+    <div class="flow"><div class="fnode">Source code</div><div class="farrow">→</div><div class="fnode router">Interpreter</div><div class="farrow">→</div><div class="fnode">CPU</div></div>
+    Reads <b>one statement</b>, translates it, executes it, then moves to the next. No separate machine-language file; the interpreter must be present every time the program runs. A <b>syntax error</b> stops translation at the statement that breaks the rules.
+  </div>
+</div>
+<div class="gloss" style="margin-top:0.5em;">
+<div class="t">
+Assembly
+</div>
+<div class="d">
+Low-level: one mnemonic per machine instruction (<code>LOAD</code>, <code>ADD</code>, <code>STORE</code> on our teaching machine). Readable, but still one line per CPU operation.
+</div>
+<div class="t last">
+Python
+</div>
+<div class="d last">
+High-level: <code>avg = total / 3</code> says what you mean; the interpreter produces the many small instructions. (Today’s notebook: <code>dis.dis(…)</code> shows them.)
+</div>
+</div>
+<div class="footnote">
+<p>Definitions follow Gaddis, Chapter 1. Python’s own docs call it interpreted: <a href="https://docs.python.org/3/faq/general.html#what-is-python">docs.python.org, “What is Python?”</a>.</p>
+</div>
+</section>
+<section id="anatomy-of-a-statement" class="slide level2">
+<h2>Anatomy of a Statement</h2>
+<p>Click a term on the right to see it in the code: Gaddis’s vocabulary for every program.</p>
+<div class="anat">
+  <div>
+<pre class="code" id="anat-ok"><span class="tk" data-c="statement source"><span class="tk" data-c="keyword source">import</span> pandas <span class="tk" data-c="keyword source">as</span> pd</span>
+<span class="tk" data-c="statement source">monthly_sales <span class="tk" data-c="operator source">=</span> [<span class="dv">1200</span>, <span class="dv">950</span>, <span class="dv">1150</span>]</span>
+<span class="tk" data-c="statement source"><span class="tk" data-c="keyword source">if</span> <span class="fu">sum</span>(monthly_sales) <span class="tk" data-c="operator source">&gt;</span> <span class="dv">3000</span><span class="tk" data-c="syntax source">:</span></span>
+<span class="tk" data-c="statement source"><span class="tk" data-c="syntax source">    </span><span class="fu">print</span>(<span class="st">"Above target"</span>)</span></pre>
+<pre class="code" id="anat-err" style="display:none;"><span>import</span> pandas as pd
+monthly_sales = [<span class="dv">1200</span>, <span class="dv">950</span>, <span class="dv">1150</span>]
+if <span class="fu">sum</span>(monthly_sales) &gt; <span class="dv">3000</span><span class="tk hit"> </span>
+    <span class="fu">print</span>(<span class="st">"Above target"</span>)
+<span class="co">  File "&lt;cell&gt;", line 3</span>
+<span class="co">    if sum(monthly_sales) &gt; 3000</span>
+<span class="co">                                ^</span>
+<span class="err">SyntaxError: expected ':'</span></pre>
+  </div>
+  <div class="legend" id="anat-legend">
+    <div class="lg" data-c="keyword"><b>Keyword:</b> a word with a reserved meaning in the language. <code>import</code>, <code>as</code>, <code>if</code>. Python has 35 of them; you cannot use them as names.</div>
+    <div class="lg" data-c="operator"><b>Operator:</b> a symbol that performs an operation on data. <code>=</code> assigns, <code>&gt;</code> compares; <code>+ - * /</code> do arithmetic.</div>
+    <div class="lg" data-c="statement"><b>Statement:</b> one individual instruction in a high-level language. Each line here is one.</div>
+    <div class="lg" data-c="syntax"><b>Syntax:</b> the rules for how statements are written. The colon after <code>if</code> and the four-space indent are Python's rules, not decoration.</div>
+    <div class="lg" data-c="source"><b>Source code:</b> the statements you write, all of them, before any translation happens.</div>
+    <div class="lg" data-c="error"><b>Syntax error:</b> a broken rule. The interpreter refuses to translate; nothing runs. Click to remove the colon.</div>
+  </div>
+</div>
+<script>
+(function () {
+  const ok = document.getElementById("anat-ok"), err = document.getElementById("anat-err");
+  const lgs = document.querySelectorAll("#anat-legend .lg");
+  lgs.forEach(lg => lg.addEventListener("click", function () {
+    const c = lg.dataset.c, on = !lg.classList.contains("on");
+    lgs.forEach(x => x.classList.remove("on"));
+    ok.querySelectorAll(".tk").forEach(t => t.classList.remove("hit"));
+    if (!on) { ok.style.display = ""; err.style.display = "none"; return; }
+    lg.classList.add("on");
+    if (c === "error") { ok.style.display = "none"; err.style.display = ""; return; }
+    ok.style.display = ""; err.style.display = "none";
+    ok.querySelectorAll(".tk").forEach(t => { if (t.dataset.c.split(" ").includes(c)) t.classList.add("hit"); });
+  }));
+})();
+</script>
+<div class="footnote">
+<p>The 35 keywords are listed in the <a href="https://docs.python.org/3/reference/lexical_analysis.html#keywords">Python Language Reference</a>. <code>print</code> and <code>sum</code> are built-in functions, not keywords. The error message is Python’s actual output for a missing colon.</p>
+</div>
+</section>
+<section id="activity-meet-your-machine" class="slide level2 smaller80 airy">
+<h2>Activity: Meet Your Machine</h2>
+<countdown-timer id="timer-colab" minutes="10" seconds="00" class="countdown" warn-when="0" update-every="1" play-sound="false" blink-colon="false" start-immediately="false" tabindex="0" style="top: 0;right: 0;--countdown-font-size: 1.3em;--countdown-margin: 0.15em;--countdown-padding: 0.1em 0.5em;--countdown-line-height: 1.1;">
+ </countdown-timer>
+<p>Every term from today is something you can <strong>ask the Colab machine about</strong>. Open the <a href="https://colab.research.google.com/drive/1M25sVI-vndDmk6NnRwBVw6SLoLqQRYIS?usp=sharing" class="colab-link" target="_blank">class02 notebook</a>, <strong>File → Save a copy in Drive</strong>, then run the cells in order with <strong>Shift + Enter</strong>. The notebook has you:</p>
+<ol type="1">
+<li><p><strong>Meet the hardware:</strong> print the CPU model, the main memory, and the secondary storage of the virtual machine Google gave you.</p></li>
+<li><p><strong>Meet the software:</strong> print the operating system and the Python interpreter version.</p></li>
+<li><p><strong>Break the syntax on purpose:</strong> run a cell with the colon missing, read the interpreter’s complaint, then fix it.</p></li>
+<li><p><strong>Watch main memory forget:</strong> create a variable, restart the runtime (<strong>Runtime → Restart session</strong>), and ask for it again. Your notebook file survives.</p></li>
+<li><p><strong>Peek at the interpreter’s steps</strong> (optional): <code>dis.dis(...)</code> shows what one Python statement becomes on its way to the CPU.</p></li>
+</ol>
+<div class="note">
+<p>Compare with your neighbor: did Google hand you the same CPU and the same amount of memory? Keep the numbers; we discuss them before our last Menti poll question.</p>
+</div>
+</section>
+<section id="any-questions" class="slide level2">
+<h2>Any questions?</h2>
+<countdown-timer id="timer-exit" minutes="02" seconds="00" class="countdown" warn-when="0" update-every="1" play-sound="false" blink-colon="false" start-immediately="false" tabindex="0" style="top: 0;right: 0;--countdown-font-size: 1.3em;--countdown-margin: 0.15em;--countdown-padding: 0.1em 0.5em;--countdown-line-height: 1.1;">
+ </countdown-timer>
+<p>In one sentence, in your own words: <strong>what happens between pressing Run and seeing the output?</strong> Use at least three of today’s terms.</p>
+<div style="position: relative; padding-bottom: 48%; padding-top: 35px; height: 0; overflow: hidden;"><iframe sandbox="allow-popups allow-scripts allow-same-origin allow-presentation" allowfullscreen="true" allowtransparency="true" frameborder="0" height="315" src="https://www.mentimeter.com/app/presentation/al186hutwca82y6669wfm742995yxiap/embed" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" width="420"></iframe></div>
+<aside class="notes">
+<p>Read a few aloud. A good answer touches the interpreter, main memory, the CPU’s fetch-decode-execute cycle, and the output device, in that order.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="summary-of-main-points" class="slide level2 smaller90">
+<h2>Summary of Main Points</h2>
+<p>By now, you should be able to do the following:</p>
+<ul>
+<li><p>Name the <strong>hardware</strong>: the CPU runs programs; <strong>main memory</strong> holds the running program and its data (and forgets when the power is off); <strong>secondary storage</strong> keeps files; <strong>input</strong> and <strong>output</strong> devices connect the machine to people.</p></li>
+<li><p>Sort <strong>software</strong> into applications and system software (operating systems, utilities, development tools such as the Python interpreter).</p></li>
+<li><p>Explain that all data is <strong>bits</strong> and <strong>bytes</strong>: eight bits, 256 values, one character per byte in ASCII; numbers in binary; pixels as three bytes.</p></li>
+<li><p>Trace the <strong>fetch-decode-execute</strong> cycle through <strong>machine language</strong> from a CPU’s <strong>instruction set</strong>, and say why nobody writes it: <strong>high-level</strong> languages plus an <strong>interpreter</strong> (Python) or a <strong>compiler</strong> do the translation.</p></li>
+<li><p>Read a Python statement and point at its <strong>keywords</strong>, <strong>operators</strong>, and <strong>syntax</strong>, and recognize a <strong>syntax error</strong> when the interpreter reports one.</p></li>
+</ul>
+</section>
+<section id="prep-for-our-next-class" class="slide level2">
+<h2>📖 Prep for Our Next Class 📖</h2>
+<ul>
+<li><p><strong>Read</strong> Gaddis, Chapter 1, if you have not yet. Between last class and today you have met every term in it; the reading consolidates them. There is no assignment this week.</p></li>
+<li><p><strong>Keep your notebooks.</strong> Both class notebooks are saved in your Drive; nothing today depended on a specific machine, so they run anywhere Colab does.</p></li>
+<li><p><strong>Next in the course:</strong> Gaddis, Chapter 2, <em>Input, Processing, and Output</em>, where the <code>print</code> and <code>input</code> you used become the building blocks of real programs.</p></li>
+<li><p><strong>Questions this week:</strong> <a href="mailto:fmegahed@miamioh.edu">fmegahed@miamioh.edu</a>.</p></li>
+</ul>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="https://miamioh.edu/miami-brand/_files/images/system/identity/logo-horizontal-stacked.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>ISA 381 · 02 · Slides and course guide on <a href="https://miamioh.instructure.com/courses/258291">Canvas</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="index_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="index_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="index_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="index_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="index_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="index_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="index_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="index_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script>
+    // xaringanExtra-style editable note areas: contenteditable divs whose content
+    // persists in the browser's localStorage, keyed by data-key.
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.can-edit').forEach(function (el) {
+        var key = 'isa381-class02-' + (el.dataset.key || 'notes');
+        try {
+          var saved = localStorage.getItem(key);
+          if (saved) el.innerHTML = saved;
+        } catch (e) { /* storage unavailable (private mode); still editable, not persisted */ }
+        el.addEventListener('input', function () {
+          try { localStorage.setItem(key, el.innerHTML); } catch (e) {}
+        });
+      });
+    });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

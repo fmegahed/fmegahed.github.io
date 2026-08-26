@@ -1,0 +1,847 @@
+---
+title: "ISA 381: Business Programming"
+subtitle: |
+  <span style="font-size:1.08em; font-weight:600; letter-spacing:-0.01em;">02: What Happens When You Press Run</span>
+  <br><span style="display:inline-block; width:76px; height:3px; background:rgba(255,255,255,0.55); border-radius:2px; margin:22px 0 20px;"></span><br>
+  <span style="font-size:0.72em; font-weight:700; color:#ffffff;">Fadel M. Megahed</span><br>
+  <span style="font-size:0.5em; color:#f3c6cd;">Subbing in for Dr. Maliha Alam</span><br><br>
+  <span style="font-size:0.46em; letter-spacing:0.14em; text-transform:uppercase; color:#ffe8ec;">Fall 2026 &nbsp;·&nbsp; Farmer School of Business</span>
+resources:
+  - beveled_m.png
+  - where_does_it_live.html
+format:
+  revealjs:
+    theme: [default, mu_theme.scss, class02.scss]
+    slide-number: true
+    navigation-mode: linear
+    pdfexport: true
+    toc: false
+    favicon: beveled_m.png
+    logo: "https://miamioh.edu/miami-brand/_files/images/system/identity/logo-horizontal-stacked.png"
+    footer: "ISA 381 · 02 · Slides and course guide on [Canvas](https://miamioh.instructure.com/courses/258291)"
+    title-slide-attributes:
+      data-background-color: "#c3142d"
+    touch: true
+    controls: true
+    center: false
+    include-after-body: editable_notes.html
+---
+
+## Kahoot: Last Class in Three Questions
+
+```{=html}
+<div class="join">
+  <div class="jbig">
+    <span class="u">kahoot.it</span>
+    <span class="p">Enter the game PIN on the screen.<br>Three questions, 20 seconds each.<br>Nickname: your first name.</span>
+  </div>
+  <div class="jlist">
+    <b>What the three questions cover</b> (all from last class):
+    <ol>
+      <li>The two words that describe what kind of language Python is.</li>
+      <li>The East vs. West exercise: why the two answers disagreed.</li>
+      <li>What Google Colab actually is.</li>
+    </ol>
+    <div class="rules">This is a non-graded activity meant to capture how much information you retained from Monday's class.</div>
+  </div>
+</div>
+```
+
+---
+
+## Recap: Key Terms From Last Class
+
+```{=html}
+<div class="gloss gloss2">
+  <div class="t">Python</div>
+  <div class="d">A high-level, interpreted, open-source programming language, created by Guido van Rossum and first released in 1991.</div>
+  <div class="t">Jupyter Notebook</div>
+  <div class="d">A document that mixes live code, explanatory text, and the code's output in one place.</div>
+
+  <div class="t">High-level</div>
+  <div class="d">You write near-English; the language deals with the details of the chip underneath. (Today: what those details are.)</div>
+  <div class="t">Google Colab</div>
+  <div class="d">A hosted Jupyter Notebook: Python in your browser, nothing to install, running on a Google server.</div>
+
+  <div class="t">Interpreted</div>
+  <div class="d">Your code runs the moment you press Run, one statement at a time. (Today: what the interpreter does.)</div>
+  <div class="t">pandas</div>
+  <div class="d">Python's commonly used library for data analysis and for extracting data from different file formats. <code>df.groupby("region")</code> computed both East-vs-West answers.</div>
+
+  <div class="t">Syntax</div>
+  <div class="d">The rules a statement must follow to be understood. Break one and nothing runs. (Today: a syntax error, on purpose.)</div>
+  <div class="t">Open-source</div>
+  <div class="d">Free for anyone to use and build on, which is why tools like pandas exist at all.</div>
+</div>
+```
+
+::: {.note .insight style="margin-top:0.7em;"}
+**Insight:** AI-generated outputs must be verified, and in some cases the AI may ask you
+to pick from two or more choices. For example, "which region had the higher average order
+value?" had two defensible answers, and telling them apart took reading a few lines of
+Python.
+:::
+
+---
+
+## Learning Objectives for Today's Class
+
+By the end of today's class, you should be able to:
+
+- Name the major **hardware** components of a computer (CPU, main memory, secondary
+  storage, input and output devices) and the two categories of **software**.
+
+- Explain how computers store data as **bits** and **bytes**.
+
+- Trace the **fetch-decode-execute cycle** through a small machine-language program.
+
+- Distinguish **machine language**, **low-level**, and **high-level** languages, and a
+  **compiler** from an **interpreter**.
+
+- Identify **keywords**, **operators**, **statements**, and **syntax errors** in Python
+  source code.
+
+---
+
+## The Journey of One Line of Code
+
+Last class you pressed Run on this line and `1083.33` appeared. Today follows the
+half-second in between.
+
+```{=html}
+<div class="tnb"><span class="v">avg</span> <span class="o">=</span> <span class="f">sum</span>(<span class="v">monthly_sales</span>) <span class="o">/</span> <span class="f">len</span>(<span class="v">monthly_sales</span>)</div>
+<div class="journey">
+  <div class="jn"><span class="n">1</span><span class="l">Your browser</span><span class="s">Chrome, on your laptop</span><span class="hl fragment" data-fragment-index="1"></span></div>
+  <div class="ja">&rarr;</div>
+  <div class="jn"><span class="n">2</span><span class="l">Google's server</span><span class="s">a machine you never see</span><span class="hl fragment" data-fragment-index="2"></span></div>
+  <div class="ja">&rarr;</div>
+  <div class="jn"><span class="n">3</span><span class="l">The interpreter</span><span class="s">Python, the program</span><span class="hl fragment" data-fragment-index="3"></span></div>
+  <div class="ja">&rarr;</div>
+  <div class="jn"><span class="n">4</span><span class="l">CPU and memory</span><span class="s">fetch, decode, execute</span><span class="hl fragment" data-fragment-index="4"></span></div>
+  <div class="ja">&rarr;</div>
+  <div class="jn"><span class="n">5</span><span class="l">Back to your screen</span><span class="s">1083.33</span><span class="hl fragment" data-fragment-index="5"></span></div>
+</div>
+<div class="capstack">
+  <div class="cap fragment fade-out" data-fragment-index="1">Press the right arrow key to walk through the five stops. Each one is a section of Gaddis, Chapter 1.</div>
+  <div class="cap fragment current-visible" data-fragment-index="1"><b>1. Your browser.</b> You typed on a keyboard (an <b>input device</b>) into Chrome (<b>application software</b>). When you press Run, Colab sends the text of the cell, your <b>source code</b>, over the internet to Google.</div>
+  <div class="cap fragment current-visible" data-fragment-index="2"><b>2. Google's server.</b> Colab gives your notebook a virtual machine of its own, with a <b>CPU</b>, <b>main memory</b>, and <b>secondary storage</b>, running Linux (an <b>operating system</b>).</div>
+  <div class="cap fragment current-visible" data-fragment-index="3"><b>3. The interpreter.</b> A program on that machine reads your code, checks its <b>syntax</b>, and translates it into the tiny instructions the CPU understands, one line at a time.</div>
+  <div class="cap fragment current-visible" data-fragment-index="4"><b>4. CPU and memory.</b> Your code, now a list of instructions, and your data (1200, 950, 1100) sit in main memory. The CPU <b>fetches</b> the next instruction, <b>decodes</b> it, and <b>executes</b> it, working through each function call and each line in turn. This is the stop where time goes: instant for an average, minutes or hours for a large analysis.</div>
+  <div class="cap fragment current-visible" data-fragment-index="5"><b>5. Back to your screen.</b> The result travels back and Chrome draws it below the cell on your display, an <b>output device</b>.</div>
+</div>
+```
+
+::: footnote
+Colab runs your code "in a virtual machine private to your account," per Google's
+[Colab FAQ](https://research.google.com/colaboratory/faq.html). The bold terms are the
+Chapter 1 vocabulary we cover today.
+:::
+
+# Hardware and Software {.inverse .center}
+
+## Inside the Machine
+
+**Hardware**: the physical devices that make up a computer. Right arrow steps through them.
+
+:::: columns
+
+::: {.column width="50%"}
+```{=html}
+<div class="machine" style="width:510px;">
+  <svg viewBox="0 0 510 470">
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9a9488"/></marker>
+    </defs>
+    <line x1="255" y1="96" x2="255" y2="178" marker-start="url(#ah)" marker-end="url(#ah)"/>
+    <line x1="255" y1="290" x2="255" y2="372" marker-start="url(#ah)" marker-end="url(#ah)"/>
+    <line x1="150" y1="234" x2="160" y2="234" marker-end="url(#ah)"/>
+    <line x1="350" y1="234" x2="360" y2="234" marker-end="url(#ah)"/>
+  </svg>
+  <div class="mb" style="left:150px; top:14px; width:210px; height:82px;">Main memory<small>RAM: the program and its data, while it runs</small><span class="hl fragment" data-fragment-index="2"></span></div>
+  <div class="mb cpu" style="left:160px; top:178px; width:190px; height:112px; padding-top:24px;">CPU<small>runs the program</small><span class="hl fragment" data-fragment-index="1"></span></div>
+  <div class="mb" style="left:150px; top:372px; width:210px; height:82px;">Secondary storage<small>disk, SSD, flash: keeps data for years</small><span class="hl fragment" data-fragment-index="3"></span></div>
+  <div class="mb" style="left:2px; top:172px; width:148px; height:124px;">Input devices<small>keyboard, mouse, camera</small><span class="hl fragment" data-fragment-index="4"></span></div>
+  <div class="mb" style="left:360px; top:172px; width:148px; height:124px;">Output devices<small>display, printer, speakers</small><span class="hl fragment" data-fragment-index="5"></span></div>
+</div>
+```
+:::
+
+::: {.column width="50%"}
+```{=html}
+<div class="defs">
+  <div class="df fragment" data-fragment-index="1"><b>Central processing unit (CPU):</b> the part that actually runs programs; nothing runs without it. Once room-sized, now a <b>microprocessor</b> on a small chip.</div>
+  <div class="df fragment" data-fragment-index="2"><b>Main memory (RAM):</b> holds the program while it runs, plus the data it is using. Fast for the CPU to reach, but <b>volatile</b>: erased when the power goes off.</div>
+  <div class="df fragment" data-fragment-index="3"><b>Secondary storage:</b> keeps data for long periods. Programs live here and are <b>loaded into main memory</b> to run. <b>Disk drives</b> (magnetic, spinning), <b>solid-state drives</b> (no moving parts, faster), <b>flash memory</b> (portable).</div>
+  <div class="df fragment" data-fragment-index="4"><b>Input devices</b> collect data from people and other devices. A disk drive counts when it loads a program into memory.</div>
+  <div class="df fragment" data-fragment-index="5"><b>Output devices</b> present what the computer produces: text, images, audio. A disk drive counts when data is saved to it.</div>
+</div>
+```
+:::
+
+::::
+
+---
+
+## Where Does Your Program Live?
+
+Follow the class01 notebook through four moments. The pattern, from Gaddis: programs are
+**stored** in secondary storage and **copied into main memory** each time they run.
+
+```{=html}
+<div class="moments">
+  <div class="mo"><div class="mh">1. Saved</div><span class="tag sto">Secondary storage</span><br>Your notebook file sits in Google Drive. Close the laptop, come back next week: still there.</div>
+  <div class="mo"><div class="mh">2. Press Run</div><span class="tag ram">Main memory</span><br>The interpreter and your cell are copied into the server's RAM. The list <code>monthly_sales</code> now exists, in memory, as the program runs.</div>
+  <div class="mo"><div class="mh">3. Runtime restarts</div><span class="tag ram">Main memory, erased</span><br>Colab reclaims the machine after a while, or you restart it. Everything in RAM is gone: ask for <code>monthly_sales</code> and Python answers <code>NameError</code>.</div>
+  <div class="mo"><div class="mh">4. Still saved</div><span class="tag sto">Secondary storage</span><br>The notebook file was never touched. Re-run the cells and the list is rebuilt from the saved source code.</div>
+</div>
+```
+
+::: {.gloss style="margin-top:0.7em;"}
+<div class="t">Volatile</div>
+<div class="d">Main memory needs power to hold its contents; temporary by design, and fast (the CPU reaches it directly).</div>
+<div class="t last">Persistent</div>
+<div class="d last">Secondary storage keeps data with the power off: magnetic disk drives, solid-state drives (SSD), and portable flash memory such as USB drives.</div>
+:::
+
+::: footnote
+You will trigger moment 3 yourself in today's Colab activity. Colab's virtual machines
+have limited lifetimes and are recycled when idle, per the
+[Colab FAQ](https://research.google.com/colaboratory/faq.html).
+:::
+
+---
+
+## Software: Two Categories, One Run Button
+
+Everything the computer does is controlled by **software**, in two categories per
+Gaddis. Each layer below played a part in your Run.
+
+```{=html}
+<div class="stack">
+  <div class="h">Category</div><div class="h">Typical examples</div><div class="h">In the journey of your Run</div>
+
+  <div class="grp">Application software: programs that make the computer useful for everyday tasks</div>
+  <div class="cat">Applications</div>
+  <div>Word processors, spreadsheets, email, games, web browsers</div>
+  <div class="ex"><b>Chrome</b>, where you typed the cell and pressed Run</div>
+
+  <div class="grp">System software: programs that control and manage the basic operations of the computer</div>
+  <div class="cat">Operating system<small>controls the hardware</small></div>
+  <div>Windows, macOS on your laptop; Android, iOS on your phone</div>
+  <div class="ex"><b>Linux</b> on Google's virtual machine, managing its CPU, memory, and storage</div>
+  <div class="cat">Utility programs<small>a specific task that enhances operation or safeguards data</small></div>
+  <div>Backup tools, disk cleanup, antivirus</div>
+  <div class="ex">The <b>autosave</b> that keeps writing your notebook back to Drive</div>
+  <div class="cat">Software development tools<small>create, modify, test programs</small></div>
+  <div>Code editors, interpreters, compilers, debuggers</div>
+  <div class="ex"><b>Jupyter / Colab</b> and the <b>Python interpreter</b> itself</div>
+</div>
+```
+
+::: footnote
+Categories and definitions follow Gaddis, *Starting Out with Python*, Chapter 1
+(Hardware and Software).
+:::
+
+---
+
+## Game: Where Does It Live? {.smaller}
+
+:::: panel-tabset
+
+### Play
+
+```{=html}
+<div class="qrblock">
+  <div style="font-size:1.05em; line-height:1.55;">
+    Play it in the next tab (<b>On Screen</b>) or open it in its own browser tab at <a href="https://fmegahed.github.io/isa381/class02/where_does_it_live.html" target="_blank">fmegahed.github.io/isa381/class02/where_does_it_live.html</a>.<br><br>
+    <b>Twelve items, six bins.</b> Tap an item, then tap the bin it belongs to: CPU, main memory, secondary storage, input device, output device, or software. The clock starts on your first tap; a wrong bin costs you the explanation and a retry.<br><br>
+    When you finish, keep the results screen open. We will compare times and the items that tripped people up.
+  </div>
+</div>
+<div class="binrow">
+  <div>CPU</div><div>Main memory</div><div>Secondary storage</div><div>Input device</div><div>Output device</div><div>Software</div>
+</div>
+```
+
+### On Screen
+
+<iframe src="where_does_it_live.html" style="width:100%; height:520px; border:1px solid #ccc9b8; border-radius:8px; background:#ffffff;"></iframe>
+
+### Poll
+
+```{=html}
+<div style='position: relative; padding-bottom: 48%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-popups allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/al186hutwca82y6669wfm742995yxiap/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
+```
+
+### Debrief
+
+Which items were hardest to place, and why? (Common ones: the interpreter is *software*,
+a USB drive is *secondary storage*, the values that vanished on restart were in *main
+memory*.)
+
+```{=html}
+<div class="can-edit" data-key="game-debrief" contenteditable="true">Notes from our class discussion (click to edit; use Chrome as your browser to keep your edits).</div>
+```
+
+::::
+
+# How Computers Store Data {.inverse .center}
+
+## Bits and Bytes
+
+All data in a computer is stored as sequences of 0s and 1s. A **bit** ("binary digit")
+holds one of two values: off or on, 0 or 1. A **byte** is eight bits, enough to store
+one letter or a small number. Click the bits.
+
+```{=html}
+<div class="byte" id="byte"></div>
+<div class="byte-pv"><span>128</span><span>64</span><span>32</span><span>16</span><span>8</span><span>4</span><span>2</span><span>1</span></div>
+<div class="byte-out">
+  <div class="bo"><span class="v" id="byte-bin">00000000</span><span class="k">binary</span></div>
+  <div class="bo"><span class="v" id="byte-dec">0</span><span class="k">decimal</span></div>
+  <div class="bo"><span class="v" id="byte-chr">&nbsp;</span><span class="k">character (ASCII)</span></div>
+</div>
+<div class="btnrow">
+  <button class="btn" onclick="byteSet(72)">Set to 72 (the letter H)</button>
+  <button class="btn" onclick="byteSet(77)">Set to 77 (the letter M)</button>
+  <button class="btn" onclick="byteSet(255)">All on (255)</button>
+  <button class="btn" onclick="byteSet(0)">Clear</button>
+</div>
+<script>
+(function () {
+  const el = document.getElementById("byte");
+  const bits = [];
+  for (let i = 7; i >= 0; i--) {
+    const b = document.createElement("div");
+    b.className = "bit"; b.textContent = "0"; b.dataset.w = 1 << i;
+    b.addEventListener("click", () => { b.classList.toggle("on"); b.textContent = b.classList.contains("on") ? "1" : "0"; update(); });
+    el.appendChild(b); bits.push(b);
+  }
+  function update() {
+    let v = 0, s = "";
+    bits.forEach(b => { const on = b.classList.contains("on"); v += on ? +b.dataset.w : 0; s += on ? "1" : "0"; });
+    document.getElementById("byte-bin").textContent = s;
+    document.getElementById("byte-dec").textContent = v;
+    const c = document.getElementById("byte-chr");
+    if (v >= 33 && v <= 126) { c.textContent = String.fromCharCode(v); }
+    else if (v === 32) { c.textContent = "space"; }
+    else if (v < 32 || v === 127) { c.textContent = "control code"; }
+    else { c.textContent = "beyond ASCII"; }
+  }
+  window.byteSet = function (v) {
+    bits.forEach(b => { const on = (v & +b.dataset.w) !== 0; b.classList.toggle("on", on); b.textContent = on ? "1" : "0"; });
+    update();
+  };
+  update();
+})();
+</script>
+```
+
+::: footnote
+Place values double from right to left, so eight bits can represent 2<sup>8</sup> = 256
+different values (0 to 255). The character column uses ASCII, the code that assigns a
+number to each English letter, digit, and symbol. ASCII only defines 0 to 127: values
+0 to 31 are "control codes" (tab, new line), and 128 to 255 are left to other encodings,
+which is why 255 shows "beyond ASCII".
+:::
+
+---
+
+## Everything Is Bytes
+
+A **byte** is eight bits, so it holds one of 256 values. Text, numbers, images, and
+programs are all stored the same way: as bytes.
+
+```{=html}
+<div class="bpanels">
+  <div class="bp"><div class="bh">Text</div>Each character gets a number (ASCII), stored as one byte. <b>Hi</b> is two bytes:
+    <div class="bitlab"><span>H = 72</span><div class="bitrow"><span class="off">0</span><span class="on">1</span><span class="off">0</span><span class="off">0</span><span class="on">1</span><span class="off">0</span><span class="off">0</span><span class="off">0</span></div></div>
+    <div class="bitlab"><span>i = 105</span><div class="bitrow"><span class="off">0</span><span class="on">1</span><span class="on">1</span><span class="off">0</span><span class="on">1</span><span class="off">0</span><span class="off">0</span><span class="on">1</span></div></div>
+    <div style="margin-top:8px;">ASCII covers English only; <b>Unicode</b> extends the idea to every alphabet, using more bytes per character when needed.</div></div>
+  <div class="bp"><div class="bh">Numbers</div>Whole numbers use the same place values, with more bits. <b>1200</b> needs eleven:
+    <div class="bitrow" style="margin-top:8px;"><span class="on">1</span><span class="off">0</span><span class="off">0</span><span class="on">1</span><span class="off">0</span><span class="on">1</span><span class="on">1</span><span class="off">0</span><span class="off">0</span><span class="off">0</span><span class="off">0</span></div>
+    <div class="pvrow"><span>1024</span><span>512</span><span>256</span><span>128</span><span>64</span><span>32</span><span>16</span><span>8</span><span>4</span><span>2</span><span>1</span></div>
+    <div style="margin-top:8px;">1024 + 128 + 32 + 16 = 1200. Negative numbers and decimals such as 1083.33 use extra encoding rules; the storage is still bits.</div></div>
+  <div class="bp"><div class="bh">Images</div>A grid of pixels; each pixel's color is three bytes: red, green, blue.
+    <div class="pixwrap">
+      <div class="pix">
+        <i style="background:#c3142d"></i><i style="background:#d94a5e"></i><i style="background:#edece2"></i><i style="background:#9a9488"></i><i style="background:#1a66c9"></i>
+        <i style="background:#f3c6cd"></i><i class="sel" style="background:#c3142d"></i><i style="background:#c3142d"></i><i style="background:#70685c"></i><i style="background:#ffe8ec"></i>
+        <i style="background:#8a0e20"></i><i style="background:#c3142d"></i><i style="background:#faf9f7"></i><i style="background:#1b1b1b"></i><i style="background:#ccc9b8"></i>
+      </div>
+      <div class="rgb">
+        <div>Miami red <code>#c3142d</code></div>
+        <div class="bar"><span>R</span><i style="width:76%; background:#d54e53"></i><b>195</b></div>
+        <div class="bar"><span>G</span><i style="width:8%; background:#b9ca4a"></i><b>20</b></div>
+        <div class="bar"><span>B</span><i style="width:18%; background:#7aa6da"></i><b>45</b></div>
+      </div>
+    </div>
+    <div style="margin-top:6px;">A 12-megapixel photo is about 36 million bytes before compression.</div></div>
+</div>
+<div class="sizes">
+  <div class="sz"><b>112 bytes</b>orders.csv from last class: four rows of East and West data (896 bits).</div>
+  <div class="sz"><b>57,239 bytes</b>Last class's slide deck (index.html): about 57 kilobytes (a thousand bytes each).</div>
+  <div class="sz"><b>2,248,018 bytes</b>The job market explorer page with 1,437 postings: about 2.2 megabytes (a million bytes each).</div>
+</div>
+```
+
+---
+
+## Poll: Bits and Bytes Check
+
+```{=html}
+<div style='position: relative; padding-bottom: 56.25%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-popups allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/al186hutwca82y6669wfm742995yxiap/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
+```
+
+::: footnote
+Answers for the presenter: 256; about 18 million (2,248,018 bytes &times; 8 =
+17,984,144 bits).
+:::
+
+# How a Program Works {.inverse .center}
+
+## Machine Language and the Instruction Set
+
+A CPU performs **simple operations** on data (read, add, subtract, multiply, divide,
+store) and understands only **machine language**: binary instructions from its
+**instruction set**. Each brand of CPU has its own set.
+
+:::: columns
+
+::: {.column width="44%"}
+::: {style="font-size:0.8em; color:#70685c;"}
+What you wrote:
+:::
+
+::: {.bigcode style="margin-top:0.4em; font-size:1.2em;"}
+```python
+total = 1200 + 950 + 1150
+avg = total / 3
+```
+:::
+
+::: {style="font-size:0.74em; line-height:1.45; margin-top:0.9em;"}
+Two statements for you. For the CPU, a **sequence of tiny instructions**, each one a
+pattern of bits. Meaningful work always takes many of them.
+:::
+:::
+
+::: {.column width="56%"}
+::: {style="font-size:0.8em; color:#70685c;"}
+What the CPU sees (our simplified teaching machine):
+:::
+
+```{=html}
+<table class="prog" style="width:100%; margin-top:0.4em; font-size:0.62em;">
+  <tr><th>Address</th><th>Bits in memory</th><th>Meaning</th></tr>
+  <tr><td>00</td><td>0001 1010</td><td class="mn">LOAD the value at address 10</td></tr>
+  <tr><td>01</td><td>0010 1011</td><td class="mn">ADD the value at address 11</td></tr>
+  <tr><td>02</td><td>0010 1100</td><td class="mn">ADD the value at address 12</td></tr>
+  <tr><td>03</td><td>0101 1101</td><td class="mn">DIVIDE by the value at address 13</td></tr>
+  <tr><td>04</td><td>0110 1110</td><td class="mn">STORE the result at address 14</td></tr>
+  <tr><td>05</td><td>0000 0000</td><td class="mn">HALT</td></tr>
+</table>
+```
+
+::: {style="font-size:0.64em; color:#70685c; line-height:1.4; margin-top:0.5em;"}
+First four bits: **which operation** (0001 = LOAD, 0010 = ADD, 0101 = DIVIDE, 0110 = STORE).
+Last four bits: **which address** in main memory. The data (1200, 950, 1150, 3) sits at
+addresses 10 to 13, also as bits.
+:::
+:::
+
+::::
+
+::: footnote
+A simplified teaching machine, not a real chip's instruction set; x86 and Arm use the
+same idea with far more operations and longer instructions.
+:::
+
+---
+
+## Fetch, Decode, Execute
+
+The CPU repeats one cycle: **fetch** the next instruction from main memory, **decode**
+which operation it is, **execute** it. Press **Step** to watch it average three months
+of sales, one phase at a time.
+
+```{=html}
+<div class="fde">
+  <div>
+    <table class="mem" id="fde-mem">
+      <tr><th>Addr</th><th>Bits</th><th>Meaning</th></tr>
+    </table>
+  </div>
+  <div class="cpu">
+    <div class="ch">CPU</div>
+    <div class="regs">
+      <div class="reg"><span class="rv" id="fde-pc">00</span><span class="rk">Program counter</span></div>
+      <div class="reg"><span class="rv" id="fde-ir">&nbsp;</span><span class="rk">Instruction register</span></div>
+      <div class="reg"><span class="rv" id="fde-acc">0</span><span class="rk">Accumulator</span></div>
+    </div>
+    <div class="phases"><div class="ph" id="ph-f">Fetch</div><div class="ph" id="ph-d">Decode</div><div class="ph" id="ph-e">Execute</div></div>
+    <div class="narr" id="fde-narr"></div>
+    <div class="btnrow" style="justify-content:flex-start;">
+      <button class="btn primary" id="fde-step">Step</button>
+      <button class="btn" id="fde-run">Run slowly</button>
+      <button class="btn" id="fde-reset">Reset</button>
+    </div>
+    <table class="mem trace" id="fde-trace">
+      <tr><th>Cycle</th><th>Instruction</th><th>Result</th></tr>
+    </table>
+  </div>
+</div>
+<script>
+(function () {
+  const INTRO = "Three registers inside the CPU: the <b>program counter</b> holds the address of the next instruction, the <b>instruction register</b> holds the instruction being worked on, and the <b>accumulator</b> is the CPU's one scratch number, where every result lands. Press <b>Step</b>: fetch, then decode, then execute.";
+  const OPS = { "0001": ["LOAD", "copy the value at address {a} into the accumulator"],
+                "0010": ["ADD",  "add the value at address {a} to the accumulator"],
+                "0101": ["DIV",  "divide the accumulator by the value at address {a}"],
+                "0110": ["STORE","copy the accumulator into address {a}"],
+                "0000": ["HALT", "stop"] };
+  const PROG = [["00","0001 1010"],["01","0010 1011"],["02","0010 1100"],["03","0101 1101"],["04","0110 1110"],["05","0000 0000"]];
+  const DATA0 = { 10: 1200, 11: 950, 12: 1150, 13: 3, 14: 0 };
+  const LABEL = { 10: "Jan sales", 11: "Feb sales", 12: "Mar sales", 13: "months", 14: "avg (result)" };
+  let data, pc, ir, acc, phase, halted, timer, cycle;
+  const tbl = document.getElementById("fde-mem");
+  const trace = document.getElementById("fde-trace");
+  function addTrace(instr, result) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = "<td>" + cycle + "</td><td class='mn'>" + instr + "</td><td class='mn'>" + result + "</td>";
+    trace.appendChild(tr);
+  }
+  function decode(bits) { const op = bits.slice(0,4), a = parseInt(bits.slice(5,9), 2); return { op: OPS[op][0], text: OPS[op][1].replace("{a}", a), a: a }; }
+  function render(touch) {
+    tbl.querySelectorAll("tr:not(:first-child)").forEach(r => r.remove());
+    PROG.forEach(([ad, bits], i) => {
+      const d = decode(bits);
+      const tr = document.createElement("tr");
+      if (!halted && pc === i) tr.className = "pc";
+      if (i === PROG.length - 1) tr.classList.add("sep");
+      tr.innerHTML = "<td>" + ad + "</td><td>" + bits + "</td><td class='mn'>" + d.op + (d.op === "HALT" ? "" : " [" + d.a + "]") + "</td>";
+      tbl.appendChild(tr);
+    });
+    Object.keys(data).forEach(k => {
+      const tr = document.createElement("tr");
+      if (touch === +k) tr.className = "touch";
+      tr.innerHTML = "<td>" + k + "</td><td>" + data[k] + "</td><td class='mn'>" + LABEL[k] + "</td>";
+      tbl.appendChild(tr);
+    });
+    document.getElementById("fde-pc").textContent = PROG[Math.min(pc, PROG.length - 1)][0];
+    document.getElementById("fde-ir").textContent = ir || " ";
+    document.getElementById("fde-acc").textContent = acc;
+    ["f","d","e"].forEach((p, i) => document.getElementById("ph-" + p).classList.toggle("on", phase === i));
+  }
+  function narrate(html) { document.getElementById("fde-narr").innerHTML = html; }
+  function reset() {
+    clearInterval(timer); timer = null;
+    document.getElementById("fde-run").textContent = "Run slowly";
+    data = Object.assign({}, DATA0); pc = 0; ir = ""; acc = 0; phase = -1; halted = false; cycle = 0;
+    trace.querySelectorAll("tr:not(:first-child)").forEach(r => r.remove());
+    document.getElementById("fde-step").disabled = false;
+    narrate(INTRO);
+    render();
+  }
+  function step() {
+    if (halted) return;
+    const bits = PROG[pc][1], d = decode(bits);
+    if (phase === -1 || phase === 2) {
+      phase = 0; ir = bits; cycle += 1;
+      narrate("<b>Fetch</b> (cycle " + cycle + "). The program counter says " + PROG[pc][0] + ", so the CPU copies the instruction stored at address " + PROG[pc][0] + " into its instruction register: <code>" + bits + "</code>. It does not know yet what those bits mean.");
+      render();
+    } else if (phase === 0) {
+      phase = 1;
+      narrate("<b>Decode.</b> The first four bits, <code>" + bits.slice(0,4) + "</code>, mean <b>" + d.op + "</b>" + (d.op === "HALT" ? ": stop." : "; the last four, <code>" + bits.slice(5,9) + "</code>, are the number " + d.a + ", an address in main memory. So the order is: " + d.text + "."));
+      render();
+    } else {
+      phase = 2;
+      let touch = null, msg = "", short = "";
+      const before = acc, v = data[d.a];
+      if (d.op === "LOAD") { acc = v; touch = d.a; msg = "the CPU reads " + v + " from address " + d.a + " and puts it in the accumulator. Accumulator: " + acc; short = "acc = " + acc; }
+      else if (d.op === "ADD") { acc += v; touch = d.a; msg = "the CPU reads " + v + " from address " + d.a + " and adds it to the accumulator: " + before + " + " + v + " = " + acc; short = before + " + " + v + " = " + acc; }
+      else if (d.op === "DIV") { acc = Math.round(acc / v); touch = d.a; msg = "the CPU reads " + v + " from address " + d.a + " and divides: " + before + " &divide; " + v + " = " + acc; short = before + " &divide; " + v + " = " + acc; }
+      else if (d.op === "STORE") { data[d.a] = acc; touch = d.a; msg = "the CPU copies the accumulator, " + acc + ", into address " + d.a + ". That memory cell now holds the answer"; short = "address " + d.a + " = " + acc; }
+      else { halted = true; msg = "the program is finished. The result, " + data[14] + ", sits in main memory at address 14, where the interpreter picks it up to show you"; short = "stop"; }
+      addTrace(d.op + (d.op === "HALT" ? "" : " [" + d.a + "]"), short);
+      if (!halted) { pc += 1; narrate("<b>Execute.</b> " + msg + ". The program counter moves on to " + PROG[pc][0] + " and the cycle repeats."); }
+      else { narrate("<b>Execute.</b> HALT: " + msg + ". Six instructions, six fetch-decode-execute cycles, for two lines of Python."); document.getElementById("fde-step").disabled = true; clearInterval(timer); timer = null; document.getElementById("fde-run").textContent = "Run slowly"; }
+      render(touch);
+    }
+  }
+  document.getElementById("fde-step").addEventListener("click", step);
+  document.getElementById("fde-reset").addEventListener("click", reset);
+  document.getElementById("fde-run").addEventListener("click", function () {
+    const btn = document.getElementById("fde-run");
+    if (timer) { clearInterval(timer); timer = null; btn.textContent = "Run slowly"; return; }
+    if (halted) reset();
+    btn.textContent = "Pause";
+    timer = setInterval(function () { step(); if (halted) { clearInterval(timer); timer = null; btn.textContent = "Run slowly"; } }, 2200);
+  });
+  reset();
+})();
+</script>
+```
+
+::: footnote
+Terms per Gaddis, Chapter 1. The registers are simplified views of a real CPU's.
+:::
+
+---
+
+## Exercise: Be the CPU {.smaller}
+
+{{< countdown id="timer-cpu" minutes=4 seconds=0 top=0 right=0 margin="0.15em" font_size="1.3em" padding="0.1em 0.5em" line_height="1.1" >}}
+
+:::: panel-tabset
+
+### The Program
+
+With your neighbor, **play the CPU** the way the simulator just did: start with the
+accumulator at 0, take the instructions in order, and write down what the accumulator
+holds after each one executes. Business story: 50 units in stock, 20 sold, at $3 each.
+
+:::: columns
+
+::: {.column width="50%"}
+```{=html}
+<table class="prog" style="width:100%;">
+  <tr><th>Addr</th><th>Bits</th><th>Meaning</th></tr>
+  <tr><td>00</td><td>0001 1010</td><td class="mn">LOAD [10]</td></tr>
+  <tr><td>01</td><td>0011 1011</td><td class="mn">SUB [11]</td></tr>
+  <tr><td>02</td><td>0100 1100</td><td class="mn">MUL [12]</td></tr>
+  <tr><td>03</td><td>0110 1101</td><td class="mn">STORE [13]</td></tr>
+  <tr class="sep"><td>04</td><td>0000 0000</td><td class="mn">HALT</td></tr>
+  <tr><td>10</td><td>50</td><td class="mn">units in stock</td></tr>
+  <tr><td>11</td><td>20</td><td class="mn">units sold</td></tr>
+  <tr><td>12</td><td>3</td><td class="mn">price per unit</td></tr>
+  <tr><td>13</td><td>0</td><td class="mn">result</td></tr>
+</table>
+```
+:::
+
+::: {.column width="50%"}
+```{=html}
+<table class="prog" style="width:100%;">
+  <tr><th>Cycle</th><th>Instruction</th><th>Accumulator after</th></tr>
+  <tr><td>1</td><td class="mn">LOAD [10]</td><td class="blank">&nbsp;</td></tr>
+  <tr><td>2</td><td class="mn">SUB [11]</td><td class="blank">&nbsp;</td></tr>
+  <tr><td>3</td><td class="mn">MUL [12]</td><td class="blank">&nbsp;</td></tr>
+  <tr><td>4</td><td class="mn">STORE [13]</td><td class="blank">&nbsp;</td></tr>
+  <tr><td>5</td><td class="mn">HALT</td><td class="blank">&nbsp;</td></tr>
+</table>
+```
+
+::: {style="font-size:0.9em; margin-top:0.4em;"}
+New operations: `0011` = SUB (subtract), `0100` = MUL (multiply). Then answer:
+
+1. When the CPU reaches **HALT**, what is stored at **address 13**?
+2. How many **fetch-decode-execute cycles** ran in total?
+:::
+:::
+
+::::
+
+### Answer
+
+```{=html}
+<details class="ans">
+<summary>Click to reveal the worked answer &mdash; the results will be shown and discussed together in class.</summary>
+<table class="prog" style="width:70%;">
+  <tr><th>Cycle</th><th>Instruction</th><th>What the CPU does</th><th>Accumulator after</th></tr>
+  <tr><td>1</td><td class="mn">LOAD [10]</td><td class="mn">reads 50 from address 10 into the accumulator</td><td>50</td></tr>
+  <tr><td>2</td><td class="mn">SUB [11]</td><td class="mn">reads 20 from address 11; 50 &minus; 20</td><td>30</td></tr>
+  <tr><td>3</td><td class="mn">MUL [12]</td><td class="mn">reads 3 from address 12; 30 &times; 3</td><td>90</td></tr>
+  <tr><td>4</td><td class="mn">STORE [13]</td><td class="mn">copies 90 into address 13</td><td>90</td></tr>
+  <tr><td>5</td><td class="mn">HALT</td><td class="mn">stops</td><td>90</td></tr>
+</table>
+<div class="ansq"><b>1. When the CPU reaches HALT, what is stored at address 13?</b><br>
+Address 13 holds <b>90</b>: the remaining stock is worth $90.</div>
+<div class="ansq"><b>2. How many fetch-decode-execute cycles ran in total?</b><br>
+<b>Five cycles.</b> HALT is an instruction too: it has to be fetched and decoded before the CPU knows to stop.</div>
+<div class="ansq">What you did by hand is exactly what the chip does, billions of times faster and without getting bored. Everything a program does, at the bottom, is this loop.</div>
+</details>
+```
+
+### Debrief
+
+```{=html}
+<div class="can-edit" data-key="cpu-debrief" contenteditable="true">Notes from our class discussion (click to edit; use Chrome as your browser to keep your edits).</div>
+```
+
+::::
+
+---
+
+## From Python to the Machine
+
+Nobody wants to write `0001 1010`. **Low-level** languages stay close to machine
+language; **high-level** languages like Python hide the CPU entirely. Something has to
+translate.
+
+```{=html}
+<div class="duo">
+  <div class="dcol">
+    <div class="dh">Compiler</div>
+    <div class="flow"><div class="fnode">Source code</div><div class="farrow">&rarr;</div><div class="fnode router">Compiler</div><div class="farrow">&rarr;</div><div class="fnode">Machine-language program</div><div class="farrow">&rarr;</div><div class="fnode">CPU</div></div>
+    Translates the <b>whole program</b> into a separate machine-language file first. That file runs later, as many times as you like, without the compiler present. Used by C, C++, Go, and others.
+  </div>
+  <div class="dcol py">
+    <div class="dh">Interpreter (Python)</div>
+    <div class="flow"><div class="fnode">Source code</div><div class="farrow">&rarr;</div><div class="fnode router">Interpreter</div><div class="farrow">&rarr;</div><div class="fnode">CPU</div></div>
+    Reads <b>one statement</b>, translates it, executes it, then moves to the next. No separate machine-language file; the interpreter must be present every time the program runs. A <b>syntax error</b> stops translation at the statement that breaks the rules.
+  </div>
+</div>
+```
+
+::: {.gloss style="margin-top:0.5em;"}
+<div class="t">Assembly</div>
+<div class="d">Low-level: one mnemonic per machine instruction (<code>LOAD</code>, <code>ADD</code>, <code>STORE</code> on our teaching machine). Readable, but still one line per CPU operation.</div>
+<div class="t last">Python</div>
+<div class="d last">High-level: <code>avg = total / 3</code> says what you mean; the interpreter produces the many small instructions. (Today's notebook: <code>dis.dis(...)</code> shows them.)</div>
+:::
+
+::: footnote
+Definitions follow Gaddis, Chapter 1. Python's own docs call it interpreted:
+[docs.python.org, "What is Python?"](https://docs.python.org/3/faq/general.html#what-is-python).
+:::
+
+---
+
+## Anatomy of a Statement
+
+Click a term on the right to see it in the code: Gaddis's vocabulary for every program.
+
+```{=html}
+<div class="anat">
+  <div>
+<pre class="code" id="anat-ok"><span class="tk" data-c="statement source"><span class="tk" data-c="keyword source">import</span> pandas <span class="tk" data-c="keyword source">as</span> pd</span>
+<span class="tk" data-c="statement source">monthly_sales <span class="tk" data-c="operator source">=</span> [<span class="dv">1200</span>, <span class="dv">950</span>, <span class="dv">1150</span>]</span>
+<span class="tk" data-c="statement source"><span class="tk" data-c="keyword source">if</span> <span class="fu">sum</span>(monthly_sales) <span class="tk" data-c="operator source">&gt;</span> <span class="dv">3000</span><span class="tk" data-c="syntax source">:</span></span>
+<span class="tk" data-c="statement source"><span class="tk" data-c="syntax source">    </span><span class="fu">print</span>(<span class="st">"Above target"</span>)</span></pre>
+<pre class="code" id="anat-err" style="display:none;"><span>import</span> pandas as pd
+monthly_sales = [<span class="dv">1200</span>, <span class="dv">950</span>, <span class="dv">1150</span>]
+if <span class="fu">sum</span>(monthly_sales) &gt; <span class="dv">3000</span><span class="tk hit"> </span>
+    <span class="fu">print</span>(<span class="st">"Above target"</span>)
+<span class="co">  File "&lt;cell&gt;", line 3</span>
+<span class="co">    if sum(monthly_sales) &gt; 3000</span>
+<span class="co">                                ^</span>
+<span class="err">SyntaxError: expected ':'</span></pre>
+  </div>
+  <div class="legend" id="anat-legend">
+    <div class="lg" data-c="keyword"><b>Keyword:</b> a word with a reserved meaning in the language. <code>import</code>, <code>as</code>, <code>if</code>. Python has 35 of them; you cannot use them as names.</div>
+    <div class="lg" data-c="operator"><b>Operator:</b> a symbol that performs an operation on data. <code>=</code> assigns, <code>&gt;</code> compares; <code>+ - * /</code> do arithmetic.</div>
+    <div class="lg" data-c="statement"><b>Statement:</b> one individual instruction in a high-level language. Each line here is one.</div>
+    <div class="lg" data-c="syntax"><b>Syntax:</b> the rules for how statements are written. The colon after <code>if</code> and the four-space indent are Python's rules, not decoration.</div>
+    <div class="lg" data-c="source"><b>Source code:</b> the statements you write, all of them, before any translation happens.</div>
+    <div class="lg" data-c="error"><b>Syntax error:</b> a broken rule. The interpreter refuses to translate; nothing runs. Click to remove the colon.</div>
+  </div>
+</div>
+<script>
+(function () {
+  const ok = document.getElementById("anat-ok"), err = document.getElementById("anat-err");
+  const lgs = document.querySelectorAll("#anat-legend .lg");
+  lgs.forEach(lg => lg.addEventListener("click", function () {
+    const c = lg.dataset.c, on = !lg.classList.contains("on");
+    lgs.forEach(x => x.classList.remove("on"));
+    ok.querySelectorAll(".tk").forEach(t => t.classList.remove("hit"));
+    if (!on) { ok.style.display = ""; err.style.display = "none"; return; }
+    lg.classList.add("on");
+    if (c === "error") { ok.style.display = "none"; err.style.display = ""; return; }
+    ok.style.display = ""; err.style.display = "none";
+    ok.querySelectorAll(".tk").forEach(t => { if (t.dataset.c.split(" ").includes(c)) t.classList.add("hit"); });
+  }));
+})();
+</script>
+```
+
+::: footnote
+The 35 keywords are listed in the [Python Language Reference](https://docs.python.org/3/reference/lexical_analysis.html#keywords).
+`print` and `sum` are built-in functions, not keywords. The error message is Python's
+actual output for a missing colon.
+:::
+
+---
+
+## Activity: Meet Your Machine {.smaller80 .airy}
+
+{{< countdown id="timer-colab" minutes=10 seconds=0 top=0 right=0 margin="0.15em" font_size="1.3em" padding="0.1em 0.5em" line_height="1.1" >}}
+
+Every term from today is something you can **ask the Colab machine about**. Open the
+[class02 notebook](https://colab.research.google.com/drive/1M25sVI-vndDmk6NnRwBVw6SLoLqQRYIS?usp=sharing){.colab-link target="_blank"}, **File &rarr; Save a copy in
+Drive**, then run the cells in order with **Shift + Enter**. The notebook has you:
+
+1. **Meet the hardware:** print the CPU model, the main memory, and the secondary
+   storage of the virtual machine Google gave you.
+
+2. **Meet the software:** print the operating system and the Python interpreter version.
+
+3. **Break the syntax on purpose:** run a cell with the colon missing, read the
+   interpreter's complaint, then fix it.
+
+4. **Watch main memory forget:** create a variable, restart the runtime
+   (**Runtime &rarr; Restart session**), and ask for it again. Your notebook file survives.
+
+5. **Peek at the interpreter's steps** (optional): `dis.dis(...)` shows what one Python
+   statement becomes on its way to the CPU.
+
+::: {.note}
+Compare with your neighbor: did Google hand you the same CPU and the same amount of
+memory? Keep the numbers; we discuss them before our last Menti poll question.
+:::
+
+---
+
+## Any questions?
+
+{{< countdown id="timer-exit" minutes=2 seconds=0 top=0 right=0 margin="0.15em" font_size="1.3em" padding="0.1em 0.5em" line_height="1.1" >}}
+
+In one sentence, in your own words: **what happens between pressing Run and seeing the
+output?** Use at least three of today's terms.
+
+```{=html}
+<div style='position: relative; padding-bottom: 48%; padding-top: 35px; height: 0; overflow: hidden;'><iframe sandbox='allow-popups allow-scripts allow-same-origin allow-presentation' allowfullscreen='true' allowtransparency='true' frameborder='0' height='315' src='https://www.mentimeter.com/app/presentation/al186hutwca82y6669wfm742995yxiap/embed' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%;' width='420'></iframe></div>
+```
+
+::: {.notes}
+Read a few aloud. A good answer touches the interpreter, main memory, the CPU's
+fetch-decode-execute cycle, and the output device, in that order.
+:::
+
+---
+
+## Summary of Main Points {.smaller90}
+
+By now, you should be able to do the following:
+
+- Name the **hardware**: the CPU runs programs; **main memory** holds the running
+  program and its data (and forgets when the power is off); **secondary storage** keeps
+  files; **input** and **output** devices connect the machine to people.
+
+- Sort **software** into applications and system software (operating systems, utilities,
+  development tools such as the Python interpreter).
+
+- Explain that all data is **bits** and **bytes**: eight bits, 256 values, one character
+  per byte in ASCII; numbers in binary; pixels as three bytes.
+
+- Trace the **fetch-decode-execute** cycle through **machine language** from a CPU's
+  **instruction set**, and say why nobody writes it: **high-level** languages plus an
+  **interpreter** (Python) or a **compiler** do the translation.
+
+- Read a Python statement and point at its **keywords**, **operators**, and **syntax**,
+  and recognize a **syntax error** when the interpreter reports one.
+
+---
+
+## 📖 Prep for Our Next Class 📖
+
+- **Read** Gaddis, Chapter 1, if you have not yet. Between last class and today you have
+  met every term in it; the reading consolidates them. There is no assignment this week.
+
+- **Keep your notebooks.** Both class notebooks are saved in your Drive; nothing today
+  depended on a specific machine, so they run anywhere Colab does.
+
+- **Next in the course:** Gaddis, Chapter 2, *Input, Processing, and Output*, where the
+  `print` and `input` you used become the building blocks of real programs.
+
+- **Questions this week:** [fmegahed@miamioh.edu](mailto:fmegahed@miamioh.edu).
