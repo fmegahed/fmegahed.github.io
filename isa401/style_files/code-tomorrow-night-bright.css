@@ -1,0 +1,70 @@
+/* Code styling for ISA 401 xaringan decks: Fadel's RStudio look (Tomorrow Night Bright on #222222,
+   rainbow parentheses, function-call highlighting). Colors sampled from his editor, Aug 2026.
+   Pairs with style_files/hl_r.R (hl_r() blocks) and also restyles remark's own code blocks
+   (chunk output, fenced code) so everything code-like matches. */
+
+/* ---- hl_r() blocks ---- */
+.rcode {
+  background: #222222;
+  color: #dedede;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  padding: 10px 12px 10px 8px;
+  font-family: 'Source Code Pro', Consolas, Menlo, monospace;
+  line-height: 1.5;
+  white-space: pre;
+  overflow-x: auto;
+  margin: 8px 0 0 0;
+}
+.rcode:has(+ .rout) { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.rcode .rl { display: block; position: relative; padding: 0 6px 0 22px; border-radius: 3px; }
+.rcode .rl:hover { background: rgba(255, 255, 255, 0.14); }
+.rcode .rhl { background: rgba(231, 197, 71, 0.18); }
+.rcode .rhl:hover { background: rgba(231, 197, 71, 0.30); }
+.rcode .rhl::before {
+  content: ">";
+  position: absolute; left: 6px; top: 0;
+  color: #e7c547; font-weight: 700;
+  animation: rcode-pulse 1.6s ease-in-out infinite;
+}
+@keyframes rcode-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+.rcode .rpkg { color: #e7c547; }                       /* package name before :: */
+.rcode .rfun { color: #7aa6da; }                       /* function calls */
+.rcode .rkey { color: #c397d8; }                       /* function, if, for ... */
+.rcode .rstr { color: #b9ca4a; }                       /* strings */
+.rcode .rnum, .rcode .rkw { color: #e78c45; }          /* numbers, TRUE/FALSE/NULL/NA */
+.rcode .rop { color: #70c0b1; }                        /* |>  <-  =  +  ,  %in% ... */
+.rcode .rcom { color: #969896; font-style: italic; }   /* comments */
+
+/* ---- remark code blocks (chunk output, ```r fences) ---- */
+.remark-slide-content .remark-code {
+  background: #222222 !important;
+  color: #dedede !important;
+  border-radius: 8px;
+  border: 1px solid #3a3a3a;
+}
+.remark-code .hljs-keyword { color: #c397d8 !important; }
+.remark-code .hljs-literal, .remark-code .hljs-number { color: #e78c45 !important; }
+.remark-code .hljs-string { color: #b9ca4a !important; }
+.remark-code .hljs-comment { color: #969896 !important; font-style: italic; }
+.remark-code .hljs-built_in, .remark-code .hljs-title { color: #7aa6da !important; }
+.remark-code-line:hover { background: rgba(255, 255, 255, 0.14) !important; }
+.remark-code-line-highlighted { background: rgba(231, 197, 71, 0.18) !important; box-shadow: inset 4px 0 0 #e7c547; }
+
+/* xaringanExtra clipboard button overlaps the code; hide it on hl_r blocks */
+.rcode .xaringanextra-clipboard-button { display: none; }
+
+/* wider two-column helpers for code + notes layouts */
+.left60 { float: left; width: 60%; }
+.right38 { float: right; width: 38%; }
+.left55 { float: left; width: 55%; }
+.right43 { float: right; width: 43%; }
+.vcenter { display: flex; align-items: center; gap: 2%; }
+.vcenter .left55, .vcenter .right43, .vcenter .left60, .vcenter .right38 { float: none; }
+
+/* console-style result blocks produced by the knitr output/message/warning/error hooks in hl_r.R */
+.rout { background: #222222; color: #dedede; border: 1px solid #3a3a3a; border-left: 4px solid #555555; border-radius: 0 0 8px 8px; padding: 6px 12px; margin: 2px 0 10px 0; font-family: 'Source Code Pro', Consolas, Menlo, monospace; line-height: 1.45; white-space: pre; overflow-x: auto; }
+.rout.rerr { color: #f28b82; border-left-color: #d54e53; }
+.rout.rwarn { color: #e7c547; border-left-color: #e7c547; }
+.rout.rmsg { color: #9ca3af; border-left-color: #555555; }
+.rout .xaringanextra-clipboard-button { display: none; }
