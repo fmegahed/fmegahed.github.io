@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="meeting27_files/libs/clipboard/clipboard.min.js"></script>
+<script src="meeting27_files/libs/quarto-html/tabby.min.js"></script>
+<script src="meeting27_files/libs/quarto-html/popper.min.js"></script>
+<script src="meeting27_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="meeting27_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="meeting27_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="meeting27_files/libs/quarto-html/quarto-syntax-highlighting-dfa48a90d809c806c7ea2d5aecd9fc66.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.29">
+
+  <meta name="author" content="Fadel Megahed">
+  <meta name="author" content="Arthur Carvalho">
+  <meta name="author" content="Mohammad Mayyas">
+  <meta name="author" content="Jay Shan">
+  <meta name="dcterms.date" content="2026-10-16">
+  <title>SIGHT: Safety Immersion and Gamified Hazard Training for Industry 5.0</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="meeting27_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="meeting27_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="meeting27_files/libs/revealjs/dist/theme/quarto-fa77adc215f67f62604f5083a839a364.css">
+  <link href="meeting27_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="meeting27_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="meeting27_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="meeting27_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="meeting27_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="meeting27_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <link rel="icon" type="image/png" href="../../logos/mu_m_icon.png">
+  <style>
+  .can-edit {
+    border: 2px dashed #c3142d;
+    border-radius: 8px;
+    background: #fffaf5;
+    padding: 0.5em 0.7em;
+    min-height: 2.2em;
+    font-size: 0.85em;
+    line-height: 1.35;
+    outline: none;
+  }
+  .can-edit:empty:before {
+    content: attr(data-placeholder);
+    color: #999;
+    font-style: italic;
+  }
+  .edit-text { outline:none; border-radius:6px; padding:0.2em 0.3em; line-height:1.4; }
+  .edit-text:hover { background:#fffaf5; }
+  .edit-text:focus { background:#fffaf5; box-shadow:0 0 0 2px #c3142d; }
+  .wc { font-weight:normal; color:#585E60; }
+  .wc.over { color:#c3142d; font-weight:bold; }
+  .pill {
+    display: inline-block; padding: 3px 11px; border-radius: 14px;
+    font-size: 0.8em; font-weight: bold; white-space: nowrap;
+  }
+  .pill-red   { background: #c3142d; color: #fff; }
+  .pill-gold  { background: #EFDB72; color: #222; }
+  .pill-blue  { background: #3E5468; color: #fff; }
+  .pill-gray  { background: #585E60; color: #fff; }
+  .pill-green { background: #2e7d32; color: #fff; }
+  .mu-table { width: 100%; border-collapse: collapse; }
+  .mu-table th { background: #c3142d; color: #fff; text-align: left; padding: 7px 10px; }
+  .mu-table td { padding: 6px 10px; border-bottom: 1px solid #e3e3e3; vertical-align: top; }
+  .mu-table tr:nth-child(even) td { background: #f7f7f7; }
+  input[type=checkbox] { transform: scale(1.7); cursor: pointer; }
+  .st-done { color:#2e7d32; font-weight:bold; font-size:1.2em; }
+  .st-open { color:#c3142d; font-weight:bold; font-size:1.2em; }
+  .callout-red {
+    border-left: 6px solid #c3142d; background: #f7f7f7;
+    padding: 0.4em 0.7em; margin-top: 0.5em;
+  }
+
+  /* agenda strip */
+  .agenda-bar { display:flex; gap:4px; height:60px; margin-top:0.6em; }
+  .agenda-bar .seg { display:flex; align-items:center; justify-content:center; color:#fff; font-weight:bold; font-size:0.8em; border-radius:6px; background:#c3142d; }
+  .seg-red { background:#c3142d; } .seg-blue { background:#3E5468; } .seg-gray { background:#585E60; }
+  .agenda-grid { display:grid; grid-template-columns: repeat(7, 1fr); gap:10px; margin-top:16px; font-size:0.62em; }
+  .agenda-grid > div { border-top:3px solid #c3142d; padding-top:6px; }
+  .ag-n { font-weight:bold; color:#c3142d; font-size:1.3em; }
+  .ag-n span { font-weight:normal; font-size:0.7em; color:#585E60; }
+  .ag-t { font-weight:bold; margin:2px 0 4px 0; line-height:1.2; }
+  .ag-p { color:#333; line-height:1.3; }
+  /* timeline */
+  .tl { position:relative; height:400px; margin:10px 90px 0 90px; }
+  .tl-short { height:330px; margin-top:0; }
+  .tl-line { position:absolute; top:50%; left:0; right:0; height:4px; background:#585E60; border-radius:2px; }
+  .tl-month { position:absolute; top:calc(50% + 8px); transform:translateX(-50%); font-size:0.5em; font-weight:bold; color:#585E60; text-align:center; }
+  .tl-today { position:absolute; top:calc(50% - 62px); height:62px; width:0; border-left:2px dashed #c3142d; transform:translateX(-50%); }
+  .tl-today span { position:absolute; top:-34px; left:-30px; width:60px; text-align:center; font-size:0.5em; color:#c3142d; font-weight:bold; line-height:1.1; }
+  .tl-item { position:absolute; top:50%; width:0; }
+  .tl-dot { position:absolute; left:-9px; top:-9px; width:18px; height:18px; border-radius:50%; background:#fff; border:4px solid #c3142d; box-sizing:border-box; }
+  .tl-dot.done { background:#2e7d32; border-color:#2e7d32; }
+  .tl-stub { position:absolute; left:-1px; width:2px; height:34px; background:#999; }
+  .tl-item.up .tl-stub { bottom:9px; } .tl-item.down .tl-stub { top:9px; }
+  .tl-label { position:absolute; left:-80px; width:160px; text-align:center; font-size:0.6em; line-height:1.3; }
+  .tl-item.up.tier2 .tl-label { bottom:112px; } .tl-item.down.tier2 .tl-label { top:112px; }
+  .tl-item.tier2 .tl-stub { height:102px; }
+  .tl-item.up .tl-label { bottom:44px; } .tl-item.down .tl-label { top:44px; }
+  .tl-label .edit-text { outline:none; border-radius:6px; padding:0.2em 0.3em; line-height:1.4; }
+  .edit-text:hover { background:#fffaf5; }
+  .edit-text:focus { background:#fffaf5; box-shadow:0 0 0 2px #c3142d; }
+  .wc { font-weight:normal; color:#585E60; }
+  .wc.over { color:#c3142d; font-weight:bold; }
+  .pill { font-size:0.8em; padding:2px 8px; margin-top:2px; }
+  .tl-vr .tl-label { width:180px; left:-90px; }
+  .mini { height:7px; background:#e3e3e3; border-radius:4px; margin:4px 22px 2px 22px; overflow:hidden; }
+  .mini > div { height:100%; background:#c3142d; }
+  /* machine cards */
+  .mcard { flex:1; border:2px solid #d8d8d8; border-radius:12px; overflow:hidden; background:#fff; display:flex; flex-direction:column; }
+  .mcard img { width:100%; height:150px; object-fit:cover; display:block; }
+  .mcard-body { padding:8px 12px 10px 12px; font-size:0.56em; }
+  .mcard-title { font-weight:bold; font-size:1.25em; margin-bottom:4px; }
+  .mcard-text { margin-top:6px; line-height:1.3; }
+  .mcard-flag { margin-top:6px; color:#c3142d; font-weight:bold; border-top:1px solid #eee; padding-top:4px; }
+  /* chevrons */
+  .chev-row { display:flex; gap:2px; margin-top:0.2em; }
+  .chev { flex:1; background:#585E60; color:#fff; font-weight:bold; font-size:0.62em; padding:8px 6px 8px 18px; clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%, 14px 50%); text-align:center; line-height:1.15; }
+  .chev span { display:block; font-weight:normal; font-size:0.85em; }
+  .chev-hi { background:#c3142d; }
+  /* session timeline */
+  .sess { display:flex; align-items:stretch; gap:4px; font-size:0.52em; }
+  .sess-tag { flex:0 0 74px; background:#c3142d; color:#fff; font-weight:bold; border-radius:8px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+  .sess-tag span { font-weight:normal; font-size:0.9em; }
+  .sess-box { flex:1; border:2px solid #585E60; border-radius:8px; padding:6px 6px; text-align:center; font-weight:bold; display:flex; flex-direction:column; justify-content:center; line-height:1.2; }
+  .sess-box span { font-weight:normal; font-size:0.9em; }
+  .sess-red { border-color:#c3142d; background:#fff5f6; }
+  .sess-gray { background:#f4f4f4; }
+  .sess-arrow { align-self:center; color:#c3142d; font-size:1.6em; }
+  .sess-wash { margin-top:8px; border-left:6px solid #3E5468; background:#f7f7f7; padding:6px 10px; font-size:0.58em; }
+  .cond { flex:1; display:flex; gap:10px; border:2px solid #585E60; border-radius:10px; padding:8px 10px; font-size:0.56em; align-items:center; }
+  .cond-vr { border-color:#3E5468; } .cond-ar { border-color:#c3142d; }
+  .cond img { width:150px; height:100px; object-fit:cover; border-radius:6px; flex:0 0 150px; }
+  .cond ul { margin:0; padding-left:1.1em; }
+  .cond-title { font-weight:bold; font-size:1.25em; margin-bottom:2px; }
+  /* six-block agenda (meeting 27 has no closed session) */
+  .agenda-grid.g6 { grid-template-columns: repeat(6, 1fr); }
+  /* event card (from meeting 26) */
+  .event-card { display:flex; border:2px solid #c3142d; border-radius:12px; overflow:hidden; background:#fff; }
+  .event-date { flex:0 0 120px; background:#c3142d; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px 0; }
+  .ev-mon { font-size:0.6em; font-weight:bold; letter-spacing:2px; }
+  .ev-day { font-size:1.9em; font-weight:bold; line-height:1; }
+  .ev-dow { font-size:0.45em; }
+  .event-body { padding:12px 16px; font-size:0.62em; display:flex; flex-direction:column; justify-content:center; gap:6px; }
+  .ev-k { display:inline-block; width:96px; font-weight:bold; color:#585E60; }
+  /* photo banners with a date badge (from meeting 26) */
+  .fsb-banner { position:relative; height:420px; border-radius:12px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.25); }
+  .fsb-banner img { width:100%; height:100%; max-width:none !important; max-height:none !important; object-fit:cover; object-position:center 40%; display:block; margin:0 !important; }
+  .fsb-date { position:absolute; left:24px; top:24px; width:120px; padding:10px 0; background:#c3142d; color:#fff; border-radius:10px; display:flex; flex-direction:column; align-items:center; box-shadow:0 2px 8px rgba(0,0,0,0.35); }
+  .fsb-title { position:absolute; left:0; right:0; bottom:0; padding:14px 20px; background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)); color:#fff; font-weight:bold; font-size:0.56em; line-height:1.3; }
+  .fsb-facts { display:grid; grid-template-columns: 1.9fr 0.8fr 1fr 1fr; gap:12px; margin-top:12px; }
+  .fsb-facts div { border-top:4px solid #c3142d; padding-top:6px; font-size:0.56em; line-height:1.3; }
+  .fsb-facts span { display:block; font-weight:bold; color:#585E60; font-size:0.85em; text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
+  /* photo collage and side-by-side photo pair */
+  .collage { display:grid; grid-template-columns: 1fr 1fr; gap:10px; width:860px; margin:0.25em auto 0 auto; }
+  .collage img, .photo-pair img { width:100%; object-fit:cover; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.25); display:block; margin:0 !important; max-width:none !important; max-height:none !important; }
+  .collage img { height:262px; }
+  .photo-pair { display:flex; gap:14px; margin-top:4.2em; }
+  .photo-pair img { height:362px; }
+  /* profile slide (no headshot) */
+  .prof { display:flex; gap:16px; align-items:stretch; margin-top:0.2em; }
+  .prof-left { flex:0 0 250px; border:2px solid #c3142d; border-radius:14px; overflow:hidden; text-align:center; background:linear-gradient(180deg, #c3142d 0 96px, #fff5f6 96px); padding:22px 12px 16px 12px; }
+  .avatar { width:150px; height:150px; border-radius:50%; background:#fff; color:#c3142d; border:5px solid #c3142d; box-sizing:border-box; font-size:1.4em; font-weight:bold; display:flex; align-items:center; justify-content:center; margin:0 auto 10px auto; letter-spacing:2px; }
+  .prof-name { font-weight:bold; font-size:1em; }
+  .prof-role { font-size:0.6em; color:#585E60; margin:4px 0 14px 0; line-height:1.3; }
+  .prof-right { flex:1; display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+  .hl-card { border:2px solid #d8d8d8; border-top:6px solid #c3142d; border-radius:12px; padding:12px 16px; background:#fff; }
+  .hl-wide { grid-column: 1 / -1; border-top-color:#3E5468; }
+  .hl-big { font-size:1.6em; font-weight:bold; color:#c3142d; line-height:1.05; }
+  .hl-big span { font-size:0.4em; color:#585E60; font-weight:normal; }
+  .hl-h { font-weight:bold; font-size:0.68em; margin:8px 0 4px 0; }
+  .hl-t { font-size:0.6em; line-height:1.4; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .chips span { background:#f1f4f7; border:1px solid #3E5468; color:#3E5468; border-radius:14px; padding:4px 13px; font-size:0.58em; font-weight:bold; }
+  /* presenter cards (AM Hub subteam) */
+  .st-grid { display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-top:0.3em; }
+  .st-card { border:2px solid #d8d8d8; border-top:6px solid #c3142d; border-radius:10px; padding:8px 12px; background:#fff; font-size:0.56em; }
+  .st-who { font-weight:bold; font-size:1.25em; color:#c3142d; }
+  .st-who span { color:#585E60; font-weight:normal; font-size:0.8em; }
+  .st-what { margin:3px 0 6px 0; line-height:1.3; }
+  .st-card .can-edit { min-height:2.6em; font-size:0.95em; }
+  /* save the date */
+  .std-date { flex:0 0 200px; }
+  .std-date .ev-day { font-size:2.8em; }
+  .std-date .ev-dow { font-size:0.55em; }
+  .std-body { font-size:0.7em; gap:8px; }
+  .std-body .ev-k { width:110px; }
+  .pi-grid { display:grid; grid-template-columns: repeat(5, 1fr); gap:10px; margin-top:14px; }
+  .pi-card { border:2px solid #d8d8d8; border-radius:10px; padding:10px 12px; font-size:0.54em; line-height:1.3; }
+  .pi-card.ask { border-color:#c3142d; background:#fff7f7; }
+  .pi-name { font-weight:bold; font-size:1.2em; margin-bottom:4px; }
+  .pi-card label { display:block; margin-top:6px; cursor:pointer; }
+  .pi-card input[type=checkbox] { transform:scale(1.4); margin-right:8px; }
+  .reveal a.ics-btn { display:inline-block; padding:4px 14px; margin-left:6px; border-radius:14px; background:#3E5468 !important; color:#fff !important; font-weight:bold; text-decoration:none; white-space:nowrap; }
+  .reveal a.ics-btn.gcal { background:#c3142d !important; }
+  .reveal a.ics-btn:hover { filter:brightness(1.15); }
+  </style>
+  <script>
+  // In-class editable notes persisted to localStorage (xaringanExtra .can-edit style)
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".can-edit, .edit-text").forEach(function (el) {
+      var key = "sight-m27-" + el.dataset.key;
+      try {
+        var saved = localStorage.getItem(key);
+        if (saved) el.innerHTML = saved;
+      } catch (e) {}
+      el.addEventListener("input", function () {
+        try { localStorage.setItem(key, el.innerHTML); } catch (e) {}
+        updateCounts();
+      });
+    });
+    document.querySelectorAll("input[type=checkbox][data-key]").forEach(function (cb) {
+      var key = "sight-m27-cb-" + cb.dataset.key;
+      try { cb.checked = localStorage.getItem(key) === "1"; } catch (e) {}
+      cb.addEventListener("change", function () {
+        try { localStorage.setItem(key, cb.checked ? "1" : "0"); } catch (e) {}
+      });
+    });
+    function wordCount(el) {
+      var txt = el.innerText || "";
+      var w = txt.trim().split(/\s+/).filter(function (x) { return x.length; });
+      return w.length;
+    }
+    function updateCounts() {
+      document.querySelectorAll(".wc").forEach(function (c) {
+        var keys = c.dataset.for.split(" ");
+        var total = 0, limit = 0;
+        keys.forEach(function (k) {
+          var el = document.querySelector('[data-key="' + k + '"]');
+          if (el) { total += wordCount(el); limit += parseInt(el.dataset.limit || "0", 10); }
+        });
+        if (!limit && keys.length > 1) limit = 600;
+        c.textContent = "(" + total + " of " + limit + " words)";
+        c.classList.toggle("over", total > limit);
+      });
+    }
+    updateCounts();
+  });
+  </script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-color="#c3142d" data-background-image="pres_qr_code.png" data-background-position="99% 95%" data-background-size="10%" class="quarto-title-block center">
+  <h1 class="title">SIGHT: Safety Immersion and Gamified Hazard Training for Industry 5.0</h1>
+  <p class="subtitle">Meeting 27: Q6 Deck Review, the Oct 14 AM Hub Visits, the Mill SOP for AR, and OSC 2027</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Fadel Megahed 
+</div>
+<div class="quarto-title-author-email">
+<a href="mailto:fmegahed@miamioh.edu">fmegahed@miamioh.edu</a>
+</div>
+        <p class="quarto-title-affiliation">
+            PI
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Arthur Carvalho 
+</div>
+<div class="quarto-title-author-email">
+<a href="mailto:carvalag@miamioh.edu">carvalag@miamioh.edu</a>
+</div>
+        <p class="quarto-title-affiliation">
+            Co-PI
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Mohammad Mayyas 
+</div>
+<div class="quarto-title-author-email">
+<a href="mailto:mayyasm@miamioh.edu">mayyasm@miamioh.edu</a>
+</div>
+        <p class="quarto-title-affiliation">
+            Co-PI
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Jay Shan 
+</div>
+<div class="quarto-title-author-email">
+<a href="mailto:jayshan@miamioh.edu">jayshan@miamioh.edu</a>
+</div>
+        <p class="quarto-title-affiliation">
+            Co-PI
+          </p>
+    </div>
+</div>
+
+  <p class="date">October 16, 2026</p>
+</section>
+<section id="meeting-goals" class="slide level2">
+<h2>Meeting Goals</h2>
+<div class="agenda-bar">
+  <div class="seg" style="flex:2;">1</div>
+  <div class="seg" style="flex:10;">2</div>
+  <div class="seg" style="flex:30;">3</div>
+  <div class="seg" style="flex:10;">4</div>
+  <div class="seg" style="flex:5;">5</div>
+  <div class="seg" style="flex:3;">6</div>
+</div>
+<div class="agenda-grid g6">
+  <div><div class="ag-n">1 <span>· 2 min</span></div><div class="ag-t">Minutes and action items</div><div class="ag-p">Fadel</div></div>
+  <div><div class="ag-n">2 <span>· 10 min</span></div><div class="ag-t">Administrative updates</div><div class="ag-p">Mohammad: BWC status, Q6 deck review, Oct 14 visits, new AM Hub hire, OSC 2027, Makino</div></div>
+  <div><div class="ag-n">3 <span>· 30 min</span></div><div class="ag-t">Technical updates</div><div class="ag-p">AM Hub subteam: Wissam, Leo, Michael, Ibrahim<br>Arthur: FSB presentation</div></div>
+  <div><div class="ag-n">4 <span>· 10 min</span></div><div class="ag-t">Industry partner</div><div class="ag-p">Ram: MaxByte developments in the AM Hub</div></div>
+  <div><div class="ag-n">5 <span>· 5 min</span></div><div class="ag-t">Risk log</div><div class="ag-p">All</div></div>
+  <div><div class="ag-n">6 <span>· 3 min</span></div><div class="ag-t">Wrap-up</div><div class="ag-p">Action items, next steps</div></div>
+</div>
+<div style="font-size: 0.62em; text-align:center; margin-top:0.8em;">
+<p>Sixty minutes in six blocks; block widths are proportional to the minutes allotted in the agenda.</p>
+</div>
+</section>
+<section id="recap-what-we-covered-in-meeting-26-oct-2" class="slide level2">
+<h2>Recap: What We Covered in Meeting 26 (Oct 2)</h2>
+<div style="font-size: 0.74em;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span style="color:#c3142d;"><strong>Administrative / BWC</strong></span></p>
+<ul>
+<li>Q5 report (DO 7.4) due <strong>Oct 9</strong>; Deliverable 2.1 revised so that <strong>Sep 4</strong> is the reported September meeting and the November meeting is <strong>Nov 13</strong>.</li>
+<li>Farmer School dissemination session set for <strong>Oct 9</strong> (Arthur).</li>
+<li>Industrious Group visit (Sep 25): Jeff Malek tried the AR headset. Lesson: first-time AR users need a short onboarding. Cleveland visit targeted for early November.</li>
+<li>ASSP Safety 2027 proposal submitted (Fadel and Lora); decision expected around November.</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><span style="color:#c3142d;"><strong>Technical</strong></span></p>
+<ul>
+<li><strong>SIGHT-VR v1.0</strong>: production-ready after closing all 85 issues.</li>
+<li><strong>Makino</strong>: D200Z training produced overnight and UX3i in about two days, versus four to six months for each of the first three machines.</li>
+<li><strong>First SOP-guided mill run</strong> (Sep 29): Jay, a novice machinist, ran the Bridgeport mill from Michael’s SOP and flagged items to tighten before AR.</li>
+</ul>
+<p><span style="color:#c3142d;"><strong>MaxByte and closed session</strong></span></p>
+<ul>
+<li>9,000+ CNC lathe and cobot images annotated in RoboFlow; all three machines in AR targeted for <strong>Oct 23</strong>.</li>
+<li>IRB amendment for screen capture and recording (Lora and Jay); pre-pilots with team members.</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="action-items-from-meeting-26" class="slide level2">
+<h2>Action Items from Meeting 26</h2>
+<table class="mu-table" style="font-size:0.54em; table-layout:fixed;">
+<thead><tr><th style="width:17%;">Responsible Party</th><th style="width:35%;">Action Item</th><th style="width:13%;">Due Date</th><th style="width:35%;">Status</th></tr></thead>
+<tbody>
+<tr><td><strong>Fadel</strong></td><td>Share the Q5 report draft (partial, then full)</td><td>Oct 5 / Oct 6</td><td><span class="st-done">✓</span> <strong>Done:</strong> Q5 report (DO 7.4) submitted; pending BWC review</td></tr>
+<tr><td><strong>Arthur</strong></td><td>Lead the Farmer School dissemination session</td><td>Oct 9</td><td><span class="st-done">✓</span> <strong>Done:</strong> held Oct 9 (Technical Updates)</td></tr>
+<tr><td><strong>Fadel</strong></td><td>Add the AM Hub team to the next biweekly update agenda</td><td>Next meeting</td><td><span class="st-done">✓</span> <strong>Done:</strong> agenda item 3 today</td></tr>
+<tr><td><strong>Austin / Michael</strong></td><td>Develop onboarding for first-time AR headset users</td><td>Before the Cleveland visit</td><td><input type="checkbox"></td></tr>
+<tr><td><strong>Ibrahim</strong></td><td>Provide the computer vision model to Austin</td><td>Carried over</td><td><input type="checkbox"></td></tr>
+<tr><td><strong>Austin</strong></td><td>Verify the safety-zone circle stays centered after re-anchoring</td><td>Next update</td><td><input type="checkbox"></td></tr>
+<tr><td><strong>Austin / Arthur</strong></td><td>Store AR evaluation data with the VR backend; one participant ID across VR and AR</td><td>Before pre-pilots</td><td><input type="checkbox"> Related: headset-hosted evaluator web page added (weekly summary, Sep 28 to Oct 2)</td></tr>
+<tr><td><strong>Lora / Jay</strong></td><td>Prepare an IRB amendment for screen capture and recording</td><td>ASAP</td><td><input type="checkbox"></td></tr>
+<tr><td><strong>MU, Lora, Discovery Center</strong></td><td>Finalize the experimental protocol and schedule pre-pilots</td><td>ASAP</td><td><input type="checkbox"></td></tr>
+</tbody>
+</table>
+<div style="font-size: 0.55em; margin-top:0.4em; color:#585E60;">
+<p>MaxByte’s four items from Meeting 26 are on the MaxByte slide.</p>
+</div>
+</section>
+<section id="meeting-26-minutes" class="slide level2">
+<h2>Meeting 26 Minutes</h2>
+<p><object data="Meeting 26 Minutes (Open Session).pdf" type="application/pdf" width="100%" height="520"><a href="Meeting 26 Minutes (Open Session).pdf" download="">Download PDF file.</a></object></p>
+</section>
+<section>
+<section id="administrative-updates" class="title-slide slide level1 center inverse">
+<h1>Administrative Updates</h1>
+<p>Mohammad Mayyas</p>
+</section>
+<section id="status-of-bwc-deliverables-and-requirements" class="slide level2">
+<h2>Status of BWC Deliverables and Requirements</h2>
+<div style="font-size: 0.72em;">
+<ul>
+<li><span style="color:#2e7d32;"><strong>Approved by BWC:</strong></span> every deliverable due through Sep 11, 2026, the latest being D2.8 (July/August meeting documents).</li>
+<li><span style="color:#8a6d00;"><strong>Pending BWC review:</strong></span> the Q5 report (D7.4) and the September/October meeting documents (D2.9).</li>
+<li><span style="color:#c3142d;"><strong>Next:</strong></span> the Q6 deck (Oct 19), the quarterly grant meeting (Oct 23), and the Q5 expenditure report and invoice (Oct 30).</li>
+</ul>
+</div>
+<table class="mu-table" style="font-size:0.52em; margin-top:0.4em;">
+<thead><tr><th style="width:9%;">Deliverable</th><th>Description</th><th style="width:14%;">Due</th><th style="width:16%; text-align:center;">Portal status</th></tr></thead>
+<tbody>
+<tr><td>2.8</td><td>July/August project team meeting documents</td><td>Sep 11, 2026</td><td style="text-align:center;"><span class="pill pill-green">Approved</span></td></tr>
+<tr><td>7.4</td><td>Quarterly progress report, Quarter 5</td><td>Oct 9, 2026</td><td style="text-align:center;"><span class="pill pill-gold">Pending review</span></td></tr>
+<tr><td>2.9</td><td>September/October project team meeting documents</td><td>Nov 13, 2026</td><td style="text-align:center;"><span class="pill pill-gold">Pending review</span></td></tr>
+<tr><td>3.4</td><td>Q4 quarterly grant meeting: PI and PM attendance (MS Teams verification)</td><td>Oct 23, 2026</td><td style="text-align:center;"><span class="pill pill-blue">Scheduled</span></td></tr>
+<tr><td>2.10</td><td>November/December project team meeting documents</td><td>Jan 15, 2027</td><td style="text-align:center;"><span class="pill pill-blue">Scheduled</span></td></tr>
+<tr><td>7.5</td><td>Quarterly progress report, Quarter 6</td><td>Jan 15, 2027</td><td style="text-align:center;"><span class="pill pill-blue">Scheduled</span></td></tr>
+</tbody>
+</table>
+<div style="font-size: 0.5em; text-align:right; color:#585E60; margin-top:0.3em;">
+<p>Source: BWC OIA deliverables portal, Oct 16, 2026 (<a href="imgs/deliverables_page2.png">page 2</a>, <a href="imgs/deliverables_page3.png">page 3</a>).</p>
+</div>
+</section>
+<section id="bwc-q6-presentation-slide-deck-review" class="slide level2">
+<h2>BWC Q6 Presentation: Slide Deck Review</h2>
+<div style="font-size: 0.66em; margin-bottom: 0.3em;">
+<p>Four slides on Quarter 5 (Jul 1 to Sep 30, 2026). <strong>Send any comments to Fadel by COB today (Fri, Oct 16)</strong>; the deck is due to BWC by COB Monday, Oct 19.</p>
+</div>
+<p><object data="q6_deck_with_video_frames.pdf" type="application/pdf" width="100%" height="460"><a href="q6_deck_with_video_frames.pdf" download="">Download PDF file.</a></object></p>
+<div style="font-size: 0.45em; text-align:right; color:#585E60;">
+<p>Video frames restored from the PPTX for this preview; in the deck itself, the videos play in PowerPoint.</p>
+</div>
+</section>
+<section id="save-the-date-our-osc-2027-session-was-accepted" class="slide level2">
+<h2>Save the Date: Our OSC 2027 Session Was Accepted</h2>
+<div class="event-card">
+  <div class="event-date std-date"><span class="ev-mon">MAR</span><span class="ev-day">18</span><span class="ev-dow">Thursday, 2027</span></div>
+  <div class="event-body std-body">
+    <div style="font-size:1.25em; font-weight:bold; color:#c3142d;">Using GenAI to Develop Training Materials (WSIC)</div>
+    <div><span class="ev-k">Time</span>10:30 to 11:30 AM (confirmed by BWC on Oct 9)</div>
+    <div><span class="ev-k">Event</span>Ohio Safety Congress &amp; Expo (OSC27), Columbus</div>
+    <div><span class="ev-k">Session</span>Submission #2268</div>
+    <div><span class="ev-k">Reply by</span><strong>Monday, Oct 19</strong>: BWC asks us to confirm availability</div>
+  </div>
+</div>
+
+<div class="pi-grid">
+  <div class="pi-card ask"><div class="pi-name">Arthur Carvalho</div>Check Thursday, Mar 18, 10:30 to 11:30 AM against your spring 2027 teaching schedule.<label><input type="checkbox" data-key="osc-arthur-clear">No teaching conflict</label><label><input type="checkbox" data-key="osc-arthur-cal">On my calendar</label></div>
+  <div class="pi-card ask"><div class="pi-name">Jay Shan</div>Check Thursday, Mar 18, 10:30 to 11:30 AM against your spring 2027 teaching schedule.<label><input type="checkbox" data-key="osc-jay-clear">No teaching conflict</label><label><input type="checkbox" data-key="osc-jay-cal">On my calendar</label></div>
+  <div class="pi-card"><div class="pi-name">Fadel Megahed</div>Confirms our availability with BWC once Arthur and Jay are clear.<label><input type="checkbox" data-key="osc-fadel-reply">Replied to BWC</label><label><input type="checkbox" data-key="osc-fadel-cal">On my calendar</label></div>
+  <div class="pi-card"><div class="pi-name">Mohammad Mayyas</div>Holds the date.<label><input type="checkbox" data-key="osc-mayyas-cal">On my calendar</label></div>
+  <div class="pi-card"><div class="pi-name">Ibrahim Yousif</div>Holds the date.<label><input type="checkbox" data-key="osc-ibrahim-cal">On my calendar</label></div>
+</div>
+<div class="callout-red" style="font-size: 0.64em; margin-top: 0.8em;">
+<p><strong>Student researchers:</strong> you are encouraged to attend if you can.</p>
+</div>
+<div style="font-size: 0.6em; margin-top: 0.6em;">
+<p>Once Fadel confirms the time with BWC, add it to your calendar: <a class="ics-btn gcal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=OSC27+session+%232268%3A+Using+GenAI+to+Develop+Training+Materials+%28WSIC%29&amp;dates=20270318T143000Z/20270318T153000Z&amp;ctz=America%2FNew_York&amp;details=SIGHT+project+session+at+the+2027+Ohio+Safety+Congress+%26+Expo.+Thursday%2C+March+18%2C+2027%2C+10%3A30+to+11%3A30+AM+EDT.+SIGHT+team%3A+Fadel+Megahed%2C+Arthur+Carvalho%2C+Mohammad+Mayyas%2C+Jay+Shan%2C+and+Ibrahim+Yousif%3B+student+researchers+welcome.&amp;location=Ohio+Safety+Congress+%26+Expo+%28OSC27%29%2C+Columbus%2C+OH" target="_blank" rel="noopener">Google Calendar</a> <a class="ics-btn" href="osc27_save_the_date.ics" download="">Outlook / Apple (.ics)</a></p>
+</div>
+</section>
+<section id="president-crawford-and-senator-moreno-visit-the-am-hub-oct-14" class="slide level2">
+<h2>President Crawford and Senator Moreno Visit the AM Hub (Oct 14)</h2>
+<div class="collage">
+  <img src="imgs/crawford_visit_01.jpg" style="object-position:center 40%;" alt="A team member wearing the AR headset on the AM Hub floor while a visitor looks on.">
+  <img src="imgs/crawford_visit_02.jpg" style="object-position:center 45%;" alt="Visitors watch a team member wearing the AR headset next to the cobot work cell in the AM Hub.">
+  <img src="imgs/crawford_visit_03.jpg" style="object-position:center 40%;" alt="Visitors in conversation with SIGHT team members on the AM Hub floor.">
+  <img src="imgs/crawford_visit_04.jpg" style="object-position:center 0%;" alt="Group photo of the visitors and hosts on an indoor staircase.">
+</div>
+<div style="font-size: 0.42em; text-align:right; color:#585E60; margin-top:0.3em;">
+<p>Photos: Jay Shan’s <a href="https://www.linkedin.com/feed/update/urn:li:ugcPost:7515910284960641024/">LinkedIn post</a>.</p>
+</div>
+</section>
+<section id="joining-the-am-hub-subteam-usman-asif" class="slide level2">
+<h2>Joining the AM Hub Subteam: Usman Asif</h2>
+<div class="prof">
+  <div class="prof-left">
+    <div class="avatar">UA</div>
+    <div class="prof-name">Usman Asif</div>
+    <div class="prof-role">Student Researcher<br>AM Hub subteam, Hamilton</div>
+    <span class="pill pill-gold" style="font-size:0.5em;">Hiring in progress</span>
+  </div>
+  <div class="prof-right">
+    <div class="hl-card">
+      <div class="hl-big">~9 <span>years in safety</span></div>
+      <div class="hl-h">Occupational Health and Safety Supervisor</div>
+      <div class="hl-t">Saudi Arabia, 2014 to 2023: site inspections, safety reports, hazard identification, and safe work procedures.</div>
+    </div>
+    <div class="hl-card">
+      <div class="hl-big">B.S. IT <span>expected Dec 2027</span></div>
+      <div class="hl-h">Miami University Hamilton</div>
+      <div class="hl-t">Fall 2026 coursework in programming, networking, databases, and Agile.</div>
+    </div>
+    <div class="hl-card hl-wide">
+      <div class="hl-h" style="margin-top:0;">Technical skills</div>
+      <div class="chips"><span>Git and GitHub</span><span>Linux command line</span><span>AWS EC2 and S3</span><span>HTML, CSS, JavaScript</span><span>SQL</span><span>Relational database design</span></div>
+    </div>
+  </div>
+</div>
+<div class="callout-red" style="font-size: 0.62em; margin-top: 0.8em;">
+<p>A <strong>second AM Hub student researcher</strong> hire is in progress.</p>
+</div>
+<div style="font-size: 0.45em; text-align:right; color:#585E60;">
+<p>Source: Usman Asif’s resume (Oct 2026).</p>
+</div>
+</section>
+<section id="makino-meeting-status-mohammad-mayyas" class="slide level2">
+<h2>Makino: Meeting Status (Mohammad Mayyas)</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div style="font-size: 0.64em;">
+<p><span style="color:#c3142d;"><strong>Where we left off</strong></span></p>
+<ul>
+<li>Two <strong>self-initiated VR trainings</strong> for AM Hub machines: the Makino <strong>D200Z</strong> (5-axis machining center) and <strong>UX3i</strong> (wire EDM), six guided modules each.</li>
+<li>Makino was contacted for feedback (Meeting 26).</li>
+<li>Q6 deck: <em>“Next: a meeting with Makino’s Corporate Training Manager.”</em></li>
+<li>Michael covers the <strong>Makino visit</strong> in Technical Updates.</li>
+</ul>
+</div>
+</div><div class="column" style="width:55%;">
+<div style="font-size: 0.64em;">
+<strong>Mohammad: status, date, attendees, and what Makino asked for:</strong>
+</div>
+<div class="can-edit" data-key="makino-notes" contenteditable="true" style="min-height: 12em; font-size:0.62em;" data-placeholder="Type live notes here; they persist in this browser.">
+
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="technical-updates" class="title-slide slide level1 center inverse">
+<h1>Technical Updates</h1>
+<p>The AM Hub subteam (Wissam, Leo, Michael, and Ibrahim) and Arthur Carvalho</p>
+</section>
+<section id="am-hub-subteam-screen-share-and-walkthrough" class="slide level2">
+<h2>AM Hub Subteam: Screen Share and Walkthrough</h2>
+<div style="font-size: 0.74em; margin-bottom: 0.2em;">
+<p>The <span style="color:#c3142d;"><strong>AM Hub subteam</strong></span> will <strong>share their screen or talk through</strong> each update, in agenda order.</p>
+</div>
+<div class="st-grid">
+  <div class="st-card"><div class="st-who">1 · Wissam Nusair</div><div class="st-what">Packaging support for the digital twin assets, code, and GUI.</div><div class="can-edit" data-key="tech-wissam" contenteditable="true" data-placeholder="Notes"></div></div>
+  <div class="st-card"><div class="st-who">2 · Leo Lyublinski</div><div class="st-what">Cost-benefit analysis investigations for the project.</div><div class="can-edit" data-key="tech-leo" contenteditable="true" data-placeholder="Notes"></div></div>
+  <div class="st-card"><div class="st-who">3 · Michael Wise</div><div class="st-what">SOP updates and the Makino visit. <span style="color:#585E60;">The Bridgeport mill SOP is on the next slide.</span></div><div class="can-edit" data-key="tech-michael" contenteditable="true" data-placeholder="Notes"></div></div>
+  <div class="st-card"><div class="st-who">4 · Ibrahim Yousif</div><div class="st-what">Development-to-dissemination efforts, provisional patent application figures, and items needed from Fadel.</div><div class="can-edit" data-key="tech-ibrahim" contenteditable="true" data-placeholder="Notes"></div></div>
+</div>
+</section>
+<section id="bridgeport-mill-sop-with-ar-guidance-michael-wise" class="slide level2">
+<h2>Bridgeport Mill SOP with AR Guidance (Michael Wise)</h2>
+<p><object data="Bridgeport_Mill_SOP_AR_Guidance_Michael.pdf" type="application/pdf" width="100%" height="520"><a href="Bridgeport_Mill_SOP_AR_Guidance_Michael.pdf" download="">Download PDF file.</a></object></p>
+</section>
+<section id="sight-at-the-farmer-school-arthurs-presentation-oct-9" class="slide level2">
+<h2>SIGHT at the Farmer School: Arthur’s Presentation (Oct 9)</h2>
+<div class="photo-pair">
+  <img src="imgs/arthur_presentation_1.jpg" alt="Arthur Carvalho presents to faculty seated at round tables; the slide reads 'Manufacturing is a cornerstone of the U.S. economy.'">
+  <img src="imgs/arthur_presentation_2.jpg" alt="Arthur Carvalho presents the 'AI Solution' slide, which lists a working paper comparing RAG and long-context architectures.">
+</div>
+</section></section>
+<section>
+<section id="industry-partner-collaboration" class="title-slide slide level1 inverse center">
+<h1>Industry Partner Collaboration</h1>
+<p>MaxByte</p>
+</section>
+<section id="maxbyte-recent-developments-in-the-am-hub" class="slide level2">
+<h2>MaxByte: Recent Developments in the AM Hub</h2>
+<div style="font-size: 0.8em; margin-bottom: 0.4em;">
+<p><span style="color:#c3142d;"><strong>Ram and the MaxByte team</strong></span> will share their slides on recent developments deployed in the AM Hub.</p>
+</div>
+<table class="mu-table" style="font-size:0.5em;">
+<thead><tr><th style="width:62%;">Open items from Meeting 26 (Ramshankar / MaxByte)</th><th style="width:26%;">Due</th><th style="text-align:center;">Status</th></tr></thead>
+<tbody>
+<tr><td>Annotate the milling machine and deliver all three machines in AR (YOLO export, Unity), with Mohammad</td><td><strong>Oct 23, 2026</strong></td><td style="text-align:center;"><input type="checkbox"></td></tr>
+<tr><td>Renew the Unity license</td><td>ASAP</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+<tr><td>Share a table of SOP objects versus annotated objects, and explain how accuracy is calculated</td><td>Before the next presentation</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+<tr><td>Review the email thread on the top-down camera annotations and respond</td><td>ASAP</td><td style="text-align:center;"><input type="checkbox"></td></tr>
+</tbody>
+</table>
+<div style="font-size: 0.66em; margin-top: 0.5em;">
+<strong>Live notes and questions:</strong>
+</div>
+<div class="can-edit" data-key="maxbyte-notes" contenteditable="true" style="min-height: 5em; font-size:0.62em;" data-placeholder="Type live notes here; they persist in this browser.">
+
+</div>
+</section></section>
+<section>
+<section id="risk-mitigation-and-wrap-up" class="title-slide slide level1 inverse center">
+<h1>Risk Mitigation and Wrap-Up</h1>
+<p>All Project Members</p>
+</section>
+<section id="risk-mitigation-and-log-updates" class="slide level2">
+<h2>Risk Mitigation and Log Updates</h2>
+<table class="mu-table" style="font-size:0.52em;">
+<thead><tr><th style="width:30%;">Risk</th><th>Mitigation</th><th style="width:13%; text-align:center;">Status</th></tr></thead>
+<tbody>
+<tr><td>Only one AR headset (Magic Leap 2, now discontinued)</td><td>Backup headset bought with non-BWC funds; received and tested (Meeting 26).</td><td style="text-align:center;"><span class="pill pill-green">Mitigated</span></td></tr>
+<tr><td>Testing cannot start before the IRB covers recording, screen capture, and any monitor change</td><td>IRB amendment (Lora and Jay); Kristen offered help with IRB and human-subjects questions.</td><td style="text-align:center;"><span class="pill pill-red">Open</span></td></tr>
+<tr><td>Only Austin can set up and run the AR system</td><td>Austin is showing Michael how to set up and use the headset and edge-device program "so someone else can run the system" (AR weekly plan, week of Oct 5).</td><td style="text-align:center;"><span class="pill pill-gold">Proposed</span></td></tr>
+</tbody>
+</table>
+<div style="font-size: 0.66em; margin-top: 0.6em;">
+<strong>New or evolving risks and mitigation updates (Arthur maintains the log):</strong>
+</div>
+<div class="can-edit" data-key="risk-notes" contenteditable="true" style="min-height: 7em; font-size:0.62em;" data-placeholder="Risk: mitigation (owner)">
+
+</div>
+</section>
+<section id="upcoming-bwc-deadlines" class="slide level2">
+<h2>Upcoming BWC Deadlines</h2>
+<div class="tl tl-short">
+  <div class="tl-line"></div>
+  <div class="tl-month" style="left:0%;">Oct 15</div>
+  <div class="tl-month" style="left:54.8%;">Nov 1</div>
+  <div class="tl-month" style="left:100%;">Nov 15</div>
+  <div class="tl-today" style="left:3.2%;"><span>Today<br>Oct 16</span></div>
+  <div class="tl-item down" style="left:12.9%;"><div class="tl-stub"></div><div class="tl-dot"></div><div class="tl-label"><b>Oct 19</b> (COB)<br>Q6 slide deck to BWC; OSC availability reply<br><span class="pill pill-red">Next up</span></div></div>
+  <div class="tl-item up" style="left:25.8%;"><div class="tl-stub"></div><div class="tl-dot"></div><div class="tl-label"><b>Oct 23</b><br>BWC quarterly grant meeting: PI and PM (D3.4)<br><span class="pill pill-blue">Scheduled</span></div></div>
+  <div class="tl-item down" style="left:48.4%;"><div class="tl-stub"></div><div class="tl-dot"></div><div class="tl-label"><b>Oct 30</b><br>Q5 expenditure report and Q5 invoice<br><span class="pill pill-gold">Due</span></div></div>
+  <div class="tl-item up" style="left:93.5%;"><div class="tl-stub"></div><div class="tl-dot"></div><div class="tl-label"><b>Nov 13</b><br>November/December bi-monthly meeting<br><span class="pill pill-blue">Scheduled</span></div></div>
+</div>
+<div class="callout-red" style="font-size: 0.6em; margin-top:0;">
+<p><strong>Then Jan 15, 2027:</strong> November/December meeting documents (D2.10) and the Q6 quarterly progress report (D7.5), via OIA as separate files.</p>
+</div>
+<div style="text-align:center; font-size: 0.6em; margin-top:0.4em;">
+<p>Contacts: Fadel Megahed (fmegahed@miamioh.edu) · Mohamed Farrag, PM (farragm2@miamioh.edu).</p>
+</div>
+</section>
+<section id="action-items-and-next-steps" class="slide level2">
+<h2>Action Items and Next Steps</h2>
+<div style="font-size: 0.72em;">
+<strong>Captured live (owner, item, due date):</strong>
+</div>
+<div class="can-edit" data-key="action-items" contenteditable="true" style="min-height: 13em; font-size: 0.9em;" data-placeholder="Owner: item (due date)">
+
+</div>
+<div style="font-size: 0.66em; margin-top: 0.6em;">
+<ul>
+<li><strong>COB today:</strong> any comments on the Q6 deck to Fadel.</li>
+<li><strong>COB Monday, Oct 19:</strong> the Q6 deck goes to BWC, and Arthur’s and Jay’s OSC schedule checks are in.</li>
+<li><strong>Oct 23:</strong> the BWC quarterly grant meeting.</li>
+</ul>
+</div>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="../../logos/mu_logo.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Project funded by the Ohio BWC through their <a href="https://info.bwc.ohio.gov/for-employers/safety-services/workplace-safety-innovation-center/wsic-overview">Worker Safety Innovation Center</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="meeting27_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="meeting27_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="meeting27_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="meeting27_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="meeting27_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="meeting27_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="meeting27_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="meeting27_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="meeting27_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="meeting27_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="meeting27_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

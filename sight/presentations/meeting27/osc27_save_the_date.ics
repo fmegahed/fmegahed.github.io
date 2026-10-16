@@ -1,0 +1,19 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//SIGHT Project//Meeting 27//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:osc27-session-2268@sight.miamioh.edu
+DTSTAMP:20261016T120000Z
+DTSTART:20270318T143000Z
+DTEND:20270318T153000Z
+SUMMARY:OSC27 session #2268: Using GenAI to Develop Training Materials (WSI
+ C)
+LOCATION:Ohio Safety Congress & Expo (OSC27)\, Columbus\, OH
+DESCRIPTION:SIGHT project session at the 2027 Ohio Safety Congress & Expo. 
+ Thursday\, March 18\, 2027\, 10:30 to 11:30 AM EDT. SIGHT team: Fadel Mega
+ hed\, Arthur Carvalho\, Mohammad Mayyas\, Jay Shan\, and Ibrahim Yousif\; 
+ student researchers welcome.
+END:VEVENT
+END:VCALENDAR
