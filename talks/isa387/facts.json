@@ -1,0 +1,383 @@
+{
+  "collectedAt": "2026-10-21T01:28:30.591Z",
+  "head": "5c3469d 2026-10-07 Monthly refresh 2026-10",
+  "commits": {
+    "total": 271,
+    "claudeCoAuthored": 237,
+    "byAuthor": {
+      "github-actions[bot]": 24,
+      "Fadel Megahed": 245,
+      "atlas-app": 2
+    },
+    "firstHumanDate": "2026-08-21",
+    "lastHumanDate": "2026-09-22",
+    "humanActiveDays": 14,
+    "perDay": [
+      {
+        "date": "2026-08-21",
+        "human": 4,
+        "automation": 0
+      },
+      {
+        "date": "2026-08-27",
+        "human": 74,
+        "automation": 2
+      },
+      {
+        "date": "2026-08-28",
+        "human": 37,
+        "automation": 0
+      },
+      {
+        "date": "2026-08-29",
+        "human": 1,
+        "automation": 0
+      },
+      {
+        "date": "2026-08-30",
+        "human": 19,
+        "automation": 0
+      },
+      {
+        "date": "2026-08-31",
+        "human": 8,
+        "automation": 0
+      },
+      {
+        "date": "2026-09-01",
+        "human": 7,
+        "automation": 0
+      },
+      {
+        "date": "2026-09-02",
+        "human": 4,
+        "automation": 0
+      },
+      {
+        "date": "2026-09-06",
+        "human": 3,
+        "automation": 0
+      },
+      {
+        "date": "2026-09-10",
+        "human": 2,
+        "automation": 1
+      },
+      {
+        "date": "2026-09-17",
+        "human": 68,
+        "automation": 1
+      },
+      {
+        "date": "2026-09-18",
+        "human": 1,
+        "automation": 6
+      },
+      {
+        "date": "2026-09-21",
+        "human": 1,
+        "automation": 2
+      },
+      {
+        "date": "2026-09-22",
+        "human": 16,
+        "automation": 3
+      },
+      {
+        "date": "2026-09-25",
+        "human": 0,
+        "automation": 2
+      },
+      {
+        "date": "2026-09-26",
+        "human": 0,
+        "automation": 4
+      },
+      {
+        "date": "2026-09-29",
+        "human": 0,
+        "automation": 4
+      },
+      {
+        "date": "2026-10-07",
+        "human": 0,
+        "automation": 1
+      }
+    ]
+  },
+  "code": {
+    "linesByExt": {
+      ".tsx": 2319,
+      ".ts": 12587,
+      ".css": 698,
+      ".mjs": 2294,
+      ".R": 164,
+      ".py": 2258,
+      ".js": 701
+    },
+    "totalLines": 21021,
+    "testFiles": 38,
+    "trackedFiles": 4008,
+    "locPerDay": {
+      "2026-09-22": 916,
+      "2026-09-21": 81,
+      "2026-09-17": 6906,
+      "2026-09-02": 128,
+      "2026-09-01": 50,
+      "2026-08-31": 74,
+      "2026-08-30": 1888,
+      "2026-08-28": 2521,
+      "2026-08-27": 4167,
+      "2026-08-21": 4199
+    }
+  },
+  "specs": [
+    {
+      "file": "2026-08-26-multi-source-publications-design.md",
+      "lines": 335
+    },
+    {
+      "file": "2026-08-27-fsb-atlas-architecture.md",
+      "lines": 95
+    },
+    {
+      "file": "2026-08-27-monthly-refresh-design.md",
+      "lines": 122
+    },
+    {
+      "file": "2026-08-30-aacsb-and-annual-reporting-design.md",
+      "lines": 476
+    },
+    {
+      "file": "2026-09-22-atlas-app-design.md",
+      "lines": 280
+    }
+  ],
+  "plans": [
+    {
+      "file": "2026-08-27-citation-sources.md",
+      "lines": 770
+    },
+    {
+      "file": "2026-08-27-monthly-refresh.md",
+      "lines": 99
+    },
+    {
+      "file": "2026-08-28-phase1-school-site.md",
+      "lines": 18
+    },
+    {
+      "file": "2026-08-30-aacsb-and-annual-reporting.md",
+      "lines": 1528
+    },
+    {
+      "file": "2026-09-22-atlas-app.md",
+      "lines": 90
+    }
+  ],
+  "units": {
+    "accounting": {
+      "activeFaculty": 20,
+      "works": 39,
+      "fromDate": "2023-01-01",
+      "themes": 5
+    },
+    "econ": {
+      "activeFaculty": 23,
+      "works": 150,
+      "fromDate": "2023-01-01",
+      "themes": 6
+    },
+    "entrepreneurship": {
+      "activeFaculty": 13,
+      "works": 43,
+      "fromDate": "2023-01-01",
+      "themes": 5
+    },
+    "finance": {
+      "activeFaculty": 24,
+      "works": 105,
+      "fromDate": "2023-01-01",
+      "themes": 7
+    },
+    "isa": {
+      "activeFaculty": 33,
+      "works": 118,
+      "fromDate": "2023-01-01",
+      "themes": 8
+    },
+    "management": {
+      "activeFaculty": 25,
+      "works": 89,
+      "fromDate": "2023-01-01",
+      "themes": 6
+    },
+    "marketing": {
+      "activeFaculty": 29,
+      "works": 74,
+      "fromDate": "2023-01-01",
+      "themes": 7
+    }
+  },
+  "totals": {
+    "departments": 7,
+    "activeFaculty": 167,
+    "distinctWorks": 614,
+    "unitThemes": 44
+  },
+  "school": {
+    "fromDate": "2023-01-01",
+    "toDate": "2026-10-07",
+    "areas": 8,
+    "stats": {
+      "papers": 371,
+      "journalArticles": 371,
+      "facultyAuthors": 87,
+      "citations": 4695,
+      "venues": 225,
+      "externalInstitutions": 351,
+      "crossUnit": 3,
+      "years": [
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "citationSources": {
+        "scholar": 326,
+        "s2": 37,
+        "openalex": 8
+      }
+    }
+  },
+  "inference": {
+    "costUsdFloor": 2.27,
+    "records": 1711,
+    "byDir": {
+      "data/school/newsletters": 0.0780258,
+      "data/shared/classification": 0.27601020000000015,
+      "data/shared/summaries": 1.8483040000000006,
+      "data/units/accounting": 0.005143400000000001,
+      "data/units/econ": 0.014627399999999999,
+      "data/units/entrepreneurship": 0.00571,
+      "data/units/finance": 0.010799399999999999,
+      "data/units/isa": 0.0126944,
+      "data/units/management": 0.0096212,
+      "data/units/marketing": 0.0083336
+    }
+  },
+  "citationExamples": [
+    {
+      "unit": "isa",
+      "title": "How generative AI models such as ChatGPT can be (mis)used in SPC practice, education, and research? An exploratory study",
+      "venue": "Quality Engineering",
+      "year": 2023,
+      "scholar": 319,
+      "s2": 171,
+      "openalex": 193,
+      "shown": {
+        "value": 319,
+        "source": "scholar",
+        "asOf": "2026-10-07"
+      }
+    },
+    {
+      "unit": "marketing",
+      "title": "The blame shift: Robot service failures hold service firms more accountable",
+      "venue": "Journal of Business Research",
+      "year": 2023,
+      "scholar": 107,
+      "s2": 80,
+      "openalex": 86,
+      "shown": {
+        "value": 107,
+        "source": "scholar",
+        "asOf": "2026-10-07"
+      }
+    },
+    {
+      "unit": "marketing",
+      "title": "That uncanny valley of mind: when anthropomorphic AI agents disrupt personalized advertising",
+      "venue": "International Journal of Advertising",
+      "year": 2024,
+      "scholar": 86,
+      "s2": 65,
+      "openalex": 64,
+      "shown": {
+        "value": 86,
+        "source": "scholar",
+        "asOf": "2026-10-07"
+      }
+    },
+    {
+      "unit": "finance",
+      "title": "Making housing affordable? The local effects of relaxing land-use regulation",
+      "venue": "Journal of Urban Economics",
+      "year": 2024,
+      "scholar": 84,
+      "s2": 31,
+      "openalex": 35,
+      "shown": {
+        "value": 84,
+        "source": "scholar",
+        "asOf": "2026-10-07"
+      }
+    },
+    {
+      "unit": "entrepreneurship",
+      "title": "Bridging worlds: The intersection of religion and entrepreneurship as meaningful heterodoxy",
+      "venue": "Journal of Business Venturing Insights",
+      "year": 2023,
+      "scholar": 77,
+      "s2": 57,
+      "openalex": 55,
+      "shown": {
+        "value": 77,
+        "source": "scholar",
+        "asOf": "2026-10-07"
+      }
+    },
+    {
+      "unit": "isa",
+      "title": "Remote vigilance: The roles of cyber awareness and cybersecurity policies among remote workers",
+      "venue": "Computers & Security",
+      "year": 2023,
+      "scholar": 73,
+      "s2": 35,
+      "openalex": 45,
+      "shown": {
+        "value": 73,
+        "source": "scholar",
+        "asOf": "2026-10-07"
+      }
+    },
+    {
+      "unit": "econ",
+      "title": "Nursing Homes Increasingly Rely On Staffing Agencies For Direct Care Nursing",
+      "venue": "Health Affairs",
+      "year": 2024,
+      "scholar": 70,
+      "s2": 43,
+      "openalex": 50,
+      "shown": {
+        "value": 70,
+        "source": "scholar",
+        "asOf": "2026-10-07"
+      }
+    },
+    {
+      "unit": "econ",
+      "title": "School closures during the 1918 flu pandemic",
+      "venue": "MADOC (University of Mannheim)",
+      "year": 2024,
+      "scholar": 70,
+      "s2": 19,
+      "openalex": 16,
+      "shown": {
+        "value": 70,
+        "source": "scholar",
+        "asOf": "2026-10-07"
+      }
+    }
+  ]
+}

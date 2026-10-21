@@ -1,0 +1,118 @@
+/*-- scss:defaults --*/
+// Forked from sight_presentations/style_files/mu_theme.scss for a single-presenter talk.
+// Headings use the Atlas site's serif so slides, screenshots and video read as one system;
+// set $presentation-heading-font back to 'Yanone Kaffeesatz' for the original template look.
+$theme-color: #c3142d;
+$light-theme-color: lighten($theme-color, 15%);
+$dark-theme-color: darken($theme-color, 15%);
+
+// Atlas site palette (site-template/styles.css)
+$ink: #121212;
+$muted: #585e60;
+$paper: #faf9f7;
+$cream: #edece2;
+$sand: #ccc9b8;
+$slate: #3e5468;
+$corn: #efdb72;
+$atlas-blue: #3b5fa3;
+
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600&family=Lato:wght@400;700;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap');
+
+$font-family-sans-serif: 'Lato', Tahoma, sans-serif !default;
+$font-family-monospace: 'Inconsolata', monospace !default;
+$presentation-heading-font: 'Source Serif 4', Georgia, serif !default;
+$presentation-heading-font-weight: 600 !default;
+$presentation-heading-letter-spacing: -0.01em !default;
+
+$h1-font-size: 1.9em !default;
+$h2-font-size: 1.25em !default;
+$h3-font-size: 1em !default;
+
+$presentation-heading-color: $theme-color !default;
+$code-color: $theme-color !default;
+$link-color: $theme-color !default;
+$body-bg: $paper;
+$body-color: $ink;
+
+$presentation-font-size-root: 28px;
+
+/*-- scss:rules --*/
+
+.reveal .slides section h2 {
+  margin-bottom: 0.45em;
+}
+
+.reveal pre code {
+  background-color: #f3f2ee;
+  font-size: 1em;
+  padding: 0.5em;
+  line-height: 1.25em;
+}
+
+.reveal strong { color: $theme-color; }
+
+// Footer and slide number (template)
+.footer, .reveal .slide-number { font-family: $font-family-sans-serif; }
+.reveal .footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 0.42em;
+  padding: 0.5em 1em;
+  background: transparent;
+  z-index: 5;
+  color: #8a8a8a !important;
+  line-height: 1em;
+  letter-spacing: 0.02em;
+}
+.reveal .footer a { color: $theme-color !important; }
+
+// Slide logo (template)
+.slide-logo {
+  display: block !important;
+  position: fixed !important;
+  top: 0 !important;
+  right: 10px !important;
+  max-height: 3.5% !important;
+  height: 100% !important;
+  width: auto !important;
+}
+
+.slide-number,
+.reveal.has-logo .slide-number {
+  bottom: 10px !important;
+  right: 10px !important;
+  top: unset !important;
+  color: $muted !important;
+  font-size: 0.5em !important;
+}
+
+// Inverse slides (template)
+.inverse {
+  background-color: $theme-color !important;
+  $h1-color: white !important;
+  $h2-color: white !important;
+}
+
+section.has-dark-background a,
+section.has-dark-background a:hover { color: #fee4ff !important; }
+
+// Footnote-style source line (template)
+.footnote {
+  position: absolute;
+  bottom: 1.9em;
+  width: 90%;
+  left: 5%;
+  z-index: 4;
+  text-align: left;
+  color: #808080;
+  font-size: 0.42em;
+}
+
+// Title slide: hide the logo, footer and slide number so the red stays clean
+.reveal .slides section.title-red h1 { color: #fff; }
+.reveal.title-active .slide-logo,
+.reveal.title-active .footer,
+.reveal.title-active .slide-number { display: none !important; }
+.reveal .slides section.title-red > h2 { display: none; }
