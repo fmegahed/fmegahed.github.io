@@ -116,7 +116,7 @@ format:
 <tr><td><strong>Usman / Om</strong></td><td>CITI training; certificates to Jay</td><td>Nov 1</td><td><input type="checkbox" data-key="ai-citi"></td></tr>
 <tr><td><strong>All team members</strong></td><td>COI training and the FCOI form</td><td>ASAP</td><td><input type="checkbox" data-key="ai-coi"> Checklist in Part 2</td></tr>
 <tr><td><strong>Austin / Arthur</strong></td><td>AR sign-in through Firebase; one participant ID across VR and AR</td><td>Before pre-pilots</td><td><input type="checkbox" data-key="ai-id"></td></tr>
-<tr><td><strong>Fadel / Arthur / Lora</strong></td><td>AR assessments; do the AR machines operate?</td><td>Before pre-pilots</td><td><input type="checkbox" data-key="ai-ar"> Mill stays non-operational; lathe and cobot open; AR finalized Nov 12</td></tr>
+<tr><td><strong>Fadel / Arthur / Lora</strong></td><td>AR assessments; do the AR machines operate?</td><td>Before pre-pilots</td><td><input type="checkbox" data-key="ai-ar"> No AR assessment (TAM and interview only); only the mill is non-operational; lathe and cobot run with safeguards (proposed to the IRB)</td></tr>
 <tr><td><strong>Jay</strong></td><td>Monitor size: change the IRB or get monitors</td><td>With the amendment</td><td><input type="checkbox" data-key="ai-mon"></td></tr>
 <tr><td><strong>Mohammad</strong></td><td>Reply to the ENT 252 instructor: voluntary, never graded</td><td>Nov 2</td><td><input type="checkbox" data-key="ai-ent"></td></tr>
 <tr><td><strong>Fadel</strong></td><td>Submit the Track 3 abstract</td><td>Nov 16</td><td><input type="checkbox" data-key="ai-track3"></td></tr>
